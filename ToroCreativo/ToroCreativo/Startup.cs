@@ -1,12 +1,15 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToroCreativo.Models.DAL;
 
 namespace ToroCreativo
 {
@@ -23,6 +26,11 @@ namespace ToroCreativo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            var conexion = Configuration["ConnectionStrings:conexion_mySql"];
+            services.AddDbContext<DbContextToroCreativo>(options => options.UseMySql(conexion));
+        
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
