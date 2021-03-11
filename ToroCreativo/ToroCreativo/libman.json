@@ -5,6 +5,22 @@
     {
       "library": "font-awesome@5.15.2",
       "destination": "wwwroot/lib/font-awesome/"
+    },
+    {
+      "library": "sweetalert@2.1.2",
+      "destination": "wwwroot/lib/sweetalert/"
+    },
+    {
+      "library": "datatables.net@1.10.23",
+      "destination": "wwwroot/lib/datatables.net/"
+    },
+    {
+      "library": "datatables.net-bs4@1.10.23",
+      "destination": "wwwroot/lib/datatables.net-bs4/",
+      "files": [
+        "dataTables.bootstrap4.min.js",
+        "dataTables.bootstrap4.min.css"
+      ]
     }
   ]
 }

@@ -54,7 +54,7 @@ namespace ToroCreativo
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Categorias}/{action=Index}/{id?}");
             });
         }
     }

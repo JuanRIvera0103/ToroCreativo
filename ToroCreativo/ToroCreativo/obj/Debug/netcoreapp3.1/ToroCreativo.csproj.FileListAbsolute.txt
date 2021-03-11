@@ -45,9 +45,7 @@ E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\ToroCreativo.T
 E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\ToroCreativo.TagHelpers.output.cache
 E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\ToroCreativo.RazorCoreGenerate.cache
 E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
-E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Home\Privacy.cshtml.g.cs
 E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Shared\Error.cshtml.g.cs
-E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Layout.cshtml.g.cs
 E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\_ViewImports.cshtml.g.cs
 E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\_ViewStart.cshtml.g.cs
@@ -171,9 +169,8 @@ E:\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\ru\Microsoft.C
 E:\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll
 E:\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll
 E:\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll
-E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Categorias\Create.cshtml.g.cs
-E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Categorias\Delete.cshtml.g.cs
 E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Categorias\Details.cshtml.g.cs
-E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Categorias\Edit.cshtml.g.cs
 E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Categorias\Index.cshtml.g.cs
 E:\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\libman.json
+E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Categorias\CrearEditar.cshtml.g.cs
+E:\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LayoutAdmin.cshtml.g.cs

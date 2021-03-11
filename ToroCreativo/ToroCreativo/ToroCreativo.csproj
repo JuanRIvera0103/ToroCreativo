@@ -7,6 +7,7 @@
   <ItemGroup>
     <Folder Include="Models\Business\" />
     <Folder Include="Models\Abstract\" />
+    <Folder Include="Views\Productos\" />
   </ItemGroup>
 
   <ItemGroup>
