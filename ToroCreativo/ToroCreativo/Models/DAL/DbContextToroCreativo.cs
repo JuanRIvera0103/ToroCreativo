@@ -14,7 +14,12 @@ namespace ToroCreativo.Models.DAL
 
         }
         public DbSet<Categorias> categorias { get; set; }
+<<<<<<< HEAD
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Rol> Roles { get; set; }
+=======
+        public DbSet<Generos> generos { get; set; }
+
+>>>>>>> Generos
     }
 }
