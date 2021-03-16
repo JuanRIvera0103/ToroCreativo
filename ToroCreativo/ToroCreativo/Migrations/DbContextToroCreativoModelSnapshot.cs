@@ -33,6 +33,45 @@ namespace ToroCreativo.Migrations
 
                     b.ToTable("categorias");
                 });
+            modelBuilder.Entity("ToroCreativo.Models.Entities.Rol", b =>
+            {
+                b.Property<int>("IdRol")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                b.Property<string>("NombreRol")
+                    .IsRequired()
+                    .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                b.HasKey("IdRol");
+
+                b.ToTable("Roles");
+            });
+
+            modelBuilder.Entity("ToroCreativo.Models.Entities.Usuario", b =>
+            {
+                b.Property<int>("IdUsuario")
+                    .ValueGeneratedOnAdd()
+                    .HasColumnType("int");
+
+                b.Property<string>("Contraseña")
+                    .IsRequired()
+                    .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                b.Property<string>("Correo")
+                    .IsRequired()
+                    .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                b.Property<string>("Estado")
+                    .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                b.Property<int>("Rol")
+                    .HasColumnType("int");
+
+                b.HasKey("IdUsuario");
+
+                b.ToTable("Usuarios");
+            });
 #pragma warning restore 612, 618
         }
     }

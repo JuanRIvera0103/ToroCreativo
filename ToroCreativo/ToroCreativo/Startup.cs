@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToroCreativo.Models.Abstract;
+using ToroCreativo.Models.Business;
 using ToroCreativo.Models.DAL;
 
 namespace ToroCreativo
@@ -29,7 +31,8 @@ namespace ToroCreativo
 
             var conexion = Configuration["ConnectionStrings:conexion_mySql"];
             services.AddDbContext<DbContextToroCreativo>(options => options.UseMySql(conexion));
-        
+            services.AddScoped<IUsuarioBusiness, UsuarioBusiness>();
+
 
         }
 
@@ -54,7 +57,7 @@ namespace ToroCreativo
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Categorias}/{action=Index}/{id?}");
+                    pattern: "{controller=Usuarios}/{action=Index}/{id?}");
             });
         }
     }

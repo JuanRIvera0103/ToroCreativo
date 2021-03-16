@@ -8912,19 +8912,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\higui\\.nuget\\packages\\": {}
+    "C:\\Users\\msofi\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
+      "projectUniqueName": "C:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
       "projectName": "ToroCreativo",
-      "projectPath": "E:\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
-      "packagesPath": "C:\\Users\\higui\\.nuget\\packages\\",
-      "outputPath": "E:\\ToroCreativo\\ToroCreativo\\ToroCreativo\\obj\\",
+      "projectPath": "C:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
+      "packagesPath": "C:\\Users\\msofi\\.nuget\\packages\\",
+      "outputPath": "C:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\higui\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\msofi\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -8936,7 +8936,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -8948,7 +8947,6 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
-        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
@@ -8995,7 +8993,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.103\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
       }
     }
   }
