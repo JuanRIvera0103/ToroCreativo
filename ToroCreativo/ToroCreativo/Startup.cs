@@ -32,6 +32,7 @@ namespace ToroCreativo
             var conexion = Configuration["ConnectionStrings:conexion_mySql"];
             services.AddDbContext<DbContextToroCreativo>(options => options.UseMySql(conexion));
             services.AddScoped<IUsuarioBusiness, UsuarioBusiness>();
+            services.AddScoped<ICategoriasBusiness, CategoriasBusiness>();
 
 
         }

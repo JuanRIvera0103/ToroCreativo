@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
 
@@ -12,9 +13,9 @@ namespace ToroCreativo.Controllers
 {
     public class CategoriasController : Controller
     {
-        private readonly DbContextToroCreativo _context;
+        private readonly ICategoriasBusiness _context;
 
-        public CategoriasController(DbContextToroCreativo context)
+        public CategoriasController(ICategoriasBusiness context)
         {
             _context = context;
         }
@@ -22,7 +23,7 @@ namespace ToroCreativo.Controllers
         // GET: Categorias
         public async Task<IActionResult> Index()
         {
-            return View(await _context.categorias.ToListAsync());
+            return View(await _context.ObtenerCategorias());
         }
 
         // GET: Categorias/Create
@@ -31,7 +32,7 @@ namespace ToroCreativo.Controllers
             if (id == 0)
                 return View(new Categorias());
             else
-                return View(await _context.categorias.FindAsync(id));
+                return View(await _context.ObtenerCategoriaPorId(id));
         }
 
         [HttpPost]
@@ -40,16 +41,7 @@ namespace ToroCreativo.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (categorias.idCategoria == 0)
-                {
-                    _context.Add(categorias);
-                }                    
-                else
-                {
-                    _context.Update(categorias);
-                }                    
-
-                await _context.SaveChangesAsync();
+                await _context.GuardarEditarCategorias(categorias);
                 
                 return RedirectToAction(nameof(Index));
             }
@@ -66,30 +58,9 @@ namespace ToroCreativo.Controllers
                 return NotFound();
             }
 
-            var categorias = await _context.categorias
-                .FirstOrDefaultAsync(m => m.idCategoria == id);
+            await _context.CambiarEstadoCategoria(await _context.ObtenerCategoriaPorId(id));
 
-            if (categorias == null)
-            {
-                return NotFound();
-            }
-            try
-            {
-                if (categorias.Estado.Equals("Habilitado"))
-                    categorias.Estado = "Deshabilitado";
-                else
-                    categorias.Estado = "Habilitado";
-
-                _context.categorias.Update(categorias);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-
-                throw new Exception();
-            }
-
-            return View("Index");
+            return RedirectToAction(nameof(Index));
         }
 
 
