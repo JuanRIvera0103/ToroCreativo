@@ -20,7 +20,14 @@
             </div>
             <div class="form-group">
                 <label asp-for="Estado" class="control-label"></label>
-                <input asp-for="Estado" value="Habilitado" type="hidden" class="form-control" readonly/>
+                @if (Model.idCategoria == 0)
+                {
+                    <input asp-for="Estado" value="Habilitado" type="hidden" class="form-control" readonly />
+                }
+                else
+                {
+                    <input asp-for="Estado" type="hidden" class="form-control" readonly />
+                }
                 <span asp-validation-for="Estado" class="text-danger"></span>
             </div>
             <div class="form-group">

@@ -33,6 +33,7 @@ namespace ToroCreativo
             services.AddDbContext<DbContextToroCreativo>(options => options.UseMySql(conexion));
             services.AddScoped<IUsuarioBusiness, UsuarioBusiness>();
             services.AddScoped<ICategoriasBusiness, CategoriasBusiness>();
+            services.AddScoped<IGenerosBusiness, GenerosBusiness>();
 
 
         }
