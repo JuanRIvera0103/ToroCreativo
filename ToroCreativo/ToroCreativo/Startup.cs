@@ -33,6 +33,7 @@ namespace ToroCreativo
             services.AddDbContext<DbContextToroCreativo>(options => options.UseMySql(conexion));
             services.AddScoped<IUsuarioBusiness, UsuarioBusiness>();
             services.AddScoped<ICategoriasBusiness, CategoriasBusiness>();
+            services.AddScoped<IProductosBusiness, ProductosBusiness>();
             services.AddScoped<IGenerosBusiness, GenerosBusiness>();
 
 
@@ -59,7 +60,7 @@ namespace ToroCreativo
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Usuarios}/{action=Index}/{id?}");
+                    pattern: "{controller=Inicio_Admin}/{action=Index}/{id?}");
             });
         }
     }

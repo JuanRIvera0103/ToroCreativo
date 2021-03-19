@@ -1,0 +1,207 @@
+﻿@model IEnumerable<ToroCreativo.Clases.ProductoDetalle>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="titulo">
+    <h1>Sistema Administrativo <span>Productos</span> </h1>
+</div>
+
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="primer-nav-tab" data-toggle="tab" href="#primer-nav" role="tab"
+           aria-controls="primer-nav" aria-selected="true">Categorias</a>
+        <a class="nav-item nav-link" id="segundo-nav-tab" data-toggle="tab" href="#segundo-nav" role="tab"
+           aria-controls="segundo-nav" aria-selected="false">Productos</a>
+    </div>
+</nav>
+
+
+<div class="gestion">
+    <div class="tab-content" id="nav-tabContent">
+
+        <!-- Contenido primer nav -->
+        <div class="tab-pane fade show active" id="primer-nav" role="tabpanel" aria-labelledby="nav-home-tab">
+
+            <div class="registros">
+                <table id="tabla" class="table table-hover ">
+                    <thead>
+                        <tr>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>
+                                Estado
+                            </th>
+                            <th>
+                                <a asp-action="CrearEditarCategoria"><i class="fas fa-plus" title="Agregar registro"></i></a>
+                            </th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var categorias in ViewBag.Categorias)
+                        {
+                            <tr>
+                                <td>
+                                    @categorias.Nombre
+                                </td>
+                                <td>
+                                    @if (categorias.Estado.Equals("Habilitado"))
+                                    {
+                                        <p class="text-success">@categorias.Estado</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-danger">@categorias.Estado</p>
+                                    }
+
+                                </td>
+                                <td>
+                                    @if (categorias.Estado.Equals("Habilitado"))
+                                    {
+                                        <a asp-action="CambiarEstadoCategoria" onclick="return CambiarEstadoRegistro()" asp-route-id="@categorias.idCategoria">
+                                            <i class="fas fa-check-circle text-success" title="Cambiar"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="CambiarEstadoCategoria" onclick="return CambiarEstadoRegistro()" asp-route-id="@categorias.idCategoria">
+                                            <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
+                                        </a>
+                                    }
+
+                                </td>
+                                <td>
+                                    <a asp-action="CrearEditarCategoria" asp-route-id="@categorias.idCategoria">
+                                        <i class="fas fa-edit" title="Editar registro"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-action="DetalleCategoria" asp-route-id=" @categorias.idCategoria">
+                                        <i class="fas fa-search-plus" title="detalle registro"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Contenido segundo nav -->
+        <div class="tab-pane fade show" id="segundo-nav" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="formulario productos">
+                <h2>Crear Producto</h2>
+                <form action="">
+                    <input type="file" class="form-control" required>
+                    <input type="text" class="form-control" placeholder="Nombre Producto" required>
+                    <input type="number" class="form-control" placeholder="Precio" required>
+                    <select class="form-control">
+                        <option value="">seleccione una Categoria</option>
+                        <option value="">camisas</option>
+                    </select>
+                    <textarea class="form-control" placeholder="descripción"></textarea>
+                    <a class="boton cancelar">Cancelar</a>
+                    <button type="submit" class="boton crear">Crear</button>
+                </form>
+            </div>
+
+            <div class="registros">
+                <table id="tabla2" class="table table-hover ">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Descripcion)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Estado)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Categoria)
+                            </th>
+                            <th>
+                                <a asp-action="CrearEditarProducto"><i class="fas fa-plus" title="Agregar registro"></i></a>
+                            </th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Descripcion)
+                            </td>
+                            <td>
+                                @if (item.Estado.Equals("Habilitado"))
+                                {
+                                    <p class="text-success">@Html.DisplayFor(modelItem => item.Estado)</p>
+                                }
+                                else
+                                {
+                                    <p class="text-danger">@Html.DisplayFor(modelItem => item.Estado)</p>
+                                }
+
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Categoria)
+                            </td>
+                            <td>
+                                @if (item.Estado.Equals("Habilitado"))
+                                {
+                                    <a asp-action="CambiarEstadoProducto" onclick="return CambiarEstadoRegistro()" asp-route-id="@item.idProductos">
+                                        <i class="fas fa-check-circle text-success" title="Cambiar"></i>
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-action="CambiarEstadoProducto" onclick="return CambiarEstadoRegistro()" asp-route-id="@item.idProductos">
+                                        <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
+                                    </a>
+                                }
+
+                            </td>
+
+                            <td>
+                                <a asp-action="CrearEditarProducto" asp-route-id="@item.idProductos">
+                                    <i class="fas fa-edit" title="Editar registro"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a asp-action="DetalleProducto" asp-route-id="@item.idProductos">
+                                    <i class="fas fa-search-plus" title="detalle registro"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script>
+
+</script>
+
+
+
+
+
+
+
+
+
+

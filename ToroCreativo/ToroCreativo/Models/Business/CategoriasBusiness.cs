@@ -40,7 +40,7 @@ namespace ToroCreativo.Models.Business
         public async Task GuardarEditarCategorias(Categorias categorias)
         {
             try
-            {
+            {               
                 if (categorias.idCategoria == 0)
                     _context.Add(categorias);
                 else

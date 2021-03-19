@@ -11,29 +11,26 @@ using ToroCreativo.Models.Entities;
 
 namespace ToroCreativo.Controllers
 {
-    public class CategoriasController : Controller
+    public class ProductosController : Controller
     {
-        private readonly ICategoriasBusiness _context;
+        private readonly IProductosBusiness _context;
 
-        public CategoriasController(ICategoriasBusiness context)
+        public ProductosController(IProductosBusiness context)
         {
             _context = context;
         }
 
-       
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CrearEditarCategoria([Bind("idCategoria,Nombre,Estado")] Categorias categorias)
+        public async Task<IActionResult> CrearEditarProductos([Bind("idProductos,Nombre,Descripcion,Estado,Categoria")] Productos productos)
         {
             if (ModelState.IsValid)
             {
-                await _context.GuardarEditarCategorias(categorias);
-                
+                await _context.GuardarEditarProductos(productos);
                 return RedirectToAction("Index", "ProductosCategoria");
             }
-            return View(categorias);
+            return View(productos);
         }
 
     }
 }
-      
