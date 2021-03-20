@@ -1,1 +1,3 @@
-ToroCreativo/ToroCreativo/wwwroot/imgIlustraciones/.img
+ToroCreativo/ToroCreativo/wwwroot/imgIlustraciones/*.jpg
+ToroCreativo/ToroCreativo/wwwroot/imgIlustraciones/*.jpeg
+ToroCreativo/ToroCreativo/wwwroot/imgIlustraciones/*.png
