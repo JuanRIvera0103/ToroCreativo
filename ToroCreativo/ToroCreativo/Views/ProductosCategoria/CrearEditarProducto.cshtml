@@ -25,12 +25,18 @@
             </div>
             <div class="form-group">
                 <label asp-for="Estado" class="control-label"></label>
-                <input asp-for="Estado" class="form-control" />
-                <span asp-validation-for="Estado" class="text-danger"></span>
+                @if (Model.idProductos == 0)
+                {
+                    <input asp-for="Estado" value="Habilitado" type="hidden" class="form-control" readonly />
+                }
+                else
+                {
+                    <input asp-for="Estado" type="hidden" class="form-control" readonly />
+                }
             </div>
             <div class="form-group">
                 <label asp-for="Categoria" class="control-label"></label>
-                <input asp-for="Categoria" class="form-control" />
+                <select asp-for="Categoria" asp-items="@(new SelectList(ViewBag.Categorias, "idCategoria", "Nombre"))" class="form-control"></select>
                 <span asp-validation-for="Categoria" class="text-danger"></span>
             </div>
             <div class="form-group">

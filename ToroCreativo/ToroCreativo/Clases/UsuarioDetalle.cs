@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ToroCreativo.Models.Clases
+namespace ToroCreativo.Clases
 {
     public class UsuarioDetalle
     {

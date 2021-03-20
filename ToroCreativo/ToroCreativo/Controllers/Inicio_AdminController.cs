@@ -19,7 +19,9 @@ namespace ToroCreativo.Controllers
         }
         public async Task<ActionResult> Index()
         {
-            ViewBag.Usuarios = await _context.Usuarios.CountAsync();            
+            ViewBag.Usuarios = await _context.Usuarios.CountAsync();
+            ViewBag.Productos = await _context.productos.CountAsync();
+            ViewBag.Ilustraciones = await _context.Ilustracions.CountAsync();
             return View();
         }
     }

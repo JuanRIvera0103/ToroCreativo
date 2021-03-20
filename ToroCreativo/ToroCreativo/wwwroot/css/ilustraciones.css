@@ -1,0 +1,26 @@
+﻿.formulario {
+    top: -100px;
+}
+
+.genero {
+    height: 300px;
+}
+
+.ilustracion {
+    width: 40%;
+    height: 600px;
+}
+
+    .ilustracion textarea {
+        border: 1px solid #000 !important;
+        min-height: 200px;
+        max-height: 200px;
+    }
+
+        .ilustracion textarea:focus {
+            border: 1px solid #6c5ce7 !important;
+        }
+
+.imagen {
+    width: 40px;
+}

@@ -1,0 +1,68 @@
+﻿@model ToroCreativo.Models.Entities.Ilustracion
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Crear / Editar Estado</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CrearEditar" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdIlustracion" />
+            <input type="hidden" asp-for="ImageName" value="abc" />
+            <div class="form-group">
+
+                <label asp-for="Nombre" class="control-label"></label>
+                <input asp-for="Nombre" class="form-control" />
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="IdGenero" class="control-label"></label>
+                <select asp-for="IdGenero" asp-items="@(new SelectList(ViewBag.Generos, "idGenero", "Nombre" ))" class="form-control" required></select>
+                <span asp-validation-for="IdGenero" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                
+                <input asp-for="Estado" value="Habilitado" type="hidden" class="form-control" readonly/>
+                <span asp-validation-for="Estado" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Descripcion" class="control-label"></label>
+                <input asp-for="Descripcion" class="form-control" />
+                <span asp-validation-for="Descripcion" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" accept="image/*" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-8">
+                    @{
+                        if (Model.IdIlustracion == 0)
+                        {
+                            <button type="submit" value="Aceptar" class="btn btn-primary btn-block">
+                                Guardar
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="submit" value="Aceptar" class="btn btn-warning btn-block">
+                                Editar
+                            </button>
+                        }
+                    }
+                </div>
+                <div class="form-group col-md-4">
+                    <a asp-action="Index" class="btn btn-secondary btn-block"><i class="fas fa-Veces"></i> Volver</a>
+                </div>
+            </div>
+        </form>
+</div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -22,6 +22,10 @@ namespace ToroCreativo.Models.Business
         {
             return await _context.categorias.ToListAsync();
         }
+        public async Task<IEnumerable<Categorias>> ObtenerCategoriasSelect()
+        {
+            return await _context.categorias.ToArrayAsync();
+        }
 
         public async Task<Categorias> ObtenerCategoriaPorId(int? id)
         {
@@ -40,9 +44,12 @@ namespace ToroCreativo.Models.Business
         public async Task GuardarEditarCategorias(Categorias categorias)
         {
             try
-            {               
+            {
                 if (categorias.idCategoria == 0)
+                {
+                    categorias.Estado = "Habilitado";
                     _context.Add(categorias);
+                }                    
                 else
                     _context.Update(categorias);
 

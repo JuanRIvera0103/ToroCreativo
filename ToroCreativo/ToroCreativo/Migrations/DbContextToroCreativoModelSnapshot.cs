@@ -34,6 +34,47 @@ namespace ToroCreativo.Migrations
                     b.ToTable("categorias");
                 });
 
+            modelBuilder.Entity("ToroCreativo.Models.Entities.Cliente", b =>
+                {
+                    b.Property<int>("IdCliente")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasColumnName("ApellidoCliente")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Cedula")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Direccion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnName("EstadoCliente")
+                        .HasColumnType("nvarchar(13)");
+
+                    b.Property<int>("IdUsuario")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnName("NombreCliente")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Telefono")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("IdCliente");
+
+                    b.ToTable("Clientes");
+                });
+
             modelBuilder.Entity("ToroCreativo.Models.Entities.Generos", b =>
                 {
                     b.Property<int>("idGenero")
@@ -50,6 +91,39 @@ namespace ToroCreativo.Migrations
                     b.HasKey("idGenero");
 
                     b.ToTable("generos");
+                });
+
+            modelBuilder.Entity("ToroCreativo.Models.Entities.Ilustracion", b =>
+                {
+                    b.Property<int>("IdIlustracion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("Estado")
+                        .IsRequired()
+                        .HasColumnName("EstadoIlustracion")
+                        .HasColumnType("nvarchar(10)");
+
+                    b.Property<int>("IdGenero")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageName")
+                        .IsRequired()
+                        .HasColumnName("NombreImagen")
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnName("NombreIlustracion")
+                        .HasColumnType("nvarchar(50)");
+
+                    b.HasKey("IdIlustracion");
+
+                    b.ToTable("Ilustracions");
                 });
 
             modelBuilder.Entity("ToroCreativo.Models.Entities.Productos", b =>

@@ -38,19 +38,6 @@ namespace ToroCreativo.Controllers
                 return View(await categoriasBusiness.ObtenerCategoriaPorId(id));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CrearEditarCateoria([Bind("idCategoria,Nombre,Estado")] Categorias categorias)
-        {
-            if (ModelState.IsValid)
-            {
-                await categoriasBusiness.GuardarEditarCategorias(categorias);
-
-                return RedirectToAction(nameof(Index));
-            }
-            return View(categorias);
-        }
-
 
         public async Task<IActionResult> CambiarEstadoCategoria(int? id)
         {
@@ -76,27 +63,20 @@ namespace ToroCreativo.Controllers
 
         }
 
+
+
         //CRUD Productos
 
         public async Task<IActionResult> CrearEditarProducto(int id = 0)
         {
+            IEnumerable<Categorias> listaCategorias = await categoriasBusiness.ObtenerCategoriasSelect();
+            ViewBag.Categorias = listaCategorias;
             if (id == 0)
                 return View(new Productos());
             else
                 return View(await productosBusiness.ObtenerProductoPorId(id));
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CrearEditarProducto([Bind("idProductos,Nombre,Descripcion,Estado,Categoria")] Productos productos)
-        {
-            if (ModelState.IsValid)
-            {
-                await productosBusiness.GuardarEditarProductos(productos);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(productos);
-        }
 
 
         public async Task<IActionResult> CambiarEstadoProducto(int? id)

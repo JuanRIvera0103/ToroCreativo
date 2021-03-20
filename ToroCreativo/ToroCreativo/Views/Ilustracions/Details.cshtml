@@ -1,0 +1,33 @@
+﻿@model ToroCreativo.Models.Entities.Ilustracion
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<link rel="stylesheet" href="~/css/detalle-ilustraciones.css"/>
+<h1>Details</h1>
+
+<div>
+    <article>
+        <div class="container">
+            <div class="titulo">
+                <h1>Sistema Administrativo <span>Ilustraciones</span> </h1>
+            </div>
+            <div class="imagen">
+                <img src="@("~/imgIlustraciones/"+Model.ImageName)" asp-append-version="true" />
+            </div>
+            <div class="descripcion">
+                <div><h1>@Html.DisplayFor(model => model.Nombre)</h1></div>
+                <div>
+                    <p>
+                        @Html.DisplayFor(model => model.Descripcion)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </article>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.IdIlustracion">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

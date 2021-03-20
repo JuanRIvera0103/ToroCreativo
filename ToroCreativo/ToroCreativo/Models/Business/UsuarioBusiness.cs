@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ToroCreativo.Models.Abstract;
-using ToroCreativo.Models.Clases;
+using ToroCreativo.Clases;
 using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
 

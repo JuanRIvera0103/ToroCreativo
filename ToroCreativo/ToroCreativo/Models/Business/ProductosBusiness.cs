@@ -82,7 +82,10 @@ namespace ToroCreativo.Models.Business
             try
             {
                 if (productos.idProductos == 0)
+                {
+                    productos.Estado = "Habilitado";
                     _context.Add(productos);
+                }                    
                 else
                     _context.Update(productos);
 
