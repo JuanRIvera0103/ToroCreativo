@@ -20,5 +20,7 @@ namespace ToroCreativo.Models.DAL
         public DbSet<Usuario> Usuarios { get; set; }
         public DbSet<Rol> Roles { get; set; }
         public DbSet<Cliente> Clientes { get; set; }        
+        public DbSet<Caracteristica> caracteristicas { get; set; }
+        public DbSet<Precio> precios { get; set; }
     }
 }

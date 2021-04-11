@@ -6,6 +6,9 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+h2, h3, h4, h5, h6{
+    font-weight: 300 !important;
+}
 img {
     width: 100%;
     height: auto;
@@ -66,7 +69,7 @@ table {
 
 .titulo h1 {
     font-size: 2rem;
-    font-weight: 300;
+    font-weight: 300 !important;
     margin-top: 5px;
     margin-left: 20px;
 }

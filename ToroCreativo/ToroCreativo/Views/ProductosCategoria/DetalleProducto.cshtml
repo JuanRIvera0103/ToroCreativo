@@ -1,0 +1,210 @@
+﻿@model ToroCreativo.Models.Entities.Productos
+
+@{
+    ViewData["Title"] = "DetalleProducto";
+}
+<link rel="stylesheet" href="~/css/detalleproducto.css" />
+<article>
+    <div class="container">
+        <div class="producto">
+            <div class="imagen">
+                <img src="~/img/torito.png">
+            </div>
+            <div class="info">
+                <div class="principal">
+                    <h3>@Html.DisplayFor(model => model.Nombre)</h3>
+                    <p>@Html.DisplayFor(model => model.Descripcion)</p>
+                </div>
+                <div class="sub-principal">
+                    <ul>
+                        <li><span>@Html.DisplayNameFor(model => model.Categoria): </span>@ViewBag.Categoria.Nombre</li>
+                        <li><span>Precio Venta:</span> $ 30.000 COP</li>
+                        <li>
+                            <span>Unidades:</span>
+                            @foreach (var medidas in ViewBag.Caracteristicas)
+                            {
+                                @medidas.Medida
+                            }
+                            
+                        </li>
+                        <li class="colores">
+                            <span>Color:</span>
+                            @foreach (var colores in ViewBag.Caracteristicas)
+                            {
+                                 <div class="color" style="background-color: @colores.Color;"></div>
+                            }                           
+                        </li>
+                        <li><span>Estado:</span> Activo</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="gestion">
+            <div id="caracteristicas">
+                <h4>Características</h4>
+                <div class="formulario">
+                    <h2>Crear Caracteristica</h2>
+                    <form action="">
+                        <input type="color" class="form-control" required>
+                        <input type="number" class="form-control" placeholder="Medida" required>
+                        <a class="boton cancelar">Cancelar</a>
+                        <button type="submit" class="boton crear">Crear</button>
+                    </form>
+                </div>
+                <div class="registros">
+                    <table id="tabla" class="table table-hover ">
+                        <thead>
+                            <tr>
+                                <th>Color</th>
+                                <th>Medida</th>
+                                <th>Estado</th>
+                                <th>
+                                <a asp-controller="Caracteristicas" asp-action="Crear" asp-route-id="@Model.idProductos">
+                                    <i class="fas fa-plus" title="Agregar registro"></i>
+                                </a>
+                            </th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                                @foreach (var caracteristica in ViewBag.Caracteristicas)
+                                {
+                            <tr>
+                                <td>
+                                    <div class="color-tabla" style="background-color: @caracteristica.Color;"></div>
+                                </td>
+                                <td>@caracteristica.Medida</td>
+                                <td>@caracteristica.Estado</td>
+                                <td>
+                                    @if (caracteristica.Estado.Equals("Habilitado"))
+                                    {
+                                        <a asp-action="CambiarEstadoCategoria" onclick="return CambiarEstadoRegistro()" asp-route-id="@caracteristica.idCaracteristicas">
+                                            <i class="fas fa-check-circle text-success" title="Cambiar"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="CambiarEstadoCategoria" onclick="return CambiarEstadoRegistro()" asp-route-id="@caracteristica.idCaracteristicas">
+                                            <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
+                                        </a>
+                                    }
+
+                                </td>
+                                <td>
+                                    <a asp-controller="Caracteristicas" asp-action="Editar" asp-route-id="@caracteristica.idCaracteristicas">
+                                        <i class="fas fa-edit" title="Editar registro"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                                }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="precios">
+                <h4>Historial Precio</h4>
+                <div class="formulario precios">
+                    <h2>Crear Historial</h2>
+                    <form action="">
+                        <input type="number" class="form-control" placeholder="Precio" required>
+                        <a class="boton cancelar">Cancelar</a>
+                        <button type="submit" class="boton crear">Crear</button>
+                    </form>
+                </div>
+                <div class="registros">
+                    <table id="tabla3" class="table table-hover ">
+                        <thead>
+                            <tr>
+                                <th>Fecha Inicial</th>
+                                <th>Fecha final</th>
+                                <th>Precio (Sin Iva)</th>
+                                <th><i class="fas fa-plus agregar" title="Agregar registro"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>04/09/2021</td>
+                                <td></td>
+                                <td>$ 30.000</td>
+                                <td><a href=""><i class="fas fa-edit" title="Editar registro"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="iva">
+                <h4>Historial Iva</h4>
+                <div class="formulario iva">
+                    <h2>Crear Iva</h2>
+                    <form action="">
+                        <input type="number" class="form-control" value="30.000" required>
+                        <input type="number" class="form-control" placeholder="Porcentaje Iva" required>
+                        <input type="number" class="form-control" placeholder="Precio total" readonly required>
+                        <a class="boton cancelar">Cancelar</a>
+                        <button type="submit" class="boton crear">Crear</button>
+                    </form>
+                </div>
+                <div class="registros">
+                    <table id="tabla2" class="table table-hover ">
+                        <thead>
+                            <tr>
+                                <th>Fecha Inicial</th>
+                                <th>Fecha final</th>
+                                <th>Porcentaje</th>
+                                <th><i class="fas fa-plus agregar" title="Agregar registro"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>04/09/2021</td>
+                                <td></td>
+                                <td>19%</td>
+                                <td><a href=""><i class="fas fa-edit" title="Editar registro"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="entradas">
+                <h4>Historial Entradas</h4>
+                <div class="formulario entradas">
+                    <h2>Crear Entrada</h2>
+                    <form action="">
+                        <input type="number" class="form-control" placeholder="Cantidad" required>
+                        <input type="number" class="form-control" placeholder="Unidad Medida" readonly required>
+                        <input type="color" class="form-control" readonly required>
+                        <a class="boton cancelar">Cancelar</a>
+                        <button type="submit" class="boton crear">Crear</button>
+                    </form>
+                </div>
+                <div class="registros">
+                    <table id="tabla4" class="table table-hover ">
+                        <thead>
+                            <tr>
+                                <th>Fecha Entrada</th>
+                                <th>Cantidad</th>
+                                <th>Unidad Medida</th>
+                                <th>Color</th>
+                                <th><i class="fas fa-plus agregar" title="Agregar registro"></i></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>04/09/2021</td>
+                                <td>10</td>
+                                <td>S</td>
+                                <td>
+                                    <div class="color-tabla" style="background-color: #000;"></div>
+                                </td>
+                                <td><a href=""><i class="fas fa-edit" title="Editar registro"></i></a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>

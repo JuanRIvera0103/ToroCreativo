@@ -13,20 +13,23 @@ namespace ToroCreativo.Controllers
 {
     public class ProductosCategoriaController : Controller
     {
-        private readonly IProductosBusiness productosBusiness;
-        private readonly ICategoriasBusiness categoriasBusiness;
+        private readonly IProductosBusiness _productosBusiness;
+        private readonly ICategoriasBusiness _categoriasBusiness;
+        private readonly ICaracteristicaBusiness _caracteristicaBusiness;
 
 
-        public ProductosCategoriaController(IProductosBusiness context, ICategoriasBusiness _context)
+        public ProductosCategoriaController(IProductosBusiness productosBusiness, ICategoriasBusiness categoriasBusiness, 
+            ICaracteristicaBusiness caracteristicaBusiness)
         {
-            productosBusiness = context;
-            categoriasBusiness = _context;
+            _productosBusiness = productosBusiness;
+            _categoriasBusiness = categoriasBusiness;
+            _caracteristicaBusiness = caracteristicaBusiness;
         }
                
         public async Task<IActionResult> Index()
         {
-            ViewBag.Categorias = await categoriasBusiness.ObtenerCategorias();
-            return View(await productosBusiness.ObtenerProductos());
+            ViewBag.Categorias = await _categoriasBusiness.ObtenerCategorias();
+            return View(await _productosBusiness.ObtenerProductos());
         }
 
         //CRUD Categorias
@@ -35,7 +38,7 @@ namespace ToroCreativo.Controllers
             if (id == 0)
                 return View(new Categorias());
             else
-                return View(await categoriasBusiness.ObtenerCategoriaPorId(id));
+                return View(await _categoriasBusiness.ObtenerCategoriaPorId(id));
         }
 
 
@@ -46,7 +49,7 @@ namespace ToroCreativo.Controllers
                 return NotFound();
             }
 
-            await categoriasBusiness.CambiarEstadoCategoria(await categoriasBusiness.ObtenerCategoriaPorId(id));
+            await _categoriasBusiness.CambiarEstadoCategoria(await _categoriasBusiness.ObtenerCategoriaPorId(id));
 
             return RedirectToAction(nameof(Index));
         }
@@ -57,9 +60,9 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
-            ViewBag.Categoria = await categoriasBusiness.ObtenerCategoriaPorId(id);
+            ViewBag.Categoria = await _categoriasBusiness.ObtenerCategoriaPorId(id);
 
-            return View(await productosBusiness.ObtenerProductosPorCategoria(id));
+            return View(await _productosBusiness.ObtenerProductosPorCategoria(id));
 
         }
 
@@ -69,12 +72,12 @@ namespace ToroCreativo.Controllers
 
         public async Task<IActionResult> CrearEditarProducto(int id = 0)
         {
-            IEnumerable<Categorias> listaCategorias = await categoriasBusiness.ObtenerCategoriasSelect();
+            IEnumerable<Categorias> listaCategorias = await _categoriasBusiness.ObtenerCategoriasSelect();
             ViewBag.Categorias = listaCategorias;
             if (id == 0)
                 return View(new Productos());
             else
-                return View(await productosBusiness.ObtenerProductoPorId(id));
+                return View(await _productosBusiness.ObtenerProductoPorId(id));
         }
 
 
@@ -86,9 +89,22 @@ namespace ToroCreativo.Controllers
                 return NotFound();
             }
 
-            await productosBusiness.CambiarEstadoProductos(await productosBusiness.ObtenerProductoPorId(id));
+            await _productosBusiness.CambiarEstadoProductos(await _productosBusiness.ObtenerProductoPorId(id));
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> DetalleProducto(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var producto = await _productosBusiness.ObtenerProductoPorId(id);
+            ViewBag.Categoria = await _categoriasBusiness.ObtenerCategoriaPorId(producto.Categoria);
+            ViewBag.Caracteristicas = await _caracteristicaBusiness.ObtenerCaracteristicasProducto(id);
+            return View(producto);
+
         }
 
     }
