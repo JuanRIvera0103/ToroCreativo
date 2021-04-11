@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
 
@@ -12,24 +13,23 @@ namespace ToroCreativo.Controllers
 {
     public class CaracteristicasController : Controller
     {
-        private readonly DbContextToroCreativo _context;
+        private readonly ICaracteristicaBusiness _context;
+        //private readonly ITamañoBusiness _tamañoBusiness;
+        private readonly IProductosBusiness _productosBusiness;
 
-        public CaracteristicasController(DbContextToroCreativo context)
+        public CaracteristicasController(ICaracteristicaBusiness context,
+            IProductosBusiness productosBusiness)
         {
-            _context = context;
+            _context = context;            
+            _productosBusiness = productosBusiness;
         }
-
-        // GET: Caracteristicas
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.caracteristicas.ToListAsync());
-        }
-
-      
 
         // GET: Caracteristicas/Create
-        public IActionResult Crear(int? id)
+        public async Task<IActionResult> Crear(int? id)
         {
+            var producto = await _productosBusiness.ObtenerProductoPorId(id);
+            //IEnumerable<Tamaño> listaTamaños = await _tamañoBusiness.ObtenerTamañosSelectPorCategoria(producto.Categoria);
+            //ViewBag.Tamaños = listaTamaños;
             ViewBag.Producto = id;
             return View();
         }
@@ -43,22 +43,22 @@ namespace ToroCreativo.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(caracteristica);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                await _context.GuardarCaracteristica(caracteristica);
+                TempData["id"] = caracteristica.idProducto;
+                return RedirectToAction("DetalleProducto", "ProductosCategoria");
             }
             return View(caracteristica);
         }
 
         // GET: Caracteristicas/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Editar(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var caracteristica = await _context.caracteristicas.FindAsync(id);
+            var caracteristica = await _context.ObtenerCaracteristicaPorId(id);
             if (caracteristica == null)
             {
                 return NotFound();
@@ -80,59 +80,24 @@ namespace ToroCreativo.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(caracteristica);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CaracteristicaExists(caracteristica.idCaracteristicas))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+
+                await _context.EditarCaracteristica(caracteristica);
+                TempData["id"] = caracteristica.idProducto;
+                return RedirectToAction("DetalleProducto", "ProductosCategoria");
             }
             return View(caracteristica);
         }
 
-        // GET: Caracteristicas/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> CambiarEstadoCaracteristica(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var caracteristica = await _context.caracteristicas
-                .FirstOrDefaultAsync(m => m.idCaracteristicas == id);
-            if (caracteristica == null)
-            {
-                return NotFound();
-            }
+            await _context.CambiarEstadoCaracteristica(await _context.ObtenerCaracteristicaPorId(id));
 
-            return View(caracteristica);
-        }
-
-        // POST: Caracteristicas/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var caracteristica = await _context.caracteristicas.FindAsync(id);
-            _context.caracteristicas.Remove(caracteristica);
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool CaracteristicaExists(int id)
-        {
-            return _context.caracteristicas.Any(e => e.idCaracteristicas == id);
         }
     }
 }

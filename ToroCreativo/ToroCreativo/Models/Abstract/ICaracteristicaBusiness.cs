@@ -2,12 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToroCreativo.Clases;
 using ToroCreativo.Models.Entities;
 
 namespace ToroCreativo.Models.Abstract
 {
     public interface ICaracteristicaBusiness
     {
-        Task<IEnumerable<Caracteristica>> ObtenerCaracteristicasProducto(int? id);
+        Task<Caracteristica> ObtenerCaracteristicaPorId(int? id);
+        Task<IEnumerable<CaracteristicaDetalle>> ObtenerCaracteristicasProducto(int? id);
+        Task GuardarCaracteristica(Caracteristica caracteristica);
+        Task EditarCaracteristica(Caracteristica caracteristica);
+        Task CambiarEstadoCaracteristica(Caracteristica caracteristica);
     }
 }

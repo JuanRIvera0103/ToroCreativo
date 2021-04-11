@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToroCreativo.Clases;
 using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
@@ -17,40 +18,76 @@ namespace ToroCreativo.Models.Business
         {
             _context = context;
         }
-        public async Task<IEnumerable<Caracteristica>> ObtenerCaracteristicasProducto(int? id)
+
+        public async Task<Caracteristica> ObtenerCaracteristicaPorId(int? id)
+        {
+            return await _context.caracteristicas.FindAsync(id);
+        }
+        public async Task<IEnumerable<CaracteristicaDetalle>> ObtenerCaracteristicasProducto(int? id)
         {
 
-                await using (_context)
-                {
-                    IEnumerable<Caracteristica> caracteristicas =
-                        (from caracteristica in _context.caracteristicas
-                         where caracteristica.idProducto == id
-                         select new Caracteristica
-                         {
-                             idCaracteristicas = caracteristica.idCaracteristicas,
-                             Color = caracteristica.Color,
-                             Medida = caracteristica.Medida,
-                             Estado = caracteristica.Estado,
-                             idProducto = caracteristica.idProducto
-                         }).ToList();                    
-                    return caracteristicas;
-                }  
+            await using (_context)
+            {
+                IEnumerable<CaracteristicaDetalle> caracteristicas =
+                    (from caracteristica in _context.caracteristicas
+
+                     where caracteristica.idProducto == id
+                     select new CaracteristicaDetalle
+                     {
+                         idCaracteristicas = caracteristica.idCaracteristicas,
+                         Color = caracteristica.Color,
+                         Medida = caracteristica.Color,
+                         Estado = caracteristica.Estado,
+                         idProducto = caracteristica.idProducto
+                     }).ToList();
+                return caracteristicas;
+            }
         }
 
         public async Task GuardarCaracteristica(Caracteristica caracteristica)
         {
             try
             {
-                
-                    caracteristica.Estado = "Habilitado";
-                    _context.Add(caracteristica);
-                
+                caracteristica.Estado = "Habilitado";
+                _context.Add(caracteristica);
 
                 await _context.SaveChangesAsync();
             }
             catch (Exception)
             {
 
+                throw new Exception();
+            }
+        }
+        public async Task EditarCaracteristica(Caracteristica caracteristica)
+        {
+            try
+            {
+                _context.Update(caracteristica);
+
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw new Exception();
+            }
+        }
+
+        public async Task CambiarEstadoCaracteristica(Caracteristica caracteristica)
+        {
+            try
+            {
+                if (caracteristica.Estado.Equals("Habilitado"))
+                    caracteristica.Estado = "Deshabilitado";
+                else
+                    caracteristica.Estado = "Habilitado";
+
+                _context.caracteristicas.Update(caracteristica);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
                 throw new Exception();
             }
         }
