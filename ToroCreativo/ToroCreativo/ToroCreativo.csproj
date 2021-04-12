@@ -25,4 +25,9 @@
     <Folder Include="wwwroot\imgIlustraciones\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Views\Tamaño\CrearEditar.cshtml" />
+    <None Include="Views\Tamaño\Index.cshtml" />
+  </ItemGroup>
+
 </Project>

@@ -542,10 +542,11 @@ E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Clientes\Details.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Clientes\Index.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\ProductosCategoria\DetalleProducto.cshtml.g.cs
-E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Precios\Create.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Precios\Edit.cshtml.g.cs
-E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Precios\Index.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Caracteristicas\Crear.cshtml.g.cs
-E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Precios\Details.cshtml.g.cs
-E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Precios\Delete.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Caracteristicas\Editar.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Precios\CrearEditar.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Tamaño\CrearEditar.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Tamaño\Index.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Ivas\CrearEditar.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Entrada\CrearEditar.cshtml.g.cs

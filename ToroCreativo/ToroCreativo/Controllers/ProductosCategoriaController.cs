@@ -16,14 +16,21 @@ namespace ToroCreativo.Controllers
         private readonly IProductosBusiness _productosBusiness;
         private readonly ICategoriasBusiness _categoriasBusiness;
         private readonly ICaracteristicaBusiness _caracteristicaBusiness;
+        private readonly IPrecioBusiness _precioBusiness;
+        private readonly IIvasBusiness _ivasBusiness;
+        private readonly IEntradaBusiness _entradaBusiness;
 
 
         public ProductosCategoriaController(IProductosBusiness productosBusiness, ICategoriasBusiness categoriasBusiness, 
-            ICaracteristicaBusiness caracteristicaBusiness)
+            ICaracteristicaBusiness caracteristicaBusiness, IPrecioBusiness precioBusiness, IIvasBusiness ivasBusiness,
+            IEntradaBusiness entradaBusiness)
         {
             _productosBusiness = productosBusiness;
             _categoriasBusiness = categoriasBusiness;
             _caracteristicaBusiness = caracteristicaBusiness;
+            _precioBusiness = precioBusiness;
+            _ivasBusiness = ivasBusiness;
+            _entradaBusiness = entradaBusiness;
         }
                
         public async Task<IActionResult> Index()
@@ -101,7 +108,12 @@ namespace ToroCreativo.Controllers
                 return NotFound();
             }
             var producto = await _productosBusiness.ObtenerProductoPorId(id);
-            ViewBag.Categoria = await _categoriasBusiness.ObtenerCategoriaPorId(producto.Categoria);
+            var categoria = await _categoriasBusiness.ObtenerCategoriaPorId(producto.Categoria);
+            ViewData["categoria"] = categoria.Nombre;
+           
+            ViewBag.Precios = await _precioBusiness.ObtenerPreciosProducto(producto.idProductos);
+            ViewBag.Ivas = await _ivasBusiness.ObteneIvasProducto(producto.idProductos);
+            ViewBag.Entradas = await _entradaBusiness.ObtenerEntradaProducto(producto.idProductos);
             ViewBag.Caracteristicas = await _caracteristicaBusiness.ObtenerCaracteristicasProducto(id);
             return View(producto);
 

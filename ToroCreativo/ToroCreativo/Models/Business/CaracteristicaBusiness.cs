@@ -30,13 +30,14 @@ namespace ToroCreativo.Models.Business
             {
                 IEnumerable<CaracteristicaDetalle> caracteristicas =
                     (from caracteristica in _context.caracteristicas
-
+                     join tamaño in _context.tamaños
+                     on caracteristica.Medida equals tamaño.idTamaño
                      where caracteristica.idProducto == id
                      select new CaracteristicaDetalle
                      {
                          idCaracteristicas = caracteristica.idCaracteristicas,
                          Color = caracteristica.Color,
-                         Medida = caracteristica.Color,
+                         Medida = tamaño.Medida,
                          Estado = caracteristica.Estado,
                          idProducto = caracteristica.idProducto
                      }).ToList();
@@ -48,8 +49,13 @@ namespace ToroCreativo.Models.Business
         {
             try
             {
-                caracteristica.Estado = "Habilitado";
-                _context.Add(caracteristica);
+                if (caracteristica.idProducto == 0)
+                {
+                    caracteristica.Estado = "Habilitado";
+                    _context.Add(caracteristica);
+                }
+                else
+                    _context.Update(caracteristica);
 
                 await _context.SaveChangesAsync();
             }

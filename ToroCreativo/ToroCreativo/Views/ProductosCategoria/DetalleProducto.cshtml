@@ -18,7 +18,7 @@
                 </div>
                 <div class="sub-principal">
                     <ul>
-                        <li><span>@Html.DisplayNameFor(model => model.Categoria): </span>@ViewBag.Categoria.Nombre</li>
+                        <li><span>@Html.DisplayNameFor(model => model.Categoria): </span>@ViewData["categoria"]</li>
                         <li><span>Precio Venta:</span> $ 30.000 COP</li>
                         <li>
                             <span>Unidades:</span>
@@ -79,22 +79,15 @@
                                     <td>@caracteristica.Medida</td>
                                     <td>@caracteristica.Estado</td>
                                     <td>
-                                        @if (caracteristica.Estado.Equals("Habilitado"))
-                                        {
-                                            <a asp-action="CambiarEstadoCaracteristica" onclick="return CambiarEstadoRegistro()" asp-route-id="@caracteristica.idCaracteristicas">
-                                                <i class="fas fa-check-circle text-success" title="Cambiar"></i>
-                                            </a>
-                                        }
-                                        else
-                                        {
+                                       
                                             <a asp-action="CambiarEstadoCaracteristica" onclick="return CambiarEstadoRegistro()" asp-route-id="@caracteristica.idCaracteristicas">
                                                 <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
                                             </a>
-                                        }
+                                      
 
                                     </td>
                                     <td>
-                                        <a asp-controller="Caracteristicas" asp-action="Editar" asp-route-id="@caracteristica.idCaracteristicas">
+                                        <a asp-controller="Caracteristicas" asp-action="Crear" asp-route-id="@Model.idProductos">
                                             <i class="fas fa-edit" title="Editar registro"></i>
                                         </a>
                                     </td>
@@ -122,22 +115,23 @@
                                 <th>Fecha final</th>
                                 <th>Precio (Sin Iva)</th>
                                 <th>
-                                    <a asp-controller="Precios" asp-action="Crear" asp-route-id="@Model.idProductos">
+                                    <a asp-controller="Precios" asp-action="CrearEditar" asp-route-id="@Model.idProductos">
                                         <i class="fas fa-plus" title="Agregar registro"></i>
                                     </a>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                            @*@foreach (var precios in ViewBag.Precios)
+                            @foreach (var precios in ViewBag.Precios)
                                 {
                                     <tr>
                                         <td>@precios.F_Inicio</td>
                                         <td>@precios.F_Fin</td>
                                         <td>@precios.Valor</td>
+
                                     </tr>
 
-                                }*@
+                                }
                     </table>
                 </div>
             </div>
@@ -160,16 +154,25 @@
                                 <th>Fecha Inicial</th>
                                 <th>Fecha final</th>
                                 <th>Porcentaje</th>
-                                <th><i class="fas fa-plus agregar" title="Agregar registro"></i></th>
+                                <th>
+                                    <a asp-controller="Ivas" asp-action="CrearEditar" asp-route-id="@Model.idProductos">
+                                         <i class="fas fa-plus" title="Agregar registro"></i>
+                                    </a>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>04/09/2021</td>
-                                <td></td>
-                                <td>19%</td>
+                                @foreach (var ivas in ViewBag.Ivas)
+                                {
+                            <tr>
+                                <td>@ivas.F_Inicio</td>
+                                <td>@ivas.F_Fin</td>
+                                <td>@ivas.IVA%</td>
                                 <td><a href=""><i class="fas fa-edit" title="Editar registro"></i></a></td>
                             </tr>
+
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -199,15 +202,26 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>04/09/2021</td>
-                                <td>10</td>
-                                <td>S</td>
-                                <td>
-                                    <div class="color-tabla" style="background-color: #000;"></div>
-                                </td>
-                                <td><a href=""><i class="fas fa-edit" title="Editar registro"></i></a></td>
+                                @foreach (var entradas in ViewBag.Entradas)
+                                {
+                            <tr>
+                                <td>@entradas.F_Inicio</td>                           
+                                <td>@entradas.Cantidad</td>
+                                @foreach (var caracteristica in ViewBag.Caracteristicas)
+                                {
+                                    if (caracteristica.idCaracteristicas == entradas.Caracteristica)
+                                    {
+                                        <td>@caracteristica.Medida</td>
+                                        <td>
+                                            <div class="color-tabla" style="background-color: @caracteristica.Color;"></div>
+                                        </td>
+                                    }
+                                }
                             </tr>
-                        </tbody>
+
+                            }
+                             
+                            </tbody>
                     </table>
                 </div>
             </div>

@@ -38,6 +38,10 @@ namespace ToroCreativo
             services.AddScoped<IIlustracionBusiness, IlustracionBusiness>();
             services.AddScoped<IClientesBusiness, ClienteBusiness>();
             services.AddScoped<ICaracteristicaBusiness, CaracteristicaBusiness>();
+            services.AddScoped<IPrecioBusiness, PrecioBusiness>();
+            services.AddScoped<ITamañoBusiness, TamañoBusiness>();
+            services.AddScoped<IIvasBusiness, IvasBusiness>();
+            services.AddScoped<IEntradaBusiness, EntradaBusiness>();
 
 
         }

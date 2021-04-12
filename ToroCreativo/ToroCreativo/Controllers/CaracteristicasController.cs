@@ -14,24 +14,31 @@ namespace ToroCreativo.Controllers
     public class CaracteristicasController : Controller
     {
         private readonly ICaracteristicaBusiness _context;
-        //private readonly ITamañoBusiness _tamañoBusiness;
+        private readonly ITamañoBusiness _tamaños;
         private readonly IProductosBusiness _productosBusiness;
 
         public CaracteristicasController(ICaracteristicaBusiness context,
-            IProductosBusiness productosBusiness)
+            IProductosBusiness productosBusiness, ITamañoBusiness tamañoBusiness)
         {
             _context = context;            
             _productosBusiness = productosBusiness;
+            _tamaños = tamañoBusiness;
         }
 
         // GET: Caracteristicas/Create
-        public async Task<IActionResult> Crear(int? id)
+        public async Task<IActionResult> Crear (int? id)
         {
             var producto = await _productosBusiness.ObtenerProductoPorId(id);
-            //IEnumerable<Tamaño> listaTamaños = await _tamañoBusiness.ObtenerTamañosSelectPorCategoria(producto.Categoria);
-            //ViewBag.Tamaños = listaTamaños;
-            ViewBag.Producto = id;
-            return View();
+            IEnumerable<Tamaño> listaTamaños = await _tamaños.ObtenerTamañosSelectPorCategoria(producto.Categoria);
+            ViewBag.Tamaños = listaTamaños;
+
+            if (id == 0)
+            {
+                ViewBag.Producto = id;
+                return View(new Caracteristica());
+            }
+            else
+                return View(await _context.ObtenerCaracteristicaPorId(id));
         }
 
         // POST: Caracteristicas/Create
