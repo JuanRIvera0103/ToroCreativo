@@ -11,7 +11,7 @@
         <form asp-action="CrearEditar" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="IdIlustracion" />
-            <input type="hidden" asp-for="ImageName" value="abc" />
+            @*<input type="hidden" asp-for="ImageName" value="abc" />*@
             <div class="form-group">
 
                 <label asp-for="Nombre" class="control-label"></label>
@@ -33,11 +33,11 @@
                 <input asp-for="Descripcion" class="form-control" />
                 <span asp-validation-for="Descripcion" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="ImageFile" class="control-label"></label>
                 <input asp-for="ImageFile" accept="image/*" />
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-row">
                 <div class="form-group col-md-8">
                     @{

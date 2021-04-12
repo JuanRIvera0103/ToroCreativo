@@ -19,69 +19,69 @@ namespace ToroCreativo.Models.Business
             _context = context;
         }
 
-        public async Task<IEnumerable<UsuarioDetalle>> ObtenerUsuario()
-        {
+        //public async Task<IEnumerable<UsuarioDetalle>> ObtenerUsuario()
+        //{
             
 
-            await using (_context)
-            {
+        //    //await using (_context)
+        //    //{
 
-                IEnumerable<UsuarioDetalle> ListaUsuarioDetalles =
-                    (from usuario in _context.Usuarios
-                     join rol in _context.Roles
-                     on usuario.Rol equals rol.IdRol
-                     select new UsuarioDetalle
-                     {
-                         IdUsuario = usuario.IdUsuario,
-                         Correo = usuario.Correo,
-                         Contraseña = usuario.Contraseña,
-                         Estado = usuario.Estado,
-                         Rol = rol.NombreRol
-                     }).ToList();
-                return (ListaUsuarioDetalles);
-            }
-        }
+        //    //    IEnumerable<UsuarioDetalle> ListaUsuarioDetalles =
+        //    //        (from usuario in _context.Usuarios
+        //    //         join rol in _context.Roles
+        //    //         on usuario.Rol equals rol.IdRol
+        //    //         select new UsuarioDetalle
+        //    //         {
+        //    //             IdUsuario = usuario.IdUsuario,
+        //    //             Correo = usuario.Correo,
+        //    //             Contraseña = usuario.Contraseña,
+        //    //             Estado = usuario.Estado,
+        //    //             Rol = rol.NombreRol
+        //    //         }).ToList();
+        //    //    return (ListaUsuarioDetalles);
+        //    //}
+        //}
 
-        public async Task<Usuario> ObtenerUsuarioPorID(int? id)
-        {
-            Usuario usuario;
-            usuario = null;
+        //public async Task<Usuario> ObtenerUsuarioPorID(int? id)
+        //{
+        //    Usuario usuario;
+        //    usuario = null;
 
-            if(id == null)
-            {
-                return usuario;
-            }else
-            {
-                usuario = await _context.Usuarios.FirstOrDefaultAsync(e => e.IdUsuario == id);
-                return usuario;
-            }
-        }
+        //    if(id == null)
+        //    {
+        //        return usuario;
+        //    }else
+        //    {
+        //        usuario = await _context.Usuarios.FirstOrDefaultAsync(e => e.IdUsuario == id);
+        //        return usuario;
+        //    }
+        //}
 
-        public async Task GuardarEditarUsuario(Usuario usuario)
-        {
-            try
-            {
-                if (usuario.IdUsuario == 0)
-                    _context.Add(usuario);
-                else
-                    _context.Update(usuario);
+        //public async Task GuardarEditarUsuario(Usuario usuario)
+        //{
+        //    try
+        //    {
+        //        if (usuario.IdUsuario == 0)
+        //            _context.Add(usuario);
+        //        else
+        //            _context.Update(usuario);
 
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
+        //        await _context.SaveChangesAsync();
+        //    }
+        //    catch (Exception)
+        //    {
 
-                throw  new Exception();
-            }
+        //        throw  new Exception();
+        //    }
 
 
-        }
+        //}
 
-        public async Task<IEnumerable<Rol>> ObtenerRol() 
-        {
-            return await _context.Roles.ToArrayAsync();  
+        //public async Task<IEnumerable<Rol>> ObtenerRol() 
+        //{
+        //    return await _context.Roles.ToArrayAsync();  
 
-        }
+        //}
 
         public async Task CambiarEstadoUsuario(Usuario usuario)
         {

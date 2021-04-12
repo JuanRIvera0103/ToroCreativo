@@ -19,31 +19,31 @@ namespace ToroCreativo.Models.Business
             _context = context;
         }
 
-        public async Task<IEnumerable<ClienteDetalle>> ObtenerCliente()
-        {
+        //public async Task<IEnumerable<ClienteDetalle>> ObtenerCliente()
+        //{
 
 
-            await using (_context)
-            {
+        //    await using (_context)
+        //    {
 
-                IEnumerable<ClienteDetalle> ListaClientesDetalles =
-                    (from usuario in _context.Usuarios
-                     join cliente in _context.Clientes
-                     on usuario.IdUsuario equals cliente.IdUsuario
-                     select new ClienteDetalle
-                     {
-                         IdCliente = cliente.IdCliente,
-                         Correo = usuario.Correo,
-                         Nombre = cliente.Nombre,
-                         Estado = cliente.Estado,
-                         Apellido = cliente.Apellido,
-                         Cedula = cliente.Cedula,
-                         Direccion=cliente.Direccion,
-                         Telefono=cliente.Telefono
-                     }).ToList();
-                return (ListaClientesDetalles);
-            }
-        }
+        //        IEnumerable<ClienteDetalle> ListaClientesDetalles =
+        //            (from usuario in _context.Usuarios
+        //             join cliente in _context.Clientes
+        //             on usuario.IdUsuario equals cliente.IdUsuario
+        //             select new ClienteDetalle
+        //             {
+        //                 IdCliente = cliente.IdCliente,
+        //                 Correo = usuario.Correo,
+        //                 Nombre = cliente.Nombre,
+        //                 Estado = cliente.Estado,
+        //                 Apellido = cliente.Apellido,
+        //                 Cedula = cliente.Cedula,
+        //                 Direccion=cliente.Direccion,
+        //                 Telefono=cliente.Telefono
+        //             }).ToList();
+        //        return (ListaClientesDetalles);
+        //    }
+        //}
 
         public async Task<Cliente> ObtenerClientePorID(int? id)
         {

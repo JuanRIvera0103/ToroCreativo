@@ -2,84 +2,136 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using ToroCreativo.Models.Abstract;
-using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
+using ToroCreativo.ViewModels;
 
 namespace ToroCreativo.Controllers
 {
     public class UsuariosController : Controller
     {
-        private readonly IUsuarioBusiness _context;
+        private readonly UserManager<Usuario> _userManager;
+        private readonly SignInManager<Usuario> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UsuariosController(IUsuarioBusiness context)
+        public UsuariosController(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager, RoleManager<IdentityRole> roleManager)
         {
-            _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _roleManager = roleManager;
         }
-
-        // GET: Usuarios
         public async Task<IActionResult> Index()
         {
+            /*
+            var usuarios = await _userManager.Users.ToListAsync();
+            return View(usuarios);
+            */
 
+            var usuarios = await _userManager.Users.ToListAsync();
+            var listaUsuariosViewModel = new List<UsuarioViewModel>();
 
-             return View(await _context.ObtenerUsuario());
+            foreach (var usuario in usuarios)
+            {
+                var usuarioViewModel = new UsuarioViewModel()
+                {
+                    Id = usuario.Id,
+                    Estado = usuario.Estado,
+                    Email = usuario.Email,
+                    Rol = await ObtenerRolUsuario(usuario)
+                };
+
+                listaUsuariosViewModel.Add(usuarioViewModel);
+            }
+
+            return View(listaUsuariosViewModel);
 
 
         }
-    
 
-     
-
-        // GET: Usuarios/Create
-        public async Task <IActionResult> CrearEditar(int id =0)
+        private async Task<List<string>> ObtenerRolUsuario(Usuario usuario)
         {
-            IEnumerable<Rol> listarol = await _context.ObtenerRol();
-            ViewBag.Roles = listarol;
-            if (id == 0)
-                return View(new Usuario());
-            else
-                return View(await _context.ObtenerUsuarioPorID(id));
+            return new List<string>(await _userManager.GetRolesAsync(usuario));
         }
 
-        // POST: Usuarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CrearUsuario()
+        {
+            ViewData["Roles"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Name", "Name");
+            return View();
+        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CrearEditar([Bind("IdUsuario,Correo,Contraseña,Estado,Rol")] Usuario usuario)
+        public async Task<IActionResult> CrearUsuario(UsuarioViewModel usuarioViewModel)
         {
             if (ModelState.IsValid)
             {
-                await _context.GuardarEditarUsuario(usuario);
-                return RedirectToAction(nameof(Index));
+                Usuario usuario = new Usuario
+                {
+                    UserName = usuarioViewModel.Email,
+                    Email = usuarioViewModel.Email,
+                    Estado = usuarioViewModel.Estado,
+                    
+                };
+
+                try
+                {
+                    var result = await _userManager.CreateAsync(usuario, usuarioViewModel.Password);
+
+                    if (result.Succeeded)
+                    {
+                        TempData["Accion"] = "Crear";
+                        TempData["Mensaje"] = "Usuario creado";
+
+                        await _userManager.AddToRoleAsync(usuario, usuarioViewModel.RolSeleccionado);
+
+                        return RedirectToAction("Index");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+                catch (Exception)
+                {
+
+                    return View(usuarioViewModel);
+                }
+
             }
-            return View(usuario);
+
+            return View(usuarioViewModel);
         }
 
-
-
-
-
-
-
-        public async Task<IActionResult> CambiarEstado(int? id)
+        public IActionResult Login()
         {
-            if (id == null)
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        {
+            if (ModelState.IsValid)
             {
-               return NotFound();
-           }
+                var result = await _signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, loginViewModel.RecordarMe, false);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                ModelState.AddModelError("", "Error login");
+            }
 
-            await _context.CambiarEstadoUsuario(await _context.ObtenerUsuarioPorID(id));
 
-            return RedirectToAction(nameof(Index));
+            return View();
         }
 
-
-
-
-
+        public async Task<IActionResult> CerrarSesion()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "Usuarios");
+        }
     }
 }

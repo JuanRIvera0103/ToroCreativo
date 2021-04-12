@@ -21,14 +21,14 @@ namespace ToroCreativo.Controllers
         }
 
         // GET: Usuarios
-        public async Task<IActionResult> Index()
-        {
+        //public async Task<IActionResult> Index()
+        //{
 
 
-            return View(await _context.ObtenerCliente());
+        //    return View(await _context.ObtenerCliente());
 
 
-        }
+        //}
 
         public async Task<IActionResult> CambiarEstado(int? id)
         {

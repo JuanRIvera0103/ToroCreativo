@@ -9,7 +9,7 @@ namespace ToroCreativo.Models.Abstract
 {
     public interface IClientesBusiness
     {
-        Task<IEnumerable<ClienteDetalle>> ObtenerCliente();
+        //Task<IEnumerable<ClienteDetalle>> ObtenerCliente();
         Task<Cliente> ObtenerClientePorID(int? id);
         Task CambiarEstadoCliente(Cliente cliente);
         Task CrearEditarCliente(Cliente cliente);

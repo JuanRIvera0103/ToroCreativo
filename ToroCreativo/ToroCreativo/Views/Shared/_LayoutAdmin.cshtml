@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="~/css/estilosgenerales.css" />
     <link rel="stylesheet" href="~/css/nav_admin.css" />
     <!--<link rel="stylesheet" href="~/css/Formularios.css" />-->
-    </head>
+    @RenderSection("Styles", required: false)
+</head>
     <body>
         <header>
             <div class="logotipo">
@@ -98,10 +99,14 @@
                 <div class="box-content cuenta-item">
                     <a href="../../index.html" class="link">
                         <div class="icon">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </div>
-                        <div class="text">
-                            <p class="cerrar"><span>Cerrar Sesión</span></p>
+                            <a asp-action="CerrarSesion" asp-controller="Usuarios" class="nav-link">
+                                <i class="nav-icon fas fa-sign-out-alt"></i>
+                                <p>
+                                    Cerrar sesión
+                                    <span class="right badge badge-danger">Salir</span>
+
+                                </p>
+                            </a>
                         </div>
                     </a>
                 </div>
