@@ -13,15 +13,24 @@ namespace ToroCreativo.Controllers
     {
         // GET: EntradaController
         private readonly IEntradaBusiness _context;
+        private readonly ICaracteristicaBusiness _caracteristicaBusiness;
+        private readonly IProductosBusiness _productosBusiness;
 
-        public EntradaController(IEntradaBusiness context)
+        public EntradaController(IEntradaBusiness context, ICaracteristicaBusiness caracteristicaBusiness,
+            IProductosBusiness productosBusiness)
         {
             _context = context;
+            _caracteristicaBusiness = caracteristicaBusiness;
+            _productosBusiness = productosBusiness;
         }
 
         // GET: Precios/Create
-        public IActionResult CrearEditar()
+        public async Task<IActionResult> Crear(int? id)
         {
+
+            var caracteristica = await _caracteristicaBusiness.ObtenerCaracteristicaDetallePorId(id);
+            ViewBag.Caracteristicas = caracteristica;
+            ViewBag.Producto = id;
             return View();
         }
 
@@ -30,7 +39,7 @@ namespace ToroCreativo.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CrearEditar([Bind("idIva,Cantidad,F_Inicio,F_Fin,Caracteristica,idProducto")] Entrada entrada)
+        public async Task<IActionResult> Crear([Bind("idIva,Cantidad,F_Inicio,F_Fin,Caracteristica,idProducto")] Entrada entrada)
         {
             if (ModelState.IsValid)
             {

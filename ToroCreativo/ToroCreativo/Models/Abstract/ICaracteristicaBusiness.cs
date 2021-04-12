@@ -14,5 +14,7 @@ namespace ToroCreativo.Models.Abstract
         Task GuardarCaracteristica(Caracteristica caracteristica);
         Task EditarCaracteristica(Caracteristica caracteristica);
         Task CambiarEstadoCaracteristica(Caracteristica caracteristica);
+        Task<IEnumerable<Caracteristica>> ObtenerCaracteristicasSelectPorProducto(int? id);
+        Task<IEnumerable<CaracteristicaDetalle>> ObtenerCaracteristicaDetallePorId(int? id);
     }
 }

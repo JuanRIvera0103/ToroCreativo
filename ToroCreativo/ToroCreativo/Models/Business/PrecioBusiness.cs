@@ -45,5 +45,25 @@ namespace ToroCreativo.Models.Business
                 throw new Exception();
             }
         }
+
+        public async Task<double> ObtenerPrecioConIvaProducto(int? id)
+        {
+            var ultimoPrecio = await _context.precios.Where(p => p.idProducto == id)
+                .OrderByDescending(p => p.idPrecios).FirstOrDefaultAsync();
+
+            var ultimoIva = await _context.ivas.Where(p => p.idProducto == id)
+                .OrderByDescending(p => p.idIva).FirstOrDefaultAsync();
+
+            double precioTotal = 0;
+
+            if (ultimoIva != null && ultimoPrecio != null)
+            {
+                precioTotal = ((ultimoIva.IVA / 100) * ultimoPrecio.Valor) + ultimoPrecio.Valor;
+            }                                          
+
+            return precioTotal;
+
+        }
+        
     }
 }

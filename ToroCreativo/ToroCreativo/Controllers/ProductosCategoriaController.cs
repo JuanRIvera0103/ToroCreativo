@@ -103,6 +103,8 @@ namespace ToroCreativo.Controllers
 
         public async Task<IActionResult> DetalleProducto(int? id)
         {
+            if (TempData["id"] != null)
+                id = (int?)TempData["id"];
             if (id == null)
             {
                 return NotFound();
@@ -110,7 +112,7 @@ namespace ToroCreativo.Controllers
             var producto = await _productosBusiness.ObtenerProductoPorId(id);
             var categoria = await _categoriasBusiness.ObtenerCategoriaPorId(producto.Categoria);
             ViewData["categoria"] = categoria.Nombre;
-           
+            ViewData["precioTotal"] = await _precioBusiness.ObtenerPrecioConIvaProducto(producto.idProductos); 
             ViewBag.Precios = await _precioBusiness.ObtenerPreciosProducto(producto.idProductos);
             ViewBag.Ivas = await _ivasBusiness.ObteneIvasProducto(producto.idProductos);
             ViewBag.Entradas = await _entradaBusiness.ObtenerEntradaProducto(producto.idProductos);

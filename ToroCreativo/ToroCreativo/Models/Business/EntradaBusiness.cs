@@ -27,7 +27,6 @@ namespace ToroCreativo.Models.Business
         {
             try
             {
-
                 entrada.F_Inicio = DateTime.Now.ToString("dd/MM/yyyy");
                 _context.Add(entrada);
 

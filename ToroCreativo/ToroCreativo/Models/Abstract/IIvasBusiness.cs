@@ -9,6 +9,6 @@ namespace ToroCreativo.Models.Abstract
     public interface IIvasBusiness
     {
         Task<List<Iva>> ObteneIvasProducto(int? id);
-        Task GuardarIva(Iva ivas);
+        Task GuardarIva(Iva ivas);       
     }
 }

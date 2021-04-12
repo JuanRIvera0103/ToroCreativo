@@ -31,14 +31,8 @@ namespace ToroCreativo.Controllers
             var producto = await _productosBusiness.ObtenerProductoPorId(id);
             IEnumerable<Tamaño> listaTamaños = await _tamaños.ObtenerTamañosSelectPorCategoria(producto.Categoria);
             ViewBag.Tamaños = listaTamaños;
-
-            if (id == 0)
-            {
-                ViewBag.Producto = id;
-                return View(new Caracteristica());
-            }
-            else
-                return View(await _context.ObtenerCaracteristicaPorId(id));
+            ViewBag.Producto = id;
+            return View();
         }
 
         // POST: Caracteristicas/Create
@@ -64,7 +58,9 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
-
+            var producto = await _productosBusiness.ObtenerProductoPorId(id);
+            IEnumerable<Tamaño> listaTamaños = await _tamaños.ObtenerTamañosSelectPorCategoria(producto.Categoria);
+            ViewBag.Tamaños = listaTamaños;
             var caracteristica = await _context.ObtenerCaracteristicaPorId(id);
             if (caracteristica == null)
             {
@@ -78,7 +74,7 @@ namespace ToroCreativo.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("idCaracteristicas,Color,Estado,idProducto,Medida")] Caracteristica caracteristica)
+        public async Task<IActionResult> Editar(int id, [Bind("idCaracteristicas,Color,Estado,idProducto,Medida")] Caracteristica caracteristica)
         {
             if (id != caracteristica.idCaracteristicas)
             {

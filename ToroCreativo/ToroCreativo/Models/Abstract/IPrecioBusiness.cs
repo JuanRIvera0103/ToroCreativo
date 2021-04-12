@@ -9,6 +9,7 @@ namespace ToroCreativo.Models.Abstract
     public interface IPrecioBusiness
     {
         Task<List<Precio>> ObtenerPreciosProducto(int? id);
-        Task GuardarPrecio(Precio precio);
+        Task GuardarPrecio(Precio precio);        
+        Task<double> ObtenerPrecioConIvaProducto(int? id);
     }
 }

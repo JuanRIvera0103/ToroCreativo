@@ -21,8 +21,9 @@ namespace ToroCreativo.Controllers
         }
 
         // GET: Precios/Create
-        public IActionResult CrearEditar()
+        public IActionResult Crear(int? id)
         {
+            ViewBag.Producto = id;
             return View();
         }
 
@@ -31,7 +32,7 @@ namespace ToroCreativo.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CrearEditar([Bind("idPrecios,Valor,F_Inicio,F_Fin,idProducto")] Precio precio)
+        public async Task<IActionResult> Crear([Bind("idPrecios,Valor,F_Inicio,F_Fin,idProducto")] Precio precio)
         {
             if (ModelState.IsValid)
             {

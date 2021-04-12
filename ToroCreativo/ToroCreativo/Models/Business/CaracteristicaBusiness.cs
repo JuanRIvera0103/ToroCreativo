@@ -23,6 +23,26 @@ namespace ToroCreativo.Models.Business
         {
             return await _context.caracteristicas.FindAsync(id);
         }
+        public async Task<IEnumerable<CaracteristicaDetalle>> ObtenerCaracteristicaDetallePorId(int? id)
+        {
+            await using (_context)
+            {
+                IEnumerable<CaracteristicaDetalle> caracteristicas =
+                    (from caracteristica in _context.caracteristicas
+                     join tamaño in _context.tamaños
+                     on caracteristica.Medida equals tamaño.idTamaño
+                     where caracteristica.idCaracteristicas == id
+                     select new CaracteristicaDetalle
+                     {
+                         idCaracteristicas = caracteristica.idCaracteristicas,
+                         Color = caracteristica.Color,
+                         Medida = tamaño.Medida,
+                         Estado = caracteristica.Estado,
+                         idProducto = caracteristica.idProducto
+                     }).ToList();
+                return caracteristicas;
+            }
+        }
         public async Task<IEnumerable<CaracteristicaDetalle>> ObtenerCaracteristicasProducto(int? id)
         {
 
@@ -48,14 +68,9 @@ namespace ToroCreativo.Models.Business
         public async Task GuardarCaracteristica(Caracteristica caracteristica)
         {
             try
-            {
-                if (caracteristica.idProducto == 0)
-                {
+            {               
                     caracteristica.Estado = "Habilitado";
-                    _context.Add(caracteristica);
-                }
-                else
-                    _context.Update(caracteristica);
+                    _context.Add(caracteristica);                
 
                 await _context.SaveChangesAsync();
             }
@@ -96,6 +111,11 @@ namespace ToroCreativo.Models.Business
             {
                 throw new Exception();
             }
+        }
+
+        public async Task<IEnumerable<Caracteristica>> ObtenerCaracteristicasSelectPorProducto(int? id)
+        {
+            return await _context.caracteristicas.Where(c => c.idProducto == id).ToListAsync();
         }
     }
 }
