@@ -30,7 +30,7 @@ namespace ToroCreativo.Controllers
 
             var caracteristica = await _caracteristicaBusiness.ObtenerCaracteristicaDetallePorId(id);
             ViewBag.Caracteristicas = caracteristica;
-            ViewBag.Producto = id;
+            ViewBag.Producto = id;           
             return View();
         }
 

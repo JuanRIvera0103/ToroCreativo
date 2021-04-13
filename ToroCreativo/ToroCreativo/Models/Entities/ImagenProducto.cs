@@ -1,0 +1,28 @@
+﻿using Microsoft.AspNetCore.Http;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace ToroCreativo.Models.Entities
+{
+    public class ImagenProducto
+    {
+        [Key]
+        public int IdImagenProducto { get; set; }
+        [Required]
+        public int IdProducto { get; set; }
+        [Required]
+        [Column("NombreImagen", TypeName = "nvarchar(200)")]
+        [DisplayName("Imagen")]
+        public string ImageName { get; set; }
+        [NotMapped]
+        [DisplayName("Archivo cargado")]
+        public IFormFile ImageFile { get; set; }
+        [Column(TypeName = "nvarchar(20)")]
+        public string Estado { get; set; }
+    }
+}

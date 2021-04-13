@@ -9,7 +9,7 @@ using ToroCreativo.Models.Entities;
 
 namespace ToroCreativo.Models.Business
 {
-    public class IvasBusiness:IIvasBusiness
+    public class IvasBusiness : IIvasBusiness
     {
         private readonly DbContextToroCreativo _context;
 
@@ -30,11 +30,11 @@ namespace ToroCreativo.Models.Business
                 var ultimoiva = _context.ivas.OrderByDescending(p => p.idIva).FirstOrDefault();
                 if (ultimoiva != null)
                 {
-                    ultimoiva.F_Fin = DateTime.Now.ToString("dd/MM/yyyy");
+                    ultimoiva.F_Fin = DateTime.Now;
                     _context.Update(ultimoiva);
                 }
 
-                ivas.F_Inicio = DateTime.Now.ToString("dd/MM/yyyy");
+                ivas.F_Inicio = DateTime.Now;
                 _context.Add(ivas);
 
                 await _context.SaveChangesAsync();
@@ -45,6 +45,6 @@ namespace ToroCreativo.Models.Business
                 throw new Exception();
             }
         }
-       
+
     }
 }

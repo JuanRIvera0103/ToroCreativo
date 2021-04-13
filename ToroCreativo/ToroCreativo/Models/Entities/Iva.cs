@@ -16,14 +16,12 @@ namespace ToroCreativo.Models.Entities
         [DisplayName("Precio (Sin IVA)")]
         [Required]
         public double IVA { get; set; }
-        [Column(TypeName = "nvarchar(20)")]
         [DisplayName("Fecha Inicial")]
 
-        public string F_Inicio { get; set; }
-        [Column(TypeName = "nvarchar(20)")]
+        public DateTime F_Inicio { get; set; }
         [DisplayName("Fecha Final")]
 
-        public string F_Fin { get; set; }
+        public DateTime F_Fin { get; set; }
         [Column("Productos_idProductos")]
         [Required]
         public int idProducto { get; set; }

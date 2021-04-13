@@ -9,7 +9,7 @@ using ToroCreativo.Models.Entities;
 
 namespace ToroCreativo.Models.Business
 {
-    public class EntradaBusiness:IEntradaBusiness
+    public class EntradaBusiness : IEntradaBusiness
     {
         private readonly DbContextToroCreativo _context;
 
@@ -27,7 +27,7 @@ namespace ToroCreativo.Models.Business
         {
             try
             {
-                entrada.F_Inicio = DateTime.Now.ToString("dd/MM/yyyy");
+                entrada.F_Inicio = DateTime.Now;
                 _context.Add(entrada);
 
                 await _context.SaveChangesAsync();

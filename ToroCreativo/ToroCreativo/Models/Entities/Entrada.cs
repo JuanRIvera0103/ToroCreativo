@@ -14,9 +14,8 @@ namespace ToroCreativo.Models.Entities
         public int idEntrada { get; set; }
         [Required]
         public int Cantidad { get; set; }
-        [Column(TypeName = "nvarchar(20)")]
         [DisplayName("Fecha Inicial")]
-        public string F_Inicio { get; set; }
+        public DateTime F_Inicio { get; set; }
 
         [Column("Caracteristica_idCaracteristica")]
         public int Caracteristica { get; set; }

@@ -30,11 +30,11 @@ namespace ToroCreativo.Models.Business
                 var ulimoprecio = _context.precios.OrderByDescending(p => p.idPrecios).FirstOrDefault();
                 if(ulimoprecio != null)
                 {
-                    ulimoprecio.F_Fin = DateTime.Now.ToString("dd/MM/yyyy");
+                    ulimoprecio.F_Fin = DateTime.Now;
                     _context.Update(ulimoprecio);
                 }
-                
-                precio.F_Inicio = DateTime.Now.ToString("dd/MM/yyyy");
+
+                precio.F_Inicio = DateTime.Now;
                 _context.Add(precio);
 
                 await _context.SaveChangesAsync();
@@ -51,15 +51,15 @@ namespace ToroCreativo.Models.Business
             var ultimoPrecio = await _context.precios.Where(p => p.idProducto == id)
                 .OrderByDescending(p => p.idPrecios).FirstOrDefaultAsync();
 
-            var ultimoIva = await _context.ivas.Where(p => p.idProducto == id)
-                .OrderByDescending(p => p.idIva).FirstOrDefaultAsync();
+            //var ultimoIva = await _context.ivas.Where(p => p.idProducto == id)
+            //    .OrderByDescending(p => p.idIva).FirstOrDefaultAsync();
 
             double precioTotal = 0;
 
-            if (ultimoIva != null && ultimoPrecio != null)
-            {
-                precioTotal = ((ultimoIva.IVA / 100) * ultimoPrecio.Valor) + ultimoPrecio.Valor;
-            }                                          
+            //if (ultimoIva != null && ultimoPrecio != null)
+            //{
+            //    precioTotal = ((ultimoIva.IVA / 100) * ultimoPrecio.Valor) + ultimoPrecio.Valor;
+            //}                                          
 
             return precioTotal;
 

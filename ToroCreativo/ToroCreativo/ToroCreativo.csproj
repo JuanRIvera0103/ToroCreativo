@@ -7,6 +7,20 @@
   <ItemGroup>
     <Compile Remove="Migrations\20210319195620_Se agrego Ilustraciones y Cliente.cs" />
     <Compile Remove="Migrations\20210319195620_Se agrego Ilustraciones y Cliente.Designer.cs" />
+    <Compile Remove="Migrations\20210411223147_se agrego precios.cs" />
+    <Compile Remove="Migrations\20210411223147_se agrego precios.Designer.cs" />
+    <Compile Remove="Migrations\20210412004314_Se agrego Tamaños.cs" />
+    <Compile Remove="Migrations\20210412004314_Se agrego Tamaños.Designer.cs" />
+    <Compile Remove="Migrations\20210412015653_se agrego Ivas.cs" />
+    <Compile Remove="Migrations\20210412015653_se agrego Ivas.Designer.cs" />
+    <Compile Remove="Migrations\20210412054115_se agrego Entradas.cs" />
+    <Compile Remove="Migrations\20210412054115_se agrego Entradas.Designer.cs" />
+    <Compile Remove="Migrations\20210412221624_se agrego pedidos y detallepedido.cs" />
+    <Compile Remove="Migrations\20210412221624_se agrego pedidos y detallepedido.Designer.cs" />
+    <Compile Remove="Migrations\20210413001515_se agrego iva y entradas.cs" />
+    <Compile Remove="Migrations\20210413001515_se agrego iva y entradas.Designer.cs" />
+    <Compile Remove="Migrations\20210413002710_se agrego ambas tablas de imagenes.cs" />
+    <Compile Remove="Migrations\20210413002710_se agrego ambas tablas de imagenes.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -23,9 +37,15 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\imgIlustraciones\" />
+    <Folder Include="wwwroot\imgProductos\" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Pedidos\AgregarDetallePedido.cshtml" />
+    <None Include="Views\Pedidos\CrearEditar.cshtml" />
+    <None Include="Views\Pedidos\Detalle.cshtml" />
+    <None Include="Views\Pedidos\Index.cshtml" />
+    <None Include="Views\Pedidos\VentaIndex.cshtml" />
     <None Include="Views\Tamaño\CrearEditar.cshtml" />
     <None Include="Views\Tamaño\Index.cshtml" />
   </ItemGroup>

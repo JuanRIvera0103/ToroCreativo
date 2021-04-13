@@ -1,0 +1,43 @@
+﻿@model ToroCreativo.Models.Entities.ImagenProducto
+
+@{
+    ViewData["Title"] = "AgregarImagen";
+}
+
+<h1>AgregarImagen</h1>
+
+<h4>Imagen Producto</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CrearEditar" asp-controller="ImagenProducto" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+
+                <input asp-for="IdProducto" class="form-control" type="hidden" value="@ViewBag.id" />
+
+            </div>
+            <div class="form-group">
+
+                <input asp-for="ImageName" class="form-control" type="hidden" value="a" />
+
+            </div>
+            <div class="form-group">
+                <label asp-for="ImageFile" class="control-label"></label>
+                <input asp-for="ImageFile" accept="image/*" />
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary"  />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

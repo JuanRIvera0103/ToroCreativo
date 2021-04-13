@@ -9,11 +9,14 @@
     <div class="container">
         <div class="producto">
             <div class="imagen">
-                <img src="~/img/torito.png">
+                <img src="@("~/imgProductos/"+ViewBag.Imagen)" asp-append-version="true" />               
             </div>
             <div class="info">
                 <div class="principal">
                     <h3>@Html.DisplayFor(model => model.Nombre)</h3>
+                    <a class="text-dark" asp-action="AgregarImagen" asp-route-id="@Model.idProductos">
+                        <i class="fas fa-plus"></i>
+                    </a>
                     <p>@Html.DisplayFor(model => model.Descripcion)</p>
                 </div>
                 <div class="sub-principal">
