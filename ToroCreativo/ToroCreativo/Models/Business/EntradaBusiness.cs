@@ -18,17 +18,28 @@ namespace ToroCreativo.Models.Business
             _context = context;
         }
 
+        public async Task<Entrada> ObtenerEntradaPorId(int? id)
+        {
+            return await _context.entradas.FindAsync(id);
+        }
         public async Task<List<Entrada>> ObtenerEntradaProducto(int? id)
         {
             return await _context.entradas.Where(p => p.idProducto == id).OrderByDescending(p => p.idEntrada).ToListAsync();
         }
 
-        public async Task GuardarEntrada(Entrada entrada)
+        public async Task GuardarEditarEntrada(Entrada entrada)
         {
             try
             {
-                entrada.F_Inicio = DateTime.Now;
-                _context.Add(entrada);
+                if (entrada.idEntrada == 0)
+                {
+                    entrada.F_Inicio = DateTime.Now;
+                    _context.Add(entrada);
+                }
+                else
+                {
+                    _context.Update(entrada);
+                }
 
                 await _context.SaveChangesAsync();
             }

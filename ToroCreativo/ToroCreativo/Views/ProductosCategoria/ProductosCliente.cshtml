@@ -1,0 +1,56 @@
+﻿@model IEnumerable<ToroCreativo.Models.Entities.Productos>
+
+@{
+    Layout = "_LayoutCliente";
+    ViewData["Title"] = "Index";
+}
+
+<link rel="stylesheet" href="~/css/producto_cliente.css"/>
+<article>
+    <div class="contenido">
+        <div class="categorias">
+            <ul>
+                <li><a asp-action="ProductosCliente" asp-route-id="">Todos</a></li>
+                @foreach (var categorias in ViewBag.Categorias)
+                {
+                    <li><a asp-action="ProductosCliente" asp-route-id="@categorias.idCategoria"> @categorias.Nombre</a></li>
+                }
+            </ul>
+        </div>
+
+        
+        <div class="productos">
+            <form asp-action="ProductosCliente" method="post">
+                <div class="form-group">
+                    <input name="busqueda" class="form-control" type="search" placeholder="Buscar Producto">
+                    <button class="btn btn-primary" type="submit">Buscar</button>
+                </div>
+            </form>
+            @foreach (var item in Model)
+            {
+                <div class="card">
+                    <div class="imgBx">
+                        @foreach (var imagen in ViewBag.Imagenes)
+                        {
+                            if (imagen.IdProducto == item.idProductos)
+                            {
+                                <img src="@("~/imgProductos/"+imagen.ImageName)" asp-append-version="true" />
+                            }
+                        }
+                    </div>
+                    <div class="contentBx">
+                        <h3>@Html.DisplayFor(modelItem => item.Nombre)</h3>
+                        @foreach (var precios in ViewBag.Precios)
+                        {
+                            if (precios.idProducto == item.idProductos)
+                            {
+                                <h2 class="price">@precios.Valor</h2>
+                            }
+                        }
+                        <a asp-action="DetalleProductoCliente" asp-route-id="@item.idProductos" class="buy">Ver más</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</article>

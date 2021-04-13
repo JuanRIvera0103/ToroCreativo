@@ -14,10 +14,12 @@ namespace ToroCreativo.Controllers
     public class GenerosController : Controller
     {
         private readonly IGenerosBusiness _context;
+        private readonly IIlustracionBusiness _ilustracionBusiness;
 
-        public GenerosController(IGenerosBusiness context)
+        public GenerosController(IGenerosBusiness context, IIlustracionBusiness ilustracionBusiness)
         {
             _context = context;
+            _ilustracionBusiness = ilustracionBusiness;
         }
 
         // GET: Generos
@@ -65,24 +67,17 @@ namespace ToroCreativo.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> DetalleGenero(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            ViewBag.Genero = await _context.ObtenerGeneroPorId(id);
 
-        // GET: Generos/Details/5
-        //public async Task<IActionResult> Details(int? id)
-        //{
-        //    if (id == null)
-        //    {
-        //        return NotFound();
-        //    }
+            return View(await _ilustracionBusiness.ObtenerIlustracionesPorCategoria(id));
 
-        //    var generos = await _context.generos
-        //        .FirstOrDefaultAsync(m => m.idGenero == id);
-        //    if (generos == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return View(generos);
-        //}
+        }
 
     }
 }

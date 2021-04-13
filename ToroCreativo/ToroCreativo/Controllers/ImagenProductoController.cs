@@ -42,8 +42,7 @@ namespace ToroCreativo.Controllers
                 }
                 await _context.GuardarEditarImagenProducto(imagenProducto);
 
-                return RedirectToAction("DetalleProducto", "ProductosCategoria", new { id = imagenProducto.IdProducto }
-                    );
+                return RedirectToAction("DetalleProducto", "ProductosCategoria", new { id = imagenProducto.IdProducto });
             }
             return View(imagenProducto);
         }

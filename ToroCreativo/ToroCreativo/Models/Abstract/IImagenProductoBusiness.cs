@@ -12,5 +12,6 @@ namespace ToroCreativo.Models.Abstract
         Task EliminarImagenProducto(int id);
         Task<ImagenProducto> ObtenerImagenProductoPorId(int? id);
         Task<ImagenProducto> ObtenerImagenProductoPorProducto(int? id);
+        Task<List<ImagenProducto>> ObtenerImagenes();
     }
 }

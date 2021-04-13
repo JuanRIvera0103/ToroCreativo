@@ -9,7 +9,11 @@
     <div class="container">
         <div class="producto">
             <div class="imagen">
-                <img src="@("~/imgProductos/"+ViewBag.Imagen)" asp-append-version="true" />               
+                @if (ViewBag.Imagen != null)
+                {
+                    <img src="@("~/imgProductos/"+ViewBag.Imagen)" asp-append-version="true" />
+                }
+
             </div>
             <div class="info">
                 <div class="principal">
@@ -153,7 +157,14 @@
                                         <td>@precios.F_Inicio</td>
                                         <td>@precios.F_Fin</td>
                                         <td>@precios.Valor</td>
-                                        <td><a href=""><i class="fas fa-edit" title="Editar registro"></i></a></td>
+                                        <td>
+                                            @if (precios.F_Fin == null)
+                                            {
+                                                <a asp-controller="Precios" asp-action="Editar" asp-route-id="@precios.idPrecios">
+                                                    <i class="fas fa-edit" title="Editar registro"></i>
+                                                </a>
+                                            }
+                                        </td>
                                     </tr>
 
                                 }
@@ -193,7 +204,15 @@
                                         <td>@ivas.F_Inicio</td>
                                         <td>@ivas.F_Fin</td>
                                         <td>@ivas.IVA%</td>
-                                        <td><a href=""><i class="fas fa-edit" title="Editar registro"></i></a></td>
+                                        <td>
+                                            @if (ivas.F_Fin == null)
+                                            {
+                                                <a asp-controller="Ivas" asp-action="Editar" asp-route-id="@ivas.idIva">
+                                                    <i class="fas fa-edit" title="Editar registro"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                        
                                     </tr>
 
                                  }
@@ -220,7 +239,8 @@
                                 <th>Fecha Entrada</th>
                                 <th>Cantidad</th>
                                 <th>Unidad Medida</th>
-                                <th>Color</th>                               
+                                <th>Color</th>  
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -241,6 +261,11 @@
                                             </td>
                                         }
                                     }
+                                <td>
+                                    <a asp-controller="Entrada" asp-action="Editar" asp-route-id="@entradas.idEntrada">
+                                        <i class="fas fa-edit" title="Editar registro"></i>
+                                    </a>
+                                </td>
                                    
                                 </tr>
                             }

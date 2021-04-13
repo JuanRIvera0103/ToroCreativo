@@ -18,6 +18,20 @@ namespace ToroCreativo.Models.Business
         {
             _context = context;
         }
+        public async Task<IEnumerable<Productos>> ObtenerProductosCliente()
+        {
+            return await _context.productos.Where(p => p.Estado == "Habilitado").ToListAsync();
+        }
+        public async Task<IEnumerable<Productos>> ObtenerProductosPorCategoriaCliente(int? id)
+        {
+            return await _context.productos.Where(p => p.Estado == "Habilitado").Where(p => p.Categoria == id).ToListAsync();
+        }
+
+        public async Task<IEnumerable<Productos>> ObtenerProductosPorBusquedaCliente(string busqueda)
+        {
+            return await _context.productos.Where(p => p.Estado == "Habilitado").Where(p => p.Nombre.Contains(busqueda)).ToListAsync();
+        }
+
         public async Task<IEnumerable<ProductoDetalle>> ObtenerProductos()
         {
             await using (_context)
@@ -32,7 +46,7 @@ namespace ToroCreativo.Models.Business
                          Nombre = productos.Nombre,
                          Descripcion = productos.Descripcion,
                          Estado = productos.Estado,
-                         Categoria = categorias.Nombre
+                         Categoria = categorias.Nombre 
                      }).ToList();
 
                 return (listaProductoDetalle);

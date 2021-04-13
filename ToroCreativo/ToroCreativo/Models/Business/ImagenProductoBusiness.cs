@@ -24,7 +24,10 @@ namespace ToroCreativo.Models.Business
         }
 
 
-
+        public async Task<List<ImagenProducto>> ObtenerImagenes()
+        {
+            return await _context.ImagenProductos.ToListAsync();
+        }
 
         public async Task<ImagenProducto> ObtenerImagenProductoPorId(int? id)
         {

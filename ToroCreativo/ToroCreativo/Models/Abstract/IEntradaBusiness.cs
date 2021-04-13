@@ -9,7 +9,8 @@ namespace ToroCreativo.Models.Abstract
 {
     public interface IEntradaBusiness
     {
-        Task GuardarEntrada(Entrada entrada);
+        Task GuardarEditarEntrada(Entrada entrada);
         Task<List<Entrada>> ObtenerEntradaProducto(int? id);
+        Task<Entrada> ObtenerEntradaPorId(int? id);
     }
 }

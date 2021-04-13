@@ -17,25 +17,36 @@ namespace ToroCreativo.Models.Business
         {
             _context = context;
         }
-
+        public async Task<Iva> ObtenerIvaPorId(int? id)
+        {
+            return await _context.ivas.FindAsync(id);
+        }
         public async Task<List<Iva>> ObteneIvasProducto(int? id)
         {
             return await _context.ivas.Where(p => p.idProducto == id).OrderByDescending(p => p.idIva).ToListAsync();
         }
 
-        public async Task GuardarIva(Iva ivas)
+        public async Task GuardarEditarIva(Iva ivas)
         {
             try
             {
-                var ultimoiva = _context.ivas.OrderByDescending(p => p.idIva).FirstOrDefault();
-                if (ultimoiva != null)
+                if (ivas.idIva == 0)
                 {
-                    ultimoiva.F_Fin = DateTime.Now;
-                    _context.Update(ultimoiva);
-                }
+                    var ultimoiva = _context.ivas.Where(i => i.idProducto == ivas.idProducto)
+                        .OrderByDescending(p => p.idIva).FirstOrDefault();
+                    if (ultimoiva != null)
+                    {
+                        ultimoiva.F_Fin = DateTime.Now;
+                        _context.Update(ultimoiva);
+                    }
 
-                ivas.F_Inicio = DateTime.Now;
-                _context.Add(ivas);
+                    ivas.F_Inicio = DateTime.Now;
+                    _context.Add(ivas);
+                }
+                else
+                {
+                    _context.Update(ivas);
+                }
 
                 await _context.SaveChangesAsync();
             }

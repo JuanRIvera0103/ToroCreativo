@@ -21,7 +21,7 @@ namespace ToroCreativo.Models.Entities
         public DateTime F_Inicio { get; set; }
         [DisplayName("Fecha Final")]
 
-        public DateTime F_Fin { get; set; }
+        public DateTime? F_Fin { get; set; }
         [Column("Productos_idProductos")]
         [Required]
         public int idProducto { get; set; }

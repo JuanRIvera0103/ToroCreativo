@@ -1,0 +1,65 @@
+﻿@model ToroCreativo.Models.Entities.Productos
+
+@{
+    Layout = "_LayoutCliente";
+    ViewData["Title"] = "Index";
+}
+
+<link rel="stylesheet" href="~/css/detallep-clients.css" />
+
+<div class="card">
+    <div class="shoeBackground">
+        <div class="gradients">
+            <div class="gradient second" color="white"></div>
+            <div class="gradient" color="purple"></div>
+            <div class="gradient" color="black"></div>
+        </div>
+        <h1 class="nombre">Toro</h1>
+        @*<img src="../../utils/img/logo.png" alt="" class="logo">
+        <a href="#" class="share"><i class="fas fa-share-alt"></i></a>*@
+        <img src="@("~/imgProductos/"+ViewBag.Imagen)" asp-append-version="true" alt="" class="shoe show" color="white"/>
+        @*<img src="../../utils/img/producto.png" alt="" class="shoe" color="purple">
+        <img src="img/black.png" alt="" class="shoe" color="black">*@
+
+    </div>
+    <div class="info">
+        <div class="shoeName">
+            <div>
+                <h1 class="big">@Html.DisplayFor(model => model.Nombre)</h1>
+                <span class="new">new</span>
+            </div>
+
+        </div>
+        <div class="description">
+            <h3 class="title">Información</h3>
+            <p class="text">@Html.DisplayFor(model => model.Descripcion)</p>
+        </div>
+        <div class="color-container">
+            <h3 class="title">Color</h3>
+            <div class="colors">
+                @foreach (var colores in ViewBag.Caracteristicas)
+                {
+                    <span class="color" style="background-color: @colores.Color;"></span>
+                }
+}
+            </div>
+        </div>
+        <div class="size-container">
+            <h3 class="title">size</h3>
+            <div class="sizes">
+                @foreach (var medidas in ViewBag.Caracteristicas)
+                {                
+                    <span class="size">@medidas.Medida</span>
+                }    
+            </div>
+        </div>
+        <div class="buy-price">
+            <a href="#" class="buy"><i class="fas fa-shopping-cart"></i>Comprar</a>
+            <div class="price">
+                <h1>@ViewData["precioTotal"]</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/detalle-producto.js"></script>

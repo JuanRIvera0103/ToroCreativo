@@ -30,16 +30,29 @@ namespace ToroCreativo.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Crear([Bind("idIva,IVA,F_Inicio,F_Fin,idProducto")] Iva ivas)
+        public async Task<IActionResult> CrearEditar([Bind("idIva,IVA,F_Inicio,F_Fin,idProducto")] Iva ivas)
         {
             if (ModelState.IsValid)
             {
-                await _context.GuardarIva(ivas);
-                TempData["id"] = ivas.idProducto;
-                return RedirectToAction("DetalleProducto", "ProductosCategoria");
+                await _context.GuardarEditarIva(ivas);                
+                return RedirectToAction("DetalleProducto", "ProductosCategoria", new { id = ivas.idProducto });
 
             }
             return View(ivas);
+        }
+        public async Task<IActionResult> Editar(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var precio = await _context.ObtenerIvaPorId(id);
+            if (precio == null)
+            {
+                return NotFound();
+            }
+            return View(precio);
         }
     }
 }

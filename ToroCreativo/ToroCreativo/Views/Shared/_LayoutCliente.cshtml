@@ -1,0 +1,183 @@
+﻿<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToroCreativo @ViewData["Title"]</title>
+    <!--estilos librerias-->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
+    <link rel="stylesheet" href="~/lib/datatables.net-bs4/dataTables.bootstrap4.min.css" />
+
+    <!--estilos propios del proyecto-->
+    <link rel="stylesheet" href="~/css/nav_cliente.css" />
+  
+    </head>
+<body>
+    <header id="header">
+        <div class="header">
+            <div class="nav-bar">
+                <div class="nav-list">
+                    <div class="hamburger">
+                        <div class="bar"></div>
+                    </div>
+                    <ul>
+                        <li><a  asp-controller="" asp-action="" data-after="Inicio">Inicio</a></li>
+                        <li>
+                            <a asp-controller="ProductosCategoria" asp-action="ProductosCliente" data-after="Productos">Productos</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Ilustracions" asp-action="IlustracionesCliente"
+                               data-after="Ilustraciones">Ilustraciones</a>
+                        </li>
+                        <li>
+                            <a class="acceso" data-after="Registrarse" asp-controller="" asp-action="">Registrarse</a>
+                        </li>
+                        <li><a class="acceso" data-after="Iniciar" asp-controller="" asp-action="">Iniciar</a></li>
+                    </ul>
+                </div>
+                <div class="sub-menu">
+                    <div class="carrito">
+                        <a><i class="fas fa-shopping-cart" id="shop" onclick="mostrarcarrito()"></i></a>
+                    </div>
+                    <div class="notificaciones">
+                        <i class="fas fa-bell" id="notificacion" onclick="mostrarnoti()"></i>
+                    </div>
+                    <div class="cuenta">
+                        <a><i class="fas fa-user-circle" id="user" onclick="mostrarcuenta()"></i></a>
+                    </div>
+                </div>
+                <div class="box notifi-box" id="notificaciones-box">
+                    <h2>Notificaciones</h2>
+                    <div class="box-content notifi-item">
+                        <a href="#" class="link">
+                            <div class="icon">
+                                <i class="fas fa-mail-bulk"></i>
+                            </div>
+                            <div class="text">
+                                <p><span>Toro Creativo</span> Ha aceptado tu pedido</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="box-content notifi-item">
+                        <a href="#" class="link">
+                            <div class="icon">
+                                <i class="fas fa-mail-bulk"></i>
+                            </div>
+                            <div class="text">
+                                <p><span>Toro Creativo</span> Te quedan 7 días para pagar tu pedido</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="box-content notifi-item">
+                        <a href="#" class="link">
+                            <div class="icon">
+                                <i class="fas fa-mail-bulk"></i>
+                            </div>
+                            <div class="text">
+                                <p><span>Toro Creativo</span> Ha cancelado tu pedido</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="box cuenta-box" id="cuenta-box">
+                    <div class="box-content cuenta-item">
+                        <a href="../perfil-cliente/perfil.html" class="link">
+                            <div class="icon">
+                                <i class="fas fa-user-circle"></i>
+                            </div>
+                            <div class="text">
+                                <p><span>Nombre del usuario</span></p>
+                                <p>Ver perfil</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="box-content cuenta-item">
+                        <a href="../perfil-cliente/mispedidos-cliente.html" class="link">
+                            <div class="icon">
+                                <i class="fas fa-mail-bulk"></i>
+                            </div>
+                            <div class="text">
+                                <p><span>mis pedidos</span></p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="box-content cuenta-item">
+                        <a href="../perfil-cliente/miscompras-cliente.html" class="link">
+                            <div class="icon">
+                                <i class="fas fa-mail-bulk"></i>
+                            </div>
+                            <div class="text">
+                                <p><span>mis compras </span></p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="box-content cuenta-item">
+                        <a href="../../index.html" class="link">
+                            <div class="icon">
+                                <i class="fas fa-sign-out-alt"></i>
+                            </div>
+                            <div class="text">
+                                <p class="cerrar"><span>Cerrar Sesión</span></p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="box carrito-box" id="carrito-box">
+                    <div class="productos-carrito">
+                        <div class="box-content cuenta-item">
+                            <a href="#" class="link">
+                                <div class="icon">
+                                    <img src="../../utils/img/logoverde.png" alt="">
+                                </div>
+                                <div class="text">
+                                    <p><span>Camisa</span> talla</p>
+                                    <p><span>Color</span> morado</p>
+                                    <p><span>Cantidad</span> 10</p>
+                                </div>
+                                <div class="acciones">
+                                    <i class="fas fa-trash-alt"></i>
+                                    <i class="fas fa-edit"></i>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="pedir">
+                        <a href="../pedidos-cliente/pedido-cliente.html">Iniciar Pedido</a>
+                    </div>
+                </div>
+            </div>
+    </header>
+    <article>
+        <div class="container">
+            @RenderBody()
+        </div>
+    </article>
+    <!--<footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2021 - ToroCreativo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+        -->
+    <!--Scripts librerias-->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/datatables.net/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables.net-bs4/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/sweetalert/sweetalert.min.js"></script>
+    <script src="~/js/datatable.js"></script>
+
+
+
+
+    <!-- Scripts del proyecto -->
+    <script src="~/js/nav_cliente.js"></script>
+    <script src="~/js/main.js"></script>
+    <script src="~/js/alertas.js"></script>
+
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

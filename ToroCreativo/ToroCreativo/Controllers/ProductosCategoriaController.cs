@@ -22,7 +22,7 @@ namespace ToroCreativo.Controllers
         private readonly IImagenProductoBusiness _imagenProductoBusiness;
 
 
-        public ProductosCategoriaController(IProductosBusiness productosBusiness, ICategoriasBusiness categoriasBusiness, 
+        public ProductosCategoriaController(IProductosBusiness productosBusiness, ICategoriasBusiness categoriasBusiness,
             ICaracteristicaBusiness caracteristicaBusiness, IPrecioBusiness precioBusiness, IIvasBusiness ivasBusiness,
             IEntradaBusiness entradaBusiness, IImagenProductoBusiness imagenProductoBusiness)
         {
@@ -34,12 +34,13 @@ namespace ToroCreativo.Controllers
             _entradaBusiness = entradaBusiness;
             _imagenProductoBusiness = imagenProductoBusiness;
         }
-               
+
         public async Task<IActionResult> Index()
         {
             ViewBag.Categorias = await _categoriasBusiness.ObtenerCategorias();
             return View(await _productosBusiness.ObtenerProductos());
         }
+
 
         //CRUD Categorias
         public async Task<IActionResult> CrearEditarCategoria(int id = 0)
@@ -62,7 +63,7 @@ namespace ToroCreativo.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-           
+
         public async Task<IActionResult> DetalleCategoria(int? id)
         {
             if (id == null)
@@ -116,7 +117,8 @@ namespace ToroCreativo.Controllers
             ViewData["categoria"] = categoria.Nombre;
             ViewData["precioTotal"] = await _precioBusiness.ObtenerPrecioConIvaProducto(producto.idProductos);
             var imagen = await _imagenProductoBusiness.ObtenerImagenProductoPorProducto(producto.idProductos);
-            ViewBag.Imagen = imagen.ImageName;
+            if (imagen != null)
+                ViewBag.Imagen = imagen.ImageName;
             ViewBag.Precios = await _precioBusiness.ObtenerPreciosProducto(producto.idProductos);
             ViewBag.Ivas = await _ivasBusiness.ObteneIvasProducto(producto.idProductos);
             ViewBag.Entradas = await _entradaBusiness.ObtenerEntradaProducto(producto.idProductos);
@@ -132,6 +134,54 @@ namespace ToroCreativo.Controllers
 
             return View(new ImagenProducto());
 
+
+        }
+
+        public async Task<IActionResult> ProductosCliente(int? id)
+        {
+            ViewBag.Precios = await _precioBusiness.ObtenerPrecios();
+            ViewBag.Imagenes = await _imagenProductoBusiness.ObtenerImagenes();
+            ViewBag.Categorias = await _categoriasBusiness.ObtenerCategorias();
+            if (id == null)
+                return View(await _productosBusiness.ObtenerProductosCliente());
+            else
+                return View(await _productosBusiness.ObtenerProductosPorCategoriaCliente(id));
+        }
+        [HttpPost]
+        public async Task<IActionResult> ProductosCliente(string busqueda)
+        {
+
+            ViewBag.Precios = await _precioBusiness.ObtenerPrecios();
+            ViewBag.Imagenes = await _imagenProductoBusiness.ObtenerImagenes();
+            ViewBag.Categorias = await _categoriasBusiness.ObtenerCategorias();
+
+            if (!string.IsNullOrEmpty(busqueda))
+            {
+                return View(await _productosBusiness.ObtenerProductosPorBusquedaCliente(busqueda));
+            }
+            else
+                return View(await _productosBusiness.ObtenerProductosCliente());
+        }
+
+
+        public async Task<IActionResult> DetalleProductoCliente(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var producto = await _productosBusiness.ObtenerProductoPorId(id);
+            var categoria = await _categoriasBusiness.ObtenerCategoriaPorId(producto.Categoria);
+            ViewData["categoria"] = categoria.Nombre;
+            ViewData["precioTotal"] = await _precioBusiness.ObtenerPrecioConIvaProducto(producto.idProductos);
+            var imagen = await _imagenProductoBusiness.ObtenerImagenProductoPorProducto(producto.idProductos);
+            if (imagen != null)
+                ViewBag.Imagen = imagen.ImageName;
+            ViewBag.Precios = await _precioBusiness.ObtenerPreciosProducto(producto.idProductos);
+            ViewBag.Ivas = await _ivasBusiness.ObteneIvasProducto(producto.idProductos);
+            ViewBag.Entradas = await _entradaBusiness.ObtenerEntradaProducto(producto.idProductos);
+            ViewBag.Caracteristicas = await _caracteristicaBusiness.ObtenerCaracteristicasProducto(id);
+            return View(producto);
 
         }
 

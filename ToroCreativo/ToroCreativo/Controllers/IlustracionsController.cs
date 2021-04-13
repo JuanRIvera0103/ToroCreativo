@@ -107,5 +107,17 @@ namespace ToroCreativo.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> IlustracionesCliente(int? id)
+        {
+            IEnumerable<Generos> listagenero1 = await _context.ObtenerGenero();
+            ViewBag.Generos = listagenero1;
+            if (id == null)            
+                return View(await _context.ObtenerTodosLasIlustraciones());            
+            else            
+                return View(await _context.ObtenerIlustracionesPorCategoria(id));
+            
+            
+        }
     }
 }
