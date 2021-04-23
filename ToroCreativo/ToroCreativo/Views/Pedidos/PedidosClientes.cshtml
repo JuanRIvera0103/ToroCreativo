@@ -1,0 +1,167 @@
+﻿@model IEnumerable<ToroCreativo.Models.Entities.Pedido>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<article>
+    <div class="container">
+        <div class="titulo">
+            <h1>Sistema Administrativo <span>Pedidos</span> </h1>
+        </div>
+
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="primer-nav-tab" data-toggle="tab" href="#primer-nav" role="tab"
+                   aria-controls="primer-nav" aria-selected="true">Aceptados <i class="fas fa-circle text-success"></i></a>
+                <a class="nav-item nav-link" id="segundo-nav-tab" data-toggle="tab" href="#segundo-nav" role="tab"
+                   aria-controls="segundo-nav" aria-selected="false">Pendientes <i class="fas fa-circle text-warning"></i></a>
+                <a class="nav-item nav-link" id="tercer-nav-tab" data-toggle="tab" href="#tercer-nav" role="tab"
+                   aria-controls="tercer-nav" aria-selected="false">Cancelar <i class="fas fa-circle text-danger"></i></a>
+            </div>
+        </nav>
+
+        <div class="gestion">
+            <div class="tab-content" id="nav-tabContent">
+
+                <!-- Contenido primer nav -->
+                <div class="tab-pane fade show active" id="primer-nav" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                    <div class="registros">
+                        <table id="tabla" class="table table-hover ">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Cédula</th>
+                                    <th>Nombre Cliente</th>
+                                    <th>Dirección</th>
+                                    <th>Teléfono</th>
+                                    <th>Comprobante</th>
+                                    <th>Estado</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.Aceptados)
+                                {
+                                    <tr>
+                                        <td>@item.FechaPedido</td>
+                                        <td>@item.Cedula</td>
+                                        <td>@item.Nombre @item.Apellido</td>
+                                        <td>@item.Direccion</td>
+                                        <td>@item.Telefono</td>
+                                        <td>
+                                            @if (item.ImageName == null)
+                                            {
+
+                                                <p class="text-danger">No</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="text-success">Si</p>
+                                            }
+                                        </td>
+                                        <td>@item.Estado</td>
+                                        <td><a asp-action="PedidoAVenta" asp-route-id="@item.IdPedido" type="button" class="btn btn-success">Pagado</a></td>
+                                        <td>
+                                            <a asp-action="Detalle" asp-route-id="@item.IdPedido"><i class="fas fa-search-plus" title="detalle registro"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Contenido segundo nav -->
+                <div class="tab-pane fade show" id="segundo-nav" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="registros">
+                        <table id="tabla2" class="table table-hover ">
+                            <thead>
+                                <tr>
+                                    <th>@Html.DisplayNameFor(model => model.FechaPedido)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Cedula)</th>
+                                    <th>Nombre Cliente</th>
+                                    <th>@Html.DisplayNameFor(model => model.Direccion)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Telefono)</th>
+                                    <th>@Html.DisplayNameFor(model => model.Estado)</th>
+                                    <th><a asp-action="CrearEditar" class="text-dark"><i class="fas fa-plus"></i></a></th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@Html.DisplayFor(modelItem => item.FechaPedido)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Cedula)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Nombre) @Html.DisplayFor(modelItem => item.Apellido)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Direccion)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Telefono)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Estado)</td>
+                                        <td>
+                                            <a asp-action="AceptarPedido" asp-route-id="@item.IdPedido">
+                                                <i class="fas fa-check-circle text-success"
+                                                   title="Activar registro"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a asp-action="CancelarPedido" asp-route-id="@item.IdPedido">
+                                                <i class="fas fa-times-circle text-danger"
+                                                   title="Desactivar registro"></i>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a asp-action="Detalle" asp-route-id="@item.IdPedido"><i class="fas fa-search-plus" title="detalle registro"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Contenido tercer nav -->
+                <div class="tab-pane fade show" id="tercer-nav" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                    <div class="registros">
+                        <table id="tabla3" class="table table-hover ">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Cédula</th>
+                                    <th>Nombre Cliente</th>
+                                    <th>Dirección</th>
+                                    <th>Teléfono</th>
+                                    <th>Estado</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in ViewBag.Cancelados)
+                                {
+                                    <tr>
+                                        <td>@item.FechaPedido</td>
+                                        <td>@item.Cedula</td>
+                                        <td>@item.Nombre @item.Apellido</td>
+                                        <td>@item.Direccion</td>
+                                        <td>@item.Telefono</td>
+
+                                        <td>@item.Estado</td>
+
+                                        <td>
+                                            <a asp-action="Detalle" asp-route-id="@item.IdPedido"><i class="fas fa-search-plus" title="detalle registro"></i></a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</article>

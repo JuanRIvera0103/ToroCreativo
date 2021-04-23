@@ -4,30 +4,59 @@
     ViewData["Title"] = "Details";
 }
 
-<link rel="stylesheet" href="~/css/detalle-ilustraciones.css"/>
-<h1>Details</h1>
+<link rel="stylesheet" href="~/css/detalle-ilustraciones.css" />
+<div class="titulo">
+    <h1>Sistema Administrativo <span>Ilustraciones</span> </h1>
+</div>
+<div class="registros">
 
-<div>
+    <table id="tabla" class="table table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    Imagen
+                </th>
+
+                <th>
+                <a class="text-dark" asp-action="AgregarImagen" asp-route-id="@Model.IdIlustracion" ><i class="fas fa-plus" ></i></a>
+                </th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in ViewBag.Imagenes)
+            {
+                <tr>
+                    <td>
+                        <img class="img-thumbnail" src="@("~/imgIlustraciones/"+item.ImageName)" asp-append-version="true"  />
+                    </td>
+
+                    
+                    <td>
+                        <a asp-action="Delete" asp-route-id="@item.IdImagenIlustracion" asp-controller="ImagenIlustraciones">
+                            <i class="fa fa-trash" title="Eliminar registro"></i>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+
     <article>
         <div class="container">
-            <div class="titulo">
-                <h1>Sistema Administrativo <span>Ilustraciones</span> </h1>
+            <div><h1>@Html.DisplayFor(model => model.Nombre)</h1></div>
+            <div>
+                <p>
+                    @Html.DisplayFor(model => model.Descripcion)
+                </p>
             </div>
-            <div class="imagen">
-                <img src="@("~/imgIlustraciones/"+Model.ImageName)" asp-append-version="true" />
-            </div>
-            <div class="descripcion">
-                <div><h1>@Html.DisplayFor(model => model.Nombre)</h1></div>
-                <div>
-                    <p>
-                        @Html.DisplayFor(model => model.Descripcion)
-                    </p>
-                </div>
-            </div>
+
         </div>
     </article>
 </div>
+
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.IdIlustracion">Edit</a> |
+    
     <a asp-action="Index">Back to List</a>
 </div>

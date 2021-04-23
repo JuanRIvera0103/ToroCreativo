@@ -2,9 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ToroCreativo.ViewModels.Usuario;
 using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
@@ -13,66 +16,189 @@ namespace ToroCreativo.Controllers
 {
     public class UsuariosController : Controller
     {
-        private readonly IUsuarioBusiness _context;
 
-        public UsuariosController(IUsuarioBusiness context)
+        private readonly IUsuarioBusiness _usuarioBusiness;
+        private readonly UserManager<Usuario> _userManager;
+        private readonly SignInManager<Usuario> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+
+        public UsuariosController(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager, RoleManager<IdentityRole> roleManager, IUsuarioBusiness usuarioBusiness)
         {
-            _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _roleManager = roleManager;
+            _usuarioBusiness = usuarioBusiness;
         }
-
-        // GET: Usuarios
         public async Task<IActionResult> Index()
         {
+            /*
+            var usuarios = await _userManager.Users.ToListAsync();
+            return View(usuarios);
+            */
 
+            var usuarios = await _userManager.Users.ToListAsync();
+            var listaUsuariosViewModel = new List<UsuarioViewModel>();
 
-             return View(await _context.ObtenerUsuario());
+            foreach (var usuario in usuarios)
+            {
+                var usuarioViewModel = new UsuarioViewModel()
+                {
+                    Id = usuario.Id,
+                    Estado= usuario.Estado,
+                    Email = usuario.Email,
+                    Rol = await ObtenerRolUsuario(usuario)
+                };
+
+                listaUsuariosViewModel.Add(usuarioViewModel);
+            }
+
+            return View(listaUsuariosViewModel);
 
 
         }
-    
 
-     
-
-        // GET: Usuarios/Create
-        public async Task <IActionResult> CrearEditar(int id =0)
+        private async Task<List<string>> ObtenerRolUsuario(Usuario usuario)
         {
-            IEnumerable<Rol> listarol = await _context.ObtenerRol();
-            ViewBag.Roles = listarol;
-            if (id == 0)
-                return View(new Usuario());
-            else
-                return View(await _context.ObtenerUsuarioPorID(id));
+            return new List<string>(await _userManager.GetRolesAsync(usuario));
         }
 
-        // POST: Usuarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        //[Authorize(Roles = "Admin")]
+        public async Task<IActionResult> CrearUsuario()
+        {
+            ViewData["Roles"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Name", "Name");
+            return View();
+        }
+
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CrearEditar([Bind("IdUsuario,Correo,Contraseña,Estado,Rol")] Usuario usuario)
+        public async Task<IActionResult> CrearUsuario(UsuarioViewModel usuarioViewModel)
         {
             if (ModelState.IsValid)
             {
-                await _context.GuardarEditarUsuario(usuario);
-                return RedirectToAction(nameof(Index));
+                Usuario usuario = new Usuario
+                {
+                    UserName = usuarioViewModel.Email,
+                    Email = usuarioViewModel.Email,
+                    Estado="Habilitado"
+                };
+
+                try
+                {
+                    var result = await _userManager.CreateAsync(usuario, usuarioViewModel.Password);
+
+                    if (result.Succeeded)
+                    {
+                        TempData["Accion"] = "Crear";
+                        TempData["Mensaje"] = "Usuario creado";
+
+                        await _userManager.AddToRoleAsync(usuario, usuarioViewModel.RolSeleccionado);
+
+                        return RedirectToAction("Index");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+                catch (Exception)
+                {
+
+                    return View(usuarioViewModel);
+                }
+
             }
-            return View(usuario);
+
+            return View(usuarioViewModel);
+        }
+
+        public IActionResult Login()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Login(LoginViewModel loginViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(loginViewModel.Email, loginViewModel.Password, loginViewModel.RecordarMe, false);
+                if (result.Succeeded)
+                {
+                    var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
+                    // Get the roles for the user
+                    var roles = await _userManager.GetRolesAsync(user);
+                    if (roles.Contains("Admin"))   { return RedirectToAction("Index", "Inicio_Admin"); }
+                    if (roles.Contains("Cliente")) { return RedirectToAction("Index", "Usuarios"); }
+
+                }
+                ModelState.AddModelError("", "Error login");
+            }
+
+
+            return View();
+        }
+
+        public async Task<IActionResult> CerrarSesion()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "Usuarios");
+        }
+        public async Task<IActionResult> RegistrarAsync()
+        {
+            ViewData["Roles"] = await _roleManager.Roles.FirstOrDefaultAsync(e => e.Name == "Cliente");
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> Registrar(RegistrarViewModel registrarViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                Usuario usuario = new Usuario
+                {
+                    UserName = registrarViewModel.Email,
+                    Email = registrarViewModel.Email,
+                    Estado = "Habilitado"
+                };
+
+                try
+                {
+                    var result = await _userManager.CreateAsync(usuario, registrarViewModel.Password);
+
+                    if (result.Succeeded)
+                    {
+                        TempData["Accion"] = "Crear";
+                        TempData["Mensaje"] = "Usuario creado";
+
+                        await _userManager.AddToRoleAsync(usuario, "Cliente");
+
+                        return RedirectToAction("Login", "Usuarios");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+                catch (Exception)
+                {
+
+                    return View(registrarViewModel);
+                }
+
+            }
+
+            return View(registrarViewModel);
         }
 
 
-
-
-
-
-
-        public async Task<IActionResult> CambiarEstado(int? id)
+        public async Task<IActionResult> CambiarEstado(string id)
         {
             if (id == null)
             {
                return NotFound();
            }
 
-            await _context.CambiarEstadoUsuario(await _context.ObtenerUsuarioPorID(id));
+            await _usuarioBusiness.CambiarEstadoUsuario(await _usuarioBusiness.ObtenerUsuarioPorID(id));
 
             return RedirectToAction(nameof(Index));
         }

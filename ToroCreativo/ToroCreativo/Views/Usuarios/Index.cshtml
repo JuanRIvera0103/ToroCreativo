@@ -1,86 +1,114 @@
-﻿@model IEnumerable<ToroCreativo.Clases.UsuarioDetalle>
+﻿@model IEnumerable<ToroCreativo.ViewModels.Usuario.UsuarioViewModel>
 
 @{
-    ViewData["Title"] = "";
+    ViewData["Title"] = "Index";
 }
 
+@section Styles{
 
+
+
+}
 <div class="titulo">
-    <h1>Sistema Administrativo <span>Usuario</span> </h1>
+    <h1>Sistema Administrativo <span>Clientes</span> </h1>
 </div>
 
 
-        
-        <div class="registros">
 
-            <table id="tabla" class="table table table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Correo)
-                        </th>
+<div class="registros">
 
-                        <th>
-                            @Html.DisplayNameFor(model => model.Estado)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Rol)
-                        </th>
-                        <th>
-                            <a asp-action="CrearEditar" class="text-dark"><i class="fas fa-plus"></i></a>
-                        </th>
+    <table id="tabla" class="table table table-hover">
+        <thead>
+            <tr>
 
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Correo)
-                        </td>
-                        <td>
-                            @if (item.Estado.Equals("Habilitado"))
-                            {
-                                <p class="text-success">@Html.DisplayFor(modelItem => item.Estado)</p>
-                            }
-                            else
-                            {
-                                <p class="text-danger">@Html.DisplayFor(modelItem => item.Estado)</p>
-                            }
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    Rol
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Estado)
+                </th>
+                <th>
+                    <a  asp-action="CrearUsuario" asp-controller="Usuarios" class="text-dark"><i class="fas fa-plus"></i></a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var usuario in Model)
+            {
+                <tr>
 
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Rol)
-                        </td>
-                        <td>
-                            @if (item.Estado.Equals("Habilitado"))
-                            {
-                                <a asp-action="CambiarEstado" asp-route-id="@item.IdUsuario">
-                                    <i class="fas fa-check-circle text-success" title="Cambiar"></i>
-                                </a>
-                            }
-                            else
-                            {
-                                <a asp-action="CambiarEstado" asp-route-id="@item.IdUsuario">
-                                    <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
-                                </a>
-                            }
+                    <td>
+                        @Html.DisplayFor(modelItem => usuario.Email)
+                    </td>
+                    <td>
+                        @string.Join(" ", usuario.Rol.ToList())
+                    </td>
+                    <td>
+                        @if (usuario.Estado.Equals("Habilitado"))
+                        {
+                            <p class="text-success">@Html.DisplayFor(modelItem => usuario.Estado)</p>
+                        }
+                        else
+                        {
+                            <p class="text-danger">@Html.DisplayFor(modelItem => usuario.Estado)</p>
+                        }
 
-                        </td>
+                    </td>
+
+                    <td>
+                        @if (usuario.Estado.Equals("Habilitado"))
+                        {
+                            <a asp-action="CambiarEstado" asp-route-id="@usuario.Id">
+                                <i class="fas fa-check-circle text-success" title="Cambiar"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-action="CambiarEstado" asp-route-id="@usuario.Id">
+                                <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
+                            </a>
+                        }
 
 
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@section Scripts{
+
+
+    <script>
+
+    @if(TempData["Mensaje"] != null && TempData["Accion"].ToString().Equals("Crear")) { <text>
+
+              Swal.fire({
+                title: "Crear usuario",
+                type: "success",
+                html: "@TempData["Mensaje"]"
+              });
+
+             </text>
+    }
 
 
 
-                        <td>
-                            <a asp-action="CrearEditar" class="text-dark" asp-route-id="@item.IdUsuario"><i class="fas fa-edit"></i></a>
+    @if (TempData["Mensaje"] != null && TempData["Accion"].ToString().Equals("Editar"))
+    {
+        <text>
 
-                        </td>
-                    </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+            Swal.fire({
+                title: "Editar usuario",
+                type: "success",
+                html: "@TempData["Mensaje"]"
+            });
 
+        </text>
+    }
+    </script>
+}

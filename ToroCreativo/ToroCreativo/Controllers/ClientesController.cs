@@ -29,6 +29,27 @@ namespace ToroCreativo.Controllers
 
 
         }
+        
+        public async Task<IActionResult> Details(int? id)
+        {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+            
+           
+            var ilustracion = await _context.ObtenerClienteDetalle(id);
+            if (ilustracion == null)
+            {
+                return NotFound();
+            }
+
+            return View(ilustracion);
+
+
+
+        }
 
         public async Task<IActionResult> CambiarEstado(int? id)
         {
@@ -44,8 +65,8 @@ namespace ToroCreativo.Controllers
         // GET: Usuarios/Create
         public async Task<IActionResult> CrearEditar(int id = 0)
         {
-            IEnumerable<Usuario> listausuario = await _context.ObtenerUsuario();
-            ViewBag.Usuarios = listausuario;
+            ViewData["Usuarios"] = new SelectList(await _context.ObtenerUsuario(),"Id", "Email");
+            
             if (id == 0)
                 return View(new Cliente());
             else

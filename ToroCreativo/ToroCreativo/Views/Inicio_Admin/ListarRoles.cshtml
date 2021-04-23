@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Microsoft.AspNetCore.Identity.IdentityRole>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section Styles{
+
+
+
+}
+
+<div class="titulo">
+    <h1>Sistema Administrativo <span>Clientes</span> </h1>
+</div>
+
+
+
+<div class="registros">
+
+    <table id="tabla" class="table table table-hover">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var rol in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => rol.Id)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => rol.Name)
+                    </td>
+                    <td>
+                        <a class="btn btn-secondary" asp-action="EditarRol" asp-route-id="@rol.Id"><i class="fas fa-user-edit"></i> Editar</a> |
+
+                        <a class="m1-1 btn btn-danger" onclick="return confirm('¿Desea eliminar el registro?')" asp-action="EliminarRol" asp-route-id="@rol.Id"><i class="fas fa-user-minus"></i> Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+@section Scripts{
+    
+
+
+}

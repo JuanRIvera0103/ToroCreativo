@@ -13,24 +13,24 @@ const segundo_agregar = document.querySelector('#segundo-nav .registros .agregar
 
 
 //funciones para formulario primera parte del nav
-primer_cerrar.addEventListener('click', () => {
-    primer_formulario.classList.toggle('active');
-    container.classList.toggle('active');
-});
-primer_agregar.addEventListener('click', () => {
-    primer_formulario.classList.toggle('active');
-    container.classList.toggle('active');
-});
+//primer_cerrar.addEventListener('click', () => {
+//    primer_formulario.classList.toggle('active');
+//    container.classList.toggle('active');
+//});
+//primer_agregar.addEventListener('click', () => {
+//    primer_formulario.classList.toggle('active');
+//    container.classList.toggle('active');
+//});
 
 //funciones para formulario segunda parte del nav
-segundo_cerrar.addEventListener('click', () => {
-    segundo_formulario.classList.toggle('active');
-    container.classList.toggle('active');
-});
-segundo_agregar.addEventListener('click', () => {
-    segundo_formulario.classList.toggle('active');
-    container.classList.toggle('active');
-});
+//segundo_cerrar.addEventListener('click', () => {
+//    segundo_formulario.classList.toggle('active');
+//    container.classList.toggle('active');
+//});
+//segundo_agregar.addEventListener('click', () => {
+//    segundo_formulario.classList.toggle('active');
+//    container.classList.toggle('active');
+//});
 
 function Cambiarestado() {
     confirm("¿Estas seguros que deseas cambiar el estado de este registro?");

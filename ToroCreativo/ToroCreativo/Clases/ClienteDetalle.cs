@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,5 +16,6 @@ namespace ToroCreativo.Clases
         public string Estado { get; set; }
         public string Correo { get; set; }
         public string Telefono { get; set; }
+        public string IdUsuario { get; set; }
     }
 }

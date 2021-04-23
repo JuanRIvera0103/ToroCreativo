@@ -37,7 +37,7 @@ namespace ToroCreativo.Models.Business
                          Descripcion = Ilustracion.Descripcion,
                          Estado = Ilustracion.Estado,
                          Genero = genero.Nombre,
-                         ImageName=Ilustracion.ImageName
+                         //ImageName=Ilustracion.ImageName
                      }).ToList();
                 return (ListaIlustracionDetalles);
             }
@@ -86,6 +86,10 @@ namespace ToroCreativo.Models.Business
         {
             return await _context.generos.ToArrayAsync();
 
+        }
+        public async Task<List<ImagenIlustracion>> ObtenerImagenesIlustracion(int ? id)
+        {
+            return await _context.ImagenIlustraciones.Where(e => e.IdIlustracion == id).ToListAsync();
         }
 
         public async Task CambiarEstadoIlustracion(Ilustracion ilustracion)

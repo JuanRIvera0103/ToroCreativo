@@ -22,14 +22,9 @@ namespace ToroCreativo.Models.Entities
         [Column("EstadoIlustracion", TypeName = "nvarchar(20)")]
         [Required]
         public string Estado { get; set; }
+        [Column("Descripcion", TypeName = "nvarchar(500)")]
         [Required]
         public string Descripcion { get; set; }
-        [Required]
-        [Column("NombreImagen", TypeName = "nvarchar(100)")]
-        [DisplayName("Imagen")]
-        public string ImageName { get; set; }
-        [NotMapped]
-        [DisplayName("Archivo cargado")]
-        public IFormFile ImageFile { get; set; }
+       
     }
 }

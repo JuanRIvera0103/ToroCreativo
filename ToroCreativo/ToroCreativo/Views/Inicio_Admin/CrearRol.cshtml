@@ -1,0 +1,61 @@
+﻿@model ToroCreativo.ViewModels.Admin.RolViewModel
+
+@{
+    ViewData["Title"] = "Crear";
+}
+
+@section Styles{
+
+}
+<h1>Create</h1>
+
+<h4>Rol</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post" asp-action="CrearRol" id="formulario" name="formulario">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="NombreRol" class="control-label"></label>
+                <input asp-for="NombreRol" class="form-control" />
+                <span asp-validation-for="NombreRol" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="button" value="Guardar" class="btn btn-primary" onclick="guardarRol()" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+
+@section Scripts {
+
+    <script>
+        function guardarRol() {
+
+            Swal.fire({
+                title: "Guardar rol",
+                text: "¿Estás seguro que desea guardar el rol?",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: 'Guardar',
+                denyButtonText: 'No guardar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('formulario').submit();
+
+                } else if (result.isDenied) {
+                    Swal.fire('¡rol no guardado!', '', 'info')
+                }
+            })
+        }
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

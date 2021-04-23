@@ -1,0 +1,70 @@
+﻿@model ToroCreativo.Models.Entities.DetallePedido
+
+@{
+    ViewData["Title"] = "AgregarDetallePedido";
+}
+
+<h1>AgregarDetallePedido</h1>
+
+<h4>DetallePedido</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CrearEditar" asp-controller="DetallePedidos">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+               <input asp-for="IdDetallePedido" type="hidden" />
+                <input asp-for="IdPedido" class="form-control" type="hidden" value="@ViewBag.id"/>
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="IdCaracteristica" class="control-label"></label>
+                <input asp-for="IdCaracteristica" class="form-control" />
+                <span asp-validation-for="IdCaracteristica" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cantidad" class="control-label"></label>
+                <input asp-for="Cantidad" class="form-control" />
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Subtotal" class="control-label"></label>
+                <input asp-for="Subtotal" class="form-control monto" type="text" id="txt_campo_1"  onchange="sumar();"/>
+                <span asp-validation-for="Subtotal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TotalIva" class="control-label"></label>
+                <input asp-for="TotalIva" class="form-control monto" type="text" id="txt_campo_2"  onchange="sumar();"/>
+                <span asp-validation-for="TotalIva" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Total" class="control-label"></label>
+                <input asp-for="Total" class="form-control" readonly id="total" value="0"/>
+                <span asp-validation-for="Total" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form> 
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<script>
+    function sumar() {
+        const $total = document.getElementById('total');
+        let subtotal = 0;
+        [...document.getElementsByClassName("monto")].forEach(function (element) {
+            if (element.value !== '') {
+                subtotal += parseFloat(element.value);
+            }
+        });
+        $total.value = subtotal;
+    }
+</script>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
