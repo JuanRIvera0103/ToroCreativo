@@ -37,7 +37,7 @@ namespace ToroCreativo.Models.Business
                          Descripcion = Ilustracion.Descripcion,
                          Estado = Ilustracion.Estado,
                          Genero = genero.Nombre,
-                         ImageName=Ilustracion.ImageName
+                         //ImageName=Ilustracion.ImageName
                      }).ToList();
                 return (ListaIlustracionDetalles);
             }
@@ -87,6 +87,10 @@ namespace ToroCreativo.Models.Business
             return await _context.generos.ToArrayAsync();
 
         }
+        public async Task<List<ImagenIlustracion>> ObtenerImagenesIlustracion(int ? id)
+        {
+            return await _context.ImagenIlustraciones.Where(e => e.IdIlustracion == id).ToListAsync();
+        }
 
         public async Task CambiarEstadoIlustracion(Ilustracion ilustracion)
         {
@@ -106,31 +110,6 @@ namespace ToroCreativo.Models.Business
 
                 throw new Exception();
             }
-        }
-
-
-        public async Task<IEnumerable<IlustracionDetalle>> ObtenerIlustracionesPorCategoria(int? id)
-        {
-
-            await using (_context)
-            {
-                IEnumerable<IlustracionDetalle> ListaIlustracionDetalles =
-                    (from Ilustracion in _context.Ilustracions
-                     join genero in _context.generos
-                     on Ilustracion.IdGenero equals genero.idGenero
-                     where Ilustracion.IdGenero == id
-                     select new IlustracionDetalle
-                     {
-                         IdIlustracion = Ilustracion.IdIlustracion,
-                         Nombre = Ilustracion.Nombre,
-                         Descripcion = Ilustracion.Descripcion,
-                         Estado = Ilustracion.Estado,
-                         Genero = genero.Nombre,
-                         ImageName = Ilustracion.ImageName
-                     }).ToList();
-                return (ListaIlustracionDetalles);
-            }
-
         }
     }
 }

@@ -17,9 +17,9 @@
     <table id="tabla" class="table table table-hover">
         <thead>
             <tr>
-                <th>
+                @*<th>
                     @Html.DisplayNameFor(model => model.ImageName)
-                </th>
+                </th>*@
                 <th>
                     @Html.DisplayNameFor(model => model.Nombre)
                 </th>
@@ -40,9 +40,9 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
-                        <img class="imagen" src="@("~/imgIlustraciones/"+item.ImageName)" asp-append-version="true" />
-                    </td>
+                    <!--<td>-->
+                        @*<img class="imagen" src="@("~/imgIlustraciones/"+item.ImageName)" asp-append-version="true" />*@
+                    <!--</td>-->
                     <td>
                         @Html.DisplayFor(modelItem => item.Nombre)
                     </td>

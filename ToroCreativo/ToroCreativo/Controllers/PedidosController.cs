@@ -15,6 +15,7 @@ namespace ToroCreativo.Controllers
     {
         private readonly IPedidoBusiness _context;
 
+
         public PedidosController(IPedidoBusiness context)
         {
             _context = context;
@@ -41,7 +42,26 @@ namespace ToroCreativo.Controllers
 
 
         }
+        public async Task<IActionResult> PedidosClientes(string id)
+        {
+            IEnumerable<Pedido> aceptados = await _context.ObtenerPedidosAceptadosCliente(id);
+            IEnumerable<Pedido> cancelados = await _context.ObtenerPedidosCanceladosCliente(id);
+            ViewBag.Aceptados = aceptados;
+            ViewBag.Cancelados = cancelados;
+            return View(await _context.ObtenerPedidosPendientesCliente(id));
 
+
+        }
+        public async Task<IActionResult> VentasClientes(string id)
+        {
+            IEnumerable<Pedido> SinEnviados = await _context.ObtenerVentasSinEnviarCliente(id);
+
+            ViewBag.SinEnviados = SinEnviados;
+
+            return View(await _context.ObtenerVentasPorEnviarCliente(id));
+
+
+        }
         public async Task<IActionResult> AceptarPedido(int? id)
         {
             if (id == null)
@@ -96,8 +116,7 @@ namespace ToroCreativo.Controllers
         }
         public async Task<IActionResult> CrearEditar(int id = 0)
         {
-            IEnumerable<Usuario> listausuario = await _context.ObtenerUsuario();
-            ViewBag.Usuarios = listausuario;
+            ViewData["Usuarios"] = new SelectList(await _context.ObtenerUsuario(), "Id", "Email");
             if (id == 0)
                 return View(new Pedido());
             else
@@ -129,11 +148,9 @@ namespace ToroCreativo.Controllers
 
             
             var pedido = await _context.ObtenerPedidoPorID(id);
-            //var usuario = await _context.ObtenerUsuarioPorId(pedido.IdUsuario);
-            //ViewBag.Usuario = usuario;
+            
             IEnumerable<DetallePedido> listaDetalle = await _context.ObtenerDetallePedidos(id);
             ViewBag.DetallePedidos = listaDetalle;
-            
             if (pedido == null)
             {
                 return NotFound();

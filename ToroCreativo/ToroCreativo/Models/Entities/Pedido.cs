@@ -21,7 +21,7 @@ namespace ToroCreativo.Models.Entities
         [Column("ApellidoCliente", TypeName = "nvarchar(50)")]
         [Required]
         public string Apellido { get; set; }
-        public int IdUsuario { get; set; }
+        public string IdUsuario { get; set; }
         [Column("EstadoCliente", TypeName = "nvarchar(13)")]
         [Required]
         public string Estado { get; set; }
@@ -36,11 +36,11 @@ namespace ToroCreativo.Models.Entities
         public string Telefono { get; set; }
         public DateTime FechaPedido { get; set; }
         public DateTime FechaVenta { get; set; }
-
+      
         public double Subtotal { get; set; }
-
+        
         public double TotalIva { get; set; }
-
+        
         public double Total { get; set; }
         [Column("NombreImagen", TypeName = "nvarchar(200)")]
         [DisplayName("Imagen")]
@@ -48,5 +48,6 @@ namespace ToroCreativo.Models.Entities
         [NotMapped]
         [DisplayName("Archivo cargado")]
         public IFormFile ImageFile { get; set; }
+
     }
 }

@@ -3,21 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace ToroCreativo.Models.Entities
 {
-    public class Usuario
+    public class Usuario:IdentityUser
     {
-        [Key]
-        public int IdUsuario { get; set; }
-        [Required]
-        public string Correo { get; set; }
-        
-        [Required]
-        public string Contraseña { get; set; }
-
         public string Estado { get; set; }
-        [Required]
-        public int Rol{ get; set; }
+        
     }
 }

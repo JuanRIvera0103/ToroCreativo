@@ -22,7 +22,5 @@ namespace ToroCreativo.Models.Entities
         [NotMapped]
         [DisplayName("Archivo cargado")]
         public IFormFile ImageFile { get; set; }
-        [Column(TypeName = "nvarchar(20)")]
-        public string Estado { get; set; }
     }
 }

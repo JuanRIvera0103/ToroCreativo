@@ -16,7 +16,7 @@ namespace ToroCreativo.Models.Business
         public DetallePedidoBusiness(DbContextToroCreativo context)
         {
             _context = context;
-
+            
         }
 
         public async Task<DetallePedido> ObtenerDetallePedidoPorId(int? id)
@@ -44,7 +44,7 @@ namespace ToroCreativo.Models.Business
                 }
                 else
                     _context.Update(detallePedido);
-
+               
                 await _context.SaveChangesAsync();
                 var pedido = await _context.Pedidos.FirstOrDefaultAsync(e => e.IdPedido == detallePedido.IdPedido);
                 pedido.Subtotal = await _context.DetallePedidos.Where(e => e.IdPedido == detallePedido.IdPedido).SumAsync(e => e.Subtotal);

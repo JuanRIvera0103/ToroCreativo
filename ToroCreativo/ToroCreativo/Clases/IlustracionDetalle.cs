@@ -10,8 +10,7 @@ namespace ToroCreativo.Clases
         public int IdIlustracion { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
-        public string Estado { get; set; }
-        public string ImageName { get; set; }
+        public string Estado { get; set; }        
         public string Genero { get; set; }
     }
 }

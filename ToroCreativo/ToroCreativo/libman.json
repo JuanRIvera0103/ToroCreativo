@@ -7,10 +7,6 @@
       "destination": "wwwroot/lib/font-awesome/"
     },
     {
-      "library": "sweetalert@2.1.2",
-      "destination": "wwwroot/lib/sweetalert/"
-    },
-    {
       "library": "datatables.net@1.10.23",
       "destination": "wwwroot/lib/datatables.net/"
     },
@@ -21,6 +17,10 @@
         "dataTables.bootstrap4.min.js",
         "dataTables.bootstrap4.min.css"
       ]
+    },
+    {
+      "library": "limonte-sweetalert2@10.16.6",
+      "destination": "wwwroot/lib/limonte-sweetalert2/"
     }
   ]
 }

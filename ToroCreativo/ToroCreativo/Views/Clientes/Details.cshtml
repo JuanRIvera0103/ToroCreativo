@@ -1,4 +1,4 @@
-﻿@model ToroCreativo.Models.Entities.Cliente
+﻿@model ToroCreativo.Clases.ClienteDetalle
 
 @{
     ViewData["Title"] = "Details";
@@ -27,28 +27,20 @@
                         <h5 class="LetraGrande col-sm-4">@Html.DisplayFor(model => model.Apellido)</h5>
                     </div>
                     <div class="row">
-                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.IdUsuario):</h5>
-                        <h5 class="LetraGrande col-sm-4">@Html.DisplayFor(model => model.IdUsuario)</h5>
+                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Correo):</h5>
+                        <h5 class="LetraGrande col-sm-4">@Html.DisplayFor(model => model.Correo)</h5>
                         <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Direccion)</h5>
                         <h5 class="LetraGrande col-sm-4">@Html.DisplayFor(model => model.Direccion)</h5>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-sm-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title LetraGrande">Comentarios realizados</h5>
-                                <p class="card-text LetraPequeña">Aquí encontraras los comentarios del cliente en cuestión</p>
-                                <a href="cliente-comentarios.html" class="btn boton"> Ver comentarios realizados</a>
-                            </div>
-                        </div>
-                    </div>
+                    
                     <div class="col-sm-4">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title LetraGrande">Pedidos realizados    </h5>
                                 <p class="card-text LetraPequeña">Aquí encontraras los pedidos del cliente en cuestión</p>
-                                <a href="cliente-pedidos.html" class="btn boton"> Ver pedidos realizados</a>
+                                <a asp-action="VentasClientes" asp-controller="Pedidos" asp-route-id="@Model.IdUsuario"> Ver pedidos realizados</a>
                             </div>
                         </div>
                     </div>
@@ -57,7 +49,7 @@
                             <div class="card-body">
                                 <h5 class="card-title LetraGrande"> Ventas realizadas   </h5>
                                 <p class="card-text LetraPequeña">Aquí encontraras las ventas del cliente en cuestión</p>
-                                <a href="cliente-ventas.html" class="btn boton"> Ver ventas realizadas</a>
+                                <a asp-action="PedidosClientes" asp-controller="Pedidos" asp-route-id="@Model.IdUsuario"> Ver ventas realizadas</a>
                             </div>
                         </div>
                     </div>

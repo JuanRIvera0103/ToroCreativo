@@ -21,7 +21,7 @@ namespace ToroCreativo.Models.Entities
         [Required]
         public string Apellido{get; set;}
         [Required]
-        public int IdUsuario { get; set; }
+        public string IdUsuario { get; set; }
         [Column("EstadoCliente", TypeName = "nvarchar(13)")]
         [Required]
         public string Estado { get; set; }

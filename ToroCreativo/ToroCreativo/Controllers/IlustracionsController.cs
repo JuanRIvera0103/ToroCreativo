@@ -33,11 +33,13 @@ namespace ToroCreativo.Controllers
         // GET: Estados/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+
             if (id == null)
             {
                 return NotFound();
             }
-
+            IEnumerable<ImagenIlustracion> listaImagen = await _context.ObtenerImagenesIlustracion(id);
+            ViewBag.Imagenes = listaImagen;
             var ilustracion = await _context.ObtenerIlustracionPorId(id);
             if (ilustracion == null)
             {
@@ -63,28 +65,11 @@ namespace ToroCreativo.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CrearEditar([Bind("IdIlustracion,Nombre,IdGenero,Estado,Descripcion,ImageFile,ImageName ")] Ilustracion ilustracion)
+        public async Task<IActionResult> CrearEditar([Bind("IdIlustracion,Nombre,IdGenero,Estado,Descripcion")] Ilustracion ilustracion)
         {
 
             if (ModelState.IsValid)
             {
-                if (ilustracion.IdIlustracion > 0)
-                {
-
-                    var imagePath = Path.Combine(_hostEnvironment.WebRootPath, "image", ilustracion.ImageName);
-                    if (System.IO.File.Exists(imagePath)) System.IO.File.Delete(imagePath);
-
-                }
-                string wwwRootPath = _hostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(ilustracion.ImageFile.FileName);
-                string extension = Path.GetExtension(ilustracion.ImageFile.FileName);
-                ilustracion.ImageName = fileName = fileName + DateTime.Now.ToString("yymmsssfff") + extension;
-                string path = Path.Combine(wwwRootPath + "/imgIlustraciones", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    await ilustracion.ImageFile.CopyToAsync(fileStream);
-                }
-
 
                 await _context.CrearEditarIlustracion(ilustracion);
 
@@ -107,17 +92,14 @@ namespace ToroCreativo.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
-        public async Task<IActionResult> IlustracionesCliente(int? id)
+        public IActionResult AgregarImagen(int id = 0)
         {
-            IEnumerable<Generos> listagenero1 = await _context.ObtenerGenero();
-            ViewBag.Generos = listagenero1;
-            if (id == null)            
-                return View(await _context.ObtenerTodosLasIlustraciones());            
-            else            
-                return View(await _context.ObtenerIlustracionesPorCategoria(id));
-            
-            
+
+            ViewBag.id = id;
+
+            return View(new ImagenIlustracion());
+
+
         }
     }
 }

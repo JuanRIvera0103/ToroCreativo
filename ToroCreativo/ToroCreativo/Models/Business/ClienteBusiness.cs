@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,12 @@ namespace ToroCreativo.Models.Business
     public class ClienteBusiness:IClientesBusiness
     {
         private readonly DbContextToroCreativo _context;
+        private readonly UserManager<Usuario> _userManager;
 
-        public ClienteBusiness(DbContextToroCreativo context)
+        public ClienteBusiness(DbContextToroCreativo context, UserManager<Usuario> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IEnumerable<ClienteDetalle>> ObtenerCliente()
@@ -29,11 +32,11 @@ namespace ToroCreativo.Models.Business
                 IEnumerable<ClienteDetalle> ListaClientesDetalles =
                     (from usuario in _context.Usuarios
                      join cliente in _context.Clientes
-                     on usuario.IdUsuario equals cliente.IdUsuario
+                     on usuario.Id equals cliente.IdUsuario
                      select new ClienteDetalle
                      {
                          IdCliente = cliente.IdCliente,
-                         Correo = usuario.Correo,
+                         Correo = usuario.Email,
                          Nombre = cliente.Nombre,
                          Estado = cliente.Estado,
                          Apellido = cliente.Apellido,
@@ -61,7 +64,33 @@ namespace ToroCreativo.Models.Business
             }
         }
 
-       
+        public async Task<ClienteDetalle> ObtenerClienteDetalle(int? id)
+        {
+
+
+            await using (_context)
+            {
+
+                ClienteDetalle ListaClientesDetalles =
+                    (from usuario in _context.Usuarios
+                     join cliente in _context.Clientes
+                     on usuario.Id equals cliente.IdUsuario
+                     select new ClienteDetalle
+                     {
+                         IdCliente = cliente.IdCliente,
+                         Correo = usuario.Email,
+                         Nombre = cliente.Nombre,
+                         Estado = cliente.Estado,
+                         Apellido = cliente.Apellido,
+                         Cedula = cliente.Cedula,
+                         Direccion = cliente.Direccion,
+                         Telefono = cliente.Telefono,
+                         IdUsuario = cliente.IdUsuario,
+                     }).FirstOrDefault(e => e.IdCliente == id);
+                return (ListaClientesDetalles);
+            }
+        }
+
 
         public async Task CambiarEstadoCliente(Cliente cliente)
         {
@@ -104,7 +133,7 @@ namespace ToroCreativo.Models.Business
 
         public async Task<IEnumerable<Usuario>> ObtenerUsuario()
         {
-            return await _context.Usuarios.ToArrayAsync();
+            return await _userManager.Users.ToListAsync(); 
 
         }
 

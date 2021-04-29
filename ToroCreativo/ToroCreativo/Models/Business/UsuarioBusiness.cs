@@ -7,42 +7,25 @@ using ToroCreativo.Models.Abstract;
 using ToroCreativo.Clases;
 using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace ToroCreativo.Models.Business
 {
     public class UsuarioBusiness:IUsuarioBusiness
     {
         private readonly DbContextToroCreativo _context;
+        private readonly UserManager<Usuario> _userManager;
 
-        public UsuarioBusiness(DbContextToroCreativo context)
+        public UsuarioBusiness(DbContextToroCreativo context, UserManager<Usuario> userManager)
         {
             _context = context;
+            _userManager = userManager;
+
         }
 
-        public async Task<IEnumerable<UsuarioDetalle>> ObtenerUsuario()
-        {
-            
-
-            await using (_context)
-            {
-
-                IEnumerable<UsuarioDetalle> ListaUsuarioDetalles =
-                    (from usuario in _context.Usuarios
-                     join rol in _context.Roles
-                     on usuario.Rol equals rol.IdRol
-                     select new UsuarioDetalle
-                     {
-                         IdUsuario = usuario.IdUsuario,
-                         Correo = usuario.Correo,
-                         Contraseña = usuario.Contraseña,
-                         Estado = usuario.Estado,
-                         Rol = rol.NombreRol
-                     }).ToList();
-                return (ListaUsuarioDetalles);
-            }
-        }
-
-        public async Task<Usuario> ObtenerUsuarioPorID(int? id)
+       
+        public async Task<Usuario> ObtenerUsuarioPorID(string id)
         {
             Usuario usuario;
             usuario = null;
@@ -52,36 +35,14 @@ namespace ToroCreativo.Models.Business
                 return usuario;
             }else
             {
-                usuario = await _context.Usuarios.FirstOrDefaultAsync(e => e.IdUsuario == id);
+                usuario = await _context.Usuarios.FirstOrDefaultAsync(e => e.Id == id);
                 return usuario;
             }
         }
 
-        public async Task GuardarEditarUsuario(Usuario usuario)
-        {
-            try
-            {
-                if (usuario.IdUsuario == 0)
-                    _context.Add(usuario);
-                else
-                    _context.Update(usuario);
+        
 
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
-
-                throw  new Exception();
-            }
-
-
-        }
-
-        public async Task<IEnumerable<Rol>> ObtenerRol() 
-        {
-            return await _context.Roles.ToArrayAsync();  
-
-        }
+       
 
         public async Task CambiarEstadoUsuario(Usuario usuario)
         {

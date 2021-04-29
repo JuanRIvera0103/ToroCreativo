@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +15,7 @@ using System.Threading.Tasks;
 using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.Business;
 using ToroCreativo.Models.DAL;
+using ToroCreativo.Models.Entities;
 
 namespace ToroCreativo
 {
@@ -39,7 +43,7 @@ namespace ToroCreativo
             services.AddScoped<IClientesBusiness, ClienteBusiness>();
             services.AddScoped<ICaracteristicaBusiness, CaracteristicaBusiness>();
             services.AddScoped<IPrecioBusiness, PrecioBusiness>();
-            services.AddScoped<ITamañoBusiness, TamañoBusiness>();
+            services.AddScoped<ITamaÃ±oBusiness, TamaÃ±oBusiness>();
             services.AddScoped<IIvasBusiness, IvasBusiness>();
             services.AddScoped<IEntradaBusiness, EntradaBusiness>();
             services.AddScoped<IPedidoBusiness, PedidoBusiness>();
@@ -47,6 +51,32 @@ namespace ToroCreativo
             services.AddScoped<IImagenIlustracionBusiness, ImagenIlustracionBusiness>();
             services.AddScoped<IImagenProductoBusiness, ImagenProductoBusiness>();
 
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+
+            services.AddIdentity<Usuario, IdentityRole>().AddEntityFrameworkStores<DbContextToroCreativo>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 4;
+                options.User.RequireUniqueEmail = true;
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = new PathString("/Usuarios/Login");
+                options.LoginPath = new PathString("/Usuarios/Login");
+                options.Cookie.Name = "Cookie";
+                options.Cookie.HttpOnly = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
+                options.SlidingExpiration = true;
+
+
+            });
 
         }
 
@@ -60,11 +90,14 @@ namespace ToroCreativo
             else
             {
                 app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
             }
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

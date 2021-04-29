@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,18 +17,24 @@ namespace ToroCreativo.Models.Business
     {
         private readonly DbContextToroCreativo _context;
         private readonly IWebHostEnvironment _hostEnvironment;
-
-        public PedidoBusiness(DbContextToroCreativo context, IWebHostEnvironment hostEnvironmen)
+        private readonly UserManager<Usuario> _userManager;
+        public PedidoBusiness(DbContextToroCreativo context, IWebHostEnvironment hostEnvironmen, UserManager<Usuario> userManager)
         {
             _context = context;
             this._hostEnvironment = hostEnvironmen;
+            _userManager = userManager;
         }
 
-        public async Task<IEnumerable<Pedido>> ObtenerPedidosPendientes() => await _context.Pedidos.Where(e => e.Estado == "Pendiente").ToListAsync();
+        public async Task<IEnumerable<Pedido>> ObtenerPedidosPendientes() => await _context.Pedidos.Where(e => e.Estado=="Pendiente").ToListAsync();
         public async Task<IEnumerable<Pedido>> ObtenerPedidosAceptados() => await _context.Pedidos.Where(e => e.Estado == "Aceptado").ToListAsync();
         public async Task<IEnumerable<Pedido>> ObtenerPedidosCancelados() => await _context.Pedidos.Where(e => e.Estado == "Cancelado").ToListAsync();
         public async Task<IEnumerable<Pedido>> ObtenerVentasSinEnviar() => await _context.Pedidos.Where(e => e.Estado == "Sin Enviar").ToListAsync();
         public async Task<IEnumerable<Pedido>> ObtenerVentasPorEnviar() => await _context.Pedidos.Where(e => e.Estado == "Enviado").ToListAsync();
+        public async Task<IEnumerable<Pedido>> ObtenerPedidosPendientesCliente(string id) => await _context.Pedidos.Where(e => e.Estado == "Pendiente" && e.IdUsuario == id).ToListAsync();
+        public async Task<IEnumerable<Pedido>> ObtenerPedidosAceptadosCliente(string id) => await _context.Pedidos.Where(e => e.Estado == "Aceptado" && e.IdUsuario == id).ToListAsync();
+        public async Task<IEnumerable<Pedido>> ObtenerPedidosCanceladosCliente(string id) => await _context.Pedidos.Where(e => e.Estado == "Cancelado" && e.IdUsuario == id).ToListAsync();
+        public async Task<IEnumerable<Pedido>> ObtenerVentasSinEnviarCliente(string id) => await _context.Pedidos.Where(e => e.Estado == "Sin Enviar" && e.IdUsuario == id).ToListAsync();
+        public async Task<IEnumerable<Pedido>> ObtenerVentasPorEnviarCliente(string id) => await _context.Pedidos.Where(e => e.Estado == "Enviado" && e.IdUsuario == id).ToListAsync();
         public async Task<Pedido> ObtenerPedidoPorID(int? id)
         {
             Pedido pedido;
@@ -128,14 +135,13 @@ namespace ToroCreativo.Models.Business
             {
                 var pedido1 = await _context.Pedidos.FirstOrDefaultAsync(e => e.IdPedido == pedido.IdPedido);
                 pedido1.ImageFile = pedido.ImageFile;
-
-                if (pedido1.ImageName != null)
-                {
-
+                
+                if (pedido1.ImageName != null) {
+                    
                     var imagePath = Path.Combine(_hostEnvironment.WebRootPath, "comprobantes", pedido1.ImageName);
                     if (File.Exists(imagePath)) File.Delete(imagePath);
                 }
-
+               
                 string wwwRootPath = _hostEnvironment.WebRootPath;
                 string fileName = Path.GetFileNameWithoutExtension(pedido1.ImageFile.FileName);
                 string extension = Path.GetExtension(pedido1.ImageFile.FileName);
@@ -182,12 +188,12 @@ namespace ToroCreativo.Models.Business
 
         public async Task<IEnumerable<Usuario>> ObtenerUsuario()
         {
-            return await _context.Usuarios.ToArrayAsync();
+            return await _userManager.Users.ToListAsync();
 
         }
-        ////public async Task<Usuario> ObtenerUsuarioPorId(int? id)
-        ////{
-        //    return await _context.Usuarios.FirstOrDefaultAsync(e=> e.IdUsuario == id);
-        ////}
+        public async Task<Usuario> ObtenerUsuarioPorId(string id)
+        {
+            return await _context.Usuarios.FirstOrDefaultAsync(e => e.Id == id);
+        }
     }
-}
+    }

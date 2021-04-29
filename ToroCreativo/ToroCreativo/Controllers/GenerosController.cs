@@ -67,17 +67,17 @@ namespace ToroCreativo.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        public async Task<IActionResult> DetalleGenero(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            ViewBag.Genero = await _context.ObtenerGeneroPorId(id);
+        //public async Task<IActionResult> DetalleGenero(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    ViewBag.Genero = await _context.ObtenerGeneroPorId(id);
 
-            return View(await _ilustracionBusiness.ObtenerIlustracionesPorCategoria(id));
+        //    return View(await _ilustracionBusiness.ObtenerIlustracionesPorCategoria(id));
 
-        }
+        //}
 
     }
 }

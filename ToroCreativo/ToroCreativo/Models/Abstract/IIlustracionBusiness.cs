@@ -12,9 +12,8 @@ namespace ToroCreativo.Models.Abstract
         Task<IEnumerable<IlustracionDetalle>> ObtenerTodosLasIlustraciones();
         Task<Ilustracion> ObtenerIlustracionPorId(int? id);
         Task CrearEditarIlustracion(Ilustracion ilustracion);
-
+        Task<List<ImagenIlustracion>> ObtenerImagenesIlustracion(int? id);
         Task<IEnumerable<Generos>> ObtenerGenero();
         Task CambiarEstadoIlustracion(Ilustracion ilustracion);
-        Task<IEnumerable<IlustracionDetalle>> ObtenerIlustracionesPorCategoria(int? id);
     }
 }
