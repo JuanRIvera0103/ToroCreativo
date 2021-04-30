@@ -48,7 +48,16 @@ namespace ToroCreativo.Controllers
             if (id == 0)
                 return View(new Categorias());
             else
+            {
+                var productos = await _categoriasBusiness.VerificarProductosHabilitados(id);
+                if (productos > 0)
+                {
+                    TempData["Editar"] = "no";
+                    return RedirectToAction(nameof(Index));
+                }
                 return View(await _categoriasBusiness.ObtenerCategoriaPorId(id));
+            }
+                
         }
 
 
@@ -58,8 +67,16 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
-
-            await _categoriasBusiness.CambiarEstadoCategoria(await _categoriasBusiness.ObtenerCategoriaPorId(id));
+            var productos = await _categoriasBusiness.VerificarProductosHabilitados(id);
+            if (productos > 0)
+            {
+                TempData["Cambiar"] = "no";                
+            }                     
+            else
+            {
+                await _categoriasBusiness.CambiarEstadoCategoria(await _categoriasBusiness.ObtenerCategoriaPorId(id));
+                TempData["Cambiar"] = "si";                              
+            }                
 
             return RedirectToAction(nameof(Index));
         }

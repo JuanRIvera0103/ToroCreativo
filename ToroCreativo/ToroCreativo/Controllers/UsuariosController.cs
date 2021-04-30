@@ -128,7 +128,7 @@ namespace ToroCreativo.Controllers
                     // Get the roles for the user
                     var roles = await _userManager.GetRolesAsync(user);
                     if (roles.Contains("Admin"))   { return RedirectToAction("Index", "Inicio_Admin"); }
-                    if (roles.Contains("Cliente")) { return RedirectToAction("Index", "Usuarios"); }
+                    if (roles.Contains("Cliente")) { return RedirectToAction("Index", "Home"); }
 
                 }
                 ModelState.AddModelError("", "Error login");

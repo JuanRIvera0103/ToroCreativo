@@ -27,8 +27,13 @@ namespace ToroCreativo.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _context.GuardarEditarCategorias(categorias);
-                
+                //Buscar otra manera de validar el crear
+                //var hallarCategoria = await _context.ObtenerCategoriaPorId(categorias.idCategoria);
+                await _context.GuardarEditarCategorias(categorias);                
+                //if (hallarCategoria == null)
+                //    TempData["Guardar"] = "si";
+                //else
+                    TempData["Editar"] = "si";
                 return RedirectToAction("Index", "ProductosCategoria");
             }
             return View(categorias);

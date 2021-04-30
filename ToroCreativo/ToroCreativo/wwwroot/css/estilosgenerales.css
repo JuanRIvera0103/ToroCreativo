@@ -198,3 +198,7 @@ table {
             background-color: #fff;
             border-color: #818181 #818181 #ffffff;
         }
+
+i{
+    cursor: pointer;
+}

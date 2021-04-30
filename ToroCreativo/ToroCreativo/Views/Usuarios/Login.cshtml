@@ -5,84 +5,47 @@
 }
 
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Log in</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inicio Sesión</title>
+    <!--estilos librerias-->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="~/adminlte/plugins/fontawesome-free/css/all.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="~/adminlte/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
+    <link rel="stylesheet" href="~/css/login.css"/>
 </head>
-<body class="hold-transition login-page">
-    <div class="login-box">
-        <div class="login-logo">
+
+<body>
+    <div class="container" id="container">
+        <div class="form-container sign-in-container">
+            <form method="post" asp-action="Login">
+                <h1>Iniciar Sesión</h1>
+                <span asp-validation-for="Email" class="text-danger small"></span>
+                <input asp-for="Email" type="email" placeholder="Correo" />
+                <span asp-validation-for="Password" class="text-danger small"></span>
+                <input asp-for="Password" type="password" placeholder="Contraseña" />
+                <a asp-action="OlvidePassword">Olvidé la contraseña</a>
+                <button type="submit">Iniciar Sesión</button>
+                <div asp-validation-summary="All" class="text-danger small"></div>
+            </form>
         </div>
-        <div class="card">
-            <div class="card-body login-card-body">
-                <p class="login-box-msg">Iniciar Sesión</p>
-
-                <form method="post" asp-action="Login">
-                    <span asp-validation-for="Email" class="text-danger small"></span>
-                    <div class="input-group mb-3">
-                        <input asp-for="Email" class="form-control" placeholder="email" />
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-envelope"></span>
-                            </div>
-                        </div>
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel overlay-left">
+                    <div class="contenido">
+                        <h1>¿No tienes cuenta?</h1>
+                        <p>Crea tu cuenta y has parte de la familia de Toro Creativo</p>
+                        <a class="ghost" asp-action="Registrar">Registrarme</a>
                     </div>
-                    <span asp-validation-for="Password" class="text-danger small"></span>
-                    <div class="input-group mb-3">
-                        <input asp-for="Password" class="form-control" placeholder="password" />
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-lock"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-8">
-                            <div class="icheck-primary">
-                                <label asp-for="RecordarMe">
-                                    <input asp-for="RecordarMe" />
-                                    @Html.DisplayNameFor(m => m.RecordarMe)
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
-                    </div>
-
-                    <div>
-                        <a asp-action="OlvidePassword">Olvidé la contraseña</a>
-                        <a asp-action="Registrar" >Registrarme</a>
-                    </div>
-
-                    <div asp-validation-summary="All" class="text-danger small"></div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 
-
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
 </body>
 </html>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-<!-- REQUIRED SCRIPTS -->
-<!-- jQuery -->
-<script src="~/adminlte/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="~/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="~/adminlte/dist/js/adminlte.min.js"></script>
 

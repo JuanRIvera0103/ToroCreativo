@@ -13,7 +13,7 @@ namespace ToroCreativo.Models.Abstract
         Task<Categorias> ObtenerCategoriaPorId(int? id);
         Task GuardarEditarCategorias(Categorias categorias);
         Task CambiarEstadoCategoria(Categorias categorias);
-
+        Task<int> VerificarProductosHabilitados(int? id);
 
         }
 }

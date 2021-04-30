@@ -52,6 +52,7 @@ namespace ToroCreativo.Models.Business
                 }                    
                 else
                     _context.Update(categorias);
+                                
 
                 await _context.SaveChangesAsync();
             }
@@ -77,6 +78,10 @@ namespace ToroCreativo.Models.Business
             {
                 throw new Exception();
             }
+        }
+        public async Task<int> VerificarProductosHabilitados(int? id)
+        {            
+            return await _context.productos.Where(p => p.Categoria == id).Where(p => p.Estado == "Habilitado").CountAsync();
         }
     }
 }

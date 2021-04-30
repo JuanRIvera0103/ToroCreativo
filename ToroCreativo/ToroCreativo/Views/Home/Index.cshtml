@@ -1,56 +1,284 @@
 ﻿@{
-    ViewData["Title"] = "Toro Creativo - Admin";
+    ViewData["Title"] = "Toro Creativo";
+    Layout = null;
 }
 
-            <div class="titulo">
-                <h1>Sistema Administrativo <span>Inicio</span> </h1>
-            </div>
+<!DOCTYPE html>
+<html lang="en">
 
-            <div class="items">
-                <div class="item">
-                    <div class="imagen">
-                        <img src="../../utils/img/torito.png" alt="" class="item-img">
+<head>
+   
+    <link rel="stylesheet" href="~/css/main.css">
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css">
+    <title>Toro Creativo</title>
+</head>
+
+<body>
+    <section id="header">
+        <div class="header container">
+            <div class="nav-bar">
+                <div class="nav-list">
+                    <div class="hamburger">
+                        <div class="bar"></div>
                     </div>
-                    <div class="item-text">
-                        <h4>Usuarios</h4>
-                        <p>10</p>
+                    <ul>
+                        <li><a asp-controller="" asp-action="" data-after="Inicio">Inicio</a></li>
+                        <li>
+                            <a asp-controller="ProductosCategoria" asp-action="ProductosCliente" data-after="Productos">Productos</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Ilustracions" asp-action="IlustracionesCliente"
+                               data-after="Ilustraciones">Ilustraciones</a>
+                        </li>
+                        <li>
+                            <a asp-controller="Usuarios" asp-action="CerrarSesion" 
+                               data-after="Cerrar Sesion">CerrarSesion</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="inicio">
+        <div class="inicio container">
+            <div>
+                <h1>Toro</h1>
+                <h1><span>Creativo</span></h1>
+                <a href="#productos">
+                    <div class="triangulo"></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="productos">
+        <div class="productos container">
+            <div class="producto-top">
+                <h1 class="section-title">Nuevos Productos <a class="vermas" href="">Ver más</a> </h1>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo ad amet, ea veniam dolorem dicta
+                    natus alias iste quia culpa assumenda cum sed nemo minima distinctio at sequi nihil modi?
+                </p>
+            </div>
+            <div class="producto-bottom">
+                <div class="producto-item">
+                    <div class="image">
+                        <img src="./utils/img/torito.png" alt="" srcset="">
+                    </div>
+                    <div class="content">
+                        <div class="title">Nombre del Producto</div>
+                        <div class="bottom">
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo praesentium consequatur
+                                sapiente quia
+                                voluptatem, labore ipsam exercitationem atque deserunt enim cumque ipsum laudantium
+                                nihil, beatae
+                                inventore facere doloremque qui perferendis.
+                            </p>
+                            <button>Ver más</button>
+                        </div>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="imagen">
-                        <img src="../../utils/img/torito.png" alt="" class="item-img">
+                <div class="producto-item">
+                    <div class="image">
+                        <img src="./utils/img/torito.png" alt="" srcset="">
                     </div>
-                    <div class="item-text">
-                        <h4>Productos</h4>
-                        <p>5</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="imagen">
-                        <img src="../../utils/img/torito.png" alt="" class="item-img">
-                    </div>
-                    <div class="item-text">
-                        <h4>Ilustraciones</h4>
-                        <p>7</p>
-                    </div>
-                </div>
-                <div class="item">
-                    <div class="imagen">
-                        <img src="../../utils/img/torito.png" alt="" class="item-img">
-                    </div>
-                    <div class="item-text">
-                        <h4>Pedidos</h4>
-                        <p>4</p>
+                    <div class="content">
+                        <div class="title">Nombre del Producto</div>
+                        <div class="bottom">
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo praesentium consequatur
+                                sapiente quia
+                                voluptatem, labore ipsam exercitationem atque deserunt enim cumque ipsum laudantium
+                                nihil, beatae
+                                inventore facere doloremque qui perferendis.
+                            </p>
+                            <button>Ver más</button>
+                        </div>
                     </div>
                 </div>
-                <div class="item">
-                    <div class="imagen">
-                        <img src="../../utils/img/torito.png" alt="" class="item-img">
+                <div class="producto-item">
+                    <div class="image">
+                        <img src="./utils/img/torito.png" alt="" srcset="">
                     </div>
-                    <div class="item-text">
-                        <h4>Ventas</h4>
-                        <p>2</p>
+                    <div class="content">
+                        <div class="title">Nombre del Producto</div>
+                        <div class="bottom">
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo praesentium consequatur
+                                sapiente quia
+                                voluptatem, labore ipsam exercitationem atque deserunt enim cumque ipsum laudantium
+                                nihil, beatae
+                                inventore facere doloremque qui perferendis.
+                            </p>
+                            <button>Ver más</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="producto-item">
+                    <div class="image">
+                        <img src="./utils/img/torito.png" alt="" srcset="">
+                    </div>
+                    <div class="content">
+                        <div class="title">Nombre del Producto</div>
+                        <div class="bottom">
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo praesentium consequatur
+                                sapiente quia
+                                voluptatem, labore ipsam exercitationem atque deserunt enim cumque ipsum laudantium
+                                nihil, beatae
+                                inventore facere doloremque qui perferendis.
+                            </p>
+                            <button>Ver más</button>
+                        </div>
                     </div>
                 </div>
             </div>
-    
+        </div>
+    </section>
+
+    <section id="ilustraciones">
+        <div class="ilustraciones container">
+            <div class="ilustraciones-header">
+                <h1 class="section-title"><span>Nuevas Ilustraciones</span> <a class="vermas" href="">Ver más</a> </h1>
+            </div>
+            <div class="ilustracion_slider">
+                <input type="radio" name="slider" id="s1" checked>
+                <input type="radio" name="slider" id="s2">
+                <input type="radio" name="slider" id="s3">
+                <input type="radio" name="slider" id="s4">
+
+
+                <div class="ilustracion" id="slide1">
+                    <img src="./utils/img/torito.png" alt="">
+                    <div class="contenido">
+                        <h3>Titulo</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis pariatur eligendi rerum,
+                            sit et fugit animi eveniet voluptas similique hic porro dicta provident? Quia aliquid quas
+                            obcaecati! Natus, aspernatur corporis.
+                        </p>
+
+
+                    </div>
+                </div>
+                <div class="ilustracion" id="slide2">
+                    <img src="./utils/img/logoblanco.png" alt="">
+                    <div class="contenido">
+                        <h3>Titulo</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis pariatur eligendi rerum,
+                            sit et fugit animi eveniet voluptas similique hic porro dicta provident? Quia aliquid quas
+                            obcaecati! Natus, aspernatur corporis.
+                        </p>
+                    </div>
+                </div>
+                <div class="ilustracion" id="slide3">
+                    <img src="./utils/img/fondo.png" alt="">
+                    <div class="contenido">
+                        <h3>Titulo</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis pariatur eligendi rerum,
+                            sit et fugit animi eveniet voluptas similique hic porro dicta provident? Quia aliquid quas
+                            obcaecati! Natus, aspernatur corporis.
+                        </p>
+                    </div>
+                </div>
+                <div class="ilustracion" id="slide4">
+                    <img src="./utils/img/logoverde.png" alt="">
+                    <div class="contenido">
+                        <h3>Titulo</h3>
+                        <p>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis pariatur eligendi rerum,
+                            sit et fugit animi eveniet voluptas similique hic porro dicta provident? Quia aliquid quas
+                            obcaecati! Natus, aspernatur corporis.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="about container">
+            <div class="col-left">
+                <div class="about-img">
+                    <img src="./utils/img/torito.png" alt="">
+                </div>
+            </div>
+            <div class="col-right">
+                <h1 class="section-title">Toro <span>Creativo</span> </h1>
+                <h2>Sub titulo</h2>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Totam consequatur illo repellat temporibus
+                    expedita quo aperiam deleniti, voluptate sed, dignissimos eos. Consequatur alias vero assumenda
+                    autem saepe? Consectetur, incidunt veritatis!
+                </p>
+                <a href="./view/acceso/acceso.html" class="cta">Forma parte de nosotros</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="contact container">
+            <div>
+                <h1 class="section-title">Contact <span>Info</span></h1>
+            </div>
+            <div class="contact-items">
+                <div class="contact-item">
+                    <div class="icon"><i class="fas fa-phone"></i></div>
+                    <div class="contact-info">
+                        <h1>Telefono</h1>
+                        <h2>(+57) 13244324</h2>
+                        <h2>12312313</h2>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="icon"><i class="fas fa-envelope"></i></div>
+                    <div class="contact-info">
+                        <h1>Correo</h1>
+                        <h2>toro@toro.com</h2>
+                        <h2>12312313</h2>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <div class="icon"><i class="fas fa-map-marked-alt"></i></div>
+                    <div class="contact-info">
+                        <h1>Ubicación</h1>
+                        <h2>cll32 2342342</h2>
+                        <h2>12312313</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="footer">
+        <div class="footer container">
+            <div class="brand">
+                <h1>Toro <span>Creativo</span></h1>
+            </div>
+            <h2>Estamos en estos sitios</h2>
+            <div class="social-icon">
+                <div class="social-item">
+                    <a href=""><img src="./utils/img/logos/facebook.png" alt="" srcset=""></a>
+                </div>
+                <div class="social-item">
+                    <a href=""><img src="./utils/img/logos/insta.png" alt="" srcset=""></a>
+                </div>
+                <div class="social-item">
+                    <a href=""><img src="./utils/img/logos/wsp.png" alt="" srcset=""></a>
+                </div>
+                <div class="social-item">
+                    <a href=""><img src="./utils/img/logos/youtube.png" alt="" srcset=""></a>
+                </div>
+            </div>
+            <p>Copyright © 2020 Toro Creativo, todos los derechos reservados</p>
+        </div>
+    </section>
+
+    <script src="~/js/main.js"></script>
+</body>
+
+</html>

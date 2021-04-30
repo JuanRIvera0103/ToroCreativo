@@ -58,15 +58,11 @@
                                 <td>
                                     @if (categorias.Estado.Equals("Habilitado"))
                                     {
-                                        <a asp-action="CambiarEstadoCategoria" onclick="return CambiarEstadoRegistro()" asp-route-id="@categorias.idCategoria">
-                                            <i class="fas fa-check-circle text-success" title="Cambiar"></i>
-                                        </a>
+                                        <i onclick="CambiarEstadoCategoria(@categorias.idCategoria, '@categorias.Nombre')" class="fas fa-check-circle text-success" title="Cambiar"></i>
                                     }
                                     else
                                     {
-                                        <a asp-action="CambiarEstadoCategoria" onclick="return CambiarEstadoRegistro()" asp-route-id="@categorias.idCategoria">
-                                            <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
-                                        </a>
+                                        <i onclick="CambiarEstadoCategoria(@categorias.idCategoria, '@categorias.Nombre')" class="fas fa-times-circle text-danger" title="Cambiar"></i>
                                     }
 
                                 </td>
@@ -131,54 +127,54 @@
                     <tbody>
                         @foreach (var item in Model)
                         {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Nombre)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Descripcion)
-                            </td>
-                            <td>
-                                @if (item.Estado.Equals("Habilitado"))
-                                {
-                                    <p class="text-success">@Html.DisplayFor(modelItem => item.Estado)</p>
-                                }
-                                else
-                                {
-                                    <p class="text-danger">@Html.DisplayFor(modelItem => item.Estado)</p>
-                                }
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Descripcion)
+                                </td>
+                                <td>
+                                    @if (item.Estado.Equals("Habilitado"))
+                                    {
+                                        <p class="text-success">@Html.DisplayFor(modelItem => item.Estado)</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-danger">@Html.DisplayFor(modelItem => item.Estado)</p>
+                                    }
 
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Categoria)
-                            </td>
-                            <td>
-                                @if (item.Estado.Equals("Habilitado"))
-                                {
-                                    <a asp-action="CambiarEstadoProducto" onclick="return CambiarEstadoRegistro()" asp-route-id="@item.idProductos">
-                                        <i class="fas fa-check-circle text-success" title="Cambiar"></i>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Categoria)
+                                </td>
+                                <td>
+                                    @if (item.Estado.Equals("Habilitado"))
+                                    {
+                                        <a asp-action="CambiarEstadoProducto" onclick="return CambiarEstadoRegistro()" asp-route-id="@item.idProductos">
+                                            <i class="fas fa-check-circle text-success" title="Cambiar"></i>
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="CambiarEstadoProducto" onclick="return CambiarEstadoRegistro()" asp-route-id="@item.idProductos">
+                                            <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
+                                        </a>
+                                    }
+
+                                </td>
+
+                                <td>
+                                    <a asp-action="CrearEditarProducto" asp-route-id="@item.idProductos">
+                                        <i class="fas fa-edit" title="Editar registro"></i>
                                     </a>
-                                }
-                                else
-                                {
-                                    <a asp-action="CambiarEstadoProducto" onclick="return CambiarEstadoRegistro()" asp-route-id="@item.idProductos">
-                                        <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
+                                </td>
+                                <td>
+                                    <a asp-action="DetalleProducto" asp-route-id="@item.idProductos">
+                                        <i class="fas fa-search-plus" title="detalle registro"></i>
                                     </a>
-                                }
-
-                            </td>
-
-                            <td>
-                                <a asp-action="CrearEditarProducto" asp-route-id="@item.idProductos">
-                                    <i class="fas fa-edit" title="Editar registro"></i>
-                                </a>
-                            </td>
-                            <td>
-                                <a asp-action="DetalleProducto" asp-route-id="@item.idProductos">
-                                    <i class="fas fa-search-plus" title="detalle registro"></i>
-                                </a>
-                            </td>
-                        </tr>
+                                </td>
+                            </tr>
                         }
                     </tbody>
                 </table>
@@ -188,9 +184,73 @@
 
     </div>
 </div>
-<script>
 
-</script>
+
+@section Scripts{
+
+    <script>
+
+        @if(TempData["Cambiar"] != null && TempData["Cambiar"].ToString().Equals("si")) {
+            <text>
+
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Se cambió el estado!',
+                    html: ''
+                  });
+
+                 </text>
+        }
+        else if (TempData["Cambiar"] != null && TempData["Cambiar"].ToString().Equals("no"))
+        {
+            <text>
+
+            Swal.fire({
+                icon: 'error',
+                title: 'No se pudo cambiar el estado',
+                html: 'La categoría seleccionada cuenta con productos habilitados, si desea realizar esta acción deberá deshabilitar todos los productos asociados a esta categoría'
+            });
+
+            </text>
+        }
+
+
+        @if(TempData["Editar"] != null && TempData["Editar"].ToString().Equals("no")) {
+            <text>
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'No se puede editar la categoria',
+                    html: 'La categoría seleccionada cuenta con productos habilitados, si desea realizar esta acción deberá deshabilitar todos los productos asociados a esta categoría'
+                  });
+
+                 </text>
+        }
+
+
+        @if(TempData["Editar"] != null && TempData["Editar"].ToString().Equals("si")) {
+            <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Se editó correctamente la categoría!',
+                    showConfirmButton: false,
+                    timer: 1250
+                })
+            </text>
+        }
+
+         @if(TempData["Guardar"] != null && TempData["Guardar"].ToString().Equals("si")) {
+            <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Se guardó correctamente la categoría!',
+                    showConfirmButton: false,
+                    timer: 1250
+                })
+            </text>
+        }
+    </script>
+}
 
 
 
