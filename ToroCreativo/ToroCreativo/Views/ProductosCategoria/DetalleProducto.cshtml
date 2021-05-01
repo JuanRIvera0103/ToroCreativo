@@ -80,47 +80,47 @@
 
                             @foreach (var caracteristica in ViewBag.Caracteristicas)
                             {
-                            <tr>
-                                <td>
-                                    <div class="color-tabla" style="background-color: @caracteristica.Color;"></div>
-                                </td>
-                                <td>@caracteristica.Medida</td>
-                                <td>
-                                    @if (caracteristica.Estado.Equals("Habilitado"))
-                                    {
-                                        <p class="text-success">@caracteristica.Estado</p>
-                                    }
-                                    else
-                                    {
-                                        <p class="text-danger">@caracteristica.Estado</p>
-                                    }
+                                <tr>
+                                    <td>
+                                        <div class="color-tabla" style="background-color: @caracteristica.Color;"></div>
+                                    </td>
+                                    <td>@caracteristica.Medida</td>
+                                    <td>
+                                        @if (caracteristica.Estado.Equals("Habilitado"))
+                                        {
+                                            <p class="text-success">@caracteristica.Estado</p>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-danger">@caracteristica.Estado</p>
+                                        }
 
-                                </td>
-                                <td>
-                                    @if (caracteristica.Estado.Equals("Habilitado"))
-                                    {
-                                        <a asp-controller="Caracteristicas" asp-action="CambiarEstadoCaracteristica" onclick="return CambiarEstadoRegistro()" asp-route-id="@caracteristica.idCaracteristicas">
-                                            <i class="fas fa-check-circle text-success" title="Cambiar"></i>
+                                    </td>
+                                    <td>
+                                        @if (caracteristica.Estado.Equals("Habilitado"))
+                                        {
+                                            <a asp-controller="Caracteristicas" asp-action="CambiarEstadoCaracteristica" onclick="return CambiarEstadoRegistro()" asp-route-id="@caracteristica.idCaracteristicas">
+                                                <i class="fas fa-check-circle text-success" title="Cambiar"></i>
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <a asp-controller="Caracteristicas" asp-action="CambiarEstadoCaracteristica" onclick="return CambiarEstadoRegistro()" asp-route-id="@caracteristica.idCaracteristicas">
+                                                <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
+                                            </a>
+                                        }
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Caracteristicas" asp-action="Editar" asp-route-id="@caracteristica.idCaracteristicas">
+                                            <i class="fas fa-edit" title="Editar registro"></i>
                                         </a>
-                                    }
-                                    else
-                                    {
-                                        <a asp-controller="Caracteristicas" asp-action="CambiarEstadoCaracteristica" onclick="return CambiarEstadoRegistro()" asp-route-id="@caracteristica.idCaracteristicas">
-                                            <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Entrada" asp-action="Crear" asp-route-id="@caracteristica.idCaracteristicas">
+                                            <i class="fas fa-cart-plus" title="Agregar Entrada"></i>
                                         </a>
-                                    }
-                                </td>
-                                <td>
-                                    <a asp-controller="Caracteristicas" asp-action="Editar" asp-route-id="@caracteristica.idCaracteristicas">
-                                        <i class="fas fa-edit" title="Editar registro"></i>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a asp-controller="Entrada" asp-action="Crear" asp-route-id="@caracteristica.idCaracteristicas">
-                                        <i class="fas fa-cart-plus" title="Agregar Entrada"></i>
-                                    </a>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
                             }
                         </tbody>
                     </table>
@@ -152,22 +152,22 @@
                         </thead>
                         <tbody>
                             @foreach (var precios in ViewBag.Precios)
-                                {
-                                    <tr>
-                                        <td>@precios.F_Inicio</td>
-                                        <td>@precios.F_Fin</td>
-                                        <td>@precios.Valor</td>
-                                        <td>
-                                            @if (precios.F_Fin == null)
-                                            {
-                                                <a asp-controller="Precios" asp-action="Editar" asp-route-id="@precios.idPrecios">
-                                                    <i class="fas fa-edit" title="Editar registro"></i>
-                                                </a>
-                                            }
-                                        </td>
-                                    </tr>
+                            {
+                                <tr>
+                                    <td>@precios.F_Inicio</td>
+                                    <td>@precios.F_Fin</td>
+                                    <td>@precios.Valor</td>
+                                    <td>
+                                        @if (precios.Estado.Equals("Valido"))
+                                        {
+                                            <a asp-controller="Precios" asp-action="Editar" asp-route-id="@precios.idPrecios">
+                                                <i class="fas fa-edit" title="Editar registro"></i>
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
 
-                                }
+                            }
                     </table>
                 </div>
             </div>
@@ -192,30 +192,30 @@
                                 <th>Porcentaje</th>
                                 <th>
                                     <a asp-controller="Ivas" asp-action="Crear" asp-route-id="@Model.idProductos">
-                                         <i class="fas fa-plus" title="Agregar registro"></i>
+                                        <i class="fas fa-plus" title="Agregar registro"></i>
                                     </a>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
-                                @foreach (var ivas in ViewBag.Ivas)
-                                {
-                                    <tr>
-                                        <td>@ivas.F_Inicio</td>
-                                        <td>@ivas.F_Fin</td>
-                                        <td>@ivas.IVA%</td>
-                                        <td>
-                                            @if (ivas.F_Fin == null)
-                                            {
-                                                <a asp-controller="Ivas" asp-action="Editar" asp-route-id="@ivas.idIva">
-                                                    <i class="fas fa-edit" title="Editar registro"></i>
-                                                </a>
-                                            }
-                                        </td>
-                                        
-                                    </tr>
+                            @foreach (var ivas in ViewBag.Ivas)
+                            {
+                                <tr>
+                                    <td>@ivas.F_Inicio</td>
+                                    <td>@ivas.F_Fin</td>
+                                    <td>@ivas.IVA%</td>
+                                    <td>
+                                        @if (ivas.Estado.Equals("Valido"))
+                                        {
+                                            <a asp-controller="Ivas" asp-action="Editar" asp-route-id="@ivas.idIva">
+                                                <i class="fas fa-edit" title="Editar registro"></i>
+                                            </a>
+                                        }
+                                    </td>
 
-                                 }
+                                </tr>
+
+                            }
                         </tbody>
                     </table>
                 </div>
@@ -239,7 +239,7 @@
                                 <th>Fecha Entrada</th>
                                 <th>Cantidad</th>
                                 <th>Unidad Medida</th>
-                                <th>Color</th>  
+                                <th>Color</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -261,19 +261,78 @@
                                             </td>
                                         }
                                     }
-                                <td>
-                                    <a asp-controller="Entrada" asp-action="Editar" asp-route-id="@entradas.idEntrada">
-                                        <i class="fas fa-edit" title="Editar registro"></i>
-                                    </a>
-                                </td>
-                                   
+                                    <td>
+                                        @if (entradas.Estado.Equals("Valido"))
+                                        {
+                                            <a asp-controller="Entrada" asp-action="Editar" asp-route-id="@entradas.idEntrada">
+                                                <i class="fas fa-edit" title="Editar registro"></i>
+                                            </a>
+                                        }
+                                    </td>
+
                                 </tr>
                             }
 
-                            </tbody>
+                        </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </div>
 </article>
+
+@section Scripts{
+
+    <script>
+
+        @if(TempData["editar"] != null && TempData["editar"].ToString().Equals("si")) {
+            <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Se editó correctamente el registro!',
+                    showConfirmButton: false,
+                    timer: 1250
+                })
+            </text>
+        }
+
+         @if(TempData["guardar"] != null && TempData["guardar"].ToString().Equals("si")) {
+            <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Se guardó correctamente el registro!',
+                    showConfirmButton: false,
+                    timer: 1250
+                })
+            </text>
+        }
+          @if(TempData["guardarHistorial"] != null && TempData["guardarHistorial"].ToString().Equals("si")) {
+            <text>
+                Swal.fire({
+                    title: '¡Se guardó correctamente el registro!',
+                    icon: 'success',
+                    showConfirmButton: true                  
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            title: '¡Historial Nuevo!',
+                            icon: 'info',
+                            showConfirmButton: true,
+                            html: 'El registro que se acaba de crear hace parte del historial del producto, para un mayor control contará con 5 minutos para poder editar el registro en caso tal de que sea necesario, después del tiempo estimado no podrá editarlo'
+                        })                        
+                    }
+                });
+            </text>
+        }
+    </script>
+}
+
+
+
+
+
+
+
+
+
+

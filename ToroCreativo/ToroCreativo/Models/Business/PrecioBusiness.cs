@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToroCreativo.Clases;
 using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
@@ -21,19 +22,51 @@ namespace ToroCreativo.Models.Business
         {
             return await _context.precios.FindAsync(id);
         }
-        public async Task<List<Precio>> ObtenerPreciosProducto(int? id)
+        public async Task<List<PrecioDetalle>> ObtenerPreciosProducto(int? id)
         {
-            return await _context.precios.OrderByDescending(p => p.idPrecios).Where(p => p.idProducto == id).ToListAsync();
+            var precios = await _context.precios.Where(p => p.idProducto == id).ToListAsync();
+            List<PrecioDetalle> listaPrecios = new List<PrecioDetalle>();
+            DateTime fechaActual = DateTime.Now;
+            foreach (var precio in precios)
+            {
+                var precioDetalle = new PrecioDetalle
+                {
+                    idPrecios = precio.idPrecios,
+                    Valor = precio.Valor,
+                    F_Inicio = precio.F_Inicio,
+                    F_Fin = precio.F_Fin,
+                    idProducto = precio.idProducto,
+                    Estado = ""
+                };
+
+                if (precioDetalle.F_Fin == null)
+                {
+                    TimeSpan diferencia = fechaActual - precioDetalle.F_Inicio;
+                    var diferenciaMinutos = diferencia.TotalMinutes;
+
+                    if (diferenciaMinutos < 5)
+                        precioDetalle.Estado = "Valido";                    
+                }
+                else
+                    precioDetalle.Estado = "Invalido";
+
+                listaPrecios.Add(precioDetalle);
+            }
+            return listaPrecios;
         }
         public async Task<List<Precio>> ObtenerPrecios()
         {
             return await _context.precios.Where(p => p.F_Fin == null).ToListAsync();
         }
 
-        public async Task GuardarEditarPrecio(Precio precio)
+        public async Task<int> GuardarEditarPrecio(Precio precio)
         {
             try
             {
+                int guadarEditar = 1;
+                if (precio.idPrecios == 0)
+                    guadarEditar = 0;
+
                 if (precio.idPrecios == 0)
                 {
                     var ulimoprecio = _context.precios.Where(p => p.idProducto == precio.idProducto)
@@ -43,20 +76,17 @@ namespace ToroCreativo.Models.Business
                         ulimoprecio.F_Fin = DateTime.Now;
                         _context.Update(ulimoprecio);
                     }
-                    else
-                    {
-                        
-                    }
 
                     precio.F_Inicio = DateTime.Now;
                     _context.Add(precio);
                 }
                 else
-                {
                     _context.Update(precio);
-                }                
+                        
 
                 await _context.SaveChangesAsync();
+
+                return guadarEditar;
             }
             catch (Exception)
             {

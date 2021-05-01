@@ -65,28 +65,26 @@ namespace ToroCreativo.Models.Business
             }
         }
 
-        public async Task GuardarCaracteristica(Caracteristica caracteristica)
+        public async Task<int> GuardarEditarCaracteristica(Caracteristica caracteristica)
         {
             try
-            {               
+            {
+                int guadarEditar = 1;
+                if (caracteristica.idCaracteristicas == 0)
+                    guadarEditar = 0;
+
+                if (caracteristica.idCaracteristicas == 0)
+                {
                     caracteristica.Estado = "Habilitado";
-                    _context.Add(caracteristica);                
+                    _context.Add(caracteristica);
+                }
+                else
+                    _context.Update(caracteristica);
 
                 await _context.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
 
-                throw new Exception();
-            }
-        }
-        public async Task EditarCaracteristica(Caracteristica caracteristica)
-        {
-            try
-            {
-                _context.Update(caracteristica);
-
-                await _context.SaveChangesAsync();
+                return guadarEditar;
+                
             }
             catch (Exception)
             {

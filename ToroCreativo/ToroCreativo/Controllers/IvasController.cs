@@ -34,7 +34,12 @@ namespace ToroCreativo.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _context.GuardarEditarIva(ivas);                
+                
+                int guardarEditar = await _context.GuardarEditarIva(ivas);
+                if (guardarEditar == 0)
+                    TempData["guardarHistorial"] = "si";
+                else
+                    TempData["editar"] = "si";
                 return RedirectToAction("DetalleProducto", "ProductosCategoria", new { id = ivas.idProducto });
 
             }

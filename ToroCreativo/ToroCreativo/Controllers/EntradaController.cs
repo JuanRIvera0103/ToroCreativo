@@ -43,7 +43,12 @@ namespace ToroCreativo.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _context.GuardarEditarEntrada(entrada);                
+                
+                int guardarEditar = await _context.GuardarEditarEntrada(entrada);
+                if (guardarEditar == 0)
+                    TempData["guardarHistorial"] = "si";                
+                else
+                    TempData["editar"] = "si";
                 return RedirectToAction("DetalleProducto", "ProductosCategoria", new { id = entrada.idProducto });
             }
             return View(entrada);

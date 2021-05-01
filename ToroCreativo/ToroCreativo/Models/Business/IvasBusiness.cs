@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToroCreativo.Clases;
 using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
@@ -21,15 +22,47 @@ namespace ToroCreativo.Models.Business
         {
             return await _context.ivas.FindAsync(id);
         }
-        public async Task<List<Iva>> ObteneIvasProducto(int? id)
+        public async Task<List<IvaDetalle>> ObteneIvasProducto(int? id)
         {
-            return await _context.ivas.Where(p => p.idProducto == id).OrderByDescending(p => p.idIva).ToListAsync();
+            var ivas = await _context.ivas.Where(p => p.idProducto == id).ToListAsync();
+            List<IvaDetalle> listaIvas = new List<IvaDetalle>();
+            DateTime fechaActual = DateTime.Now;
+            foreach (var iva in ivas)
+            {
+                var ivaDetalle = new IvaDetalle
+                {
+                    idIva = iva.idIva,
+                    IVA = iva.IVA,
+                    F_Inicio = iva.F_Inicio,
+                    F_Fin = iva.F_Fin,
+                    idProducto = iva.idProducto,
+                    Estado = ""
+                };
+
+                if (ivaDetalle.F_Fin == null)
+                {
+                    TimeSpan diferencia = fechaActual - ivaDetalle.F_Inicio;
+                    var diferenciaMinutos = diferencia.TotalMinutes;
+
+                    if (diferenciaMinutos < 5)
+                        ivaDetalle.Estado = "Valido";
+                }
+                else
+                    ivaDetalle.Estado = "Invalido";
+
+                listaIvas.Add(ivaDetalle);
+            }
+            return listaIvas;
         }
 
-        public async Task GuardarEditarIva(Iva ivas)
+        public async Task<int> GuardarEditarIva(Iva ivas)
         {
             try
             {
+                int guadarEditar = 1;
+                if (ivas.idIva == 0)
+                    guadarEditar = 0;
+
                 if (ivas.idIva == 0)
                 {
                     var ultimoiva = _context.ivas.Where(i => i.idProducto == ivas.idProducto)
@@ -49,6 +82,8 @@ namespace ToroCreativo.Models.Business
                 }
 
                 await _context.SaveChangesAsync();
+
+                return guadarEditar;
             }
             catch (Exception)
             {

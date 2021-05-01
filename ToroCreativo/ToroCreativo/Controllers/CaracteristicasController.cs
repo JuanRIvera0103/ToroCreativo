@@ -40,13 +40,17 @@ namespace ToroCreativo.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Crear([Bind("idCaracteristicas,Color,Estado,idProducto,Medida")] Caracteristica caracteristica)
+        public async Task<IActionResult> CrearEditar([Bind("idCaracteristicas,Color,Estado,idProducto,Medida")] Caracteristica caracteristica)
         {
             if (ModelState.IsValid)
             {
-                await _context.GuardarCaracteristica(caracteristica);
-                TempData["id"] = caracteristica.idProducto;
-                return RedirectToAction("DetalleProducto", "ProductosCategoria");
+                
+                int guardarEditar = await _context.GuardarEditarCaracteristica(caracteristica);
+                if (guardarEditar == 0)
+                    TempData["guardar"] = "si";
+                else
+                    TempData["editar"] = "si";                
+                return RedirectToAction("DetalleProducto", "ProductosCategoria", new { id = caracteristica.idProducto });
             }
             return View(caracteristica);
         }
@@ -69,27 +73,6 @@ namespace ToroCreativo.Controllers
             return View(caracteristica);
         }
 
-        // POST: Caracteristicas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Editar(int id, [Bind("idCaracteristicas,Color,Estado,idProducto,Medida")] Caracteristica caracteristica)
-        {
-            if (id != caracteristica.idCaracteristicas)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-
-                await _context.EditarCaracteristica(caracteristica);
-                TempData["id"] = caracteristica.idProducto;
-                return RedirectToAction("DetalleProducto", "ProductosCategoria");
-            }
-            return View(caracteristica);
-        }
 
         public async Task<IActionResult> CambiarEstadoCaracteristica(int? id)
         {
@@ -98,9 +81,10 @@ namespace ToroCreativo.Controllers
                 return NotFound();
             }
 
-            await _context.CambiarEstadoCaracteristica(await _context.ObtenerCaracteristicaPorId(id));
+            var caracteristica = await _context.ObtenerCaracteristicaPorId(id);
+            await _context.CambiarEstadoCaracteristica(caracteristica);
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction("DetalleProducto", "ProductosCategoria", new { id = caracteristica.idProducto });
         }
     }
 }
