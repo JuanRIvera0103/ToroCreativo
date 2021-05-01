@@ -115,8 +115,16 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
-
-            await _productosBusiness.CambiarEstadoProductos(await _productosBusiness.ObtenerProductoPorId(id));
+            var productos =  _productosBusiness.VerificarProductosEnPedidos(id);
+            if (productos > 0)
+            {
+                TempData["CambiarProducto"] = "no";
+            }
+            else
+            {
+                await _productosBusiness.CambiarEstadoProductos(await _productosBusiness.ObtenerProductoPorId(id));
+                TempData["Cambiar"] = "si";
+            }            
 
             return RedirectToAction(nameof(Index));
         }

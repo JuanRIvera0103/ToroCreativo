@@ -26,14 +26,12 @@ namespace ToroCreativo.Controllers
         public async Task<IActionResult> CrearEditarCategoria([Bind("idCategoria,Nombre,Estado")] Categorias categorias)
         {
             if (ModelState.IsValid)
-            {
-                //Buscar otra manera de validar el crear
-                //var hallarCategoria = await _context.ObtenerCategoriaPorId(categorias.idCategoria);
-                await _context.GuardarEditarCategorias(categorias);                
-                //if (hallarCategoria == null)
-                //    TempData["Guardar"] = "si";
-                //else
-                    TempData["Editar"] = "si";
+            {                
+                var guardarEditar = await _context.GuardarEditarCategorias(categorias);
+                if (guardarEditar == 0)
+                    TempData["guardar"] = "si";
+                else
+                    TempData["editar"] = "si";
                 return RedirectToAction("Index", "ProductosCategoria");
             }
             return View(categorias);

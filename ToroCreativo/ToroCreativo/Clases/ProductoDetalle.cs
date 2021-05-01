@@ -12,5 +12,6 @@ namespace ToroCreativo.Clases
         public string Descripcion { get; set; }
         public string Estado { get; set; }
         public string Categoria { get; set; }
+        public double Precio { get; set; }
     }
 }

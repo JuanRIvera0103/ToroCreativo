@@ -109,13 +109,13 @@
                                 @Html.DisplayNameFor(model => model.Nombre)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Descripcion)
+                                @Html.DisplayNameFor(model => model.Precio)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Categoria)                               
                             </th>
                             <th>
                                 @Html.DisplayNameFor(model => model.Estado)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Categoria)
                             </th>
                             <th>
                                 <a asp-action="CrearEditarProducto"><i class="fas fa-plus" title="Agregar registro"></i></a>
@@ -132,7 +132,10 @@
                                     @Html.DisplayFor(modelItem => item.Nombre)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Descripcion)
+                                    @Html.DisplayFor(modelItem => item.Precio)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Categoria)                                   
                                 </td>
                                 <td>
                                     @if (item.Estado.Equals("Habilitado"))
@@ -143,23 +146,15 @@
                                     {
                                         <p class="text-danger">@Html.DisplayFor(modelItem => item.Estado)</p>
                                     }
-
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Categoria)
                                 </td>
                                 <td>
                                     @if (item.Estado.Equals("Habilitado"))
                                     {
-                                        <a asp-action="CambiarEstadoProducto" onclick="return CambiarEstadoRegistro()" asp-route-id="@item.idProductos">
-                                            <i class="fas fa-check-circle text-success" title="Cambiar"></i>
-                                        </a>
+                                        <i onclick="CambiarEstadoProductos(@item.idProductos , '@item.Nombre')" class="fas fa-check-circle text-success" title="Cambiar"></i>
                                     }
                                     else
                                     {
-                                        <a asp-action="CambiarEstadoProducto" onclick="return CambiarEstadoRegistro()" asp-route-id="@item.idProductos">
-                                            <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
-                                        </a>
+                                        <i onclick="CambiarEstadoProductos(@item.idProductos , '@item.Nombre')" class="fas fa-times-circle text-danger" title="Cambiar"></i>                                        
                                     }
 
                                 </td>
@@ -207,7 +202,7 @@
 
             Swal.fire({
                 icon: 'error',
-                title: 'No se pudo cambiar el estado',
+                title: 'No se puede cambiar el estado',
                 html: 'La categoría seleccionada cuenta con productos habilitados, si desea realizar esta acción deberá deshabilitar todos los productos asociados a esta categoría'
             });
 
@@ -220,7 +215,7 @@
 
                 Swal.fire({
                     icon: 'error',
-                    title: 'No se puede editar la categoria',
+                    title: 'No se puede editar el registro',
                     html: 'La categoría seleccionada cuenta con productos habilitados, si desea realizar esta acción deberá deshabilitar todos los productos asociados a esta categoría'
                   });
 
@@ -228,25 +223,38 @@
         }
 
 
-        @if(TempData["Editar"] != null && TempData["Editar"].ToString().Equals("si")) {
+        @if(TempData["editar"] != null && TempData["editar"].ToString().Equals("si")) {
             <text>
                 Swal.fire({
                     icon: 'success',
-                    title: '¡Se editó correctamente la categoría!',
+                    title: '¡Se editó correctamente el registro!',
                     showConfirmButton: false,
                     timer: 1250
                 })
             </text>
         }
 
-         @if(TempData["Guardar"] != null && TempData["Guardar"].ToString().Equals("si")) {
+         @if(TempData["guardar"] != null && TempData["guardar"].ToString().Equals("si")) {
             <text>
                 Swal.fire({
                     icon: 'success',
-                    title: '¡Se guardó correctamente la categoría!',
+                    title: '¡Se guardó correctamente el registro!',
                     showConfirmButton: false,
                     timer: 1250
                 })
+            </text>
+        }
+
+          else if (TempData["CambiarProducto"] != null && TempData["CambiarProducto"].ToString().Equals("no"))
+        {
+            <text>
+
+            Swal.fire({
+                icon: 'error',
+                title: 'No se puede cambiar el estado',
+                html: 'El producto seleccionado cuenta con pedidos en proceso, deberá de solucionar el estado de los pedidos con ese producto para poder realizar esta acción'
+            });
+
             </text>
         }
     </script>

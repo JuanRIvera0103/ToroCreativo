@@ -39,15 +39,22 @@ namespace ToroCreativo.Models.Business
                 IEnumerable<ProductoDetalle> listaProductoDetalle =
                     (from productos in _context.productos
                      join categorias in _context.categorias
-                     on productos.Categoria equals categorias.idCategoria
+                     on productos.Categoria equals categorias.idCategoria                     
+                     join precios in _context.precios 
+                     on productos.idProductos equals precios.idProducto                     
+                     join ivas in _context.ivas
+                     on productos.idProductos equals ivas.idProducto
+                     where ivas.F_Fin == null && precios.F_Fin == null
+
                      select new ProductoDetalle
                      {
                          idProductos = productos.idProductos,
                          Nombre = productos.Nombre,
                          Descripcion = productos.Descripcion,
                          Estado = productos.Estado,
-                         Categoria = categorias.Nombre 
-                     }).ToList();
+                         Categoria = categorias.Nombre,
+                         Precio = ((ivas.IVA / 100) * precios.Valor) + precios.Valor
+                        }).ToList();
 
                 return (listaProductoDetalle);
             }
@@ -91,19 +98,25 @@ namespace ToroCreativo.Models.Business
             
         }
 
-        public async Task GuardarEditarProductos(Productos productos)
+        public async Task<int> GuardarEditarProductos(Productos productos)
         {
             try
             {
+                int guardareditar = 1;
+                if (productos.idProductos == 0)
+                    guardareditar = 0;                
+
                 if (productos.idProductos == 0)
                 {
                     productos.Estado = "Habilitado";
-                    _context.Add(productos);
-                }                    
-                else
-                    _context.Update(productos);
+                    _context.Add(productos);                    
+                }
+                else                
+                    _context.Update(productos);                                
 
                 await _context.SaveChangesAsync();
+
+                return guardareditar;
             }
             catch (Exception)
             {
@@ -127,6 +140,30 @@ namespace ToroCreativo.Models.Business
             {
                 throw new Exception();
             }
+        }
+
+        public int VerificarProductosEnPedidos(int? id)
+        {            
+            IEnumerable<ProductoDetalle> listaProductoDetalle =
+                    (from productos in _context.productos
+                     join caracteristicas in _context.caracteristicas
+                     on productos.idProductos equals caracteristicas.idProducto
+                     join detallepedido in _context.DetallePedidos
+                     on caracteristicas.idCaracteristicas equals detallepedido.IdCaracteristica
+                     join pedidos in _context.Pedidos
+                     on detallepedido.IdPedido equals pedidos.IdPedido
+                     where productos.idProductos == id
+                     where pedidos.Estado == "Pendiente" || pedidos.Estado == "Aceptado"
+                     select new ProductoDetalle
+                     {
+                         idProductos = productos.idProductos,
+                         Nombre = productos.Nombre,
+                         Estado = productos.Estado
+                     }).ToList();
+
+            var contador = listaProductoDetalle.Count();
+            return (contador);
+
         }
     }
 }

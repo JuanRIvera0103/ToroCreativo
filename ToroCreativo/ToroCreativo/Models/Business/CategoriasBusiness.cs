@@ -41,20 +41,25 @@ namespace ToroCreativo.Models.Business
             }
         }
 
-        public async Task GuardarEditarCategorias(Categorias categorias)
+        public async Task<int> GuardarEditarCategorias(Categorias categorias)
         {
             try
             {
+                int guardareditar = 1;
+                if (categorias.idCategoria == 0)
+                    guardareditar = 0;
+
                 if (categorias.idCategoria == 0)
                 {
                     categorias.Estado = "Habilitado";
-                    _context.Add(categorias);
-                }                    
+                    _context.Add(categorias);    
+                }
                 else
                     _context.Update(categorias);
-                                
 
                 await _context.SaveChangesAsync();
+
+                return guardareditar;   
             }
             catch (Exception)
             {

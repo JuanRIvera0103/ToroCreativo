@@ -11,7 +11,7 @@ namespace ToroCreativo.Models.Abstract
         Task<List<Categorias>> ObtenerCategorias();
         Task<IEnumerable<Categorias>> ObtenerCategoriasSelect();
         Task<Categorias> ObtenerCategoriaPorId(int? id);
-        Task GuardarEditarCategorias(Categorias categorias);
+        Task<int> GuardarEditarCategorias(Categorias categorias);
         Task CambiarEstadoCategoria(Categorias categorias);
         Task<int> VerificarProductosHabilitados(int? id);
 

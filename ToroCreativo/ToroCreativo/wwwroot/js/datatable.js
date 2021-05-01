@@ -49,6 +49,7 @@ $(document).ready(function () {
 //tercer tabla
 $(document).ready(function () {
     $('#tabla3').DataTable({
+        "order": [[0, "desc"]],
         "language": {
             "lengthMenu": "Mostrar _MENU_ registros",
             "zeroRecords": "No se encontraron resultados",
