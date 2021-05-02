@@ -66,6 +66,7 @@
                             <tr>
                                 <th>Color</th>
                                 <th>Medida</th>
+                                <th>Cantidad Actual</th>
                                 <th>Estado</th>
                                 <th>
                                     <a asp-controller="Caracteristicas" asp-action="Crear" asp-route-id="@Model.idProductos">
@@ -85,6 +86,7 @@
                                         <div class="color-tabla" style="background-color: @caracteristica.Color;"></div>
                                     </td>
                                     <td>@caracteristica.Medida</td>
+                                    <td>@caracteristica.Cantidad</td>
                                     <td>
                                         @if (caracteristica.Estado.Equals("Habilitado"))
                                         {
@@ -99,15 +101,11 @@
                                     <td>
                                         @if (caracteristica.Estado.Equals("Habilitado"))
                                         {
-                                            <a asp-controller="Caracteristicas" asp-action="CambiarEstadoCaracteristica" onclick="return CambiarEstadoRegistro()" asp-route-id="@caracteristica.idCaracteristicas">
-                                                <i class="fas fa-check-circle text-success" title="Cambiar"></i>
-                                            </a>
+                                            <i onclick="CambiarEstadoCaracteristica(@caracteristica.idCaracteristicas)" class="fas fa-check-circle text-success" title="Cambiar"></i>
                                         }
                                         else
                                         {
-                                            <a asp-controller="Caracteristicas" asp-action="CambiarEstadoCaracteristica" onclick="return CambiarEstadoRegistro()" asp-route-id="@caracteristica.idCaracteristicas">
-                                                <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
-                                            </a>
+                                            <i onclick="CambiarEstadoCaracteristica(@caracteristica.idCaracteristicas)" class="fas fa-times-circle text-danger" title="Cambiar"></i>                                            
                                         }
                                     </td>
                                     <td>
@@ -237,7 +235,8 @@
                         <thead>
                             <tr>
                                 <th>Fecha Entrada</th>
-                                <th>Cantidad</th>
+                                <th>Cantidad Inicial</th>
+                                <th>Cantidad Actual</th>
                                 <th>Unidad Medida</th>
                                 <th>Color</th>
                                 <th></th>
@@ -250,7 +249,8 @@
                                 <tr>
                                     <td>@entradas.F_Inicio</td>
 
-                                    <td>@entradas.Cantidad</td>
+                                    <td>@entradas.CantidadInicial</td>
+                                    <td>@entradas.CantidadActual</td>
                                     @foreach (var caracteristica in ViewBag.Caracteristicas)
                                     {
                                         if (caracteristica.idCaracteristicas == entradas.Caracteristica)
@@ -285,33 +285,13 @@
 
     <script>
 
-        @if(TempData["editar"] != null && TempData["editar"].ToString().Equals("si")) {
-            <text>
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Se editó correctamente el registro!',
-                    showConfirmButton: false,
-                    timer: 1250
-                })
-            </text>
-        }
 
-         @if(TempData["guardar"] != null && TempData["guardar"].ToString().Equals("si")) {
-            <text>
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Se guardó correctamente el registro!',
-                    showConfirmButton: false,
-                    timer: 1250
-                })
-            </text>
-        }
           @if(TempData["guardarHistorial"] != null && TempData["guardarHistorial"].ToString().Equals("si")) {
             <text>
                 Swal.fire({
                     title: '¡Se guardó correctamente el registro!',
                     icon: 'success',
-                    showConfirmButton: true                  
+                    showConfirmButton: true
                 }).then((result) => {
                     if (result.isConfirmed) {
                         Swal.fire({
@@ -319,11 +299,24 @@
                             icon: 'info',
                             showConfirmButton: true,
                             html: 'El registro que se acaba de crear hace parte del historial del producto, para un mayor control contará con 5 minutos para poder editar el registro en caso tal de que sea necesario, después del tiempo estimado no podrá editarlo'
-                        })                        
+                        })
                     }
                 });
             </text>
         }
+
+        @if (TempData["Cambiar"] != null && TempData["Cambiar"].ToString().Equals("no"))
+         {
+                <text>
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'No se puede cambiar el estado',
+                    html: 'La característica seleccionada cuenta con pedidos en proceso, deberá de solucionar el estado de los pedidos con esa característica para poder realizar esta acción'
+                });
+
+                </text>
+         }
     </script>
 }
 

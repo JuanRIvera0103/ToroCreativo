@@ -1,14 +1,4 @@
-﻿////function CambiarEstadoRegistro() {
-////    return confirm("¿Deseas cambiarle el estado al registro?");   
-////};
-
-////function CrearRegistro() {
-////    swal("Se creo!", "You clicked the button!", "success");
-////}
-////function EditarRegistro() {
-////    swal("Se edito!", "You clicked the button!", "success");
-////}
-
+﻿
 function CambiarEstadoCategoria(id, nombre) {
     Swal.fire({
         title: '¿Estas seguro de cambiar el estado de la categoría '+nombre+'?',
@@ -34,6 +24,50 @@ function CambiarEstadoProductos(id, nombre) {
     }).then((result) => {
         if (result.isConfirmed) {
             window.location.href = "/ProductosCategoria/CambiarEstadoProducto/" + id;
+        }
+    });
+};
+
+
+function CambiarEstadoCaracteristica(id) {
+    Swal.fire({
+        title: '¿Estas seguro de cambiar el estado de la característica?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ff8c29db',
+        confirmButtonText: 'Cambiar Estado'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "/Caracteristicas/CambiarEstadoCaracteristica/" + id;
+        }
+    });
+};
+
+
+function CambiarEstadoGenero(id, nombre) {
+    Swal.fire({
+        title: '¿Estas seguro de cambiar el estado del género ' + nombre + '?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ff8c29db',
+        confirmButtonText: 'Cambiar Estado'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "/GenerosIlustracions/CambiarEstadoGenero/" + id;
+        }
+    });
+};
+
+function CambiarEstadoIlustracion(id, nombre) {
+    Swal.fire({
+        title: '¿Estas seguro de cambiar el estado de la ilustración ' + nombre + '?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ff8c29db',
+        confirmButtonText: 'Cambiar Estado'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "/GenerosIlustracions/CambiarEstadoIlustracion/" + id;
         }
     });
 };

@@ -10,7 +10,8 @@ namespace ToroCreativo.Models.Abstract
     {
         Task<List<Generos>> ObtenerGeneros();
         Task<Generos> ObtenerGeneroPorId(int? id);
-        Task GuardarEditarGeneros(Generos generos);
+        Task<int> GuardarEditarGeneros(Generos generos);
         Task CambiarEstadoGenero(Generos generos);
+        Task<int> VerificarIlustracionesHabilitados(int? id);
     }
 }

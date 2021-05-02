@@ -39,11 +39,11 @@ namespace ToroCreativo.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CrearEditar([Bind("idEntrada,Cantidad,F_Inicio,Caracteristica,idProducto")] Entrada entrada)
+        public async Task<IActionResult> CrearEditar([Bind("idEntrada,CantidadInicial, CantidadActual,F_Inicio,Caracteristica,idProducto")] Entrada entrada)
         {
             if (ModelState.IsValid)
             {
-                
+                entrada.CantidadActual = entrada.CantidadInicial;
                 int guardarEditar = await _context.GuardarEditarEntrada(entrada);
                 if (guardarEditar == 0)
                     TempData["guardarHistorial"] = "si";                

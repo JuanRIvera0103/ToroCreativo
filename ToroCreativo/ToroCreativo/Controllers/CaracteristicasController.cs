@@ -80,9 +80,15 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
-
+            int caracteristicas = _context.VerificarCaracteristicaEnPedidos(id);
             var caracteristica = await _context.ObtenerCaracteristicaPorId(id);
-            await _context.CambiarEstadoCaracteristica(caracteristica);
+            if (caracteristicas > 0)       
+                TempData["Cambiar"] = "no";            
+            else
+            {
+                await _context.CambiarEstadoCaracteristica(caracteristica);                
+                TempData["Cambiar"] = "si";
+            }                        
 
             return RedirectToAction("DetalleProducto", "ProductosCategoria", new { id = caracteristica.idProducto });
         }

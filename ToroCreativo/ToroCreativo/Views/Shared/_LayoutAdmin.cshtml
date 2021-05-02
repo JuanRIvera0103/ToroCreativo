@@ -119,10 +119,11 @@
         <a asp-area="" asp-controller="Usuarios" asp-action="Index"><i class="fas fa-user"></i><span>Usuario</span></a>
         <a asp-area="" asp-controller="Clientes" asp-action="Index"><i class="fas fa-users"></i><span>Clientes</span></a>
         <a asp-area="" asp-controller="ProductosCategoria" asp-action="Index"><i class="fas fa-gifts"></i><span>Productos</span></a>
-        <a asp-area="" asp-controller="Generos" asp-action="Index"><i class="fas fa-palette"></i><span>Ilustraciones</span></a>
+        <a asp-area="" asp-controller="Generos" asp-action="Index"><i class="fas fa-palette"></i><span>Generos</span></a>
         <a asp-area="" asp-controller="Ilustracions" asp-action="Index"><i class="fas fa-palette"></i><span>Ilustraciones2</span></a>
-        <a asp-area="" asp-controller="" asp-action=""><i class="fas fa-mail-bulk"></i><span>Pedidos</span></a>
-        <a asp-area="" asp-controller="" asp-action=""><i class="fas fa-coins"></i><span>Ventas</span></a>
+        <a asp-area="" asp-controller="GenerosIlustracions" asp-action="Index"><i class="fas fa-palette"></i><span>Ilustraciones</span></a>
+        <a asp-area="" asp-controller="Pedidos" asp-action="Index"><i class="fas fa-mail-bulk"></i><span>Pedidos</span></a>
+        <a asp-area="" asp-controller="Pedidos" asp-action="VentaIndex"><i class="fas fa-coins"></i><span>Ventas</span></a>
         <a asp-area="" asp-controller="" asp-action=""><i class="fas fa-chart-line"></i><span>Informes</span></a>
     </div>
     <article>
@@ -155,6 +156,41 @@
     <script src="~/js/funcionesnav.js"></script>
     <script src="~/js/alertas.js"></script>
 
+    <script>
+        @if(TempData["editar"] != null && TempData["editar"].ToString().Equals("si")) {
+            <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Se editó correctamente el registro!',
+                    showConfirmButton: false,
+                    timer: 1250
+                })
+            </text>
+        }
+
+         @if(TempData["guardar"] != null && TempData["guardar"].ToString().Equals("si")) {
+            <text>
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Se guardó correctamente el registro!',
+                    showConfirmButton: false,
+                    timer: 1250
+                })
+            </text>
+        }
+
+        @if(TempData["Cambiar"] != null && TempData["Cambiar"].ToString().Equals("si")) {
+            <text>
+
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Se cambió el estado!',
+                    html: ''
+                  });
+
+                 </text>
+        }
+    </script>
 
     @RenderSection("Scripts", required: false)
 </body>

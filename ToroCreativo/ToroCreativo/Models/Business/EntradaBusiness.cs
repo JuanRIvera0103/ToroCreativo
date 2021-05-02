@@ -33,7 +33,8 @@ namespace ToroCreativo.Models.Business
                 var entradaDetalle = new EntradaDetalle
                 {
                     idEntrada = entrada.idEntrada,
-                    Cantidad = entrada.Cantidad,
+                    CantidadInicial = entrada.CantidadInicial,
+                    CantidadActual = entrada.CantidadActual,
                     F_Inicio = entrada.F_Inicio,
                     Caracteristica = entrada.Caracteristica,
                     idProducto = entrada.idProducto,

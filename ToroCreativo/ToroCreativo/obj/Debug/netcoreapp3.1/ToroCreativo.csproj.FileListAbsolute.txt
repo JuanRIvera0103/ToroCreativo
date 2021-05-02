@@ -17,12 +17,7 @@ E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Clientes\Details.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Clientes\Index.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Entrada\Crear.cshtml.g.cs
-E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Generos\CrearEditar.cshtml.g.cs
-E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Generos\Index.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
-E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Ilustracions\CrearEditar.cshtml.g.cs
-E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Ilustracions\Details.cshtml.g.cs
-E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Ilustracions\Index.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Inicio_Admin\Index.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Ivas\Crear.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Pedidos\AgregarDetallePedido.cshtml.g.cs
@@ -206,7 +201,6 @@ E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_LayoutCliente.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\ProductosCategoria\DetalleProductoCliente.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\ToroCreativo.MvcApplicationPartsAssemblyInfo.cs
-E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Ilustracions\AgregarImagen.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Inicio_Admin\CrearRol.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Inicio_Admin\EditarRol.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Inicio_Admin\ListarRoles.cshtml.g.cs
@@ -490,3 +484,9 @@ E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\Micro
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\Microsoft.Extensions.FileProviders.Embedded.dll
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Core.dll
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\GenerosIlustracions\Index.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\GenerosIlustracions\CrearEditarGenero.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\GenerosIlustracions\CrearEditarIlustracion.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\GenerosIlustracions\DetalleGenero.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\GenerosIlustracions\DetalleIlustracion.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\GenerosIlustracions\AgregarImagen.cshtml.g.cs

@@ -45,7 +45,7 @@ namespace ToroCreativo.Models.Business
         }
         public async Task<IEnumerable<CaracteristicaDetalle>> ObtenerCaracteristicasProducto(int? id)
         {
-
+            var entradas = await _context.entradas.Where(p => p.idProducto == id).ToListAsync();
             await using (_context)
             {
                 IEnumerable<CaracteristicaDetalle> caracteristicas =
@@ -59,8 +59,19 @@ namespace ToroCreativo.Models.Business
                          Color = caracteristica.Color,
                          Medida = tamaño.Medida,
                          Estado = caracteristica.Estado,
-                         idProducto = caracteristica.idProducto
+                         idProducto = caracteristica.idProducto,
+                         Cantidad = 0                                                  
                      }).ToList();
+                foreach (var caracteristica in caracteristicas)
+                {
+                    foreach (var entrada in entradas)
+                    {
+                        if (entrada.Caracteristica == caracteristica.idCaracteristicas)
+                        {
+                            caracteristica.Cantidad = caracteristica.Cantidad + entrada.CantidadActual;
+                        }
+                    }
+                }
                 return caracteristicas;
             }
         }
@@ -114,6 +125,25 @@ namespace ToroCreativo.Models.Business
         public async Task<IEnumerable<Caracteristica>> ObtenerCaracteristicasSelectPorProducto(int? id)
         {
             return await _context.caracteristicas.Where(c => c.idProducto == id).ToListAsync();
+        }
+        public int VerificarCaracteristicaEnPedidos(int? id)
+        {
+            IEnumerable<Caracteristica> listaCaracteristicas =
+                    (from caracteristicas in _context.caracteristicas
+                     join detallepedido in _context.DetallePedidos
+                     on caracteristicas.idCaracteristicas equals detallepedido.IdCaracteristica
+                     join pedidos in _context.Pedidos
+                     on detallepedido.IdPedido equals pedidos.IdPedido
+                     where caracteristicas.idCaracteristicas == id
+                     where pedidos.Estado == "Pendiente" || pedidos.Estado == "Aceptado"
+                     select new Caracteristica
+                     {
+                         idCaracteristicas = caracteristicas.idCaracteristicas
+                     }).ToList();
+
+            var contador = listaCaracteristicas.Count();
+            return (contador);
+
         }
     }
 }

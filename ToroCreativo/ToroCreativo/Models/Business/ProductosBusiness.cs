@@ -156,9 +156,7 @@ namespace ToroCreativo.Models.Business
                      where pedidos.Estado == "Pendiente" || pedidos.Estado == "Aceptado"
                      select new ProductoDetalle
                      {
-                         idProductos = productos.idProductos,
-                         Nombre = productos.Nombre,
-                         Estado = productos.Estado
+                         idProductos = productos.idProductos
                      }).ToList();
 
             var contador = listaProductoDetalle.Count();

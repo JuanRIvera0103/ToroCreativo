@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ToroCreativo.Clases.ProductoDetalle>
+﻿@model IEnumerable<ToroCreativo.Clases.IlustracionDetalle>
 
 @{
     ViewData["Title"] = "Index";
@@ -11,9 +11,9 @@
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a class="nav-item nav-link active" id="primer-nav-tab" data-toggle="tab" href="#primer-nav" role="tab"
-           aria-controls="primer-nav" aria-selected="true">Categorias</a>
+           aria-controls="primer-nav" aria-selected="true">Géneros</a>
         <a class="nav-item nav-link" id="segundo-nav-tab" data-toggle="tab" href="#segundo-nav" role="tab"
-           aria-controls="segundo-nav" aria-selected="false">Productos</a>
+           aria-controls="segundo-nav" aria-selected="false">Ilustraciones</a>
     </div>
 </nav>
 
@@ -31,48 +31,48 @@
                             <th>Nombre</th>
                             <th>Estado</th>
                             <th>
-                                <a asp-action="CrearEditarCategoria"><i class="fas fa-plus" title="Agregar registro"></i></a>
+                                <a asp-action="CrearEditarGenero"><i class="fas fa-plus" title="Agregar registro"></i></a>
                             </th>
                             <th></th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var categorias in ViewBag.Categorias)
+                        @foreach (var generos in ViewBag.Generos)
                         {
                             <tr>
                                 <td>
-                                    @categorias.Nombre
+                                    @generos.Nombre
                                 </td>
                                 <td>
-                                    @if (categorias.Estado.Equals("Habilitado"))
+                                    @if (generos.Estado.Equals("Habilitado"))
                                     {
-                                        <p class="text-success">@categorias.Estado</p>
+                                        <p class="text-success">@generos.Estado</p>
                                     }
                                     else
                                     {
-                                        <p class="text-danger">@categorias.Estado</p>
+                                        <p class="text-danger">@generos.Estado</p>
                                     }
 
                                 </td>
                                 <td>
-                                    @if (categorias.Estado.Equals("Habilitado"))
+                                    @if (generos.Estado.Equals("Habilitado"))
                                     {
-                                        <i onclick="CambiarEstadoCategoria(@categorias.idCategoria, '@categorias.Nombre')" class="fas fa-check-circle text-success" title="Cambiar"></i>
+                                        <i onclick="CambiarEstadoGenero(@generos.idGenero, '@generos.Nombre')" class="fas fa-check-circle text-success" title="Cambiar"></i>
                                     }
                                     else
                                     {
-                                        <i onclick="CambiarEstadoCategoria(@categorias.idCategoria, '@categorias.Nombre')" class="fas fa-times-circle text-danger" title="Cambiar"></i>
+                                        <i onclick="CambiarEstadoGenero(@generos.idGenero, '@generos.Nombre')" class="fas fa-times-circle text-danger" title="Cambiar"></i>
                                     }
 
                                 </td>
                                 <td>
-                                    <a asp-action="CrearEditarCategoria" asp-route-id="@categorias.idCategoria">
+                                    <a asp-action="CrearEditarGenero" asp-route-id="@generos.idGenero">
                                         <i class="fas fa-edit" title="Editar registro"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a asp-action="DetalleCategoria" asp-route-id=" @categorias.idCategoria">
+                                    <a asp-action="DetalleGenero" asp-route-id=" @generos.idGenero">
                                         <i class="fas fa-search-plus" title="detalle registro"></i>
                                     </a>
                                 </td>
@@ -84,7 +84,8 @@
         </div>
 
         <!-- Contenido segundo nav -->
-        <div class="tab-pane fade show" id="segundo-nav" role="tabpanel" aria-labelledby="nav-profile-tab">
+        <div class="tab-pane fade show" id="segundo-nav" role="tabpanel" aria-labelledby="nav-profile-tab">            
+
             <div class="registros">
                 <table id="tabla2" class="table table-hover ">
                     <thead>
@@ -93,16 +94,13 @@
                                 @Html.DisplayNameFor(model => model.Nombre)
                             </th>
                             <th>
-                                @Html.DisplayNameFor(model => model.Precio)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Categoria)                               
-                            </th>
+                                @Html.DisplayNameFor(model => model.Genero)
+                            </th>                            
                             <th>
                                 @Html.DisplayNameFor(model => model.Estado)
                             </th>
                             <th>
-                                <a asp-action="CrearEditarProducto"><i class="fas fa-plus" title="Agregar registro"></i></a>
+                                <a asp-action="CrearEditarIlustracion"><i class="fas fa-plus" title="Agregar registro"></i></a>
                             </th>
                             <th></th>
                             <th></th>
@@ -116,11 +114,8 @@
                                     @Html.DisplayFor(modelItem => item.Nombre)
                                 </td>
                                 <td>
-                                    @Html.DisplayFor(modelItem => item.Precio)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Categoria)                                   
-                                </td>
+                                    @Html.DisplayFor(modelItem => item.Genero)
+                                </td>                  
                                 <td>
                                     @if (item.Estado.Equals("Habilitado"))
                                     {
@@ -134,22 +129,22 @@
                                 <td>
                                     @if (item.Estado.Equals("Habilitado"))
                                     {
-                                        <i onclick="CambiarEstadoProductos(@item.idProductos , '@item.Nombre')" class="fas fa-check-circle text-success" title="Cambiar"></i>
+                                        <i onclick="CambiarEstadoIlustracion(@item.IdIlustracion , '@item.Nombre')" class="fas fa-check-circle text-success" title="Cambiar"></i>
                                     }
                                     else
                                     {
-                                        <i onclick="CambiarEstadoProductos(@item.idProductos , '@item.Nombre')" class="fas fa-times-circle text-danger" title="Cambiar"></i>                                        
+                                        <i onclick="CambiarEstadoIlustracion(@item.IdIlustracion , '@item.Nombre')" class="fas fa-times-circle text-danger" title="Cambiar"></i>
                                     }
 
                                 </td>
 
                                 <td>
-                                    <a asp-action="CrearEditarProducto" asp-route-id="@item.idProductos">
+                                    <a asp-action="CrearEditarIlustracion" asp-route-id="@item.IdIlustracion">
                                         <i class="fas fa-edit" title="Editar registro"></i>
                                     </a>
                                 </td>
                                 <td>
-                                    <a asp-action="DetalleProducto" asp-route-id="@item.idProductos">
+                                    <a asp-action="DetalleIlustracion" asp-route-id="@item.IdIlustracion">
                                         <i class="fas fa-search-plus" title="detalle registro"></i>
                                     </a>
                                 </td>
@@ -176,7 +171,7 @@
             Swal.fire({
                 icon: 'error',
                 title: 'No se puede cambiar el estado',
-                html: 'La categoría seleccionada cuenta con productos habilitados, si desea realizar esta acción deberá deshabilitar todos los productos asociados a esta categoría'
+                html: 'El género seleccionado cuenta con ilustraciones habilitados, si desea realizar esta acción deberá deshabilitar todas las ilustraciones asociados a este género'
             });
 
             </text>
@@ -189,26 +184,12 @@
                 Swal.fire({
                     icon: 'error',
                     title: 'No se puede editar el registro',
-                    html: 'La categoría seleccionada cuenta con productos habilitados, si desea realizar esta acción deberá deshabilitar todos los productos asociados a esta categoría'
+                    html: 'El género seleccionado cuenta con ilustraciones habilitados, si desea realizar esta acción deberá deshabilitar todas las ilustraciones asociados a este género'                    
                   });
 
                  </text>
         }
 
-
-
-          else if (TempData["CambiarProducto"] != null && TempData["CambiarProducto"].ToString().Equals("no"))
-        {
-            <text>
-
-            Swal.fire({
-                icon: 'error',
-                title: 'No se puede cambiar el estado',
-                html: 'El producto seleccionado cuenta con pedidos en proceso, deberá de solucionar el estado de los pedidos con ese producto para poder realizar esta acción'
-            });
-
-            </text>
-        }
     </script>
 }
 

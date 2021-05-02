@@ -27,17 +27,37 @@ namespace ToroCreativo.Models.Business
             {
 
                 IEnumerable<IlustracionDetalle> ListaIlustracionDetalles =
-                    (from Ilustracion in _context.Ilustracions
+                    (from ilustracion in _context.Ilustracions
                      join genero in _context.generos
-                     on Ilustracion.IdGenero equals genero.idGenero
+                     on ilustracion.IdGenero equals genero.idGenero
                      select new IlustracionDetalle
                      {
-                         IdIlustracion = Ilustracion.IdIlustracion,
-                         Nombre = Ilustracion.Nombre,
-                         Descripcion = Ilustracion.Descripcion,
-                         Estado = Ilustracion.Estado,
-                         Genero = genero.Nombre,
+                         IdIlustracion = ilustracion.IdIlustracion,
+                         Nombre = ilustracion.Nombre,
+                         Descripcion = ilustracion.Descripcion,
+                         Estado = ilustracion.Estado,
+                         Genero = genero.Nombre
                          //ImageName=Ilustracion.ImageName
+                     }).ToList();
+                return (ListaIlustracionDetalles);
+            }
+        }
+        public async Task<IEnumerable<IlustracionDetalle>> ObtenerIlustracionesPorCategoria(int? id)
+        {
+            await using (_context)
+            {
+
+                IEnumerable<IlustracionDetalle> ListaIlustracionDetalles =
+                    (from ilustracion in _context.Ilustracions
+                     join genero in _context.generos
+                     on ilustracion.IdGenero equals genero.idGenero
+                     where ilustracion.IdGenero == id
+                     select new IlustracionDetalle
+                     {
+                         IdIlustracion = ilustracion.IdIlustracion,
+                         Nombre = ilustracion.Nombre,               
+                         Estado = ilustracion.Estado,
+                         Genero = genero.Nombre
                      }).ToList();
                 return (ListaIlustracionDetalles);
             }
@@ -62,16 +82,22 @@ namespace ToroCreativo.Models.Business
                 throw new Exception();
             }
         }
-        public async Task CrearEditarIlustracion(Ilustracion ilustracion)
+        public async Task<int> CrearEditarIlustracion(Ilustracion ilustracion)
         {
             try
             {
+                int guardareditar = 1;
+                if (ilustracion.IdIlustracion == 0)
+                    guardareditar = 0;
+
                 if (ilustracion.IdIlustracion == 0)
                     _context.Add(ilustracion);
                 else
 
                     _context.Update(ilustracion);
                 await _context.SaveChangesAsync();
+
+                return guardareditar;
             }
             catch (Exception)
             {

@@ -37,16 +37,22 @@ namespace ToroCreativo.Models.Business
             }
         }
 
-        public async Task GuardarEditarGeneros(Generos generos)
+        public async Task<int> GuardarEditarGeneros(Generos generos)
         {
             try
             {
+                int guardareditar = 1;
+                if (generos.idGenero == 0)
+                    guardareditar = 0;
+
                 if (generos.idGenero == 0)
                     _context.Add(generos);
                 else
                     _context.Update(generos);
 
                 await _context.SaveChangesAsync();
+
+                return guardareditar;
             }
             catch (Exception)
             {
@@ -70,6 +76,10 @@ namespace ToroCreativo.Models.Business
             {
                 throw new Exception();
             }
+        }
+        public async Task<int> VerificarIlustracionesHabilitados(int? id)
+        {
+            return await _context.Ilustracions.Where(p => p.IdGenero == id).Where(p => p.Estado == "Habilitado").CountAsync();
         }
     }
 }

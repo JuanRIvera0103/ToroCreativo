@@ -12,5 +12,6 @@ namespace ToroCreativo.Clases
         public string Estado { get; set; }
         public int idProducto { get; set; }
         public string Medida { get; set; }
+        public int Cantidad { get; set; }
     }
 }

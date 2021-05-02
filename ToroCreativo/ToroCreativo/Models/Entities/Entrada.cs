@@ -13,7 +13,10 @@ namespace ToroCreativo.Models.Entities
         [Key]
         public int idEntrada { get; set; }
         [Required]
-        public int Cantidad { get; set; }
+        [DisplayName("Cantidad Inicial")]
+        public int CantidadInicial { get; set; }
+        [DisplayName("Cantidad Actual")]
+        public int CantidadActual { get; set; }
         [DisplayName("Fecha Inicial")]
         public DateTime F_Inicio { get; set; }
 

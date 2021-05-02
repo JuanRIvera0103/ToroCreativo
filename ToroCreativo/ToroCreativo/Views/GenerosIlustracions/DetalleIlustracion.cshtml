@@ -18,9 +18,9 @@
                 </th>
 
                 <th>
-                <a class="text-dark" asp-action="AgregarImagen" asp-route-id="@Model.IdIlustracion" ><i class="fas fa-plus" ></i></a>
+                    <a class="text-dark" asp-action="AgregarImagen" asp-route-id="@Model.IdIlustracion"><i class="fas fa-plus"></i></a>
                 </th>
-                
+
             </tr>
         </thead>
         <tbody>
@@ -28,10 +28,10 @@
             {
                 <tr>
                     <td>
-                        <img class="img-thumbnail" src="@("~/imgIlustraciones/"+item.ImageName)" asp-append-version="true"  />
+                        <img class="img-thumbnail" src="@("~/imgIlustraciones/"+item.ImageName)" asp-append-version="true" />
                     </td>
 
-                    
+
                     <td>
                         <a asp-action="Delete" asp-route-id="@item.IdImagenIlustracion" asp-controller="ImagenIlustraciones">
                             <i class="fa fa-trash" title="Eliminar registro"></i>
@@ -57,6 +57,6 @@
 </div>
 
 <div>
-    
+
     <a asp-action="Index">Back to List</a>
 </div>

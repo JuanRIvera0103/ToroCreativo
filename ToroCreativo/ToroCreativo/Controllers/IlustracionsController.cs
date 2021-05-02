@@ -16,48 +16,10 @@ namespace ToroCreativo.Controllers
     public class IlustracionsController : Controller
     {
         private readonly IIlustracionBusiness _context;
-        private readonly IWebHostEnvironment _hostEnvironment;
 
-        public IlustracionsController(IIlustracionBusiness context, IWebHostEnvironment hostEnvironmen)
+        public IlustracionsController(IIlustracionBusiness context)
         {
-            _context = context;
-            this._hostEnvironment = hostEnvironmen;
-        }
-
-        // GET: Estados
-        public async Task<IActionResult> Index()
-        {
-            return View(await _context.ObtenerTodosLasIlustraciones());
-        }
-
-        // GET: Estados/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-
-            if (id == null)
-            {
-                return NotFound();
-            }
-            IEnumerable<ImagenIlustracion> listaImagen = await _context.ObtenerImagenesIlustracion(id);
-            ViewBag.Imagenes = listaImagen;
-            var ilustracion = await _context.ObtenerIlustracionPorId(id);
-            if (ilustracion == null)
-            {
-                return NotFound();
-            }
-
-            return View(ilustracion);
-        }
-
-        // GET: Estados/Create
-        public async Task<IActionResult> CrearEditar(int id = 0)
-        {
-            IEnumerable<Generos> listagenero1 = await _context.ObtenerGenero();
-            ViewBag.Generos = listagenero1;
-            if (id == 0)
-                return View(new Ilustracion());
-            else
-                return View(await _context.ObtenerIlustracionPorId(id));
+            _context = context;   
         }
 
         // POST: Estados/Create
@@ -70,36 +32,18 @@ namespace ToroCreativo.Controllers
 
             if (ModelState.IsValid)
             {
+                
+                int guardarEditar = await _context.CrearEditarIlustracion(ilustracion);
+                if (guardarEditar == 0)
+                    TempData["guardar"] = "si";
+                else
+                    TempData["editar"] = "si";
 
-                await _context.CrearEditarIlustracion(ilustracion);
 
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "GenerosIlustracions");
             }
             return View(ilustracion);
         }
 
-
-
-        // GET: Estados/Delete/5
-        public async Task<IActionResult> CambiarEstado(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            await _context.CambiarEstadoIlustracion(await _context.ObtenerIlustracionPorId(id));
-
-            return RedirectToAction(nameof(Index));
-        }
-        public IActionResult AgregarImagen(int id = 0)
-        {
-
-            ViewBag.id = id;
-
-            return View(new ImagenIlustracion());
-
-
-        }
     }
 }
