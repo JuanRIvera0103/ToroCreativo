@@ -31,6 +31,7 @@ namespace ToroCreativo
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSession(options => { options.IdleTimeout = TimeSpan.FromMinutes(5); });
             services.AddControllersWithViews();
 
             var conexion = Configuration["ConnectionStrings:conexion_mySql"];
@@ -94,7 +95,7 @@ namespace ToroCreativo
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthentication();

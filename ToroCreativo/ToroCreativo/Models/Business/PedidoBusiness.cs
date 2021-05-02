@@ -35,6 +35,7 @@ namespace ToroCreativo.Models.Business
         public async Task<IEnumerable<Pedido>> ObtenerPedidosCanceladosCliente(string id) => await _context.Pedidos.Where(e => e.Estado == "Cancelado" && e.IdUsuario == id).ToListAsync();
         public async Task<IEnumerable<Pedido>> ObtenerVentasSinEnviarCliente(string id) => await _context.Pedidos.Where(e => e.Estado == "Sin Enviar" && e.IdUsuario == id).ToListAsync();
         public async Task<IEnumerable<Pedido>> ObtenerVentasPorEnviarCliente(string id) => await _context.Pedidos.Where(e => e.Estado == "Enviado" && e.IdUsuario == id).ToListAsync();
+        public async Task<IEnumerable<Pedido>> ObtenerVentas(string id) => await _context.Pedidos.Where(e => (e.Estado == "Enviado" || e.Estado == "Sin Enviar") && e.IdUsuario == id).ToListAsync();
         public async Task<Pedido> ObtenerPedidoPorID(int? id)
         {
             Pedido pedido;

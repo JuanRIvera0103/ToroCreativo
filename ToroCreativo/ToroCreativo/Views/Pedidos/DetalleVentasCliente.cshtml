@@ -1,0 +1,133 @@
+﻿@model ToroCreativo.Models.Entities.Pedido
+
+@{
+    ViewData["Title"] = "Detalle Venta";
+    Layout = "_LayoutCliente";
+}
+@section Styles{
+
+    <link href="~/css/detalle-cliente-admin.css" rel="stylesheet" />
+    <link href="~/css/Pedido-cliente.css" rel="stylesheet" />
+
+}
+
+<article>
+
+    <div class="container">
+        <div class="titulo titulo-detalle">
+            <a asp-action="PedidoVistaCliente"><i class="fa fa-arrow-left" aria-hidden="true" title="Regresar"></i> </a>
+            <h1>Pedido de @Html.DisplayFor(model => model.Nombre) @Html.DisplayFor(model => model.Apellido)</h1>
+        </div>
+        <div class="gestion">
+            <div class="registros">
+                <div class="row">
+                    <div class="rounded BackClienteInfo col-sm-5">
+
+                        <h6 class="TituloA">Toro Creativo</h6>
+                        <div class="row">
+
+                            <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.IdUsuario)</h5>
+                            <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.IdUsuario)</h5>
+                            <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.Telefono)</h5>
+                            <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Telefono)</h5>
+                            <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.Direccion):</h5>
+                            <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Direccion)</h5>
+                        </div>
+                    </div>
+                    <div class="rounded BackClienteInfo col-sm-6">
+                        <h6 class="TituloA">Factura a</h6>
+                        <div class="row">
+                            <h5 class="LetraGrandeB col-sm-4">Nombre Completo</h5>
+                            <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Nombre) @Html.DisplayFor(model => model.Apellido)</h5>
+                            <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.Cedula):</h5>
+                            <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Cedula)</h5>
+                            <h5 class="LetraGrandeB col-sm-4">Correo:</h5>
+                            <h5 class="LetraPequeñaB col-sm-8"></h5>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="rounded BackClienteInfo col-sm-11">
+
+
+                    <h6 class="TituloA">Detalles del pedido</h6>
+                    <div class="row">
+                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.IdPedido)</h5>
+                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.IdPedido)</h5>
+
+
+                        <h5 class="LetraGrandeB col-sm-2">Fecha Venta</h5>
+                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.FechaVenta)</h5>
+
+
+
+                        <h5 class="LetraGrandeB col-sm-2">Fecha Pedido</h5>
+                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.FechaPedido)</h5>
+                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Estado)</h5>
+                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Estado)</h5>
+                        <h5 class="LetraGrandeB col-sm-2">Total IVA</h5>
+                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.TotalIva)</h5>
+                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Subtotal)</h5>
+                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Subtotal)</h5>
+                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Total)</h5>
+                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Total)</h5>
+                        <h5 class="LetraGrandeB col-sm-2">Comprobante</h5>
+
+                        @if (Model.ImageName == null)
+                        {
+                            <h5 class="LetraPequeñaB col-sm-6 text-danger">No</h5>
+
+
+                        }
+                        else
+                        {
+                            <h5 class="LetraPequeñaB col-sm-6 text-success">Si</h5>
+                            <img class="img-thumbnail" src="~/comprobantes/@Html.DisplayFor(model => model.ImageName)" />
+                        }
+
+                        
+                    </div>
+
+                </div>
+
+                <div class="registros">
+                    <table id="tabla2" class="table table-hover ">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                                <th>IVA</th>
+                                <th>Total</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in ViewBag.DetallePedidos)
+                            {
+                                <tr>
+                                    <td>
+                                        @item.IdCaracteristica
+                                    </td>
+                                    <td>
+                                        @item.Cantidad
+                                    </td>
+                                    <td>
+                                        @item.Subtotal
+                                    </td>
+                                    <td>
+                                        @item.TotalIva
+                                    </td>
+                                    <td>
+                                        @item.Total
+                                    </td>
+
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+</article>

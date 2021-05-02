@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -166,6 +167,68 @@ namespace ToroCreativo.Controllers
             return View(new DetallePedido());
 
 
+        }
+        public async Task<IActionResult> PedidoVistaCliente()
+        {
+            string id = HttpContext.Session.GetString("usuario");
+            IEnumerable<Pedido> aceptados = await _context.ObtenerPedidosAceptadosCliente(id);
+            IEnumerable<Pedido> cancelados = await _context.ObtenerPedidosCanceladosCliente(id);
+            ViewBag.Aceptados = aceptados;
+            ViewBag.Cancelados = cancelados;
+            return View(await _context.ObtenerPedidosPendientesCliente(id));
+
+
+        }
+        public async Task<IActionResult> VentasVistaCliente()
+        {
+            string id = HttpContext.Session.GetString("usuario");
+            IEnumerable<Pedido> SinEnviados = await _context.ObtenerVentasSinEnviarCliente(id);
+
+            ViewBag.SinEnviados = SinEnviados;
+
+            return View(await _context.ObtenerVentasPorEnviarCliente(id));
+
+
+        }
+        public async Task<IActionResult> DetallePedidosCliente(int? id)
+        {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+
+            var pedido = await _context.ObtenerPedidoPorID(id);
+
+            IEnumerable<DetallePedido> listaDetalle = await _context.ObtenerDetallePedidos(id);
+            ViewBag.DetallePedidos = listaDetalle;
+            if (pedido == null)
+            {
+                return NotFound();
+            }
+
+            return View(pedido);
+        }
+        public async Task<IActionResult> DetalleVentasCliente(int? id)
+        {
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+
+            var pedido = await _context.ObtenerPedidoPorID(id);
+
+            IEnumerable<DetallePedido> listaDetalle = await _context.ObtenerDetallePedidos(id);
+            ViewBag.DetallePedidos = listaDetalle;
+            if (pedido == null)
+            {
+                return NotFound();
+            }
+
+            return View(pedido);
         }
     }
 }

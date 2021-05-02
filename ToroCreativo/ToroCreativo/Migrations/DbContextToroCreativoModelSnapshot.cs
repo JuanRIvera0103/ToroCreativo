@@ -285,7 +285,8 @@ namespace ToroCreativo.Migrations
 
                     b.Property<string>("IdUsuario")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnName("IdUsuario")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -499,7 +500,9 @@ namespace ToroCreativo.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("IdUsuario")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnName("IdUsuario")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ImageName")
                         .HasColumnName("NombreImagen")

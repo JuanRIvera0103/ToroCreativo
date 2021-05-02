@@ -9314,19 +9314,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\higui\\.nuget\\packages\\": {}
+    "C:\\Users\\RYZEN 3\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
+      "projectUniqueName": "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
       "projectName": "ToroCreativo",
-      "projectPath": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
-      "packagesPath": "C:\\Users\\higui\\.nuget\\packages\\",
-      "outputPath": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\obj\\",
+      "projectPath": "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
+      "packagesPath": "C:\\Users\\RYZEN 3\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\ToroCreativo\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\higui\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\RYZEN 3\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -9338,7 +9338,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -9350,7 +9349,6 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
-        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
             "target": "Package",
@@ -9409,7 +9407,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

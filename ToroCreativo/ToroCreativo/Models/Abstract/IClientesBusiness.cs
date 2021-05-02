@@ -15,5 +15,6 @@ namespace ToroCreativo.Models.Abstract
         Task CrearEditarCliente(Cliente cliente);
         Task<IEnumerable<Usuario>> ObtenerUsuario();
         Task<ClienteDetalle> ObtenerClienteDetalle(int? id);
+        Task<Cliente> ObtenerClienteDetallePorUsuario(string id);
     }
 }

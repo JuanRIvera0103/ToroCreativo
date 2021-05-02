@@ -11,6 +11,7 @@ using ToroCreativo.ViewModels.Usuario;
 using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
+using Microsoft.AspNetCore.Http;
 
 namespace ToroCreativo.Controllers
 {
@@ -128,7 +129,12 @@ namespace ToroCreativo.Controllers
                     // Get the roles for the user
                     var roles = await _userManager.GetRolesAsync(user);
                     if (roles.Contains("Admin"))   { return RedirectToAction("Index", "Inicio_Admin"); }
-                    if (roles.Contains("Cliente")) { return RedirectToAction("Index", "Usuarios"); }
+                    if (roles.Contains("Cliente")) 
+                    {
+                        HttpContext.Session.SetString("usuario", user.Id);
+                        await HttpContext.Session.CommitAsync();
+                        return RedirectToAction("Index", "Usuarios"); 
+                    }
 
                 }
                 ModelState.AddModelError("", "Error login");
@@ -141,11 +147,12 @@ namespace ToroCreativo.Controllers
         public async Task<IActionResult> CerrarSesion()
         {
             await _signInManager.SignOutAsync();
+            HttpContext.Session.Clear();
             return RedirectToAction("Login", "Usuarios");
         }
-        public async Task<IActionResult> RegistrarAsync()
+        public IActionResult Registrar()
         {
-            ViewData["Roles"] = await _roleManager.Roles.FirstOrDefaultAsync(e => e.Name == "Admin");
+            
             return View();
         }
         [HttpPost]
@@ -203,6 +210,45 @@ namespace ToroCreativo.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        public IActionResult CambiarContraseña()
+        {
+
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CambiarContraseña(CambioContraseñaViewModel cambioContraseña)
+        {
+            if (ModelState.IsValid)
+            {
+               
+
+                try
+                {
+                    var usuario = await _userManager.FindByIdAsync(HttpContext.Session.GetString("usuario"));
+                     IdentityResult result = await _userManager.ChangePasswordAsync(usuario, cambioContraseña.PasswordAntigua, cambioContraseña.PasswordNueva);
+
+                    if (result.Succeeded)
+                    {
+                        TempData["Accion"] = "Cambiar";
+                        TempData["Mensaje"] = "Contraseña actualizada";
+                        return RedirectToAction("Index", "Usuarios");
+                    }
+
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("", error.Description);
+                    }
+                }
+                catch (Exception)
+                {
+
+                    return View(cambioContraseña);
+                }
+
+            }
+
+            return View(cambioContraseña);
+        }
 
 
 

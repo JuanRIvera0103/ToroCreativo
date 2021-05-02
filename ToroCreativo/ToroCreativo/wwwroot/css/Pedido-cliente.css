@@ -1,0 +1,62 @@
+.TituloPedido{
+    background-color: #7b19eb;
+    color: white;
+    padding: 2%;
+    width: 100%;
+    text-align: center;
+    font-weight: bolder;
+}
+.Box{
+    border: 1px solid lightgray;
+    padding: unset;
+    height: 100%;
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-bottom: 20px;
+}
+.formularioPedido{
+    padding: 10px ;
+    font-size: 1.7em;
+}
+.Box2{
+   
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-left : 10px;
+    background: rgba(230, 228, 228, 0.384);
+    margin-left: 5%;
+    margin-right: 10%;
+    margin-top: 5%;
+   
+    
+}
+.fuente1{
+    font-size: 1.1rem;
+   font-weight: bolder;
+}
+.fuente2{
+    font-size: 11px;
+}
+.fuente3{
+    font-size: 1.1rem;
+   
+}
+.pres1{
+    font-size: 0.9rem;
+   font-weight: bolder;
+}
+.thumb{
+    width: 80px;
+    height: 100px;
+    
+}
+.boton{
+    background-color: #6c5ce7;
+    color: white;
+    margin-left: 20px;
+}
+.tabla{
+    background-color: #6c5ce7;
+    color: white;
+}
