@@ -12,11 +12,12 @@ namespace ToroCreativo.Models.Abstract
         Task<IEnumerable<ProductoDetalle>> ObtenerProductos();
         Task<Productos> ObtenerProductoPorId(int? id);
         Task<IEnumerable<ProductoDetalle>> ObtenerProductosPorCategoria(int? id);
-        Task<int> GuardarEditarProductos(Productos productos);
+        Task<int> GuardarEditarProductos(ProductoRegistroCompleto productos);
         Task CambiarEstadoProductos(Productos productos);
         Task<IEnumerable<Productos>> ObtenerProductosCliente();
         Task<IEnumerable<Productos>> ObtenerProductosPorCategoriaCliente(int? id);
         Task<IEnumerable<Productos>> ObtenerProductosPorBusquedaCliente(string busqueda);
         int VerificarProductosEnPedidos(int? id);
+        Task<ProductoRegistroCompleto> ObtenerProductoPorIdIndex(int? id);
     }
 }

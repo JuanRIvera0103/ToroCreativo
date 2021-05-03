@@ -1,10 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using ToroCreativo.Clases;
 using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
@@ -20,11 +24,12 @@ namespace ToroCreativo.Controllers
         private readonly IIvasBusiness _ivasBusiness;
         private readonly IEntradaBusiness _entradaBusiness;
         private readonly IImagenProductoBusiness _imagenProductoBusiness;
+        private readonly ITamañoBusiness _tamañoBusiness;
 
 
         public ProductosCategoriaController(IProductosBusiness productosBusiness, ICategoriasBusiness categoriasBusiness,
             ICaracteristicaBusiness caracteristicaBusiness, IPrecioBusiness precioBusiness, IIvasBusiness ivasBusiness,
-            IEntradaBusiness entradaBusiness, IImagenProductoBusiness imagenProductoBusiness)
+            IEntradaBusiness entradaBusiness, IImagenProductoBusiness imagenProductoBusiness, ITamañoBusiness tamañoBusiness)
         {
             _productosBusiness = productosBusiness;
             _categoriasBusiness = categoriasBusiness;
@@ -33,6 +38,7 @@ namespace ToroCreativo.Controllers
             _ivasBusiness = ivasBusiness;
             _entradaBusiness = entradaBusiness;
             _imagenProductoBusiness = imagenProductoBusiness;
+            _tamañoBusiness = tamañoBusiness;
         }
 
         public async Task<IActionResult> Index()
@@ -90,7 +96,7 @@ namespace ToroCreativo.Controllers
             ViewBag.Categoria = await _categoriasBusiness.ObtenerCategoriaPorId(id);
 
             return View(await _productosBusiness.ObtenerProductosPorCategoria(id));
-
+            
         }
 
 
@@ -101,13 +107,23 @@ namespace ToroCreativo.Controllers
         {
             IEnumerable<Categorias> listaCategorias = await _categoriasBusiness.ObtenerCategoriasSelect();
             ViewBag.Categorias = listaCategorias;
+
+            var listaTamaños = await _tamañoBusiness.ObtenerTamañosSelectProducto();
+            string tamañosJson = JsonConvert.SerializeObject(listaTamaños);
+            ViewBag.Tamaños = tamañosJson;
             if (id == 0)
-                return View(new Productos());
+            {
+                ViewData["CrearEditar"] = "Crear";
+                return View(new ProductoRegistroCompleto());
+            }
+
             else
-                return View(await _productosBusiness.ObtenerProductoPorId(id));
-        }
-
-
+            {
+                ViewData["CrearEditar"] = "Editar";
+                return View(await _productosBusiness.ObtenerProductoPorIdIndex(id));
+            }
+                
+        }        
 
         public async Task<IActionResult> CambiarEstadoProducto(int? id)
         {

@@ -11,9 +11,8 @@ namespace ToroCreativo.Models.Entities
     public class Iva
     {
         [Key]
-        public int idIva { get; set; }
-        [Column("Precio")]
-        [DisplayName("Precio (Sin IVA)")]
+        public int idIva { get; set; }  
+        [DisplayName("Porcentaje Iva")]
         [Required]
         public double IVA { get; set; }
         [DisplayName("Fecha Inicial")]

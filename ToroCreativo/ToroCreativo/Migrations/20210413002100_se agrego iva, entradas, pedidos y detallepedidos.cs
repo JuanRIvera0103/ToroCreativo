@@ -48,7 +48,7 @@ namespace ToroCreativo.Migrations
                 {
                     idIva = table.Column<int>(nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Precio = table.Column<double>(nullable: false),
+                    Iva = table.Column<double>(nullable: false),
                     F_Inicio = table.Column<DateTime>(nullable: false),
                     F_Fin = table.Column<DateTime>(nullable: true),
                     Productos_idProductos = table.Column<int>(nullable: false)

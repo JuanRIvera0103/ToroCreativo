@@ -17,8 +17,12 @@ namespace ToroCreativo.Models.Business
         public TamañoBusiness(DbContextToroCreativo context)
         {
             _context = context;
+        }     
+        public async Task<List<Tamaño>> ObtenerTamañosSelectProducto()
+        {
+            var tamaños = await _context.tamaños.ToListAsync();
+            return tamaños;
         }
-
         public async Task<IEnumerable<TamañoDetalle>> ObtenerTamaños()
         {
             await using (_context)

@@ -9,6 +9,7 @@ namespace ToroCreativo.Models.Abstract
 {
     public interface ITamañoBusiness
     {
+        Task<List<Tamaño>> ObtenerTamañosSelectProducto();
         Task<IEnumerable<TamañoDetalle>> ObtenerTamaños();
         Task<IEnumerable<Tamaño>> ObtenerTamañosSelectPorCategoria(int? id);
         Task<Tamaño> ObtenerTamañoPorId(int? id);

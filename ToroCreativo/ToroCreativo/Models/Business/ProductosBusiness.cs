@@ -73,6 +73,30 @@ namespace ToroCreativo.Models.Business
                 return productos;
             }
         }
+        public async Task<ProductoRegistroCompleto> ObtenerProductoPorIdIndex(int? id)
+        {
+            Productos productos;
+            productos = null;
+
+            ProductoRegistroCompleto productoRegistro = null;
+            if (id == null)
+                return productoRegistro;
+            else
+            {
+                productos = await _context.productos.FirstOrDefaultAsync(e => e.idProductos == id);
+
+                productoRegistro = new ProductoRegistroCompleto
+                {
+                    idProductos = productos.idProductos,
+                    Nombre = productos.Nombre,
+                    Descripcion = productos.Descripcion,
+                    Categoria = productos.Categoria,
+                    Estado = productos.Estado
+                };
+
+                return productoRegistro;
+            }
+        }
 
         public async Task<IEnumerable<ProductoDetalle>> ObtenerProductosPorCategoria(int? id)
         {
@@ -98,22 +122,81 @@ namespace ToroCreativo.Models.Business
             
         }
 
-        public async Task<int> GuardarEditarProductos(Productos productos)
+        public async Task<int> GuardarEditarProductos(ProductoRegistroCompleto productos)
         {
             try
-            {
+            {                
                 int guardareditar = 1;
                 if (productos.idProductos == 0)
-                    guardareditar = 0;                
+                    guardareditar = 0;
 
                 if (productos.idProductos == 0)
                 {
-                    productos.Estado = "Habilitado";
-                    _context.Add(productos);                    
-                }
-                else                
-                    _context.Update(productos);                                
+                    var producto = new Productos
+                    {
+                        idProductos = productos.idProductos,
+                        Nombre = productos.Nombre,
+                        Descripcion = productos.Descripcion,
+                        Categoria = productos.Categoria,
+                        Estado = "Habilitado"
+                    };
+                    _context.productos.Add(producto);
+                    await _context.SaveChangesAsync(); 
 
+                    var caracteristica = new Caracteristica
+                    {
+                        idCaracteristicas = 0,
+                        Color = productos.Color,
+                        Medida = productos.Medida,
+                        Estado = "Habilitado",
+                        idProducto = producto.idProductos
+                    };
+                    _context.caracteristicas.Add(caracteristica);
+
+                    var iva = new Iva
+                    {
+                        idIva = 0,
+                        IVA = productos.IVA,
+                        F_Inicio = DateTime.Now,
+                        F_Fin = null,
+                        idProducto = producto.idProductos                       
+                    };
+                    _context.ivas.Add(iva);
+
+                    var precio = new Precio
+                    {
+                        idPrecios = 0,
+                        Valor = productos.Valor,
+                        F_Inicio = DateTime.Now,
+                        F_Fin = null,
+                        idProducto = producto.idProductos
+                    };
+                    _context.precios.Add(precio);
+
+                    var imagen = new ImagenProducto
+                    {
+                        IdImagenProducto = 0,
+                        ImageName = productos.ImageName,
+                        ImageFile = productos.ImageFile,
+                        Estado = "Principal",
+                        IdProducto = producto.idProductos
+                    };
+                    _context.ImagenProductos.Add(imagen);
+                }
+                else
+                {
+                    var producto = new Productos
+                    {
+                        idProductos = productos.idProductos,
+                        Nombre = productos.Nombre,
+                        Descripcion = productos.Descripcion,
+                        Categoria = productos.Categoria,
+                        Estado = productos.Estado
+                    };
+
+                    _context.productos.Update(producto);
+                }             
+                                                  
                 await _context.SaveChangesAsync();
 
                 return guardareditar;

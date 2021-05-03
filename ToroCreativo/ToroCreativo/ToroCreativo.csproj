@@ -54,4 +54,12 @@
     <None Include="Views\Tamaño\Index.cshtml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\ProductosCategoria\CrearProducto.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\ProductosCategoria\CrearProducto.cshtml" />
+  </ItemGroup>
+
 </Project>
