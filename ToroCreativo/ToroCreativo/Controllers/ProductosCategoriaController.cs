@@ -52,7 +52,10 @@ namespace ToroCreativo.Controllers
         public async Task<IActionResult> CrearEditarCategoria(int id = 0)
         {
             if (id == 0)
+            {
+                ViewData["CrearEditar"] = "Crear";
                 return View(new Categorias());
+            }                
             else
             {
                 var productos = await _categoriasBusiness.VerificarProductosHabilitados(id);
@@ -61,6 +64,7 @@ namespace ToroCreativo.Controllers
                     TempData["Editar"] = "no";
                     return RedirectToAction(nameof(Index));
                 }
+                ViewData["CrearEditar"] = "Editar";
                 return View(await _categoriasBusiness.ObtenerCategoriaPorId(id));
             }
                 
@@ -225,6 +229,5 @@ namespace ToroCreativo.Controllers
             return View(producto);
 
         }
-
     }
 }

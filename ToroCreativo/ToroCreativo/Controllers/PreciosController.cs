@@ -36,7 +36,6 @@ namespace ToroCreativo.Controllers
         {
             if (ModelState.IsValid)
             {
-                
                 int guardarEditar = await _context.GuardarEditarPrecio(precio);
                 if (guardarEditar == 0)
                     TempData["guardarHistorial"] = "si";

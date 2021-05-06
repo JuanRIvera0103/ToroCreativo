@@ -252,7 +252,8 @@ namespace ToroCreativo.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnType("varchar(30) CHARACTER SET utf8mb4")
+                        .HasMaxLength(30);
 
                     b.HasKey("idCategoria");
 
@@ -285,7 +286,8 @@ namespace ToroCreativo.Migrations
 
                     b.Property<string>("IdUsuario")
                         .IsRequired()
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .HasColumnName("IdUsuario")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
@@ -459,7 +461,6 @@ namespace ToroCreativo.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<double>("IVA")
-                        .HasColumnName("Precio")
                         .HasColumnType("double");
 
                     b.Property<int>("idProducto")
@@ -502,7 +503,9 @@ namespace ToroCreativo.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("IdUsuario")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                        .IsRequired()
+                        .HasColumnName("IdUsuario")
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("ImageName")
                         .HasColumnName("NombreImagen")

@@ -12,8 +12,8 @@
     <title>Inicio Sesión</title>
     <!--estilos librerias-->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
-    <link rel="stylesheet" href="~/css/login.css"/>
+    <link rel="stylesheet" href="~/lib/limonte-sweetalert2/sweetalert2.min.css"  />
+    
 </head>
 
 <body>
@@ -21,13 +21,12 @@
         <div class="form-container sign-in-container">
             <form method="post" asp-action="Login">
                 <h1>Iniciar Sesión</h1>
-                <span asp-validation-for="Email" class="text-danger small"></span>
                 <input asp-for="Email" type="email" placeholder="Correo" />
-                <span asp-validation-for="Password" class="text-danger small"></span>
+                <span asp-validation-for="Email" class="text-danger"></span>
                 <input asp-for="Password" type="password" placeholder="Contraseña" />
-                <a asp-action="OlvidePassword">Olvidé la contraseña</a>
+                <span asp-validation-for="Password" class="text-danger"></span>
+                <a asp-action="OlvidePassword">¿Olvido su contraseña?</a>
                 <button type="submit">Iniciar Sesión</button>
-                <div asp-validation-summary="All" class="text-danger small"></div>
             </form>
         </div>
         <div class="overlay-container">
@@ -45,7 +44,33 @@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+
+         @if(TempData["Invalido"] != null && TempData["Invalido"].ToString().Equals("si")) {
+            <text>
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'El correo y la contraseña no coinciden'
+
+                  });
+
+                 </text>
+        }
+         @if(TempData["Crear"] != null && TempData["Crear"].ToString().Equals("si")) {
+            <text>
+
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Se ha registrado exitosamente!',
+                    html: 'Bienvenido a la familia Toro Creativo'
+                  });
+
+                 </text>
+        }
+    </script>
 </body>
 </html>
 

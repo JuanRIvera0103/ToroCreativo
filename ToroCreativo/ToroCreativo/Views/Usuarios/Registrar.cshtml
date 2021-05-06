@@ -18,7 +18,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome Icons -->
     <link href="~/lib/limonte-sweetalert2/sweetalert2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="~/css/registro.css" />
+   
 </head>
 
 <body>
@@ -26,7 +26,7 @@
     <div class="container" id="container">
         <div class="form-container sign-up-container">
             
-            <form action="">
+            <form method="post" asp-action="Registrar">
 
                 <h1>Crear Cuenta</h1>
                 <input asp-for="Email" type="email" placeholder="Correo" />
@@ -36,8 +36,8 @@
                 <input type="password" asp-for="ConfirmarPassword" placeholder="Confirmar Contraseña" />
                 <span asp-validation-for="ConfirmarPassword" class="text-danger"></span>
                 <input asp-for="RolSeleccionado" class="form-control" value="@ViewBag.Roles" type="hidden">
-                <div asp-validation-summary="All" class="text-danger"></div>
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+           
+                
                 <button type="submit">Registrarse</button>
             </form>
         </div>
@@ -56,6 +56,18 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
+    <script>
+         @if(TempData["Igual"] != null && TempData["Igual"].ToString().Equals("si")) {
+            <text>
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'El correo ingresado ya existe'
+                  });
+
+                 </text>
+        }
+    </script>
 </body>
 
 </html>

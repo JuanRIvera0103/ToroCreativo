@@ -29,8 +29,12 @@ namespace ToroCreativo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearEditarProductos([Bind("idProductos,Nombre,Descripcion,Categoria,Estado,Color,Medida,IVA,Valor,ImageName,ImageFile")] ProductoRegistroCompleto productos)
         {
-            if (ModelState.IsValid)
+            int verificarProducto = _context.VerificarProductoRepetido(productos.Nombre);
+            if (verificarProducto != 0)
             {
+                TempData["Repetido"] = "si";
+                return RedirectToAction("CrearEditarProducto", "ProductosCategoria", new { id = productos.idProductos });
+            }
                 if (productos.idProductos == 0)
                 {
                     string wwwRootPath = _hostEnvironment.WebRootPath;
@@ -48,9 +52,7 @@ namespace ToroCreativo.Controllers
                     TempData["guardar"] = "si";
                 else
                     TempData["editar"] = "si";
-                return RedirectToAction("Index", "ProductosCategoria");
-            }
-            return View(productos);
+                return RedirectToAction("Index", "ProductosCategoria");            
         }
 
     }

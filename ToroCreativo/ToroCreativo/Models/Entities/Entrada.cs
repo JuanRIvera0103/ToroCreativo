@@ -11,9 +11,10 @@ namespace ToroCreativo.Models.Entities
     public class Entrada
     {
         [Key]
-        public int idEntrada { get; set; }
-        [Required]
-        [DisplayName("Cantidad Inicial")]
+        public int idEntrada { get; set; }        
+        [DisplayName("Cantidad")]
+        [Required(ErrorMessage = "La cantidad es requerida")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "La cantidad solo debe de contener números enteros positivos")]
         public int CantidadInicial { get; set; }
         [DisplayName("Cantidad Actual")]
         public int CantidadActual { get; set; }

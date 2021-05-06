@@ -88,5 +88,10 @@ namespace ToroCreativo.Models.Business
         {            
             return await _context.productos.Where(p => p.Categoria == id).Where(p => p.Estado == "Habilitado").CountAsync();
         }
+        public async Task<int> VerificarCategoriaRepetida(string nombre)
+        {
+            return await _context.categorias.Where(c => c.Nombre == nombre).CountAsync();
+        }
+
     }
 }

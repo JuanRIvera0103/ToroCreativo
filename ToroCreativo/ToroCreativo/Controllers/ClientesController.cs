@@ -2,12 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ToroCreativo.Clases;
 using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
+using ToroCreativo.ViewModels.Usuario;
 
 namespace ToroCreativo.Controllers
 {
@@ -39,13 +42,13 @@ namespace ToroCreativo.Controllers
             }
             
            
-            var ilustracion = await _context.ObtenerClienteDetalle(id);
-            if (ilustracion == null)
+            var cliente = await _context.ObtenerClienteDetalle(id);
+            if (cliente == null)
             {
                 return NotFound();
             }
 
-            return View(ilustracion);
+            return View(cliente);
 
 
 
@@ -86,6 +89,55 @@ namespace ToroCreativo.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(cliente);
+        }
+        public async Task<IActionResult> Perfil()
+        {
+           var id= await _context.ObtenerClienteDetallePorUsuario(HttpContext.Session.GetString("usuario"));
+            
+            if (id == null)
+                return View(new PerfilViewModel());
+            else
+            {
+                PerfilViewModel perfil = new PerfilViewModel
+                {
+                    Nombre = id.Nombre,
+                    Apellido = id.Apellido,
+                    Cedula = id.Cedula,
+                    Direccion = id.Direccion,
+                    IdCliente = id.IdCliente,
+                    Telefono = id.Telefono
+                };
+                return View(perfil);
+            }
+                
+        }
+
+        // POST: Usuarios/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Perfil([Bind("IdCliente,Nombre,Apellido,Direccion,Cedula,Telefono")] PerfilViewModel perfil)
+        {
+            
+            if (ModelState.IsValid)
+            {
+                Cliente cliente = new Cliente
+                {
+                    Nombre = perfil.Nombre,
+                    Apellido = perfil.Apellido,
+                    Cedula = perfil.Cedula,
+                    Direccion = perfil.Direccion,
+                    IdCliente = perfil.IdCliente,
+                    Telefono = perfil.Telefono,
+                    IdUsuario = HttpContext.Session.GetString("usuario"),
+                    Estado = "Habilitado",
+                };
+                
+                await _context.CrearEditarCliente(cliente);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(perfil);
         }
     }
 }

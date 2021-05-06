@@ -71,7 +71,7 @@ namespace ToroCreativo.Models.Business
             await using (_context)
             {
 
-                ClienteDetalle ListaClientesDetalles =
+                ClienteDetalle ClientesDetalles =
                     (from usuario in _context.Usuarios
                      join cliente in _context.Clientes
                      on usuario.Id equals cliente.IdUsuario
@@ -87,8 +87,26 @@ namespace ToroCreativo.Models.Business
                          Telefono = cliente.Telefono,
                          IdUsuario = cliente.IdUsuario,
                      }).FirstOrDefault(e => e.IdCliente == id);
-                return (ListaClientesDetalles);
+                return (ClientesDetalles);
             }
+        }
+        public async Task<Cliente> ObtenerClienteDetallePorUsuario(string id)
+        {
+
+
+            Cliente cliente;
+            cliente = null;
+
+            if (id == null)
+            {
+                return cliente;
+            }
+            else
+            {
+                cliente = await _context.Clientes.FirstOrDefaultAsync(e => e.IdUsuario == id);
+                return cliente;
+            }
+        
         }
 
 

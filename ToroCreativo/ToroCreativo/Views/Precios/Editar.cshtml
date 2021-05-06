@@ -1,21 +1,20 @@
 ﻿@model ToroCreativo.Models.Entities.Precio
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar";
 }
 
-<h1>Edit</h1>
-
-<h4>Precio</h4>
+<h2>Editar Precio</h2>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-4">
         <form asp-action="CrearEditar">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="idPrecios" />
+            <input type="hidden" asp-for="idProducto" readonly />
+            <input type="hidden" asp-for="F_Fin" class="form-control" />
             <div class="form-group">
                 <label asp-for="Valor" class="control-label"></label>
-                <input asp-for="Valor" class="form-control" />
+                <input asp-for="Valor" class="form-control" placeholder="Precio del producto" />
                 <span asp-validation-for="Valor" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -24,26 +23,30 @@
                 <span asp-validation-for="F_Inicio" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="F_Fin" class="control-label"></label>
-                <input type="hidden" asp-for="F_Fin" class="form-control" />
-                <span asp-validation-for="F_Fin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="idProducto" class="control-label"></label>
-                <input type="hidden" asp-for="idProducto" class="form-control" />
-                <span asp-validation-for="idProducto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <div class="row">
+                    <div class="col-8">
+                        <button type="submit" class="btn btn-warning btn-block">Editar</button>
+                    </div>
+                    <div class="col-4">
+                        <a asp-controller="ProductosCategoria" asp-action="DetalleProducto" asp-route-id="@Model.idProducto" class="btn btn-secondary btn-block">Volver</a>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
 </div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+         @if(TempData["Repetido"] != null && TempData["Repetido"].ToString().Equals("si")) {
+            <text>
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'No se puede crear el precio',
+                    html: 'El valor del precio tiene el mismo valor que el precio vigente del producto, por favor ingrese un precio diferente'
+                  });
+
+                 </text>
+        }
+    </script>
 }

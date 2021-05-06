@@ -1,21 +1,25 @@
 ﻿@model ToroCreativo.Models.Entities.Iva
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Editar";
 }
 
-<h1>Edit</h1>
 
-<h4>Iva</h4>
+<h2>Crear IVA</h2>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-4">
         <form asp-action="CrearEditar">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="idIva" />
+            <input type="hidden" asp-for="idProducto" />
+            <input type="hidden" asp-for="F_Fin" />
             <div class="form-group">
                 <label asp-for="IVA" class="control-label"></label>
-                <input asp-for="IVA" class="form-control" />
+                <div class="input-group">
+                    <input asp-for="IVA" class="form-control"  placeholder="% Iva del producto (Número entero)"/>
+                    <span class="input-group-text">%</span>
+                </div>
                 <span asp-validation-for="IVA" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -24,24 +28,17 @@
                 <span asp-validation-for="F_Inicio" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="F_Fin" class="control-label"></label>
-                <input type="hidden" asp-for="F_Fin" class="form-control" />
-                <span asp-validation-for="F_Fin" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="idProducto" class="control-label"></label>
-                <input type="hidden" asp-for="idProducto" class="form-control" />
-                <span asp-validation-for="idProducto" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <div class="row">
+                    <div class="col-8">
+                        <button type="submit" class="btn btn-warning btn-block">Editar</button>
+                    </div>
+                    <div class="col-4">
+                        <a asp-controller="ProductosCategoria" asp-action="DetalleProducto" asp-route-id="@Model.idProducto" class="btn btn-secondary btn-block">Volver</a>
+                    </div>
+                </div>
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

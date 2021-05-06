@@ -13,8 +13,9 @@ namespace ToroCreativo.Models.Entities
         [Key]
         public int idPrecios { get; set; }
         [Column("Precio")]
-        [DisplayName("Precio (Sin IVA)")]
-        [Required]
+        [DisplayName("Precio sin Iva")]
+        [Required(ErrorMessage = "El precio es requerida")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "El precio solo debe de contener números enteros positivos")]
         public double Valor { get; set; }
         [DisplayName("Fecha Inicial")]
 

@@ -14,5 +14,6 @@ namespace ToroCreativo.Models.Abstract
         Task<int> GuardarEditarPrecio(Precio precio);
         Task<double> ObtenerPrecioConIvaProducto(int? id);
         Task<List<Precio>> ObtenerPrecios();
+        Task<Precio> ObtenerUltimoPrecio(int? id, double? valor);
     }
 }

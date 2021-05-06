@@ -114,5 +114,17 @@ namespace ToroCreativo.Models.Business
             return precioTotal;
 
         }
+        public async Task<Precio> ObtenerUltimoPrecio(int? id, double? valor)
+        {
+            var precio = await _context.precios.Where(p => p.idProducto == id).OrderByDescending(p => p.idPrecios).FirstOrDefaultAsync();
+
+            if (valor == precio.Valor)
+                return precio;
+            else
+            {
+                precio = null;
+                return precio;
+            }            
+        }
     }
 }

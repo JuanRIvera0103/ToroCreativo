@@ -19,5 +19,6 @@ namespace ToroCreativo.Models.Abstract
         Task<IEnumerable<Productos>> ObtenerProductosPorBusquedaCliente(string busqueda);
         int VerificarProductosEnPedidos(int? id);
         Task<ProductoRegistroCompleto> ObtenerProductoPorIdIndex(int? id);
+        int VerificarProductoRepetido(string nombre);
     }
 }

@@ -9,18 +9,32 @@
 <hr />
 
 <div class="col-7">
-    <form asp-controller="Productos" asp-action="CrearEditarProductos" enctype="multipart/form-data">
+    
+    <form asp-controller="Productos" asp-action="CrearEditarProductos" enctype="multipart/form-data" method="post">
         <input type="hidden" asp-for="idProductos" readonly />
-
+        @if (Model.idProductos == 0)
+        {
         <div class="form-group">
             <label asp-for="Nombre" class="control-label"></label>
-            <input asp-for="Nombre" class="form-control" />
+            <input asp-for="Nombre" class="form-control"  placeholder="Nombre del producto" />
             <span asp-validation-for="Nombre" class="text-danger"></span>
         </div>
+
+        }        
         <div class="form-group">
             <div class="row">
+                @if (Model.idProductos != 0)
+                {
+                    <div class="col-6">
+                        <label asp-for="Nombre" class="control-label"></label>
+                        <input asp-for="Nombre" class="form-control" placeholder="Nombre del producto"/>
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+
+                }
                 <div class="col-6">
                     <div class="form-group">
+
                         <label asp-for="Categoria" class="control-label"></label>
                         <select id="categoria" asp-for="Categoria" asp-items="@(new SelectList(ViewBag.Categorias, "idCategoria", "Nombre"))" class="form-control">
                             <option value="">Seleccione una categoría</option>
@@ -28,27 +42,18 @@
                         <span asp-validation-for="Categoria" class="text-danger"></span>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        @if (Model.idProductos == 0)
-                        {
+                @if (Model.idProductos == 0)
+                {
+                    <div class="col-md-6">
+                        <div class="form-group">                        
                             <label asp-for="Medida" class="control-label"></label>
                             <select id="tamaños" asp-for="Medida" class="form-control">
                                 <option value="">Seleccione una Medida</option>
                             </select>
                             <span asp-validation-for="Medida" class="text-danger"></span>
-
-                        }
-                        else
-                        {
-
-                            <label asp-for="Estado" class="control-label"></label>
-                            <input asp-for="Estado" class="form-control" readonly />
-                            <span asp-validation-for="Estado" class="text-danger"></span>
-
-                        }
+                        </div>
                     </div>
-                </div>
+                }
             </div>
         </div>
         <div class="form-group">
@@ -56,7 +61,7 @@
                 <div class="col-12">
                     <div class="form-group">
                         <label asp-for="Descripcion" class="control-label"></label>
-                        <textarea asp-for="Descripcion" class="form-control"></textarea>
+                        <textarea asp-for="Descripcion" class="form-control" placeholder="Descripción del producto"></textarea>
                         <span asp-validation-for="Descripcion" class="text-danger"></span>
                     </div>
                 </div>
@@ -77,8 +82,7 @@
                         <div class="form-group">
                             <label asp-for="IVA" class="control-label"></label>
                             <div class="input-group">
-
-                                <input asp-for="IVA" class="form-control monto" id="iva" onchange="sumar();" />
+                                <input asp-for="IVA" class="form-control monto" id="iva" onchange="sumar();"/>
                                 <span class="input-group-text">%</span>
                                 <span asp-validation-for="IVA" class="text-danger"></span>
                             </div>
@@ -87,7 +91,7 @@
                     <div class="col-4">
                         <div class="form-group">
                             <label asp-for="Valor" class="control-label"></label>
-                            <input asp-for="Valor" class="form-control monto" id="precio" onchange="sumar();" />
+                            <input asp-for="Valor" class="form-control monto" id="precio" onchange="sumar();"/>
                             <span asp-validation-for="Valor" class="text-danger"></span>
                         </div>
                     </div>
@@ -105,24 +109,25 @@
             <div class="mb-3">
                 <label asp-for="ImageFile" class="form-label"></label>
                 <input type="file" asp-for="ImageFile" class="form-control border-0" accept="image/*">
+                <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>
         }
         else
         {
-            <input type="color" asp-for="Color" hidden="hidden" />
+            <input type="color" asp-for="Color" hidden="hidden" value="a"/>
             <input asp-for="IVA" type="hidden" />
-            <input asp-for="Valor" type="hidden" />
-            <input type="file" asp-for="ImageFile" hidden="hidden">
-            <input asp-for="ImageName" type="hidden"  />
-            <input asp-for="Medida"type="hidden" />
+            <input asp-for="Valor" type="hidden"  />
+        
+            <input asp-for="ImageName" type="hidden"value="a" />
+            <input asp-for="Medida" type="hidden" />
         }
-
+        <input asp-for="Estado" class="form-control" type="hidden" readonly />
         <div class="form-group">
             <div class="row">
                 <div class="col-8">
                     @if (Model.idProductos == 0)
                     {
-                        <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                        <button type="submit" class="btn btn-primary btn-block" >Guardar</button>
                     }
                     else
                     {
@@ -165,19 +170,28 @@
             var iva = parseFloat(document.getElementById('iva').value);
             var precio = parseFloat(document.getElementById('precio').value);
 
-            if (iva != '' && precio != '') {
+            if (precio != '' || iva != '') {
                 subtotal = ((iva / 100) * precio) + precio;
             }
             else {
                 subtotal = 0;
             }
-
-            //[...document.getElementsByClassName("monto")].forEach(function (element) {
-            //    if (element.value !== '') {
-            //        subtotal += parseFloat(element.value);
-            //    }
-            //});
             $total.value = parseInt(subtotal);
         }
+
+         @if(TempData["Repetido"] != null && TempData["Repetido"].ToString().Equals("si")) {
+            <text>
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'No se puede crear el producto',
+                    html: 'El nombre del producto ya se encuentra en uso, por favor ingrese otro nombre'
+                  });
+
+                 </text>
+        }
+
+
+
     </script>
 }

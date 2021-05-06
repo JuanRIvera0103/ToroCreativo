@@ -246,5 +246,9 @@ namespace ToroCreativo.Models.Business
             return (contador);
 
         }
+        public int VerificarProductoRepetido(string nombre)
+        {
+            return  _context.productos.Where(p => p.Nombre == nombre).Count();
+        }
     }
 }

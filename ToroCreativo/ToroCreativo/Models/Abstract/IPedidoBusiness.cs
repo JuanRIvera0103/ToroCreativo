@@ -8,6 +8,7 @@ namespace ToroCreativo.Models.Abstract
 {
     public interface IPedidoBusiness
     {
+        Task<IEnumerable<Pedido>> ObtenerVentas(string id);
         Task<IEnumerable<Pedido>> ObtenerVentasSinEnviarCliente(string id);
         Task<IEnumerable<Pedido>> ObtenerPedidosCanceladosCliente(string id);
         Task<IEnumerable<Pedido>> ObtenerPedidosAceptadosCliente(string id);

@@ -490,3 +490,9 @@ E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\GenerosIlustracions\DetalleIlustracion.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\GenerosIlustracions\AgregarImagen.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\GenerosIlustracions\CrearIlustracion.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Clientes\Perfil.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Pedidos\DetallePedidosCliente.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Pedidos\DetalleVentasCliente.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Pedidos\PedidoVistaCliente.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Pedidos\VentasVistaCliente.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\CambiarContraseña.cshtml.g.cs
