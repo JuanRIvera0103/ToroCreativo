@@ -37,11 +37,6 @@
     </form>
 </div>
 
-
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
     <script>
          @if(TempData["Repetido"] != null && TempData["Repetido"].ToString().Equals("si")) {
@@ -49,7 +44,7 @@
 
                 Swal.fire({
                     icon: 'error',
-                    title: 'No se puede crear la categoría',
+                    title: 'No se puede realizar la acción',
                     html: 'El nombre de la categoría ya se encuentra en uso, por favor ingrese otro nombre'
                   });
 

@@ -29,14 +29,14 @@
                         <li><span>Precio Venta:</span> @ViewData["precioTotal"]</li>
                         <li>
                             <span>Unidades:</span>
-                            @foreach (var medidas in ViewBag.Caracteristicas)
-                            {
+                            @foreach (var medidas in ViewBag.TamañosInfo)
+                            { 
                                 <span style="font-weight: 100;" class="unidades"> @medidas.Medida </span>
                             }
                         </li>
                         <li class="colores">
                             <span>Color:</span>
-                            @foreach (var colores in ViewBag.Caracteristicas)
+                            @foreach (var colores in ViewBag.CaracteristicasInfo)
                             {
                                 <div class="color" style="background-color: @colores.Color;"></div>
                             }

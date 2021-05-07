@@ -71,45 +71,9 @@
                                 <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
                             </a>
                         }
-
-
                 </tr>
             }
         </tbody>
     </table>
 </div>
 
-
-@section Scripts{
-
-
-    <script>
-
-    @if(TempData["Mensaje"] != null && TempData["Accion"].ToString().Equals("Crear")) { 
-        <text>
-
-              Swal.fire({
-                title: "Crear usuario",
-                type: "success",
-                html: "@TempData["Mensaje"]"
-              });
-
-             </text>
-    }
-
-
-
-    @if (TempData["Mensaje"] != null && TempData["Accion"].ToString().Equals("Editar"))
-    {
-        <text>
-
-            Swal.fire({
-                title: "Editar usuario",
-                type: "success",
-                html: "@TempData["Mensaje"]"
-            });
-
-        </text>
-    }
-    </script>
-}

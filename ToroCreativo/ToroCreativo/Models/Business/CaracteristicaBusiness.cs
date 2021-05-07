@@ -75,6 +75,37 @@ namespace ToroCreativo.Models.Business
                 return caracteristicas;
             }
         }
+        public async Task<List<Caracteristica>> ObtenerCaracteristicasProductoDistinct(int? id)
+        {
+            
+         
+
+            var caracteristicas = await _context.caracteristicas.Where(p => p.idProducto == id)
+                .Select(o => new { o.Color }).Distinct().ToListAsync();
+            List<Caracteristica> listaCaracteristica = new List<Caracteristica>();
+            foreach (var item in caracteristicas)
+            {
+                var caracteristica = new Caracteristica
+                {
+                    Color = item.Color
+                };
+                listaCaracteristica.Add(caracteristica);
+            }
+           
+            return listaCaracteristica;
+        }
+        public async Task<List<Tamaño>> ObtenerTamañosProductoDistinct(int? id)
+        {
+            var tamaños = await _context.caracteristicas.Where(p => p.idProducto == id)
+                            .Select(o => new { o.Medida }).Distinct().ToListAsync();
+            List<Tamaño> listaTamaños = new List<Tamaño>();
+            foreach (var item in tamaños)
+            {
+                var tamaño = await _context.tamaños.FindAsync(item.Medida);
+                listaTamaños.Add(tamaño);
+            }
+            return listaTamaños;
+        }
 
         public async Task<int> GuardarEditarCaracteristica(Caracteristica caracteristica)
         {

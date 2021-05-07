@@ -8,11 +8,11 @@ namespace ToroCreativo.ViewModels.Usuario
 {
     public class LoginViewModel
     {
-        [Required(ErrorMessage = "El email es requerido")]
-        [EmailAddress(ErrorMessage = "Email invalido")]
+        [Required(ErrorMessage = "El correo es requerido")]
+        [EmailAddress(ErrorMessage = "El correo es invalido")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = "El password es requerido")]
+        [Required(ErrorMessage = "La contraseña es requerido")]
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [Display(Name = "Recordarme")]

@@ -166,8 +166,11 @@ namespace ToroCreativo.Controllers
                 ViewBag.Imagen = imagen.ImageName;
             ViewBag.Precios = await _precioBusiness.ObtenerPreciosProducto(producto.idProductos);
             ViewBag.Ivas = await _ivasBusiness.ObteneIvasProducto(producto.idProductos);
-            ViewBag.Entradas = await _entradaBusiness.ObtenerEntradaProducto(producto.idProductos);
+            ViewBag.Entradas = await _entradaBusiness.ObtenerEntradaProducto(producto.idProductos);           
+            ViewBag.TamañosInfo = await _caracteristicaBusiness.ObtenerTamañosProductoDistinct(id);
+            ViewBag.CaracteristicasInfo = await _caracteristicaBusiness.ObtenerCaracteristicasProductoDistinct(id);
             ViewBag.Caracteristicas = await _caracteristicaBusiness.ObtenerCaracteristicasProducto(id);
+            
             return View(producto);
 
         }

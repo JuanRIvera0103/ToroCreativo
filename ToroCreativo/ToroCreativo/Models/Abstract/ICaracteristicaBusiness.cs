@@ -16,5 +16,7 @@ namespace ToroCreativo.Models.Abstract
         Task<IEnumerable<Caracteristica>> ObtenerCaracteristicasSelectPorProducto(int? id);
         Task<IEnumerable<CaracteristicaDetalle>> ObtenerCaracteristicaDetallePorId(int? id);
         public int VerificarCaracteristicaEnPedidos(int? id);
+        Task<List<Caracteristica>> ObtenerCaracteristicasProductoDistinct(int? id);
+        Task<List<Tamaño>> ObtenerTamañosProductoDistinct(int? id);
     }
 }

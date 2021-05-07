@@ -9,42 +9,37 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Inicio Sesión</title>
-    <!--estilos librerias-->
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>Inicio Sesión</title>   
     <link rel="stylesheet" href="~/lib/limonte-sweetalert2/sweetalert2.min.css"  />
-    
+    <link rel="stylesheet" href="~/css/login.css" />
+     
 </head>
 
 <body>
     <div class="container" id="container">
-        <div class="form-container sign-in-container">
+        <div class="registro">
+            <h2>¿No tienes cuenta?</h2>
+            <p>Crea tu cuenta y has parte de la familia de Toro Creativo</p>
+            <a class="ghost" asp-action="Registrar">Registrarme</a>
+        </div>
+        <div class="form-container">
             <form method="post" asp-action="Login">
                 <h1>Iniciar Sesión</h1>
                 <input asp-for="Email" type="email" placeholder="Correo" />
-                <span asp-validation-for="Email" class="text-danger"></span>
+                <span asp-validation-for="Email" class="text-validation"></span>
                 <input asp-for="Password" type="password" placeholder="Contraseña" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-                <a asp-action="OlvidePassword">¿Olvido su contraseña?</a>
+                <span asp-validation-for="Password" class="text-validationr"></span>
+                <a asp-action="OlvidePassword">¿Olvidó su contraseña?</a>
                 <button type="submit">Iniciar Sesión</button>
             </form>
-        </div>
-        <div class="overlay-container">
-            <div class="overlay">
-                <div class="overlay-panel overlay-left">
-                    <div class="contenido">
-                        <h1>¿No tienes cuenta?</h1>
-                        <p>Crea tu cuenta y has parte de la familia de Toro Creativo</p>
-                        <a class="ghost" asp-action="Registrar">Registrarme</a>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script>
 

@@ -30,6 +30,7 @@ namespace ToroCreativo.ViewModels.Usuario
         [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
         public string ConfirmarPassword { get; set; }
         public List<string> Rol { get; set; }
+        [Required(ErrorMessage = "El rol es requerida")]
         public string RolSeleccionado { get; set; }
         public string Estado { get; set; }
 

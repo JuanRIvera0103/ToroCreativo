@@ -88,8 +88,7 @@ namespace ToroCreativo.Controllers
 
                     if (result.Succeeded)
                     {
-                        TempData["Accion"] = "Crear";
-                        TempData["Mensaje"] = "Usuario creado";
+                        TempData["guardar"] = "si";
 
                         await _userManager.AddToRoleAsync(usuario, usuarioViewModel.RolSeleccionado);
 
