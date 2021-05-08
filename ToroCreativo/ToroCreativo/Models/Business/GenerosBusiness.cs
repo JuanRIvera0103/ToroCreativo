@@ -46,7 +46,11 @@ namespace ToroCreativo.Models.Business
                     guardareditar = 0;
 
                 if (generos.idGenero == 0)
+                {
+                    generos.Estado = "Habilitado";
                     _context.Add(generos);
+                }
+                    
                 else
                     _context.Update(generos);
 
@@ -80,6 +84,10 @@ namespace ToroCreativo.Models.Business
         public async Task<int> VerificarIlustracionesHabilitados(int? id)
         {
             return await _context.Ilustracions.Where(p => p.IdGenero == id).Where(p => p.Estado == "Habilitado").CountAsync();
+        }
+        public async Task<int> VerificarGeneroRepetido(string nombre)
+        {
+            return await _context.generos.Where(g => g.Nombre == nombre).CountAsync();
         }
     }
 }

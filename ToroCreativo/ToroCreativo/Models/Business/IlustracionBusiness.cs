@@ -82,19 +82,52 @@ namespace ToroCreativo.Models.Business
                 throw new Exception();
             }
         }
-        public async Task<int> CrearEditarIlustracion(Ilustracion ilustracion)
+        public async Task<int> CrearEditarIlustracion(IlustracionRegistroCompleto ilustracionRegistro)
         {
             try
             {
                 int guardareditar = 1;
-                if (ilustracion.IdIlustracion == 0)
+                if (ilustracionRegistro.IdIlustracion == 0)
                     guardareditar = 0;
 
-                if (ilustracion.IdIlustracion == 0)
-                    _context.Add(ilustracion);
-                else
+                if (ilustracionRegistro.IdIlustracion == 0)
+                {
+                    var ilustracion = new Ilustracion
+                    {
+                        IdIlustracion = ilustracionRegistro.IdIlustracion,
+                        Nombre = ilustracionRegistro.Nombre,
+                        Descripcion = ilustracionRegistro.Descripcion,
+                        IdGenero = ilustracionRegistro.IdGenero,
+                        Estado = "Habilitado"
+                    };
+                    _context.Ilustracions.Add(ilustracion);
+                    await _context.SaveChangesAsync();
 
-                    _context.Update(ilustracion);
+                    var imagen = new ImagenIlustracion
+                    {
+                        IdImagenIlustracion = 0,
+                        ImageName = ilustracionRegistro.ImageName,
+                        ImageFile = ilustracionRegistro.ImageFile,
+                        //Estado = "Principal",
+                        IdIlustracion = ilustracion.IdIlustracion
+                    };
+                    _context.ImagenIlustraciones.Add(imagen);
+                }
+                else
+                {
+                    var ilustracion = new Ilustracion
+                    {
+                        IdIlustracion = ilustracionRegistro.IdIlustracion,
+                        Nombre = ilustracionRegistro.Nombre,
+                        Descripcion = ilustracionRegistro.Descripcion,
+                        IdGenero = ilustracionRegistro.IdGenero,
+                        Estado = ilustracionRegistro.Estado
+                    };
+
+                    _context.Ilustracions.Update(ilustracion);
+                }
+
+
                 await _context.SaveChangesAsync();
 
                 return guardareditar;
@@ -135,6 +168,34 @@ namespace ToroCreativo.Models.Business
             {
 
                 throw new Exception();
+            }
+        }
+        public int VerificarIlustracionRepetida(string nombre)
+        {
+            return _context.Ilustracions.Where(i => i.Nombre == nombre).Count();
+        }
+        public async Task<IlustracionRegistroCompleto> ObtenerIlustracionPorIdIndex(int? id)
+        {
+            Ilustracion ilustracion;
+            ilustracion = null;
+
+            IlustracionRegistroCompleto ilustracionRegistro = null;
+            if (id == null)
+                return ilustracionRegistro;
+            else
+            {
+                ilustracion = await _context.Ilustracions.FirstOrDefaultAsync(i => i.IdIlustracion == id);
+
+                ilustracionRegistro = new IlustracionRegistroCompleto
+                {
+                    IdIlustracion = ilustracion.IdIlustracion,
+                    Nombre = ilustracion.Nombre,
+                    Descripcion = ilustracion.Descripcion,
+                    IdGenero = ilustracion.IdGenero,
+                    Estado = ilustracion.Estado
+                };
+
+                return ilustracionRegistro;
             }
         }
     }

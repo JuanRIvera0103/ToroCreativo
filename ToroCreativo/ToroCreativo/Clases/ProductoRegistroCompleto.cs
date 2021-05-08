@@ -15,11 +15,11 @@ namespace ToroCreativo.Clases
         public int idProductos { get; set; }
         [Required(ErrorMessage = "El nombre es requerido")]     
         [StringLength(30)]
-        [RegularExpression("^[A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ_ ]*$", ErrorMessage = "El nombre debe de comenzar con mayúscula, aparte de tener una letra más y solo debe de contener letras")]
+        [RegularExpression("^[A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ ]*$", ErrorMessage = "El nombre debe de comenzar con mayúscula y solo debe de contener letras")]
         public string Nombre { get; set; }
+        [DisplayName("Descripción")]
         [Required(ErrorMessage = "La descripción es requerida")]
-        [StringLength(500)]
-        [RegularExpression("^[A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ_ ]*$", ErrorMessage = "La descripcioón debe de comenzar con mayúscula, aparte de tener una letra más y solo debe de contener letras")]
+        [RegularExpression("^[A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ_ ]*$", ErrorMessage = "La descripción debe de comenzar con mayúscula, aparte de tener una letra más y solo debe de contener letras")]
         public string Descripcion { get; set; }
         [Required(ErrorMessage = "La categoría es requerida")]
         public int Categoria { get; set; }    

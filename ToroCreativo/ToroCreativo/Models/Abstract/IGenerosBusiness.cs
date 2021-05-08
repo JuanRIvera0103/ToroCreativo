@@ -13,5 +13,6 @@ namespace ToroCreativo.Models.Abstract
         Task<int> GuardarEditarGeneros(Generos generos);
         Task CambiarEstadoGenero(Generos generos);
         Task<int> VerificarIlustracionesHabilitados(int? id);
+        Task<int> VerificarGeneroRepetido(string nombre);
     }
 }

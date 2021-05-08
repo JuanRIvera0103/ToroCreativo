@@ -13,6 +13,8 @@ namespace ToroCreativo.Models.Abstract
         Task<Usuario> ObtenerUsuarioPorID(string id);
         
         Task CambiarEstadoUsuario(Usuario usuario);
-        
+        int VerificarUsuarioPedidos(string id);
+
+
     }
 }

@@ -154,6 +154,25 @@ namespace ToroCreativo.Models.Business
             return await _userManager.Users.ToListAsync(); 
 
         }
+        public int VerificarUsuarioClientePedidos(int? id)
+        {
+            IEnumerable<Cliente> listaCliente =
+                    (from clientes in _context.Clientes
+                     join usuarios in _context.Usuarios
+                     on clientes.IdUsuario  equals usuarios.Id
+                     join pedidos in _context.Pedidos
+                     on usuarios.Id equals pedidos.IdUsuario
+                     where clientes.IdCliente == id
+                     where pedidos.Estado == "Pendiente" || pedidos.Estado == "Aceptado"
+                     select new Cliente
+                     {
+                         IdCliente = clientes.IdCliente
+                     }).ToList();
+
+            var contador = listaCliente.Count();
+            return contador;
+
+        }
 
     }
 

@@ -122,22 +122,22 @@ namespace ToroCreativo.Models.Business
             
         }
 
-        public async Task<int> GuardarEditarProductos(ProductoRegistroCompleto productos)
+        public async Task<int> GuardarEditarProductos(ProductoRegistroCompleto productoRegistro)
         {
             try
             {                
                 int guardareditar = 1;
-                if (productos.idProductos == 0)
+                if (productoRegistro.idProductos == 0)
                     guardareditar = 0;
 
-                if (productos.idProductos == 0)
+                if (productoRegistro.idProductos == 0)
                 {
                     var producto = new Productos
                     {
-                        idProductos = productos.idProductos,
-                        Nombre = productos.Nombre,
-                        Descripcion = productos.Descripcion,
-                        Categoria = productos.Categoria,
+                        idProductos = productoRegistro.idProductos,
+                        Nombre = productoRegistro.Nombre,
+                        Descripcion = productoRegistro.Descripcion,
+                        Categoria = productoRegistro.Categoria,
                         Estado = "Habilitado"
                     };
                     _context.productos.Add(producto);
@@ -146,8 +146,8 @@ namespace ToroCreativo.Models.Business
                     var caracteristica = new Caracteristica
                     {
                         idCaracteristicas = 0,
-                        Color = productos.Color,
-                        Medida = productos.Medida,
+                        Color = productoRegistro.Color,
+                        Medida = productoRegistro.Medida,
                         Estado = "Habilitado",
                         idProducto = producto.idProductos
                     };
@@ -156,7 +156,7 @@ namespace ToroCreativo.Models.Business
                     var iva = new Iva
                     {
                         idIva = 0,
-                        IVA = productos.IVA,
+                        IVA = productoRegistro.IVA,
                         F_Inicio = DateTime.Now,
                         F_Fin = null,
                         idProducto = producto.idProductos                       
@@ -166,7 +166,7 @@ namespace ToroCreativo.Models.Business
                     var precio = new Precio
                     {
                         idPrecios = 0,
-                        Valor = productos.Valor,
+                        Valor = productoRegistro.Valor,
                         F_Inicio = DateTime.Now,
                         F_Fin = null,
                         idProducto = producto.idProductos
@@ -176,8 +176,8 @@ namespace ToroCreativo.Models.Business
                     var imagen = new ImagenProducto
                     {
                         IdImagenProducto = 0,
-                        ImageName = productos.ImageName,
-                        ImageFile = productos.ImageFile,
+                        ImageName = productoRegistro.ImageName,
+                        ImageFile = productoRegistro.ImageFile,
                         Estado = "Principal",
                         IdProducto = producto.idProductos
                     };
@@ -187,11 +187,11 @@ namespace ToroCreativo.Models.Business
                 {
                     var producto = new Productos
                     {
-                        idProductos = productos.idProductos,
-                        Nombre = productos.Nombre,
-                        Descripcion = productos.Descripcion,
-                        Categoria = productos.Categoria,
-                        Estado = productos.Estado
+                        idProductos = productoRegistro.idProductos,
+                        Nombre = productoRegistro.Nombre,
+                        Descripcion = productoRegistro.Descripcion,
+                        Categoria = productoRegistro.Categoria,
+                        Estado = productoRegistro.Estado
                     };
 
                     _context.productos.Update(producto);

@@ -11,10 +11,12 @@ namespace ToroCreativo.Models.Abstract
     {
         Task<IEnumerable<IlustracionDetalle>> ObtenerTodosLasIlustraciones();
         Task<Ilustracion> ObtenerIlustracionPorId(int? id);
-        Task<int> CrearEditarIlustracion(Ilustracion ilustracion);
+        Task<int> CrearEditarIlustracion(IlustracionRegistroCompleto ilustracion);
         Task<List<ImagenIlustracion>> ObtenerImagenesIlustracion(int? id);
         Task<IEnumerable<Generos>> ObtenerGenero();
         Task CambiarEstadoIlustracion(Ilustracion ilustracion);
         Task<IEnumerable<IlustracionDetalle>> ObtenerIlustracionesPorCategoria(int? id);
+        int VerificarIlustracionRepetida(string nombre);
+        Task<IlustracionRegistroCompleto> ObtenerIlustracionPorIdIndex(int? id);
     }
 }

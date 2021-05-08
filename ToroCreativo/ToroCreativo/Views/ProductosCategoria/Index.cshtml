@@ -11,9 +11,9 @@
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a class="nav-item nav-link active" id="primer-nav-tab" data-toggle="tab" href="#primer-nav" role="tab"
-           aria-controls="primer-nav" aria-selected="true">Categorias</a>
+           aria-controls="primer-nav" aria-selected="true">Productos</a>
         <a class="nav-item nav-link" id="segundo-nav-tab" data-toggle="tab" href="#segundo-nav" role="tab"
-           aria-controls="segundo-nav" aria-selected="false">Productos</a>
+           aria-controls="segundo-nav" aria-selected="false">Categorías</a>
     </div>
 </nav>
 
@@ -26,67 +26,6 @@
 
             <div class="registros">
                 <table id="tabla" class="table table-hover ">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Estado</th>
-                            <th>
-                                <a asp-action="CrearEditarCategoria"><i class="fas fa-plus" title="Agregar registro"></i></a>
-                            </th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var categorias in ViewBag.Categorias)
-                        {
-                            <tr>
-                                <td>
-                                    @categorias.Nombre
-                                </td>
-                                <td>
-                                    @if (categorias.Estado.Equals("Habilitado"))
-                                    {
-                                        <p class="text-success">@categorias.Estado</p>
-                                    }
-                                    else
-                                    {
-                                        <p class="text-danger">@categorias.Estado</p>
-                                    }
-
-                                </td>
-                                <td>
-                                    @if (categorias.Estado.Equals("Habilitado"))
-                                    {
-                                        <i onclick="CambiarEstadoCategoria(@categorias.idCategoria, '@categorias.Nombre')" class="fas fa-check-circle text-success" title="Cambiar"></i>
-                                    }
-                                    else
-                                    {
-                                        <i onclick="CambiarEstadoCategoria(@categorias.idCategoria, '@categorias.Nombre')" class="fas fa-times-circle text-danger" title="Cambiar"></i>
-                                    }
-
-                                </td>
-                                <td>
-                                    <a asp-action="CrearEditarCategoria" asp-route-id="@categorias.idCategoria">
-                                        <i class="fas fa-edit" title="Editar registro"></i>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a asp-action="DetalleCategoria" asp-route-id=" @categorias.idCategoria">
-                                        <i class="fas fa-search-plus" title="detalle registro"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Contenido segundo nav -->
-        <div class="tab-pane fade show" id="segundo-nav" role="tabpanel" aria-labelledby="nav-profile-tab">
-            <div class="registros">
-                <table id="tabla2" class="table table-hover ">
                     <thead>
                         <tr>
                             <th>
@@ -158,6 +97,67 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+
+        <!-- Contenido segundo nav -->
+        <div class="tab-pane fade show" id="segundo-nav" role="tabpanel" aria-labelledby="nav-profile-tab">
+            <div class="registros">
+                <table id="tabla2" class="table table-hover ">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Estado</th>
+                            <th>
+                                <a asp-action="CrearEditarCategoria"><i class="fas fa-plus" title="Agregar registro"></i></a>
+                            </th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var categorias in ViewBag.Categorias)
+                        {
+                            <tr>
+                                <td>
+                                    @categorias.Nombre
+                                </td>
+                                <td>
+                                    @if (categorias.Estado.Equals("Habilitado"))
+                                    {
+                                        <p class="text-success">@categorias.Estado</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-danger">@categorias.Estado</p>
+                                    }
+
+                                </td>
+                                <td>
+                                    @if (categorias.Estado.Equals("Habilitado"))
+                                    {
+                                        <i onclick="CambiarEstadoCategoria(@categorias.idCategoria, '@categorias.Nombre')" class="fas fa-check-circle text-success" title="Cambiar"></i>
+                                    }
+                                    else
+                                    {
+                                        <i onclick="CambiarEstadoCategoria(@categorias.idCategoria, '@categorias.Nombre')" class="fas fa-times-circle text-danger" title="Cambiar"></i>
+                                    }
+
+                                </td>
+                                <td>
+                                    <a asp-action="CrearEditarCategoria" asp-route-id="@categorias.idCategoria">
+                                        <i class="fas fa-edit" title="Editar registro"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-action="DetalleCategoria" asp-route-id=" @categorias.idCategoria">
+                                        <i class="fas fa-search-plus" title="detalle registro"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>                              
+            </div>
 
         </div>
 
@@ -197,7 +197,7 @@
 
 
 
-          else if (TempData["CambiarProducto"] != null && TempData["CambiarProducto"].ToString().Equals("no"))
+        @if (TempData["CambiarProducto"] != null && TempData["CambiarProducto"].ToString().Equals("no"))
         {
             <text>
 

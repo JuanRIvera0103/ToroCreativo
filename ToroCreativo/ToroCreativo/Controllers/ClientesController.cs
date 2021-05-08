@@ -60,8 +60,16 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
-
-            await _context.CambiarEstadoCliente(await _context.ObtenerClientePorID(id));
+            var productos = _context.VerificarUsuarioClientePedidos(id);
+            if (productos > 0)
+            {
+                TempData["Cambiar"] = "no";
+            }
+            else
+            {
+                await _context.CambiarEstadoCliente(await _context.ObtenerClientePorID(id));
+                TempData["Cambiar"] = "si";
+            }            
 
             return RedirectToAction(nameof(Index));
         }

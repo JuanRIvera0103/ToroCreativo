@@ -33,6 +33,10 @@ namespace ToroCreativo.Controllers
             ViewBag.Usuarios = await _context.Usuarios.CountAsync();
             ViewBag.Productos = await _context.productos.CountAsync();
             ViewBag.Ilustraciones = await _context.Ilustracions.CountAsync();
+            ViewBag.Pedidos = await _context.Pedidos.Where(p => p.Estado != "Sin Enviar").Where(p => p.Estado != "Enviado").CountAsync();
+            int ventasSinEnviar = await _context.Pedidos.Where(p => p.Estado == "Sin Enviar").CountAsync();
+            int ventasEnviadas = await _context.Pedidos.Where(p => p.Estado == "Enviado").CountAsync();
+            ViewBag.Ventas = ventasSinEnviar + ventasEnviadas;
             return View();
         }
         public IActionResult CrearRol()

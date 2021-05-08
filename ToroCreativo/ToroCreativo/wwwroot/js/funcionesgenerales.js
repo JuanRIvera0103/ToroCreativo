@@ -31,7 +31,3 @@ segundo_agregar.addEventListener('click', () => {
     segundo_formulario.classList.toggle('active');
     container.classList.toggle('active');
 });
-
-function Cambiarestado() {
-    confirm("¿Estas seguros que deseas cambiar el estado de este registro?");
-}

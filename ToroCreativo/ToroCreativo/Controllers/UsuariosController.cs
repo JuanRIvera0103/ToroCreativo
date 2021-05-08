@@ -203,9 +203,14 @@ namespace ToroCreativo.Controllers
             {
                return NotFound();
            }
-
-            await _usuarioBusiness.CambiarEstadoUsuario(await _usuarioBusiness.ObtenerUsuarioPorID(id));
-
+            var usuarios = _usuarioBusiness.VerificarUsuarioPedidos(id);
+            if (usuarios > 0)
+                TempData["Cambiar"] = "no";
+            else
+            {
+                await _usuarioBusiness.CambiarEstadoUsuario(await _usuarioBusiness.ObtenerUsuarioPorID(id));
+                TempData["Cambiar"] = "si";
+            }           
             return RedirectToAction(nameof(Index));
         }
 

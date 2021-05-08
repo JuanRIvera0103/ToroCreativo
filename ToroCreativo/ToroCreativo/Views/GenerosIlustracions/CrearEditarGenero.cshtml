@@ -1,47 +1,54 @@
 ﻿@model ToroCreativo.Models.Entities.Generos
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = ViewData["CrearEditar"];
 }
 
-<h1>Create</h1>
 
-<h4>Generos</h4>
+<h2>@ViewData["CrearEditar"] Género</h2>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-controller="Generos" asp-action="CrearEditar">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="idGenero" />
-            <div class="form-group">
-                <label asp-for="Nombre" class="control-label"></label>
-                <input asp-for="Nombre" class="form-control" />
-                <span asp-validation-for="Nombre" class="text-danger"></span>
-            </div>
+<div class="col-5">
+    <form asp-controller="Generos" asp-action="CrearEditar">
+        <input type="hidden" asp-for="idGenero" readonly />
+        <div class="form-group">
+            <label asp-for="Nombre" class="control-label"></label>
+            <input asp-for="Nombre" class="form-control" placeholder="Nombre Género" />
+            <span asp-validation-for="Nombre" class="text-danger"></span>
+        </div>
+        <input asp-for="Estado" type="hidden" class="form-control" readonly />
 
-            <div class="form-group">               
-                @if (Model.idGenero == 0)
-                {
-                    <input asp-for="Estado" value="Habilitado" type="hidden" class="form-control" readonly />
-                }
-                else
-                {
-                    <input asp-for="Estado" type="hidden" class="form-control" readonly />
-                }
-                <span asp-validation-for="Estado" class="text-danger"></span>
+        <div class="form-group">
+            <div class="row">
+                <div class="col-8">
+                    @if (Model.idGenero == 0)
+                    {
+                        <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-warning btn-block">Editar</button>
+                    }
+                </div>
+                <div class="col-4">
+                    <a asp-action="Index" class="btn btn-secondary btn-block">Volver</a>
+                </div>
             </div>
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
+        </div>
+    </form>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+         @if(TempData["Repetido"] != null && TempData["Repetido"].ToString().Equals("si")) {
+            <text>
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'No se puede realizar la acción',
+                    html: 'El nombre del género ya se encuentra en uso, por favor ingrese otro nombre'
+                  });
+
+                 </text>
+        }
+    </script>
 }

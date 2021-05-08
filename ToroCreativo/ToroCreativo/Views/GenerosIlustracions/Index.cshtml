@@ -5,15 +5,15 @@
 }
 
 <div class="titulo">
-    <h1>Sistema Administrativo <span>Productos</span> </h1>
+    <h1>Sistema Administrativo <span>Ilustraciones</span> </h1>
 </div>
 
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <a class="nav-item nav-link active" id="primer-nav-tab" data-toggle="tab" href="#primer-nav" role="tab"
-           aria-controls="primer-nav" aria-selected="true">Géneros</a>
+           aria-controls="primer-nav" aria-selected="true">Ilustraciones</a>
         <a class="nav-item nav-link" id="segundo-nav-tab" data-toggle="tab" href="#segundo-nav" role="tab"
-           aria-controls="segundo-nav" aria-selected="false">Ilustraciones</a>
+           aria-controls="segundo-nav" aria-selected="false">Géneros</a>
     </div>
 </nav>
 
@@ -26,6 +26,78 @@
 
             <div class="registros">
                 <table id="tabla" class="table table-hover ">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Nombre)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Genero)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Estado)
+                            </th>
+                            <th>
+                                <a asp-action="CrearEditarIlustracion"><i class="fas fa-plus" title="Agregar registro"></i></a>
+                            </th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Nombre)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Genero)
+                                </td>
+                                <td>
+                                    @if (item.Estado.Equals("Habilitado"))
+                                    {
+                                        <p class="text-success">@Html.DisplayFor(modelItem => item.Estado)</p>
+                                    }
+                                    else
+                                    {
+                                        <p class="text-danger">@Html.DisplayFor(modelItem => item.Estado)</p>
+                                    }
+                                </td>
+                                <td>
+                                    @if (item.Estado.Equals("Habilitado"))
+                                    {
+                                        <i onclick="CambiarEstadoIlustracion(@item.IdIlustracion , '@item.Nombre')" class="fas fa-check-circle text-success" title="Cambiar"></i>
+                                    }
+                                    else
+                                    {
+                                        <i onclick="CambiarEstadoIlustracion(@item.IdIlustracion , '@item.Nombre')" class="fas fa-times-circle text-danger" title="Cambiar"></i>
+                                    }
+
+                                </td>
+
+                                <td>
+                                    <a asp-action="CrearEditarIlustracion" asp-route-id="@item.IdIlustracion">
+                                        <i class="fas fa-edit" title="Editar registro"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-action="DetalleIlustracion" asp-route-id="@item.IdIlustracion">
+                                        <i class="fas fa-search-plus" title="detalle registro"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Contenido segundo nav -->
+        <div class="tab-pane fade show" id="segundo-nav" role="tabpanel" aria-labelledby="nav-profile-tab">            
+
+            <div class="registros">
+                <table id="tabla2" class="table table-hover ">
                     <thead>
                         <tr>
                             <th>Nombre</th>
@@ -78,79 +150,7 @@
                                 </td>
                             </tr>
                         }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <!-- Contenido segundo nav -->
-        <div class="tab-pane fade show" id="segundo-nav" role="tabpanel" aria-labelledby="nav-profile-tab">            
-
-            <div class="registros">
-                <table id="tabla2" class="table table-hover ">
-                    <thead>
-                        <tr>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Nombre)
-                            </th>
-                            <th>
-                                @Html.DisplayNameFor(model => model.Genero)
-                            </th>                            
-                            <th>
-                                @Html.DisplayNameFor(model => model.Estado)
-                            </th>
-                            <th>
-                                <a asp-action="CrearEditarIlustracion"><i class="fas fa-plus" title="Agregar registro"></i></a>
-                            </th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model)
-                        {
-                            <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Nombre)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.Genero)
-                                </td>                  
-                                <td>
-                                    @if (item.Estado.Equals("Habilitado"))
-                                    {
-                                        <p class="text-success">@Html.DisplayFor(modelItem => item.Estado)</p>
-                                    }
-                                    else
-                                    {
-                                        <p class="text-danger">@Html.DisplayFor(modelItem => item.Estado)</p>
-                                    }
-                                </td>
-                                <td>
-                                    @if (item.Estado.Equals("Habilitado"))
-                                    {
-                                        <i onclick="CambiarEstadoIlustracion(@item.IdIlustracion , '@item.Nombre')" class="fas fa-check-circle text-success" title="Cambiar"></i>
-                                    }
-                                    else
-                                    {
-                                        <i onclick="CambiarEstadoIlustracion(@item.IdIlustracion , '@item.Nombre')" class="fas fa-times-circle text-danger" title="Cambiar"></i>
-                                    }
-
-                                </td>
-
-                                <td>
-                                    <a asp-action="CrearEditarIlustracion" asp-route-id="@item.IdIlustracion">
-                                        <i class="fas fa-edit" title="Editar registro"></i>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a asp-action="DetalleIlustracion" asp-route-id="@item.IdIlustracion">
-                                        <i class="fas fa-search-plus" title="detalle registro"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        }
-                    </tbody>
+                    </tbody>                    
                 </table>
             </div>
 

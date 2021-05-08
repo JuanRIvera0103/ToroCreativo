@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ToroCreativo.Clases;
 using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
@@ -36,7 +37,10 @@ namespace ToroCreativo.Controllers
         public async Task<IActionResult> CrearEditarGenero(int id = 0)
         {
             if (id == 0)
+            {
+                ViewData["CrearEditar"] = "Crear";
                 return View(new Generos());
+            }                
             else
             {
                 int productos = await _generosBusiness.VerificarIlustracionesHabilitados(id);
@@ -45,6 +49,7 @@ namespace ToroCreativo.Controllers
                     TempData["Editar"] = "no";
                     return RedirectToAction(nameof(Index));
                 }
+                ViewData["CrearEditar"] = "Editar";
                 return View(await _generosBusiness.ObtenerGeneroPorId(id));
             }
         }
@@ -100,12 +105,19 @@ namespace ToroCreativo.Controllers
         // GET: Estados/Create
         public async Task<IActionResult> CrearEditarIlustracion(int id = 0)
         {
-            IEnumerable<Generos> listagenero1 = await _ilustracionBusiness.ObtenerGenero();
-            ViewBag.Generos = listagenero1;
+            IEnumerable<Generos> listagenero = await _ilustracionBusiness.ObtenerGenero();
+            ViewBag.Generos = listagenero;
             if (id == 0)
-                return View(new Ilustracion());
+            {
+                ViewData["CrearEditar"] = "Crear";
+                return View(new IlustracionRegistroCompleto());
+            }
             else
-                return View(await _ilustracionBusiness.ObtenerIlustracionPorId(id));
+            {
+                ViewData["CrearEditar"] = "Editar";
+                return View(await _ilustracionBusiness.ObtenerIlustracionPorIdIndex(id));
+            }
+                
         }
 
         // GET: Estados/Delete/5

@@ -16,5 +16,6 @@ namespace ToroCreativo.Models.Abstract
         Task<IEnumerable<Usuario>> ObtenerUsuario();
         Task<ClienteDetalle> ObtenerClienteDetalle(int? id);
         Task<Cliente> ObtenerClienteDetallePorUsuario(string id);
+        int VerificarUsuarioClientePedidos(int? id);
     }
 }

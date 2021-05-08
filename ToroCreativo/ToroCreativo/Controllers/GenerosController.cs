@@ -28,7 +28,13 @@ namespace ToroCreativo.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+                int verificarGeneroRepetida = await _context.VerificarGeneroRepetido(generos.Nombre);
+                if (verificarGeneroRepetida != 0)
+                {
+                    TempData["Repetido"] = "si";
+                    return RedirectToAction("CrearEditarGenero", "GenerosIlustracions", new { id = generos.idGenero });
+                }
+
                 int guardarEditar = await _context.GuardarEditarGeneros(generos);
                 if (guardarEditar == 0)
                     TempData["guardar"] = "si";
@@ -37,7 +43,7 @@ namespace ToroCreativo.Controllers
 
                 return RedirectToAction("Index", "GenerosIlustracions");
             }
-            return View(generos);
+            return RedirectToAction("CrearEditarGenero", "GenerosIlustracions");
         }
     }
 }

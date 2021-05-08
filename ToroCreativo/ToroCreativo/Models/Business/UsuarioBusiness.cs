@@ -39,11 +39,6 @@ namespace ToroCreativo.Models.Business
                 return usuario;
             }
         }
-
-        
-
-       
-
         public async Task CambiarEstadoUsuario(Usuario usuario)
         {
             try
@@ -62,6 +57,24 @@ namespace ToroCreativo.Models.Business
 
                 throw new Exception();
             }
+        }
+
+        public int VerificarUsuarioPedidos(string id)
+        {
+            IEnumerable<Usuario> listaUsuarios =
+                    (from usuarios in _context.Usuarios                     
+                     join pedidos in _context.Pedidos
+                     on usuarios.Id equals pedidos.IdUsuario
+                     where usuarios.Id == id
+                     where pedidos.Estado == "Pendiente" || pedidos.Estado == "Aceptado"
+                     select new Usuario
+                     {
+                         Id = usuarios.Id
+                     }).ToList();
+
+            var contador = listaUsuarios.Count();
+            return (contador);
+
         }
 
     }

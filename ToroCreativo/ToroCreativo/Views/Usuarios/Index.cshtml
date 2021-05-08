@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ToroCreativo.ViewModels.Usuario.UsuarioViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Usuarios";
 }
 
 @section Styles{
@@ -10,10 +10,8 @@
 
 }
 <div class="titulo">
-    <h1>Sistema Administrativo <span>Clientes</span> </h1>
+    <h1>Sistema Administrativo <span>Usuarios</span> </h1>
 </div>
-
-
 
 <div class="registros">
 
@@ -31,7 +29,7 @@
                     @Html.DisplayNameFor(model => model.Estado)
                 </th>
                 <th>
-                    <a  asp-action="CrearUsuario" asp-controller="Usuarios" class="text-dark"><i class="fas fa-plus"></i></a>
+                    <a asp-action="CrearUsuario" asp-controller="Usuarios" class="text-dark"><i class="fas fa-plus"></i></a>
                 </th>
             </tr>
         </thead>
@@ -61,19 +59,35 @@
                     <td>
                         @if (usuario.Estado.Equals("Habilitado"))
                         {
-                            <a asp-action="CambiarEstado" asp-route-id="@usuario.Id">
-                                <i class="fas fa-check-circle text-success" title="Cambiar"></i>
-                            </a>
+                            <i onclick="CambiarEstadoUsuario('@usuario.Id', '@usuario.Email')" class="fas fa-check-circle text-success" title="Cambiar"></i>
                         }
                         else
                         {
-                            <a asp-action="CambiarEstado" asp-route-id="@usuario.Id">
-                                <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
-                            </a>
+                            <i onclick="CambiarEstadoUsuario('@usuario.Id', '@usuario.Email')" class="fas fa-times-circle text-danger" title="Cambiar"></i>
                         }
                 </tr>
             }
         </tbody>
     </table>
 </div>
+
+@section Scripts{
+
+    <script>
+
+        @if (TempData["Cambiar"] != null && TempData["Cambiar"].ToString().Equals("no"))
+        {
+            <text>
+
+            Swal.fire({
+                icon: 'error',
+                title: 'No se puede cambiar el estado',
+                html: 'El usuario seleccionado cuenta con pedidos en proceso, deberá de solucionar el estado de los pedidos con ese usuario para poder realizar esta acción'
+            });
+
+            </text>
+        }
+    </script>
+}
+
 

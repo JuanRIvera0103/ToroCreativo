@@ -1,0 +1,89 @@
+﻿@model ToroCreativo.Clases.IlustracionRegistroCompleto
+
+@{
+    ViewData["Title"] = ViewData["CrearEditar"];
+}
+
+<h2>@ViewData["CrearEditar"] Ilustración</h2>
+<hr />
+
+   <div class="col-7">
+       <form asp-controller="Ilustracions" asp-action="CrearEditar" enctype="multipart/form-data" method="post">
+           <input type="hidden" asp-for="IdIlustracion" readonly />
+           <input asp-for="Estado" type="hidden" readonly />
+           <input type="hidden" asp-for="ImageName" value="abc" readonly />
+           <div class="form-group">
+               <div class="row">
+                   <div class="col-6">
+                       <div class="form-group">
+                           <label asp-for="Nombre" class="control-label"></label>
+                           <input asp-for="Nombre" class="form-control" />
+                           <span asp-validation-for="Nombre" class="text-danger"></span>
+                       </div>
+                   </div>
+                   <div class="col-6">
+                       <div class="form-group">
+                           <label asp-for="IdGenero" class="control-label"></label>
+                           <select asp-for="IdGenero" asp-items="@(new SelectList(ViewBag.Generos, "idGenero", "Nombre" ))" class="form-control" required>
+                               <option value="">Seleccione un Género</option>
+                           </select>
+                           <span asp-validation-for="IdGenero" class="text-danger"></span>
+                       </div>
+                   </div>
+               </div>
+           </div>
+           <div class="form-group">
+               <div class="row">
+                   <div class="col-12">
+                       <div class="form-group">
+                           <label asp-for="Descripcion" class="control-label"></label>
+                           <textarea asp-for="Descripcion" class="form-control" placeholder="Descripción de la ilustración"></textarea>
+                           <span asp-validation-for="Descripcion" class="text-danger"></span>
+                       </div>
+                   </div>
+               </div>
+           </div>
+           @if (Model.IdIlustracion == 0)
+           {
+                 <div class="mb-3">
+                   <label asp-for="ImageFile" class="form-label"></label>
+                   <input type="file" asp-for="ImageFile" class="form-control border-0" accept="image/*">
+                   <span asp-validation-for="ImageFile" class="text-danger"></span>
+                </div>
+           }           
+           <div class="form-group">
+               <div class="row">
+                   <div class="col-8">
+                       @if (Model.IdIlustracion == 0)
+                       {
+                           <button type="submit" class="btn btn-primary btn-block">Guardar</button>
+                       }
+                       else
+                       {
+                           <button type="submit" class="btn btn-warning btn-block">Editar</button>
+                       }
+                   </div>
+                   <div class="col-4">
+                       <a asp-action="Index" class="btn btn-secondary btn-block">Volver</a>
+                   </div>
+               </div>
+           </div>
+       </form>
+    </div>
+
+
+@section Scripts {
+    <script>
+     @if(TempData["Repetido"] != null && TempData["Repetido"].ToString().Equals("si")) {
+            <text>
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'No se puede crear la ilustración',
+                    html: 'El nombre de la ilustración ya se encuentra en uso, por favor ingrese otro nombre'
+                  });
+
+                 </text>
+        }
+    </script>  
+}

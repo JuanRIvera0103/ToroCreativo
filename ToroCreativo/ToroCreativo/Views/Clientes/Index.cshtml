@@ -41,57 +41,71 @@
         <tbody>
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cedula)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Nombre)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Apellido)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Correo)
-                </td>
-                <td>
-                    @if (item.Estado.Equals("Habilitado"))
-                    {
-                        <p class="text-success">@Html.DisplayFor(modelItem => item.Estado)</p>
-                    }
-                    else
-                    {
-                        <p class="text-danger">@Html.DisplayFor(modelItem => item.Estado)</p>
-                    }
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cedula)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Nombre)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Apellido)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Correo)
+                    </td>
+                    <td>
+                        @if (item.Estado.Equals("Habilitado"))
+                        {
+                            <p class="text-success">@Html.DisplayFor(modelItem => item.Estado)</p>
+                        }
+                        else
+                        {
+                            <p class="text-danger">@Html.DisplayFor(modelItem => item.Estado)</p>
+                        }
 
-                </td>
+                    </td>
 
-                <td>
-                    @if (item.Estado.Equals("Habilitado"))
-                    {
-                        <a asp-action="CambiarEstado" asp-route-id="@item.IdCliente">
-                            <i class="fas fa-check-circle text-success" title="Cambiar"></i>
+                    <td>
+                        @if (item.Estado.Equals("Habilitado"))
+                        {
+                            <i onclick="CambiarEstadoCliente(@item.IdCliente, '@item.Nombre' + ' ' + '@item.Apellido')" class="fas fa-check-circle text-success" title="Cambiar"></i>
+                        }
+                        else
+                        {
+                            <i onclick="CambiarEstadoCliente(@item.IdCliente, '@item.Nombre ' + ' ' + '@item.Apellido')" class="fas fa-times-circle text-danger" title="Cambiar"></i>
+                        }
+
+                    </td>
+                    <td>
+                        <a asp-action="CrearEditar" class="text-dark" asp-route-id="@item.IdCliente"><i class="fas fa-edit"></i></a>
+
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.IdCliente">
+                            <i class="fas fa-search-plus" title="detalle registro"></i>
                         </a>
-                    }
-                    else
-                    {
-                        <a asp-action="CambiarEstado" asp-route-id="@item.IdCliente">
-                            <i class="fas fa-times-circle text-danger" title="Cambiar"></i>
-                        </a>
-                    }
-
-                </td>
-                <td>
-                    <a asp-action="CrearEditar" class="text-dark" asp-route-id="@item.IdCliente"><i class="fas fa-edit"></i></a>
-
-                </td>
-                <td>
-                    <a asp-action="Details" asp-route-id="@item.IdCliente">
-                        <i class="fas fa-search-plus" title="detalle registro"></i>
-                    </a>
-                </td>
-            </tr>
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
 </div>
+@section Scripts{
+
+    <script>
+
+        @if (TempData["Cambiar"] != null && TempData["Cambiar"].ToString().Equals("no"))
+        {
+            <text>
+
+            Swal.fire({
+                icon: 'error',
+                title: 'No se puede cambiar el estado',
+                html: 'El cliente seleccionado cuenta con pedidos en proceso, deberá de solucionar el estado de los pedidos con ese cliente para poder realizar esta acción'
+            });
+
+            </text>
+        }
+    </script>
+}

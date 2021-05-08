@@ -13,6 +13,7 @@ namespace ToroCreativo.ViewModels.Usuario
 
         [Required(ErrorMessage = "El email es requerido")]
         [EmailAddress(ErrorMessage = "Email invalido")]
+        [DisplayName("Correo")]
         public string Email { get; set; }
 
 
@@ -31,6 +32,7 @@ namespace ToroCreativo.ViewModels.Usuario
         public string ConfirmarPassword { get; set; }
         public List<string> Rol { get; set; }
         [Required(ErrorMessage = "El rol es requerida")]
+        [DisplayName("Rol del usuario")]
         public string RolSeleccionado { get; set; }
         public string Estado { get; set; }
 
