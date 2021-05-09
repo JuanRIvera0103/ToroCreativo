@@ -69,7 +69,7 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
-
+            TempData["CambiarPedido"] = "si";        
             await _context.AceptarPedido(await _context.ObtenerPedidoPorID(id));
 
             return RedirectToAction(nameof(Index));
@@ -80,9 +80,9 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
-
+            
             await _context.CancelarPedido(await _context.ObtenerPedidoPorID(id));
-
+            TempData["CambiarPedido"] = "si";
             return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> PedidoAVenta(int? id)
@@ -91,10 +91,16 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
+            var comprobante = await _context.VerificarComprobante(id);
+            if (comprobante == null)
+            {
+                TempData["Comprobante"] = "no";
+                return RedirectToAction(nameof(Index));
+            }
             var Venta = await _context.ObtenerPedidoPorID(id);
             Venta.FechaVenta = DateTime.Now;
             await _context.PedidoAVentaNoEnviada(Venta);
-
+            TempData["CambiarPedido"] = "si";
             return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> VentaSinEnviarAVentaEnviada(int? id)
@@ -103,7 +109,7 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
-
+            TempData["Enviada"] = "si";
             await _context.VentaNoEnviadaAVentaEnviada(await _context.ObtenerPedidoPorID(id));
 
             return RedirectToAction(nameof(VentaIndex));
@@ -112,8 +118,8 @@ namespace ToroCreativo.Controllers
         {
 
             await _context.AgregarComprobantePedido(pedido);
-
-            return RedirectToAction(nameof(Index));
+            TempData["Comprobante"] = "si";
+            return RedirectToAction("Detalle", new { id = pedido.IdPedido });
         }
         public async Task<IActionResult> CrearEditar(int id = 0)
         {

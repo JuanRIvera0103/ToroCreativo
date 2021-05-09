@@ -4,152 +4,204 @@
     ViewData["Title"] = "Details";
 }
 
+@section Styles{
+    <link rel="stylesheet" href="~/css/detalle-cliente-admin.css" />
+}
 
 
-<article>
-    <div class="container">
-        <div class="titulo titulo-detalle">
-            <h1>Pedido de @Html.DisplayFor(model => model.Nombre) @Html.DisplayFor(model => model.Apellido)</h1>
-        </div>
-        <div class="gestion">
-            <div class="registros">
+<div class="titulo titulo-detalle">
+    <h1>Pedido de @Html.DisplayFor(model => model.Nombre) @Html.DisplayFor(model => model.Apellido)</h1>
+</div>
+<div class="gestion">
+    <div class="registros">
+        <div class="row">
+            <div class="rounded BackClienteInfo col-sm-5">
+
+                <h6 class="TituloA">Toro Creativo</h6>
                 <div class="row">
-                    <div class="rounded BackClienteInfo col-sm-5">
 
-                        <h6 class="TituloA">Toro Creativo</h6>
-                        <div class="row">
-
-                            <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.IdUsuario)</h5>
-                            <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.IdUsuario)</h5>
-                            <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.Telefono)</h5>
-                            <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Telefono)</h5>
-                            <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.Direccion):</h5>
-                            <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Direccion)</h5>
-                        </div>
-                    </div>
-                    <div class="rounded BackClienteInfo col-sm-6">
-                        <h6 class="TituloA">Factura a</h6>
-                        <div class="row">
-                            <h5 class="LetraGrandeB col-sm-4">Nombre Completo</h5>
-                            <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Nombre) @Html.DisplayFor(model => model.Apellido)</h5>
-                            <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.Cedula):</h5>
-                            <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Cedula)</h5>
-                            <h5 class="LetraGrandeB col-sm-4">Correo:</h5>
-                            <h5 class="LetraPequeñaB col-sm-8"></h5>
-
-
-                        </div>
-                    </div>
-                </div>
-                <div class="rounded BackClienteInfo col-sm-11">
-
-
-                    <h6 class="TituloA">Detalles del pedido</h6>
-                    <div class="row">
-                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.IdPedido)</h5>
-                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.IdPedido)</h5>
-                        @if (Model.FechaVenta.Equals("0001-01-01 00:00:00.000000"))
-                        {
-
-                            <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.FechaPedido)</h5>
-                            <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.FechaPedido)</h5>
-
-                        }
-                        else
-                        {
-                            <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.FechaVenta)</h5>
-                            <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.FechaVenta)</h5>
-                        }
-                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.FechaPedido)</h5>
-                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.FechaPedido)</h5>
-                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Estado)</h5>
-                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Estado)</h5>
-                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.TotalIva)</h5>
-                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.TotalIva)</h5>
-                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Subtotal)</h5>
-                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Subtotal)</h5>
-                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Total)</h5>
-                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Total)</h5>
-                        <h5 class="LetraGrandeB col-sm-2">Comprobante</h5>
-
-                        @if (Model.ImageName == null)
-                        {
-                            <h5 class="LetraPequeñaB col-sm-6 text-danger">No</h5>
-
-
-                        }
-                        else
-                        {
-                            <h5 class="LetraPequeñaB col-sm-6 text-success">Si</h5>
-                            <img class="img-thumbnail" src="~/comprobantes/@Html.DisplayFor(model => model.ImageName)" />
-                        }
-
-                        <form asp-action="AgregarComprobante" enctype="multipart/form-data">
-
-                            <div class="form-group">
-
-                                <input asp-for="IdPedido" class="form-control" type="hidden" />
-
-                            </div>
-                            <div class="form-group">
-
-                                <input asp-for="ImageName" class="form-control" type="hidden" />
-
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="ImageFile" class="control-label"></label>
-                                <input asp-for="ImageFile" accept="image/*" />
-                                <span asp-validation-for="ImageFile" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Agregar Comprobante" class="btn btn-primary" />
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-
-                <div class="registros">
-                    <table id="tabla2" class="table table-hover ">
-                        <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                                <th>Subtotal</th>
-                                <th>IVA</th>
-                                <th>Total</th>
-                                <th><a class="text-dark" asp-action="AgregarDetallePedido" asp-route-id="@Model.IdPedido"><i class="fas fa-plus"></i></a></th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in ViewBag.DetallePedidos)
-                            {
-                            <tr>
-                                <td>
-                                    @item.IdCaracteristica
-                                </td>
-                                <td>
-                                    @item.Cantidad
-                                </td>
-                                <td>
-                                    @item.Subtotal
-                                </td>
-                                <td>
-                                    @item.TotalIva
-                                </td>
-                                <td>
-                                    @item.Total
-                                </td>
-                                <td>
-                                    <a asp-action="Delete" asp-route-id="@item.IdDetallePedido" asp-controller="DetallePedidos">
-                                        <i class="fa fa-trash" title="Eliminar registro"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                            }
-                        </tbody>
-                    </table>
+                    <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.IdUsuario)</h5>
+                    <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.IdUsuario)</h5>
+                    <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.Telefono)</h5>
+                    <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Telefono)</h5>
+                    <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.Direccion):</h5>
+                    <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Direccion)</h5>
                 </div>
             </div>
-</article>
+            <div class="rounded BackClienteInfo col-sm-6">
+                <h6 class="TituloA">Factura a</h6>
+                <div class="row">
+                    <h5 class="LetraGrandeB col-sm-4">Nombre Completo</h5>
+                    <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Nombre) @Html.DisplayFor(model => model.Apellido)</h5>
+                    <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.Cedula):</h5>
+                    <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Cedula)</h5>
+                    <h5 class="LetraGrandeB col-sm-4">Correo:</h5>
+                    <h5 class="LetraPequeñaB col-sm-8"></h5>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="rounded BackClienteInfo col-sm-11">
+
+
+            <h6 class="TituloA">Detalles del pedido</h6>
+            <div class="row">
+                <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.IdPedido)</h5>
+                <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.IdPedido)</h5>
+                @if (Model.FechaVenta.Equals("0001-01-01 00:00:00.000000"))
+                {
+
+                    <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.FechaPedido)</h5>
+                    <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.FechaPedido)</h5>
+
+                }
+                else
+                {
+                    <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.FechaVenta)</h5>
+                    <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.FechaVenta)</h5>
+                }
+                <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.FechaPedido)</h5>
+                <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.FechaPedido)</h5>
+                <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Estado)</h5>
+                <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Estado)</h5>
+                <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.TotalIva)</h5>
+                <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.TotalIva)</h5>
+                <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Subtotal)</h5>
+                <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Subtotal)</h5>
+                <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Total)</h5>
+                <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Total)</h5>
+                <h5 class="LetraGrandeB col-sm-2">Comprobante</h5>
+
+                @if (Model.ImageName == null)
+                {
+                    <h5 class="LetraPequeñaB col-sm-4 text-danger">No</h5>
+                    <form asp-action="AgregarComprobante" enctype="multipart/form-data" id="form">
+
+                        <div class="form-group">
+
+                            <input asp-for="IdPedido" class="form-control" type="hidden" />
+
+                        </div>
+                        <div class="form-group">
+
+                            <input asp-for="ImageName" class="form-control" type="hidden" />
+
+                        </div>
+                         <div class="file-select" id="src-file1">
+                            <input asp-for="ImageFile" accept="image/*" type="file" id="Imagen">
+                         </div>
+                        <span asp-validation-for="ImageFile" class="text-danger"></span>     
+                   
+                    </form>
+
+                }
+                else
+                {
+                    <h5 class="LetraPequeñaB col-sm-4 text-success">Si</h5>
+                    <button class="btn btn-outline-dark" onclick="VerComprobante('/comprobantes/@Html.DisplayFor(model => model.ImageName)')">Ver comprobante</button>
+                }
+               
+               
+            </div>
+
+        </div>      
+        <div class="registros">
+            <table id="tabla2" class="table table-hover ">
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Subtotal</th>
+                        <th>IVA</th>
+                        <th>Total</th>
+                        <th><a class="text-dark" asp-action="AgregarDetallePedido" asp-route-id="@Model.IdPedido"><i class="fas fa-plus"></i></a></th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in ViewBag.DetallePedidos)
+                    {
+                        <tr>
+                            <td>
+                                @item.IdCaracteristica
+                            </td>
+                            <td>
+                                @item.Cantidad
+                            </td>
+                            <td>
+                                @item.Subtotal
+                            </td>
+                            <td>
+                                @item.TotalIva
+                            </td>
+                            <td>
+                                @item.Total
+                            </td>
+                            <td>
+                                <a asp-action="Delete" asp-route-id="@item.IdDetallePedido" asp-controller="DetallePedidos">
+                                    <i class="fa fa-trash" title="Eliminar registro"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script>
+        @if (Model.ImageName == null) {
+            <text>
+        const $imagenSeleccionada = document.querySelector("#Imagen");
+
+        $imagenSeleccionada.addEventListener("change", () => {
+
+            const archivos = $imagenSeleccionada.files;
+            const primerArchivo = archivos[0];
+            const objectURL = URL.createObjectURL(primerArchivo);
+
+            Swal.fire({
+                title: '¿Subir comprobante?',
+                imageUrl: objectURL,
+                imageAlt: 'Comprobante',
+                showCancelButton: true,
+                confirmButtonText: 'Subir Comprobante'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('form').submit();
+                } else {
+                    document.getElementById('Imagen').value = null;
+                }
+            });
+        });
+        </text>
+        }
+            
+
+        function VerComprobante(ruta) {
+            Swal.fire({
+                imageUrl: ruta,
+
+            });
+        };
+
+
+        @if (TempData["Comprobante"] != null && TempData["Comprobante"].ToString().Equals("si"))
+         {
+            <text>
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Comprobante guardado con éxito',
+                html: ''
+            });
+
+            </text>
+         }
+
+    </script>
+}

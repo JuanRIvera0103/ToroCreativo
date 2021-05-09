@@ -107,3 +107,37 @@
 .formulario2 form .crear2:hover{
     background-color: #8175da;
 }
+
+.file-select {
+    position: relative;
+    display: inline-block;
+    
+}
+
+    .file-select::before {
+        border: solid 1px #000000;
+        color: #000000;
+        display: flex;
+        font-size: 15px;
+        justify-content: center;
+        align-items: center;
+        border-radius: 3px;
+        content: 'Subir Comprobante';
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        transition: .5s;
+    }
+    .file-select:hover::before {
+        background-color: #000000;
+        color: #ffffff;
+    }
+    .file-select input[type="file"] {
+        opacity: 0;
+        width: 200px;
+        height: 45px;
+        display: inline-block;
+        cursor: pointer;
+    }

@@ -196,5 +196,14 @@ namespace ToroCreativo.Models.Business
         {
             return await _context.Usuarios.FirstOrDefaultAsync(e => e.Id == id);
         }
+        public async Task<Pedido> VerificarComprobante(int? id)
+        {
+            
+            var pedido = await _context.Pedidos.FindAsync(id);
+            if (pedido.ImageName != null)
+                return pedido;
+            else
+                return null;
+        }        
     }
-    }
+}

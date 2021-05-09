@@ -101,4 +101,3 @@ function CambiarEstadoCliente(id, nombre) {
         }
     });
 };
-

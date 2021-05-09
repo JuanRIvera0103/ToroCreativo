@@ -29,5 +29,6 @@ namespace ToroCreativo.Models.Abstract
         Task<IEnumerable<Pedido>> ObtenerVentasSinEnviar();
         Task<IEnumerable<Pedido>> ObtenerVentasPorEnviar();
         Task<List<DetallePedido>> ObtenerDetallePedidos(int? id);
+        Task<Pedido> VerificarComprobante(int? id);
         }
 }
