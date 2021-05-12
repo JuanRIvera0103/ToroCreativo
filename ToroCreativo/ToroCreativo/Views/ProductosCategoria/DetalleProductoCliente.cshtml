@@ -3,63 +3,113 @@
 @{
     Layout = "_LayoutCliente";
     ViewData["Title"] = "Index";
+
+    int idImagen = 1;
+    int idSubImagen = 10;
+    var caracteristicas = ViewBag.Caracteristicas;
+}
+@section Styles{ 
+    <link rel="stylesheet" href="~/css/producto-detalle.css" />
 }
 
-<link rel="stylesheet" href="~/css/detallep-clients.css" />
 
-<div class="card">
-    <div class="shoeBackground">
-        <div class="gradients">
-            <div class="gradient second" color="white"></div>
-            <div class="gradient" color="purple"></div>
-            <div class="gradient" color="black"></div>
-        </div>
-        <h1 class="nombre">Toro</h1>
-        @*<img src="../../utils/img/logo.png" alt="" class="logo">
-        <a href="#" class="share"><i class="fas fa-share-alt"></i></a>*@
-        <img src="@("~/imgProductos/"+ViewBag.Imagen)" asp-append-version="true" alt="" class="shoe show" color="white"/>
-        @*<img src="../../utils/img/producto.png" alt="" class="shoe" color="purple">
-        <img src="img/black.png" alt="" class="shoe" color="black">*@
+<div class="producto">
+    <input type="hidden" id="idproducto" value="@Html.DisplayFor(model => model.idProductos)" for="idproducto">
+    <div class="sub-imagenes">
+        @foreach (var img in ViewBag.Imagen)
+        {   
+            <div class="sub-imagen">
+                <img id="@idSubImagen" class="sub-img" src="@("~/imgProductos/"+img.ImageName)" asp-append-version="true">
+             </div>  
+            idSubImagen += 10;
+        }
+  
 
     </div>
-    <div class="info">
-        <div class="shoeName">
-            <div>
-                <h1 class="big">@Html.DisplayFor(model => model.Nombre)</h1>
-                <span class="new">new</span>
-            </div>
+    <div class="imagenes">
+        @foreach (var img in ViewBag.Imagen)
+        {
+            if (img.Estado == "Principal")
+            {
+                <img id="@idImagen" class="img active" src="@("~/imgProductos/"+img.ImageName)" asp-append-version="true">
+            }
+            else {
+                <img id="@idImagen" class="img" src="@("~/imgProductos/"+img.ImageName)" asp-append-version="true">
+            }
+            idImagen++;
+            
+        }
+    </div>
 
+    <div class="informacion">
+        <div class="nombre">
+            <h1>@Html.DisplayFor(model => model.Nombre)</h1>
         </div>
-        <div class="description">
-            <h3 class="title">Información</h3>
-            <p class="text">@Html.DisplayFor(model => model.Descripcion)</p>
+        <div class="descripcion">
+            <h2 class="title">Descripción</h2>
+            <p>@Html.DisplayFor(model => model.Descripcion)</p>
         </div>
         <div class="color-container">
-            <h3 class="title">Color</h3>
-            <div class="colors">
-                @foreach (var colores in ViewBag.Caracteristicas)
+            <h3 class="title">Colores</h3>
+            <div class="colores">
+                @foreach (var colores in ViewBag.Colores)
                 {
-                    <span class="color" style="background-color: @colores.Color;"></span>
+                    <span id="@colores.Color" class="color" style="background-color: @colores.Color;"></span>               
                 }
-}
             </div>
         </div>
-        <div class="size-container">
-            <h3 class="title">size</h3>
-            <div class="sizes">
-                @foreach (var medidas in ViewBag.Caracteristicas)
-                {                
-                    <span class="size">@medidas.Medida</span>
-                }    
+        <div class="medidas-container">
+            <h3 class="title">Medidas</h3>
+            <p>Seleccione un color para vizualisar sus medidas</p>
+            <div class="medidas">                           
             </div>
         </div>
-        <div class="buy-price">
-            <a href="#" class="buy"><i class="fas fa-shopping-cart"></i>Comprar</a>
-            <div class="price">
-                <h1>@ViewData["precioTotal"]</h1>
+        <div class="precio">
+            <h4>$@ViewData["precioTotal"]<small>COP</small> </h4>
+        </div>
+        <div class="pedido">
+            <div class="cantidad">
+                <h5>Cantidad: </h5>
+                <input id="cantidad" type="number" value="1" min="1">
+                <p>(# disponibles)</p>
             </div>
+            <button id="agregar" class="agregar-carrito">Agregar <i class="fas fa-shopping-cart" ></i></button>
+
         </div>
     </div>
 </div>
+@section Scripts{ 
+    <script src="~/js/producto-detalle.js" ></script>
+    <script>
+        $(document).ready(function () {
 
-<script src="~/js/detalle-producto.js"></script>
+            var caracteristicasJSON = JSON.parse('@Html.Raw(caracteristicas)');            
+            console.log(caracteristicasJSON);
+            $(".color").click(function () {                
+                var color = $(this).attr("id");
+                console.log(color);
+                $(".medidas").empty();
+                for (var i = 0; i < caracteristicasJSON.length; i++) {
+                    if (caracteristicasJSON[i].Color == color) {
+                        $(".medidas").append('<span id="m-' + caracteristicasJSON[i].idCaracteristicas + '" class="medida">' + caracteristicasJSON[i].Medida + '</span>');                  
+                    }
+                }
+            });
+
+
+            //$(document).on("keyup", ".medida", function () {
+            //    $(".medida").click(function () {
+            //        alert("presionando");
+            //        var medida = $(this);
+            //        var medidaActiva = document.getElementsByClassName("medida active");
+            //        if (medidaActiva != null) {
+            //            $(medidaActiva).removeClass("active");
+            //        }
+            //        $(medida).addClass("active");
+            //    });
+            //});
+
+        });
+        
+    </script>
+}

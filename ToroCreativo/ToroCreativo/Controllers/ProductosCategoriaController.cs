@@ -222,13 +222,13 @@ namespace ToroCreativo.Controllers
             var categoria = await _categoriasBusiness.ObtenerCategoriaPorId(producto.Categoria);
             ViewData["categoria"] = categoria.Nombre;
             ViewData["precioTotal"] = await _precioBusiness.ObtenerPrecioConIvaProducto(producto.idProductos);
-            var imagen = await _imagenProductoBusiness.ObtenerImagenProductoPorProducto(producto.idProductos);
-            if (imagen != null)
-                ViewBag.Imagen = imagen.ImageName;
+            ViewBag.Imagen = await _imagenProductoBusiness.ObtenerImagenesProductoPorId(producto.idProductos);
             ViewBag.Precios = await _precioBusiness.ObtenerPreciosProducto(producto.idProductos);
             ViewBag.Ivas = await _ivasBusiness.ObteneIvasProducto(producto.idProductos);
             ViewBag.Entradas = await _entradaBusiness.ObtenerEntradaProducto(producto.idProductos);
-            ViewBag.Caracteristicas = await _caracteristicaBusiness.ObtenerCaracteristicasProducto(id);
+            ViewBag.Colores = await _caracteristicaBusiness.ObtenerCaracteristicasProductoDistinct(producto.idProductos);
+            string caracteriticasJson = JsonConvert.SerializeObject(await _caracteristicaBusiness.ObtenerCaracteristicasProducto(id));           
+            ViewBag.Caracteristicas = caracteriticasJson;
             return View(producto);
 
         }

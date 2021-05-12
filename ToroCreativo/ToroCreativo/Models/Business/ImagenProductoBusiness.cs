@@ -29,18 +29,11 @@ namespace ToroCreativo.Models.Business
             return await _context.ImagenProductos.ToListAsync();
         }
 
-        public async Task<ImagenProducto> ObtenerImagenProductoPorId(int? id)
+        public async Task<List<ImagenProducto>> ObtenerImagenesProductoPorId(int? id)
         {
-            ImagenProducto imagenProducto;
-            imagenProducto = null;
-
-            if (id == null)
-                return imagenProducto;
-            else
-            {
-                imagenProducto = await _context.ImagenProductos.FirstOrDefaultAsync(e => e.IdImagenProducto == id);
-                return imagenProducto;
-            }
+            var imagenProducto = await _context.ImagenProductos.Where(i => i.IdProducto == id).ToListAsync();
+            return imagenProducto;
+            
         }
 
         public async Task GuardarEditarImagenProducto(ImagenProducto imagenProducto)
@@ -49,7 +42,7 @@ namespace ToroCreativo.Models.Business
             {
                 if (imagenProducto.IdImagenProducto == 0)
                 {
-
+                    imagenProducto.Estado = "Secundario";
                     _context.Add(imagenProducto);
                 }
                 else

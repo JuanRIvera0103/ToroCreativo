@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
     <link rel="stylesheet" href="~/lib/datatables.net-bs4/dataTables.bootstrap4.min.css" />
+    <link href="~/lib/limonte-sweetalert2/sweetalert2.min.css" rel="stylesheet" />
 
     <!--estilos propios del proyecto-->
     <link href="~/css/estilosgenerales.css" rel="stylesheet" />
@@ -24,7 +25,7 @@
                         <div class="bar"></div>
                     </div>
                     <ul>
-                        <li><a  asp-controller="Home" asp-action="Index" data-after="Inicio">Inicio</a></li>
+                        <li><a asp-controller="Home" asp-action="Index" data-after="Inicio">Inicio</a></li>
                         <li>
                             <a asp-controller="ProductosCategoria" asp-action="ProductosCliente" data-after="Productos">Productos</a>
                         </li>
@@ -151,9 +152,7 @@
             </div>
     </header>
     <article>
-        <div class="container">
-            @RenderBody()
-        </div>
+        @RenderBody()
     </article>
     <!--<footer class="border-top footer text-muted">
         <div class="container">
@@ -162,13 +161,14 @@
     </footer>
         -->
     <!--Scripts librerias-->
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/lib/datatables.net/jquery.dataTables.min.js"></script>
     <script src="~/lib/datatables.net-bs4/dataTables.bootstrap4.min.js"></script>
-    <script src="~/lib/sweetalert/sweetalert.min.js"></script>
+    <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
     <script src="~/js/datatable.js"></script>
 
 

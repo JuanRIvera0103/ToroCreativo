@@ -77,9 +77,6 @@ namespace ToroCreativo.Models.Business
         }
         public async Task<List<Caracteristica>> ObtenerCaracteristicasProductoDistinct(int? id)
         {
-            
-         
-
             var caracteristicas = await _context.caracteristicas.Where(p => p.idProducto == id)
                 .Select(o => new { o.Color }).Distinct().ToListAsync();
             List<Caracteristica> listaCaracteristica = new List<Caracteristica>();

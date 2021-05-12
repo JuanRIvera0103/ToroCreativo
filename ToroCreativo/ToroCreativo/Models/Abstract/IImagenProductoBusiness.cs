@@ -10,7 +10,7 @@ namespace ToroCreativo.Models.Abstract
     {
         Task GuardarEditarImagenProducto(ImagenProducto imagenProducto);
         Task EliminarImagenProducto(int id);
-        Task<ImagenProducto> ObtenerImagenProductoPorId(int? id);
+        Task<List<ImagenProducto>> ObtenerImagenesProductoPorId(int? id);
         Task<ImagenProducto> ObtenerImagenProductoPorProducto(int? id);
         Task<List<ImagenProducto>> ObtenerImagenes();
     }

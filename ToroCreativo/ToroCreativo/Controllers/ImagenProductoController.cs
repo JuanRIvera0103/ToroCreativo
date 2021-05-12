@@ -49,13 +49,13 @@ namespace ToroCreativo.Controllers
 
 
         // POST: ImagenIlustraciones/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var imagenIlustracion = await _context.ObtenerImagenProductoPorId(id);
-            await _context.EliminarImagenProducto(id);
-            return RedirectToAction("DetalleProducto", "ProductosCategoria", new { id = imagenIlustracion.IdProducto });
-        }
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Delete(int id)
+        //{
+        //    var imagenIlustracion = await _context.ObtenerImagenProductoPorId(id);
+        //    await _context.EliminarImagenProducto(id);
+        //    return RedirectToAction("DetalleProducto", "ProductosCategoria", new { id = imagenIlustracion.IdProducto });
+        //}
     }
 }
