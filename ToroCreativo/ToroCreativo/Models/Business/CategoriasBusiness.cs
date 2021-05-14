@@ -26,6 +26,10 @@ namespace ToroCreativo.Models.Business
         {
             return await _context.categorias.ToArrayAsync();
         }
+        public async Task<List<Categorias>> ObtenerCategoriasProductosClientes()
+        {
+            return await _context.categorias.Where(c => c.Estado == "Habilitado").ToListAsync();
+        }
 
         public async Task<Categorias> ObtenerCategoriaPorId(int? id)
         {

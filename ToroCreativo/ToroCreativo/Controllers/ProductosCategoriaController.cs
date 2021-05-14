@@ -200,8 +200,8 @@ namespace ToroCreativo.Controllers
         {
 
             ViewBag.Precios = await _precioBusiness.ObtenerPrecios();
-            ViewBag.Imagenes = await _imagenProductoBusiness.ObtenerImagenes();
-            ViewBag.Categorias = await _categoriasBusiness.ObtenerCategorias();
+            ViewBag.Imagenes = await _imagenProductoBusiness.ObtenerImagenesProductosClientes();
+            ViewBag.Categorias = await _categoriasBusiness.ObtenerCategoriasProductosClientes();
 
             if (!string.IsNullOrEmpty(busqueda))
             {
@@ -231,6 +231,13 @@ namespace ToroCreativo.Controllers
             ViewBag.Caracteristicas = caracteriticasJson;
             return View(producto);
 
+        }
+
+        public async Task<IActionResult> llamadaCarrito(CaracteristicaDetalle caracteristica)
+        {
+            var caracteristicaDeserializada = caracteristica;
+            TempData["AgregadoCarrito"] = "si";
+            return RedirectToAction("DetalleProductoCliente", new { id = caracteristica.idProducto});
         }
     }
 }

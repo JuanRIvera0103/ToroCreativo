@@ -60,7 +60,7 @@
         </div>
         <div class="medidas-container">
             <h3 class="title">Medidas</h3>
-            <p>Seleccione un color para vizualisar sus medidas</p>
+            <p class="seleccionar">Seleccione un color para vizualisar sus medidas</p>
             <div class="medidas">                           
             </div>
         </div>
@@ -70,8 +70,8 @@
         <div class="pedido">
             <div class="cantidad">
                 <h5>Cantidad: </h5>
-                <input id="cantidad" type="number" value="1" min="1">
-                <p>(# disponibles)</p>
+                <input id="cantidad" type="number" value="1" min="1">              
+                <p id="disponible">(... disponibles)</p>
             </div>
             <button id="agregar" class="agregar-carrito">Agregar <i class="fas fa-shopping-cart" ></i></button>
 
@@ -83,33 +83,61 @@
     <script>
         $(document).ready(function () {
 
-            var caracteristicasJSON = JSON.parse('@Html.Raw(caracteristicas)');            
-            console.log(caracteristicasJSON);
-            $(".color").click(function () {                
+            var caracteristicasJSON = JSON.parse('@Html.Raw(caracteristicas)');
+            var cantidad = 0;
+            $(".color").click(function () {
                 var color = $(this).attr("id");
-                console.log(color);
                 $(".medidas").empty();
                 for (var i = 0; i < caracteristicasJSON.length; i++) {
                     if (caracteristicasJSON[i].Color == color) {
-                        $(".medidas").append('<span id="m-' + caracteristicasJSON[i].idCaracteristicas + '" class="medida">' + caracteristicasJSON[i].Medida + '</span>');                  
+                        $(".medidas").append('<span id="m-' + caracteristicasJSON[i].idCaracteristicas + '" class="medida">' + caracteristicasJSON[i].Medida + '</span>');
                     }
                 }
+                $("#cantidad").val(1);
+                $("#disponible").text('(... disponibles)');
             });
 
 
-            //$(document).on("keyup", ".medida", function () {
-            //    $(".medida").click(function () {
-            //        alert("presionando");
-            //        var medida = $(this);
-            //        var medidaActiva = document.getElementsByClassName("medida active");
-            //        if (medidaActiva != null) {
-            //            $(medidaActiva).removeClass("active");
-            //        }
-            //        $(medida).addClass("active");
-            //    });
-            //});
+            $(document).on("click", ".medida", function () {
+                var medida = $(this);
+                var idMedida = $(medida).attr("id");
+                var idCaracteristica = idMedida.substring(2, idMedida.length);
+                var medidaActiva = document.getElementsByClassName("medida active");
+                if (medidaActiva != null) {
+                    $(medidaActiva).removeClass("active");
+                }
+                $(medida).addClass("active");
+                for (var i = 0; i < caracteristicasJSON.length; i++) {
+                    if (caracteristicasJSON[i].idCaracteristicas == idCaracteristica) {
+                        cantidad = caracteristicasJSON[i].Cantidad;
+                        $("#disponible").text('('+cantidad+' disponibles)');
+                     }
+                }
+                $("#cantidad").val(1);
+            });
 
+            $("#cantidad").change(function () {
+                var cantidadInput = $(this).val();
+                if (cantidadInput < 1) {
+                    $("#cantidad").val(1);
+                }
+                else if (cantidadInput > cantidad) {
+                    $("#cantidad").val(cantidad);
+                }
+            });
         });
-        
+
+        @if (TempData["AgregadoCarrito"] != null && TempData["AgregadoCarrito"].ToString().Equals("si"))
+        {
+            <text>
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Se agrego al carrito',
+                html: ''
+            });
+
+            </text>
+        }
     </script>
 }

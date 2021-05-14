@@ -140,6 +140,11 @@ namespace ToroCreativo.Controllers
 
 
         }
+        public async Task<IActionResult> IlustracionesCliente()
+        {
+            ViewBag.Generos = await _generosBusiness.ObtenerGeneros();
+            return View(await _ilustracionBusiness.ObtenerTodosLasIlustraciones());
+        }
 
     }
 }

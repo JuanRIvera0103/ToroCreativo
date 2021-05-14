@@ -28,6 +28,10 @@ namespace ToroCreativo.Models.Business
         {
             return await _context.ImagenProductos.ToListAsync();
         }
+        public async Task<List<ImagenProducto>> ObtenerImagenesProductosClientes()
+        {
+            return await _context.ImagenProductos.Where(i => i.Estado == "Principal").ToListAsync();
+        }
 
         public async Task<List<ImagenProducto>> ObtenerImagenesProductoPorId(int? id)
         {

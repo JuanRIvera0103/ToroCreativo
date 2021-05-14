@@ -16,37 +16,32 @@ $(document).ready(function () {
             $(colorActivo).removeClass("active");
         }
         $(color).addClass("active");
+        $(".seleccionar").css("display", "none");        
     });
 
-    $(document).on("click", ".medida", function () {
-        var medida = $(this);
-        var medidaActiva = document.getElementsByClassName("medida active");
-        if (medidaActiva != null) {
-            $(medidaActiva).removeClass("active");
-        }
-        $(medida).addClass("active");
-    });
 
-    $("#agregar").click(function () {        
+    $("#agregar").click(function () {
         var colorActivo = document.getElementsByClassName("color active");
         var medidaActiva = document.getElementsByClassName("medida active");
         if (colorActivo.length > 0 && medidaActiva.length > 0) {
-            var idColor = $(colorActivo).attr("id");
             var idMedida = $(medidaActiva).attr("id");
-            var idMedidaDB = idMedida.substring(2, idMedida.length);
-            var cantidad = document.getElementById("cantidad").value;            
-            var objeto = {
+            var IdCaracteristica = idMedida.substring(2, idMedida.length);
+            var cantidad = document.getElementById("cantidad").value;
+            var ProductoPedido = {
                 Idproducto: idproducto,
-                color: idColor,
-                medida: idMedidaDB,
-                canti: cantidad
-            };            
-            console.log(objeto);
+                idCaracteristicas: IdCaracteristica,
+                Cantidad: cantidad
+            };
+            $.ajax({
+                method: "POST",
+                url: "https://localhost:44363/ProductosCategoria/llamadaCarrito/",
+                data: ProductoPedido
+            });
         } else {
             Swal.fire({
                 icon: 'info',
                 title: 'No se ha seleccionado producto',
-                text: 'Por favor seleccione un color y una medida',                
+                text: 'Por favor seleccione un color y una medida',
             })
         }
     });

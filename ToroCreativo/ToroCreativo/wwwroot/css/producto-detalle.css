@@ -144,7 +144,11 @@ body{
     margin-bottom: 10px;
     width: 100%;   
 }
-
+.seleccionar{
+    font-size: 1.5rem;
+    color: #797979;
+    display: block;
+}
 .medidas{
     position: relative;
     padding: 8px;

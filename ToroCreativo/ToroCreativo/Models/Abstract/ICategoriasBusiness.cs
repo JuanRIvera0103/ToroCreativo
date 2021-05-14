@@ -15,5 +15,6 @@ namespace ToroCreativo.Models.Abstract
         Task CambiarEstadoCategoria(Categorias categorias);
         Task<int> VerificarProductosHabilitados(int? id);
         Task<int> VerificarCategoriaRepetida(string nombre);
+        Task<List<Categorias>> ObtenerCategoriasProductosClientes();
         }
 }
