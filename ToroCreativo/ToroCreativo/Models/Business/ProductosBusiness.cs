@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +12,7 @@ using ToroCreativo.Models.Entities;
 
 namespace ToroCreativo.Models.Business
 {
-    public class ProductosBusiness:IProductosBusiness 
+    public class ProductosBusiness : IProductosBusiness
     {
         private readonly DbContextToroCreativo _context;
 
@@ -39,9 +41,9 @@ namespace ToroCreativo.Models.Business
                 IEnumerable<ProductoDetalle> listaProductoDetalle =
                     (from productos in _context.productos
                      join categorias in _context.categorias
-                     on productos.Categoria equals categorias.idCategoria                     
-                     join precios in _context.precios 
-                     on productos.idProductos equals precios.idProducto                     
+                     on productos.Categoria equals categorias.idCategoria
+                     join precios in _context.precios
+                     on productos.idProductos equals precios.idProducto
                      join ivas in _context.ivas
                      on productos.idProductos equals ivas.idProducto
                      where ivas.F_Fin == null && precios.F_Fin == null
@@ -54,7 +56,7 @@ namespace ToroCreativo.Models.Business
                          Estado = productos.Estado,
                          Categoria = categorias.Nombre,
                          Precio = ((ivas.IVA / 100) * precios.Valor) + precios.Valor
-                        }).ToList();
+                     }).ToList();
 
                 return (listaProductoDetalle);
             }
@@ -101,7 +103,7 @@ namespace ToroCreativo.Models.Business
         public async Task<IEnumerable<ProductoDetalle>> ObtenerProductosPorCategoria(int? id)
         {
 
-           await using (_context)
+            await using (_context)
             {
                 IEnumerable<ProductoDetalle> listaProductoDetalle =
                     (from productos in _context.productos
@@ -119,13 +121,13 @@ namespace ToroCreativo.Models.Business
 
                 return (listaProductoDetalle);
             }
-            
+
         }
 
         public async Task<int> GuardarEditarProductos(ProductoRegistroCompleto productoRegistro)
         {
             try
-            {                
+            {
                 int guardareditar = 1;
                 if (productoRegistro.idProductos == 0)
                     guardareditar = 0;
@@ -141,7 +143,7 @@ namespace ToroCreativo.Models.Business
                         Estado = "Habilitado"
                     };
                     _context.productos.Add(producto);
-                    await _context.SaveChangesAsync(); 
+                    await _context.SaveChangesAsync();
 
                     var caracteristica = new Caracteristica
                     {
@@ -159,7 +161,7 @@ namespace ToroCreativo.Models.Business
                         IVA = productoRegistro.IVA,
                         F_Inicio = DateTime.Now,
                         F_Fin = null,
-                        idProducto = producto.idProductos                       
+                        idProducto = producto.idProductos
                     };
                     _context.ivas.Add(iva);
 
@@ -195,8 +197,8 @@ namespace ToroCreativo.Models.Business
                     };
 
                     _context.productos.Update(producto);
-                }             
-                                                  
+                }
+
                 await _context.SaveChangesAsync();
 
                 return guardareditar;
@@ -226,7 +228,7 @@ namespace ToroCreativo.Models.Business
         }
 
         public int VerificarProductosEnPedidos(int? id)
-        {            
+        {
             IEnumerable<ProductoDetalle> listaProductoDetalle =
                     (from productos in _context.productos
                      join caracteristicas in _context.caracteristicas
@@ -248,7 +250,49 @@ namespace ToroCreativo.Models.Business
         }
         public int VerificarProductoRepetido(string nombre)
         {
-            return  _context.productos.Where(p => p.Nombre == nombre).Count();
+            return _context.productos.Where(p => p.Nombre == nombre).Count();
         }
-    }
+
+        public async Task<List<CarritoDetalle>> ObtenerCarrito(ISession session)
+        {
+            List<CarritoDetalle> detalle = new List<CarritoDetalle>();
+            List<Carrito> carrito = new List<Carrito>();
+            if (session.GetString("Carrito") != null)
+            {
+                carrito = JsonConvert.DeserializeObject<List<Carrito>>(session.GetString("Carrito"));
+            }
+           
+            
+                for (int i = 0; i < carrito.Count; i++)
+                {
+                    CarritoDetalle ProductoDetalle =
+                    (from caracteristica in _context.caracteristicas
+                     join tamaño in _context.tamaños
+                     on caracteristica.Medida equals tamaño.idTamaño
+                     join productos in _context.productos
+                     on caracteristica.idProducto equals productos.idProductos
+                     join precios in _context.precios
+                     on productos.idProductos equals precios.idProducto
+                     join ivas in _context.ivas
+                     on productos.idProductos equals ivas.idProducto
+                     where ivas.F_Fin == null && precios.F_Fin == null && caracteristica.idCaracteristicas == carrito[i].IdCaracteristica
+                     select new CarritoDetalle
+                     {
+                         IdCaracteristica = caracteristica.idCaracteristicas,
+                         Nombre = productos.Nombre,
+                         Color = caracteristica.Color,
+                         Medida = tamaño.Medida,  
+                         IdProducto = carrito[i].IdProducto,
+                         Cantidad = carrito[i].Cantidad,
+                         IVA = (ivas.IVA / 100) * precios.Valor,
+                         Subtotal= precios.Valor,
+                         Precio = (((ivas.IVA / 100) * precios.Valor) + precios.Valor) * carrito[i].Cantidad
+                     }).SingleOrDefault();
+                    detalle.Add(ProductoDetalle);
+                }
+            
+            return (detalle);
+        }
+
+        }
 }

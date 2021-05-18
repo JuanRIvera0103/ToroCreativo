@@ -1,12 +1,15 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using ToroCreativo.Clases;
 using ToroCreativo.Models;
 using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
@@ -32,7 +35,10 @@ namespace ToroCreativo.Controllers
         {
             return View();
         }
-       
+
+        
+        
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

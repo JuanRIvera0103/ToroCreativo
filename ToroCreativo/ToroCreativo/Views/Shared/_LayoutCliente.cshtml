@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+ <!DOCTYPE html>
 
 <html lang="es">
 <head>
@@ -130,18 +131,20 @@
                     <div class="productos-carrito">
                         <div class="box-content cuenta-item">
                             <a href="#" class="link">
-                                @*<div class="icon">
-                                    <img src="../../utils/img/logoverde.png" alt="">
-                                </div>*@
+                                @foreach (var carrito in ViewBag.Carrito)
+                                {
                                 <div class="text">
-                                    <p><span>Camisa</span> talla</p>
-                                    <p><span>Color</span> morado</p>
-                                    <p><span>Cantidad</span> 10</p>
+                                    <p><span>@carrito.Nombre</span></p>
+                                    <p><span>Medida</span>@carrito.Medida</p>
+                                    <p><span>Color</span> @carrito.Color</p>
+                                    <p><span>Cantidad</span> @carrito.Cantidad</p>
+                                    <p><span>Precio</span> @carrito.Precio</p>
                                 </div>
-                                <div class="acciones">
-                                    <i class="fas fa-trash-alt"></i>
-                                    <i class="fas fa-edit"></i>
-                                </div>
+                                    <div class="acciones">
+                                        <i class="fas fa-trash-alt"></i>
+                                        <i class="fas fa-edit"></i>
+                                    </div>
+                                }
                             </a>
                         </div>
                     </div>

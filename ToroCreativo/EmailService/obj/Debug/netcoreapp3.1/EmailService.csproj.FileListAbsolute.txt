@@ -1,0 +1,9 @@
+C:\Users\RYZEN 3\source\repos\ToroCreativo\ToroCreativo\EmailService\bin\Debug\netcoreapp3.1\EmailService.deps.json
+C:\Users\RYZEN 3\source\repos\ToroCreativo\ToroCreativo\EmailService\bin\Debug\netcoreapp3.1\EmailService.dll
+C:\Users\RYZEN 3\source\repos\ToroCreativo\ToroCreativo\EmailService\bin\Debug\netcoreapp3.1\EmailService.pdb
+C:\Users\RYZEN 3\source\repos\ToroCreativo\ToroCreativo\EmailService\obj\Debug\netcoreapp3.1\EmailService.csprojAssemblyReference.cache
+C:\Users\RYZEN 3\source\repos\ToroCreativo\ToroCreativo\EmailService\obj\Debug\netcoreapp3.1\EmailService.AssemblyInfoInputs.cache
+C:\Users\RYZEN 3\source\repos\ToroCreativo\ToroCreativo\EmailService\obj\Debug\netcoreapp3.1\EmailService.AssemblyInfo.cs
+C:\Users\RYZEN 3\source\repos\ToroCreativo\ToroCreativo\EmailService\obj\Debug\netcoreapp3.1\EmailService.csproj.CoreCompileInputs.cache
+C:\Users\RYZEN 3\source\repos\ToroCreativo\ToroCreativo\EmailService\obj\Debug\netcoreapp3.1\EmailService.dll
+C:\Users\RYZEN 3\source\repos\ToroCreativo\ToroCreativo\EmailService\obj\Debug\netcoreapp3.1\EmailService.pdb

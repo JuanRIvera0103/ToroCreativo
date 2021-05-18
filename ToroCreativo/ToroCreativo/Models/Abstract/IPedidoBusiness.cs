@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToroCreativo.Clases;
 using ToroCreativo.Models.Entities;
 
 namespace ToroCreativo.Models.Abstract
@@ -30,5 +31,6 @@ namespace ToroCreativo.Models.Abstract
         Task<IEnumerable<Pedido>> ObtenerVentasPorEnviar();
         Task<List<DetallePedido>> ObtenerDetallePedidos(int? id);
         Task<Pedido> VerificarComprobante(int? id);
+        Task FinalizarPedido(Pedido pedido, List<CarritoDetalle> detalle);
         }
 }

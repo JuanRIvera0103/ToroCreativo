@@ -1,0 +1,93 @@
+﻿@model ToroCreativo.ViewModels.Usuario.PerfilViewModel
+
+@{
+    ViewData["Title"] = "Finalizar pedido";
+    Layout = "_LayoutCliente";
+}
+@section Styles{
+
+
+    <link href="~/css/perfil.css" rel="stylesheet" />
+    <link href="~/css/Pedido-cliente.css" rel="stylesheet" />
+
+}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-5 Box">
+            <h5 class="LetraGrande TituloPedido">Información del cliente</h5>
+            <div class="formularioPedido">
+                <div class="row">
+                    <form asp-action="FinalizarPedido">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                       
+                        <div class="form-group col-md-6">
+                            <label asp-for="Nombre" class="control-label"></label>
+                            <input asp-for="Nombre" class="form-control" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Apellido" class="control-label"></label>
+                            <input asp-for="Apellido" class="form-control" />
+                            <span asp-validation-for="Apellido" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group col-md-6">
+                            <label asp-for="Direccion" class="control-label"></label>
+                            <input asp-for="Direccion" class="form-control" />
+                            <span asp-validation-for="Direccion" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Cedula" class="control-label"></label>
+                            <input asp-for="Cedula" class="form-control" />
+                            <span asp-validation-for="Cedula" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Telefono" class="control-label"></label>
+                            <input asp-for="Telefono" class="form-control" />
+                            <span asp-validation-for="Telefono" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-6">
+                            <input type="submit" value="Finalizar Pedido" class="btn btn-primary" />
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-5 Box">
+            <h5 class="LetraGrande TituloPedido">Resumen</h5>
+            <div class="row">
+                <div class="Box2 col-sm-11">
+                    <div class="row">
+                        @foreach (var carrito in ViewBag.Carrito)
+                        {
+                            <div class="text">
+                                <p><span>@carrito.Nombre</span></p>
+                                <p><span>Medida</span>@carrito.Medida</p>
+                                <p><span>Color</span> @carrito.Color</p>
+                                <p><span>Cantidad</span> @carrito.Cantidad</p>
+                                <p><span>Precio</span> @carrito.Precio</p>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="Box2 col-sm-11">
+                    <div class="row">
+                        <p class="fuente3 col-sm-6" style="border-right:1px solid rgb(100, 99, 99); font-size: 0.9;"> Subtotal : @ViewBag.Subtotal</p>
+                        <p class="fuente3 col-sm-6"> IVA : @ViewBag.IVA</p>
+                    </div>
+                </div>
+                <div class="Box2 col-sm-11">
+                    <div class="row">
+                        <p class="fuente1 col-sm-12"> Total : @ViewBag.Total</p>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

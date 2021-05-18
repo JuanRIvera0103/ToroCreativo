@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -46,7 +47,7 @@ namespace ToroCreativo.Controllers
             ViewBag.Categorias = await _categoriasBusiness.ObtenerCategorias();
             return View(await _productosBusiness.ObtenerProductos());
         }
-
+        
 
         //CRUD Categorias
         public async Task<IActionResult> CrearEditarCategoria(int id = 0)
@@ -187,18 +188,23 @@ namespace ToroCreativo.Controllers
 
         public async Task<IActionResult> ProductosCliente(int? id)
         {
+           
             ViewBag.Precios = await _precioBusiness.ObtenerPrecios();
             ViewBag.Imagenes = await _imagenProductoBusiness.ObtenerImagenes();
             ViewBag.Categorias = await _categoriasBusiness.ObtenerCategorias();
+            List<CarritoDetalle> detalle = await _productosBusiness.ObtenerCarrito(HttpContext.Session);
+            ViewBag.Carrito = detalle;
             if (id == null)
                 return View(await _productosBusiness.ObtenerProductosCliente());
             else
                 return View(await _productosBusiness.ObtenerProductosPorCategoriaCliente(id));
+           
         }
         [HttpPost]
         public async Task<IActionResult> ProductosCliente(string busqueda)
         {
-
+            List<CarritoDetalle> detalle = await _productosBusiness.ObtenerCarrito(HttpContext.Session);
+            ViewBag.Carrito = detalle;
             ViewBag.Precios = await _precioBusiness.ObtenerPrecios();
             ViewBag.Imagenes = await _imagenProductoBusiness.ObtenerImagenesProductosClientes();
             ViewBag.Categorias = await _categoriasBusiness.ObtenerCategoriasProductosClientes();
@@ -214,6 +220,8 @@ namespace ToroCreativo.Controllers
 
         public async Task<IActionResult> DetalleProductoCliente(int? id)
         {
+            List<CarritoDetalle> detalle = await _productosBusiness.ObtenerCarrito(HttpContext.Session);
+            ViewBag.Carrito = detalle;
             if (id == null)
             {
                 return NotFound();
@@ -233,11 +241,54 @@ namespace ToroCreativo.Controllers
 
         }
 
-        public async Task<IActionResult> llamadaCarrito(CaracteristicaDetalle caracteristica)
+        public async Task<IActionResult> LlamadaCarrito(CaracteristicaDetalle caracteristica)
         {
-            var caracteristicaDeserializada = caracteristica;
-            TempData["AgregadoCarrito"] = "si";
-            return RedirectToAction("DetalleProductoCliente", new { id = caracteristica.idProducto});
+            
+                Carrito producto = new Carrito()
+                {
+                    IdProducto = caracteristica.idProducto,
+                    IdCaracteristica = caracteristica.idCaracteristicas,
+                    Cantidad = caracteristica.Cantidad
+                };
+
+            if (HttpContext.Session.GetString("Carrito") == null)
+            {
+                List<Carrito> carrito = new List<Carrito>();
+                carrito.Add(producto);
+                HttpContext.Session.SetString("Carrito", JsonConvert.SerializeObject(carrito));
+            }
+            else
+            {
+                int contador = -1;
+                List<Carrito> carrito = JsonConvert.DeserializeObject<List<Carrito>>(HttpContext.Session.GetString("Carrito"));    
+                for (int i = 0; i< carrito.Count; i++)
+                {
+                    if (carrito[i].IdCaracteristica.Equals(producto.IdCaracteristica))
+                    {
+                        contador = i;
+                    }
+                    
+                }
+                if (contador != -1)
+                {
+                    carrito[contador].Cantidad= carrito[contador].Cantidad+producto.Cantidad;
+                }
+                else
+                {
+                    carrito.Add(producto);
+                }
+                
+                HttpContext.Session.SetString("Carrito", JsonConvert.SerializeObject(carrito));
+            }
+
+
+            await HttpContext.Session.CommitAsync();
+                TempData["AgregadoCarrito"] = "si";
+                return RedirectToAction("DetalleProductoCliente", new { id = caracteristica.idProducto });
+
+            
+            
+
         }
     }
 }

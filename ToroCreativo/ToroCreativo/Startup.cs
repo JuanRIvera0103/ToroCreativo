@@ -1,3 +1,4 @@
+using EmailService;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -36,6 +37,12 @@ namespace ToroCreativo
 
             var conexion = Configuration["ConnectionStrings:conexion_mySql"];
             services.AddDbContext<DbContextToroCreativo>(options => options.UseMySql(conexion));
+            var emailConfig = Configuration
+                .GetSection("EmailConfiguration")
+                .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+            services.AddAutoMapper(typeof(Startup));
+            services.AddScoped<IEmailSender, EmailSender>();
             services.AddScoped<IUsuarioBusiness, UsuarioBusiness>();
             services.AddScoped<ICategoriasBusiness, CategoriasBusiness>();
             services.AddScoped<IProductosBusiness, ProductosBusiness>();
@@ -51,10 +58,13 @@ namespace ToroCreativo
             services.AddScoped<IDetallePedidoBusiness, DetallePedidoBusiness>();
             services.AddScoped<IImagenIlustracionBusiness, ImagenIlustracionBusiness>();
             services.AddScoped<IImagenProductoBusiness, ImagenProductoBusiness>();
-
+            
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
-            services.AddIdentity<Usuario, IdentityRole>().AddEntityFrameworkStores<DbContextToroCreativo>();
+            services.AddIdentity<Usuario, IdentityRole>().AddEntityFrameworkStores<DbContextToroCreativo>().AddDefaultTokenProviders(); 
+
+            services.Configure<DataProtectionTokenProviderOptions>(opt =>
+                opt.TokenLifespan = TimeSpan.FromHours(2));
 
             services.Configure<IdentityOptions>(options =>
             {
@@ -64,6 +74,7 @@ namespace ToroCreativo
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 4;
                 options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
             });
 
             services.ConfigureApplicationCookie(options =>

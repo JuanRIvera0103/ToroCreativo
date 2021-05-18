@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,5 +21,6 @@ namespace ToroCreativo.Models.Abstract
         int VerificarProductosEnPedidos(int? id);
         Task<ProductoRegistroCompleto> ObtenerProductoPorIdIndex(int? id);
         int VerificarProductoRepetido(string nombre);
+        Task<List<CarritoDetalle>> ObtenerCarrito(ISession session);
     }
 }

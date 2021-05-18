@@ -12,6 +12,8 @@ using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
 using Microsoft.AspNetCore.Http;
+using EmailService;
+using AutoMapper;
 
 namespace ToroCreativo.Controllers
 {
@@ -22,13 +24,16 @@ namespace ToroCreativo.Controllers
         private readonly UserManager<Usuario> _userManager;
         private readonly SignInManager<Usuario> _signInManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-
-        public UsuariosController(UserManager<Usuario> userManager, SignInManager<Usuario> signInManager, RoleManager<IdentityRole> roleManager, IUsuarioBusiness usuarioBusiness)
+        private readonly IEmailSender _emailSender;
+        private readonly IMapper _mapper;
+        public UsuariosController(IMapper mapper, IEmailSender emailSender, UserManager<Usuario> userManager, SignInManager<Usuario> signInManager, RoleManager<IdentityRole> roleManager, IUsuarioBusiness usuarioBusiness)
         {
+            _mapper = mapper;
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _usuarioBusiness = usuarioBusiness;
+            _emailSender = emailSender;
         }
         public async Task<IActionResult> Index()
         {
@@ -172,12 +177,15 @@ namespace ToroCreativo.Controllers
 
                     if (result.Succeeded)
                     {
-                        TempData["Crear"] = "si";                       
-
+                        TempData["Crear"] = "si";
+                        var token = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
+                        var confirmationLink = Url.Action(nameof(ConfirmarEmail), "Usuarios", new { token, email = usuario.Email }, Request.Scheme);
+                        var message = new Message(new string[] { usuario.Email }, "Confirmation email link", confirmationLink, null);
+                        await _emailSender.SendEmailAsync(message);
                         await _userManager.AddToRoleAsync(usuario, "Cliente");
-
                         return RedirectToAction("Login", "Usuarios");
                     }
+
 
                     foreach (var error in result.Errors)
                     {
@@ -195,7 +203,15 @@ namespace ToroCreativo.Controllers
 
             return View(registrarViewModel);
         }
-
+        [HttpGet]
+        public async Task<IActionResult> ConfirmarEmail(string token, string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+                return View("Error");
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+            return View(result.Succeeded ? nameof(ConfirmarEmail) : "Error");
+        }
 
         public async Task<IActionResult> CambiarEstado(string id)
         {
@@ -254,8 +270,61 @@ namespace ToroCreativo.Controllers
             return View(cambioContraseña);
         }
 
-
-
+        [HttpGet]
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgotPasswordModel)
+        {
+            if (!ModelState.IsValid)
+                return View(forgotPasswordModel);
+            var user = await _userManager.FindByEmailAsync(forgotPasswordModel.Email);
+            if (user == null)
+                return RedirectToAction(nameof(ForgotPasswordConfirmation));
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var callback = Url.Action(nameof(ResetPassword), "Usuarios", new { token, email = user.Email }, Request.Scheme);
+            var message = new Message(new string[] { user.Email }, "Reestablecimiento de la contraseña", callback, null);
+            await _emailSender.SendEmailAsync(message);
+            return RedirectToAction(nameof(ForgotPasswordConfirmation));
+        }
+        public IActionResult ForgotPasswordConfirmation()
+        {
+            return View();
+        }
+        [HttpGet]
+        public IActionResult ResetPassword(string token, string email)
+        {
+            var model = new ResetPasswordViewModel { Token = token, Email = email };
+            return View(model);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordModel)
+        {
+            if (!ModelState.IsValid)
+                return View(resetPasswordModel);
+            var user = await _userManager.FindByEmailAsync(resetPasswordModel.Email);
+            if (user == null)
+                RedirectToAction(nameof(ResetPasswordConfirmation));
+            var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.Password);
+            if (!resetPassResult.Succeeded)
+            {
+                foreach (var error in resetPassResult.Errors)
+                {
+                    ModelState.TryAddModelError(error.Code, error.Description);
+                }
+                return View();
+            }
+            return RedirectToAction(nameof(ResetPasswordConfirmation));
+        }
+        [HttpGet]
+        public IActionResult ResetPasswordConfirmation()
+        {
+            return View();
+        }
 
     }
 }

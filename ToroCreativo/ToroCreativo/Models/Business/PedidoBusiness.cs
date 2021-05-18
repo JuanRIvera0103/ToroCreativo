@@ -204,6 +204,38 @@ namespace ToroCreativo.Models.Business
                 return pedido;
             else
                 return null;
-        }        
+        }
+        public async Task FinalizarPedido(Pedido pedido, List<CarritoDetalle> detalle)
+        {
+            try
+            {
+                if (pedido.IdPedido == 0)
+                    _context.Add(pedido);
+                await _context.SaveChangesAsync();
+              var Pedido =await  _context.Pedidos.OrderByDescending(x => x.IdPedido).Take(1).FirstOrDefaultAsync();
+                for (int i = 0; i<detalle.Count; i++)
+                {
+                    DetallePedido detallePedido = new DetallePedido
+                    {
+                        IdPedido = Pedido.IdPedido,
+                        IdCaracteristica = detalle[i].IdCaracteristica,
+                        Cantidad = detalle[i].Cantidad,
+                        Subtotal = detalle[i].Subtotal,
+                        TotalIva = detalle[i].IVA,
+                        Total = detalle[i].Precio
+                        
+                    };
+                    _context.Add(detallePedido);
+                }
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+
+                throw new Exception();
+
+            }
+
+        }
     }
 }

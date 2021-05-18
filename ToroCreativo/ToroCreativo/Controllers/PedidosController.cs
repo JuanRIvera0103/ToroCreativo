@@ -6,20 +6,24 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using ToroCreativo.Clases;
 using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.DAL;
 using ToroCreativo.Models.Entities;
+using ToroCreativo.ViewModels.Usuario;
 
 namespace ToroCreativo.Controllers
 {
     public class PedidosController : Controller
     {
         private readonly IPedidoBusiness _context;
-
-
-        public PedidosController(IPedidoBusiness context)
+        private readonly IClientesBusiness _clientes;
+        private readonly IProductosBusiness _productos;
+        public PedidosController(IPedidoBusiness context, IClientesBusiness clientes, IProductosBusiness productos)
         {
             _context = context;
+            _clientes = clientes;
+            _productos = productos;
         }
 
         // GET: Usuarios
@@ -236,5 +240,83 @@ namespace ToroCreativo.Controllers
 
             return View(pedido);
         }
+        public async Task<IActionResult> FinalizarPedido()
+        {
+            var id = await _clientes.ObtenerClienteDetallePorUsuario(HttpContext.Session.GetString("usuario"));
+            double subtotal = 0;
+            double iva = 0;
+            double total = 0;
+            List<CarritoDetalle> detalle = await _productos.ObtenerCarrito(HttpContext.Session);
+            ViewBag.Carrito = detalle;
+            for (int i = 0; i < detalle.Count; i++)
+            {
+                subtotal = detalle[i].Subtotal + subtotal;
+                iva = detalle[i].IVA + iva;
+                total = detalle[i].Precio + total;
+
+            }
+            ViewBag.Subtotal = subtotal;
+            ViewBag.IVA = iva;
+            ViewBag.Total = total;
+            if (id == null)
+                return View(new PerfilViewModel());
+            else
+            {
+                PerfilViewModel perfil = new PerfilViewModel
+                {
+                    Nombre = id.Nombre,
+                    Apellido = id.Apellido,
+                    Cedula = id.Cedula,
+                    Direccion = id.Direccion,
+                    IdCliente = id.IdCliente,
+                    Telefono = id.Telefono
+                };
+                return View(perfil);
+            }
+
+        }
+
+        // POST: Usuarios/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> FinalizarPedido([Bind("IdCliente,Nombre,Apellido,Direccion,Cedula,Telefono")] PerfilViewModel datosPedido)
+        {
+
+            if (ModelState.IsValid)
+            {
+                double subtotal = 0;
+                double iva = 0;
+                double total = 0;
+                List<CarritoDetalle> detalle = await _productos.ObtenerCarrito(HttpContext.Session);
+                for (int i=0; i<detalle.Count; i++)
+                {
+                    subtotal = detalle[i].Subtotal + subtotal;
+                    iva = detalle[i].IVA + iva;
+                    total = detalle[i].Precio + total;
+
+                }
+                Pedido pedido = new Pedido
+                {
+                    Nombre = datosPedido.Nombre,
+                    Apellido = datosPedido.Apellido,
+                    Cedula = datosPedido.Cedula,
+                    Direccion = datosPedido.Direccion,
+                    Total = total,
+                    Subtotal = subtotal,
+                    TotalIva = iva ,
+                    FechaPedido = DateTime.Now,
+                    Telefono = datosPedido.Telefono,
+                    IdUsuario = HttpContext.Session.GetString("usuario"),
+                    Estado = "Pendiente",
+                };
+
+                await _context.FinalizarPedido(pedido, detalle);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(datosPedido);
+        }
     }
 }
+    
