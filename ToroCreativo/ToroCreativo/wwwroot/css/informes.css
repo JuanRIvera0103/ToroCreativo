@@ -1,0 +1,40 @@
+.menu-informes{
+    margin-top: 7%;
+    margin-left: 3%;
+    width: 100%;
+    height: 325px;
+    display: flex;
+}
+.menu-informes .menu-items{
+    width: 30%;
+    text-align: center;
+    background-color: #f1f1f1;
+    margin: 30px;
+    box-shadow: 0px 1px 10px 0px rgba(65, 65, 65, 0.8);
+}
+.menu-items .titulo-informe{
+    height: 30%;
+}
+.menu-items .titulo-informe h4{
+    margin: 30px 20px;
+    font-size: 2.1em;
+    font-weight: 600;
+}
+.menu-informes .menu-items i{
+    margin-right: 10px;
+}
+.menu-informes .menu-items a{
+    display: block;
+    width: 100%;
+    color: #000;
+    font-size: 2em;
+    text-decoration: none;
+    padding: 10px 0;
+    border-top: 1px solid #868686;
+
+    
+    transition: .5s;
+}
+.menu-informes a:hover{
+   background-color: rgba(255, 236, 196);
+}

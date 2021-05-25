@@ -1008,3 +1008,21 @@ C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\n
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ResetPassword.cshtml.g.cs
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ResetPasswordConfirmation.cshtml.g.cs
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ConfirmarEmail.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\AutoMapper.dll
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\MailKit.dll
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\MimeKit.dll
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\NETCore.MailKit.dll
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\EmailService.dll
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\EmailService.pdb
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Pedidos\FinalizarPedido.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ConfirmarEmail.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ForgotPassword.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ForgotPasswordConfirmation.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ResetPassword.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ResetPasswordConfirmation.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Informes\InformesProductos.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Informes\Index.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Informes\InformesCategorias.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Informes\InformesVentas.cshtml.g.cs

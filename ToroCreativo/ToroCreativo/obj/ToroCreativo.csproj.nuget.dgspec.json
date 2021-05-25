@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj": {}
+    "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj": {}
   },
   "projects": {
-    "C:\\Users\\RYZEN 3\\source\\repos\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj": {
+    "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\RYZEN 3\\source\\repos\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj",
+        "projectUniqueName": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj",
         "projectName": "EmailService",
-        "projectPath": "C:\\Users\\RYZEN 3\\source\\repos\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj",
-        "packagesPath": "C:\\Users\\RYZEN 3\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\RYZEN 3\\source\\repos\\ToroCreativo\\ToroCreativo\\EmailService\\obj\\",
+        "projectPath": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj",
+        "packagesPath": "C:\\Users\\higui\\.nuget\\packages\\",
+        "outputPath": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\RYZEN 3\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\higui\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,6 +26,7 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -37,6 +38,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.AspNetCore.Http.Features": {
               "target": "Package",
@@ -62,21 +64,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj": {
+    "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
+        "projectUniqueName": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
         "projectName": "ToroCreativo",
-        "projectPath": "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
-        "packagesPath": "C:\\Users\\RYZEN 3\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\ToroCreativo\\obj\\",
+        "projectPath": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
+        "packagesPath": "C:\\Users\\higui\\.nuget\\packages\\",
+        "outputPath": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\RYZEN 3\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\higui\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -88,9 +90,10 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
+            "targetAlias": "netcoreapp3.1",
             "projectReferences": {
-              "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj": {
-                "projectPath": "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj"
+              "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj": {
+                "projectPath": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj"
               }
             }
           }
@@ -103,6 +106,7 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "AutoMapper.Extensions.Microsoft.DependencyInjection": {
               "target": "Package",
@@ -165,7 +169,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
         }
       }
     }

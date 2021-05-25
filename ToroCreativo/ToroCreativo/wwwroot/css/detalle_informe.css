@@ -1,0 +1,39 @@
+h1{
+    text-align: center;
+    font-size: 3em;
+    margin: 20px 0 40px 0;
+}
+.informes{
+    width: 100%;
+    margin-left: 3%;
+    border: 1px solid #000;
+}
+.informes a{
+    font-size: 2em;
+    color: #000;
+}
+.informes a i{
+    margin: 10px 10px;
+}
+.informes .lineas{
+    margin: 20px;
+}
+.informes .sub-informes{
+    display: flex;
+    width: 90%;
+    margin: 0 5%;    
+}
+.sub-informes .barras{
+    width: 35%;
+}
+.sub-informes .circulo{
+    width: 35%;
+    margin: auto 0;
+}
+.sub-informes .tabla{
+    width: 30%;
+    margin: auto 0;
+}
+table thead{
+    background-color: rgb(108, 92, 231, 0.5);
+}

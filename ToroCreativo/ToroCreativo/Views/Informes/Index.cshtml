@@ -1,0 +1,49 @@
+﻿
+    @{
+        ViewData["Title"] = "Index";
+    }
+    @section Styles {
+        <link rel="stylesheet" href="~/css/informes.css" />
+    }
+
+
+    <div class="titulo">
+        <h1>Sistema Administrativo <span>Informes</span> </h1>
+    </div>
+
+    <div class="menu-informes">
+        <div class="menu-items">
+            <div class="titulo-informe">
+                <h4><i class="fas fa-gifts"></i>Informes de productos más pedidos</h4>
+            </div>
+            <a asp-action="InformesProductos">Ver Informes diario</a>
+            <a href="./informes-semanales.html">Ver Informes semanal</a>
+            <a href="./informes-mensuales.html">Ver Informes mensual</a>
+        </div>
+        <div class="menu-items">
+            <div class="titulo-informe">
+                <h4><i class="fas fa-cubes"></i>Informes de categorias más vendidas</h4>
+            </div>
+            <a  asp-action="InformesCategorias">Ver Informes diario</a>
+            <a href="./informes-semanales.html">Ver Informes semanal</a>
+            <a href="./informes-mensuales.html">Ver Informes mensual</a>
+        </div>
+        <div class="menu-items">
+            <div class="titulo-informe">
+                <h4><i class="fas fa-coins"></i>Informes de ventas</h4>
+            </div>
+            <a asp-action="InformesVentas">Ver Informes diario</a>
+            <a href="./informes-semanales.html">Ver Informes semanal</a>
+            <a href="./informes-mensuales.html">Ver Informes mensual</a>
+        </div>
+
+        <a href=""> </a>
+        <a href=""> </a>
+    </div>
+
+
+    @section Scripts {
+        <script>
+
+        </script>
+    }
