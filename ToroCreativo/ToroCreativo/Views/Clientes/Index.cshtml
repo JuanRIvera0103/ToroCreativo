@@ -14,10 +14,7 @@
 
     <table id="tabla" class="table table table-hover">
         <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Cedula)
-                </th>
+            <tr>               
                 <th>
                     @Html.DisplayNameFor(model => model.Nombre)
                 </th>
@@ -33,18 +30,13 @@
                 <th>
                     <a asp-action="CrearEditar" class="text-dark"><i class="fas fa-plus"></i></a>
                 </th>
-
-                <th></th>
-                <th></th>
+                <th></th>                
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cedula)
-                    </td>
+                <tr>                 
                     <td>
                         @Html.DisplayFor(modelItem => item.Nombre)
                     </td>
@@ -76,13 +68,9 @@
                             <i onclick="CambiarEstadoCliente(@item.IdCliente, '@item.Nombre ' + ' ' + '@item.Apellido')" class="fas fa-times-circle text-danger" title="Cambiar"></i>
                         }
 
-                    </td>
+                    </td>                    
                     <td>
-                        <a asp-action="CrearEditar" class="text-dark" asp-route-id="@item.IdCliente"><i class="fas fa-edit"></i></a>
-
-                    </td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.IdCliente">
+                        <a asp-action="DetalleCliente" asp-route-id="@item.IdCliente">
                             <i class="fas fa-search-plus" title="detalle registro"></i>
                         </a>
                     </td>

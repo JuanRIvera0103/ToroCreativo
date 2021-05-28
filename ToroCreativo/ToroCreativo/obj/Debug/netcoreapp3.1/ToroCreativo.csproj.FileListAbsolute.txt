@@ -14,7 +14,6 @@ E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\ToroC
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Caracteristicas\Crear.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Caracteristicas\Editar.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Clientes\CrearEditar.cshtml.g.cs
-E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Clientes\Details.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Clientes\Index.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Entrada\Crear.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
@@ -1022,7 +1021,10 @@ E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ForgotPasswordConfirmation.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ResetPassword.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ResetPasswordConfirmation.cshtml.g.cs
-E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Informes\InformesProductos.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Informes\Index.cshtml.g.cs
-E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Informes\InformesCategorias.cshtml.g.cs
-E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Informes\InformesVentas.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\Rotativa.AspNetCore.dll
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Informes\InformeProductosPDF.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Informes\Informes.cshtml.g.cs
+E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Clientes\DetalleCliente.cshtml.g.cs

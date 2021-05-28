@@ -1,0 +1,74 @@
+﻿@model IEnumerable<ToroCreativo.Clases.InformesDatos>
+@{
+    ViewData["Title"] = TempData["Tipo"];
+    var datos = ViewBag.Datos;
+}
+<link rel="stylesheet" href="~/css/detalle_informe.css">
+
+<h1>@TempData["Tipo"]</h1>
+<div class="informes">
+    <i class="fas fa-download" id="descargar"></i>
+    <div class="lineas">
+        <canvas id="lineas" width="100" height="30"></canvas>
+    </div>
+    <div class="sub-informes">
+        <div class="barras">
+            <canvas id="barras" width="100" height="100"></canvas>
+        </div>
+        <div class="circulo">
+            <canvas id="circulo" width="150" height="100"></canvas>
+        </div>
+        <div class="tabla">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Cantidad)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cantidad)
+                            </td>
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <form asp-action="GenerarPDF" method="post" id="formDescarga">
+        <input name="DiagramaLineas" value="" id="imgLineas">
+        <input name="DiagramaBarras" value="" id="imgBarras" />
+        <input name="DiagramaCircular" value="" id="imgCircular" />
+    </form>
+</div>
+
+
+
+@section Scripts{
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"
+            integrity="sha512-hZf9Qhp3rlDJBvAKvmiG+goaaKRZA6LKUO35oK6EsM0/kjPK32Yw7URqrq3Q+Nvbbt8Usss+IekL7CRn83dYmw=="
+            crossorigin="anonymous"></script>
+
+    <script src="~/js/Informes.js" ></script>
+    <script>
+        var datosjson = JSON.parse('@Html.Raw(datos)');
+            GenerarInformes(datosjson);
+    </script>
+
+
+}

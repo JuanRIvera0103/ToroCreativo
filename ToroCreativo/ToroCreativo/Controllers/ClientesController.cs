@@ -26,32 +26,19 @@ namespace ToroCreativo.Controllers
         // GET: Usuarios
         public async Task<IActionResult> Index()
         {
-
-
             return View(await _context.ObtenerCliente());
-
-
         }
         
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> DetalleCliente(int? id)
         {
-
-            if (id == null)
-            {
-                return NotFound();
-            }
-            
-           
+            if (id == null)            
+                return NotFound();            
+                       
             var cliente = await _context.ObtenerClienteDetalle(id);
-            if (cliente == null)
-            {
-                return NotFound();
-            }
+            if (cliente == null)            
+                return NotFound();            
 
             return View(cliente);
-
-
-
         }
 
         public async Task<IActionResult> CambiarEstado(int? id)
@@ -61,10 +48,8 @@ namespace ToroCreativo.Controllers
                 return NotFound();
             }
             var productos = _context.VerificarUsuarioClientePedidos(id);
-            if (productos > 0)
-            {
-                TempData["Cambiar"] = "no";
-            }
+            if (productos > 0)            
+                TempData["Cambiar"] = "no";            
             else
             {
                 await _context.CambiarEstadoCliente(await _context.ObtenerClientePorID(id));
@@ -84,9 +69,6 @@ namespace ToroCreativo.Controllers
                 return View(await _context.ObtenerClientePorID(id));
         }
 
-        // POST: Usuarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearEditar([Bind("IdCliente,Nombre,Apellido,IdUsuario,Estado,Direccion,Cedula,Telefono")] Cliente cliente)

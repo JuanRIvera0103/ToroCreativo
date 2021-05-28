@@ -99,22 +99,8 @@
     </div>
 </div>
 @section Scripts{
-
+    <script src="~/js/pedidos.js"></script>
     <script>
-        function EnviarVenta(id, nombre) {
-            Swal.fire({
-                title: '¿Estás seguro de enviar la venta seleccionada de ' + nombre + '?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#ff8c29db',
-                confirmButtonText: 'Enviar'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = "/Pedidos/VentaSinEnviarAVentaEnviada/" + id;
-                }
-            });
-        };
-
         @if (TempData["Enviada"] != null && TempData["Enviada"].ToString().Equals("si"))
         {
             <text>

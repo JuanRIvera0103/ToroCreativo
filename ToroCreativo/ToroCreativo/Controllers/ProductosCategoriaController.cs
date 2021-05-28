@@ -191,7 +191,7 @@ namespace ToroCreativo.Controllers
            
             ViewBag.Precios = await _precioBusiness.ObtenerPrecios();
             ViewBag.Imagenes = await _imagenProductoBusiness.ObtenerImagenesProductosClientes();
-            ViewBag.Categorias = await _categoriasBusiness.ObtenerCategorias();
+            ViewBag.Categorias = await _categoriasBusiness.ObtenerCategoriasProductosClientes();
             List<CarritoDetalle> detalle = await _productosBusiness.ObtenerCarrito(HttpContext.Session);
             ViewBag.Carrito = detalle;
             if (id == null)

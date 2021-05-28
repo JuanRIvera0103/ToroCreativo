@@ -35,14 +35,11 @@ namespace ToroCreativo.Models.Business
                      on usuario.Id equals cliente.IdUsuario
                      select new ClienteDetalle
                      {
-                         IdCliente = cliente.IdCliente,
-                         Correo = usuario.Email,
+                         IdCliente = cliente.IdCliente,                         
                          Nombre = cliente.Nombre,
-                         Estado = cliente.Estado,
                          Apellido = cliente.Apellido,
-                         Cedula = cliente.Cedula,
-                         Direccion=cliente.Direccion,
-                         Telefono=cliente.Telefono
+                         Estado = cliente.Estado,
+                         Correo = usuario.Email                         
                      }).ToList();
                 return (ListaClientesDetalles);
             }

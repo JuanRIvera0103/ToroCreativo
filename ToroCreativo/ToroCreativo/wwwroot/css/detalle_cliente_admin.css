@@ -1,0 +1,56 @@
+﻿.container{
+    padding: 2% 0%;    
+}
+.detalle{
+    position: relative;
+    width: 100%;    
+}
+
+.titulo-detalle {
+    text-align: center;
+    font-weight: 100 !important;
+    margin-bottom: 3%;
+}
+.informacion{
+    position: relative;
+    width: 100%;    
+    padding: 2% 5%;
+    margin-left: 3%;
+    border-bottom: 1px solid #808080;
+}
+.informacion-cliente p {
+    font-size: 17px;
+    margin-bottom: 10px;
+    font-weight: 200;
+}
+.informacion p span{
+    font-weight: 500;
+}
+.sub-titulos{
+    font-size: 25px;
+    font-weight: 200;   
+    text-align: center; 
+    
+}
+.boton {
+    display: block;
+    background-color: transparent;
+    border: solid 1px #808080;
+    border-radius: 2px;
+    font-size: 15px;
+    text-align: center;    
+    padding: 5px 30px;
+    margin: auto;
+    transition: .5s ease;
+
+}
+.boton:hover{
+    background-color: #808080;
+    color: #ffffff;
+}
+#contenidoAdd{
+    padding: 0 3%;
+}
+.nav-tabs .nav-item i {
+    font-size: 10px;
+}

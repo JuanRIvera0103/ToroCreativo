@@ -1,0 +1,159 @@
+﻿@model ToroCreativo.Clases.ClienteDetalle
+
+@{
+    ViewData["Title"] = "Detalle Cliente";
+}
+@section Styles{
+    <link rel="stylesheet" href="~/css/detalle_cliente_admin.css" />
+}
+
+
+<div class="detalle">
+    <div class="detalle-contenido">
+        <div class="informacion">
+            <h1 class="titulo-detalle">@Html.DisplayFor(model => model.Nombre) @Html.DisplayFor(model => model.Apellido)</h1>
+            <div class="row">
+                <div class="col-4 informacion-cliente">
+                    <p><span>@Html.DisplayNameFor(model => model.Cedula): </span>@Html.DisplayFor(model => model.Cedula)</p>
+                    <p><span>@Html.DisplayNameFor(model => model.Correo): </span>@Html.DisplayFor(model => model.Correo)</p>
+                    <p><span>@Html.DisplayNameFor(model => model.Telefono): </span>@Html.DisplayFor(model => model.Telefono)</p>
+                    <p><span>@Html.DisplayNameFor(model => model.Direccion): </span>@Html.DisplayFor(model => model.Direccion)</p>
+                </div>
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="sub-titulos">Pedidos realizados</p>
+                            <button class="boton" onclick="ObtenerPedidos('@Model.IdUsuario')">Mostrar Pedidos</button>
+                            @*<a asp-action="VentasClientes" asp-controller="Pedidos" asp-route-id="@Model.IdUsuario"> Ver pedidos realizados</a>*@
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="sub-titulos">Ventas realizadas</p>
+                            <button class="boton" onclick="ObtenerVentas('@Model.IdUsuario')">Mostrar Ventas</button>
+                            @*<a asp-action="PedidosClientes" asp-controller="Pedidos" asp-route-id="@Model.IdUsuario"> Ver ventas realizadas</a>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="contenidoAdd"></div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/modelo_pedidos.js"></script>
+    <script src="~/js/pedidos.js"></script>
+    <script>
+        function ObtenerPedidos(idUsuario) {
+            $.ajax({
+                method: "GET",
+                url: "/Pedidos/PedidosClientesDetalle",
+                data: {
+                    id: idUsuario
+                },
+            }).then(function (data) {
+
+                $("#tbAceptados").empty();
+                $("#tbPendientes").empty();
+                $("#tbCancelados").empty();
+                $("#tbVentasEnviar").empty();
+                $("#tbVentasEnviadas").empty();
+                $("#contenidoAdd").empty();
+
+                $("#contenidoAdd").append(pedidosNav);
+                $("#contenidoAdd").append(tablaPedidos);
+                var pedidosJSON = JSON.parse(data);
+                for (var i = 0; i < pedidosJSON.length; i++) {
+                    if (pedidosJSON[i].Estado == "Aceptado") {
+                        $("#tbAceptados").append('<tr><td>' + pedidosJSON[i].FechaPedido + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Cedula + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Nombre + ' ' + pedidosJSON[i].Apellido + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Direccion + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Telefono + '</td>\n\
+                                    <td> <p id="comprobante"></p></td>\n\
+                                    <td> '+ pedidosJSON[i].Estado + '</td>\n\
+                                    </td></tr>');
+                        if (pedidosJSON[i].ImageName == null) {
+                            $("#comprobante").text("No");
+                        }
+                        else {
+                            $("#comprobante").text("SI");
+                        }
+
+                    }
+
+
+                    if (pedidosJSON[i].Estado == "Pendiente") {
+                        $("#tbPendientes").append('<tr><td>' + pedidosJSON[i].FechaPedido + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Cedula + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Nombre +' '+pedidosJSON[i].Apellido + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Direccion + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Telefono + '</td>\n\
+                                    <td> '+ pedidosJSON[i].Estado + '</td>\n\
+                                    </td></tr>');
+                    }
+
+
+                    if (pedidosJSON[i].Estado == "Cancelado") {
+                        $("#tbCancelados").append('<tr><td>' + pedidosJSON[i].FechaPedido + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Cedula + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Nombre + ' ' + pedidosJSON[i].Apellido + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Direccion + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Telefono + '</td>\n\
+                                    <td> '+ pedidosJSON[i].Estado + '</td >\n\
+                                    </td></tr>');
+                    }
+                }
+            });
+        }
+
+
+        function ObtenerVentas(idUsuario) {
+            $.ajax({
+                method: "GET",
+                url: "/Pedidos/VentasClientesDetalle",
+                data: {
+                    id: idUsuario
+                },
+            }).then(function (data) {
+
+                $("#tbAceptados").empty();
+                $("#tbPendientes").empty();
+                $("#tbCancelados").empty();
+                $("#tbVentasEnviar").empty();
+                $("#tbVentasEnviadas").empty();
+                $("#contenidoAdd").empty();
+
+                $("#contenidoAdd").empty();
+                $("#contenidoAdd").append(ventasNav);
+                $("#contenidoAdd").append(tablaVentas);
+                var pedidosJSON = JSON.parse(data);
+                console.log(pedidosJSON);
+                for (var i = 0; i < pedidosJSON.length; i++) {
+                    if (pedidosJSON[i].Estado == "Sin Enviar") {
+                        $("#tbVentasEnviar").append('<tr><td>' + pedidosJSON[i].FechaVenta + '</td>\n\
+                                   <td>'+ pedidosJSON[i].Cedula + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Nombre + ' ' + pedidosJSON[i].Apellido + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Total + '</td>\n\
+                                    <td> '+ pedidosJSON[i].Estado + '</td>\n\
+                                    </td></tr>');
+                    }
+
+
+                    if (pedidosJSON[i].Estado == "Enviado") {
+                        $("#tbVentasEnviadas").append('<tr><td>' + pedidosJSON[i].FechaVenta + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Cedula + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Nombre + ' ' + pedidosJSON[i].Apellido + '</td>\n\
+                                    <td>'+ pedidosJSON[i].Total + '</td>\n\
+                                    <td> '+ pedidosJSON[i].Estado + '</td>\n\
+                                    </td></tr>');
+                    }
+
+                }
+            });
+        }
+    </script>
+}

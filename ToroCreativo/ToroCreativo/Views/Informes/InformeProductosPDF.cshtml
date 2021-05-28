@@ -1,0 +1,65 @@
+﻿@{
+    Layout = null;
+    ViewData["Title"] = "Informes Produtos más pedidos " + TempData["Tipo"];
+}
+<html>
+<head>
+    <link rel="stylesheet" href="~/css/detalle_informe.css">
+</head>
+<body>
+
+    <h1>Informes Produtos más pedidos @TempData["Tipo"]</h1>
+    <div class="informes">
+        <div class="tabla">
+            @*<table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Nombre)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Cantidad)
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Nombre)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Cantidad)
+                            </td>
+                        </tr>
+                    }
+
+
+                </tbody>
+            </table>*@
+        </div>
+        <img src="~/imgInformes/informe0.png" />
+        <img src="~/imgInformes/informe1.png" />
+        <img src="~/imgInformes/informe2.png" />
+    </div>
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script>
+         $(document).ready(function () {
+            $.ajax({
+              type: "GET",
+              url: "/Informes/EliminarFotos/",
+             
+            });
+
+        });
+    </script>
+    
+
+</body>
+</html>
+

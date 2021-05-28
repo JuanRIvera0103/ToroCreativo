@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ToroCreativo.Clases;
 using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.DAL;
@@ -47,6 +48,17 @@ namespace ToroCreativo.Controllers
 
 
         }
+        [ActionName("PedidosClientesDetalle")]
+        public async Task<string> PedidosClientesDetalle(string id)
+        {            
+            return JsonConvert.SerializeObject(await _context.ObtenerPedidosCliente(id));
+        }
+
+        [ActionName("VentasClientesDetalle")]
+        public async Task<string> VentasClientesDetalle(string id)
+        {            
+            return JsonConvert.SerializeObject(await _context.ObtenerVentasCliente(id));
+        }
         public async Task<IActionResult> PedidosClientes(string id)
         {
             IEnumerable<Pedido> aceptados = await _context.ObtenerPedidosAceptadosCliente(id);
@@ -54,9 +66,8 @@ namespace ToroCreativo.Controllers
             ViewBag.Aceptados = aceptados;
             ViewBag.Cancelados = cancelados;
             return View(await _context.ObtenerPedidosPendientesCliente(id));
-
-
         }
+        [ActionName("VentasClientes")]
         public async Task<IActionResult> VentasClientes(string id)
         {
             IEnumerable<Pedido> SinEnviados = await _context.ObtenerVentasSinEnviarCliente(id);

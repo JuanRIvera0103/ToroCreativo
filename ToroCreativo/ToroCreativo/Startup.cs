@@ -118,6 +118,8 @@ namespace ToroCreativo
                     name: "default",
                     pattern: "{controller=Inicio_Admin}/{action=Index}/{id?}");
             });
+
+            Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa");
         }
     }
 }

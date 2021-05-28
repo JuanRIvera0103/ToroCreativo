@@ -32,5 +32,7 @@ namespace ToroCreativo.Models.Abstract
         Task<List<DetallePedido>> ObtenerDetallePedidos(int? id);
         Task<Pedido> VerificarComprobante(int? id);
         Task FinalizarPedido(Pedido pedido, List<CarritoDetalle> detalle);
-        }
+        Task<IEnumerable<Pedido>> ObtenerPedidosCliente(string id);
+        Task<IEnumerable<Pedido>> ObtenerVentasCliente(string id);
+    }
 }

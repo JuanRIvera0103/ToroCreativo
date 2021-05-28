@@ -13,8 +13,7 @@
 
     <!--estilos propios del proyecto-->
     <link rel="stylesheet" href="~/css/estilosgenerales.css" />
-    <link rel="stylesheet" href="~/css/nav_admin.css" />
-    <!--<link rel="stylesheet" href="~/css/Formularios.css" />-->
+    <link rel="stylesheet" href="~/css/nav_admin.css" />    
     @RenderSection("Styles", required: false)
 </head>
 <body>
@@ -158,9 +157,7 @@
             <text>
                 Swal.fire({
                     icon: 'success',
-                    title: '¡Se editó correctamente el registro!',
-                    showConfirmButton: false,
-                    timer: 1250
+                    title: '¡Se editó correctamente el registro!'
                 })
             </text>
         }
@@ -169,9 +166,7 @@
             <text>
                 Swal.fire({
                     icon: 'success',
-                    title: '¡Se guardó correctamente el registro!',
-                    showConfirmButton: false,
-                    timer: 1250
+                    title: '¡Se guardó correctamente el registro!'
                 })
             </text>
         }
@@ -181,9 +176,7 @@
 
                 Swal.fire({
                     icon: 'success',
-                    title: '¡Se cambió el estado!',
-                    showConfirmButton: false,
-                    timer: 1250
+                    title: '¡Se cambió el estado!'
                   });
 
                  </text>

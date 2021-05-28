@@ -27,7 +27,7 @@ namespace ToroCreativo.Controllers
             _userManager = userManager;
 
         }
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<ActionResult> Index()
         {
             ViewBag.Usuarios = await _context.Usuarios.CountAsync();

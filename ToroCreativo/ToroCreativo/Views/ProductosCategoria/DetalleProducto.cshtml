@@ -30,7 +30,7 @@
                         <li>
                             <span>Unidades:</span>
                             @foreach (var medidas in ViewBag.TamañosInfo)
-                            { 
+                            {
                                 <span style="font-weight: 100;" class="unidades"> @medidas.Medida </span>
                             }
                         </li>
@@ -47,204 +47,182 @@
             </div>
         </div>
 
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <a class="nav-item nav-link active" id="primer-nav-tab" data-toggle="tab" href="#primer-nav" role="tab"
+                   aria-controls="primer-nav" aria-selected="true">Características</a>
+                <a class="nav-item nav-link" id="segundo-nav-tab" data-toggle="tab" href="#segundo-nav" role="tab"
+                   aria-controls="segundo-nav" aria-selected="false">Historial Precio</a>
+                <a class="nav-item nav-link" id="tercer-nav-tab" data-toggle="tab" href="#tercer-nav" role="tab"
+                   aria-controls="tercer-nav" aria-selected="true">Historial Iva</a>
+                <a class="nav-item nav-link" id="cuarto-nav-tab" data-toggle="tab" href="#cuarto-nav" role="tab"
+                   aria-controls="cuarto-nav" aria-selected="true">Historial Entradas</a>
+            </div>
+        </nav>
 
         <div class="gestion">
-            <div id="caracteristicas">
-                <h4>Características</h4>
-                <div class="formulario">
-                    <h2>Crear Caracteristica</h2>
-                    <form action="">
-                        <input type="color" class="form-control" required>
-                        <input type="number" class="form-control" placeholder="Medida" required>
-                        <a class="boton cancelar">Cancelar</a>
-                        <button type="submit" class="boton crear">Crear</button>
-                    </form>
-                </div>
-                <div class="registros">
-                    <table id="tabla" class="table table-hover ">
-                        <thead>
-                            <tr>
-                                <th>Color</th>
-                                <th>Medida</th>
-                                <th>Cantidad Actual</th>
-                                <th>Estado</th>
-                                <th>
-                                    <a asp-controller="Caracteristicas" asp-action="Crear" asp-route-id="@Model.idProductos">
-                                        <i class="fas fa-plus" title="Agregar registro"></i>
-                                    </a>
-                                </th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
+            <div class="tab-content" id="nav-tabContent">
 
-                            @foreach (var caracteristica in ViewBag.Caracteristicas)
-                            {
+                <!-- Contenido primer nav -->
+                <div class="tab-pane fade show active" id="primer-nav" role="tabpanel" aria-labelledby="nav-home-tab">
+
+                    <div class="registros">
+                        <table id="tabla" class="table table-hover ">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        <div class="color-tabla" style="background-color: @caracteristica.Color;"></div>
-                                    </td>
-                                    <td>@caracteristica.Medida</td>
-                                    <td>@caracteristica.Cantidad</td>
-                                    <td>
-                                        @if (caracteristica.Estado.Equals("Habilitado"))
-                                        {
-                                            <p class="text-success">@caracteristica.Estado</p>
-                                        }
-                                        else
-                                        {
-                                            <p class="text-danger">@caracteristica.Estado</p>
-                                        }
-
-                                    </td>
-                                    <td>
-                                        @if (caracteristica.Estado.Equals("Habilitado"))
-                                        {
-                                            <i onclick="CambiarEstadoCaracteristica(@caracteristica.idCaracteristicas)" class="fas fa-check-circle text-success" title="Cambiar"></i>
-                                        }
-                                        else
-                                        {
-                                            <i onclick="CambiarEstadoCaracteristica(@caracteristica.idCaracteristicas)" class="fas fa-times-circle text-danger" title="Cambiar"></i>                                            
-                                        }
-                                    </td>
-                                    <td>
-                                        <a asp-controller="Caracteristicas" asp-action="Editar" asp-route-id="@caracteristica.idCaracteristicas">
-                                            <i class="fas fa-edit" title="Editar registro"></i>
+                                    <th>Color</th>
+                                    <th>Medida</th>
+                                    <th>Cantidad Actual</th>
+                                    <th>Estado</th>
+                                    <th>
+                                        <a asp-controller="Caracteristicas" asp-action="Crear" asp-route-id="@Model.idProductos">
+                                            <i class="fas fa-plus" title="Agregar registro"></i>
                                         </a>
-                                    </td>
-                                    <td>
-                                        <a asp-controller="Entrada" asp-action="Crear" asp-route-id="@caracteristica.idCaracteristicas">
-                                            <i class="fas fa-cart-plus" title="Agregar Entrada"></i>
-                                        </a>
-                                    </td>
+                                    </th>
+                                    <th></th>
+                                    <th></th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div id="precios">
-                <h4>Historial Precio</h4>
-                <div class="formulario precios">
-                    <h2>Crear Historial</h2>
-                    <form action="">
-                        <input type="number" class="form-control" placeholder="Precio" required>
-                        <a class="boton cancelar">Cancelar</a>
-                        <button type="submit" class="boton crear">Crear</button>
-                    </form>
-                </div>
-                <div class="registros">
-                    <table id="tabla3" class="table table-hover ">
-                        <thead>
-                            <tr>
-                                <th>Fecha Inicial</th>
-                                <th>Fecha final</th>
-                                <th>Precio (Sin Iva)</th>
-                                <th>
-                                    <a asp-controller="Precios" asp-action="Crear" asp-route-id="@Model.idProductos">
-                                        <i class="fas fa-plus" title="Agregar registro"></i>
-                                    </a>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var precios in ViewBag.Precios)
-                            {
-                                <tr>
-                                    <td>@precios.F_Inicio</td>
-                                    <td>@precios.F_Fin</td>
-                                    <td>@precios.Valor</td>
-                                    <td>
-                                        @if (precios.Estado.Equals("Valido"))
-                                        {
-                                            <a asp-controller="Precios" asp-action="Editar" asp-route-id="@precios.idPrecios">
+                            </thead>
+                            <tbody>
+                                @foreach (var caracteristica in ViewBag.Caracteristicas)
+                                {
+                                    <tr>
+                                        <td>
+                                            <div class="color-tabla" style="background-color: @caracteristica.Color;"></div>
+                                        </td>
+                                        <td>@caracteristica.Medida</td>
+                                        <td>@caracteristica.Cantidad</td>
+                                        <td>
+                                            @if (caracteristica.Estado.Equals("Habilitado"))
+                                            {
+                                                <p class="text-success">@caracteristica.Estado</p>
+                                            }
+                                            else
+                                            {
+                                                <p class="text-danger">@caracteristica.Estado</p>
+                                            }
+
+                                        </td>
+                                        <td>
+                                            @if (caracteristica.Estado.Equals("Habilitado"))
+                                            {
+                                                <i onclick="CambiarEstadoCaracteristica(@caracteristica.idCaracteristicas)" class="fas fa-check-circle text-success" title="Cambiar"></i>
+                                            }
+                                            else
+                                            {
+                                                <i onclick="CambiarEstadoCaracteristica(@caracteristica.idCaracteristicas)" class="fas fa-times-circle text-danger" title="Cambiar"></i>
+                                            }
+                                        </td>
+                                        <td>
+                                            <a asp-controller="Caracteristicas" asp-action="Editar" asp-route-id="@caracteristica.idCaracteristicas">
                                                 <i class="fas fa-edit" title="Editar registro"></i>
                                             </a>
-                                        }
-                                    </td>
-                                </tr>
-
-                            }
-                    </table>
-                </div>
-            </div>
-            <div id="iva">
-                <h4>Historial Iva</h4>
-                <div class="formulario iva">
-                    <h2>Crear Iva</h2>
-                    <form action="">
-                        <input type="number" class="form-control" value="30.000" required>
-                        <input type="number" class="form-control" placeholder="Porcentaje Iva" required>
-                        <input type="number" class="form-control" placeholder="Precio total" readonly required>
-                        <a class="boton cancelar">Cancelar</a>
-                        <button type="submit" class="boton crear">Crear</button>
-                    </form>
-                </div>
-                <div class="registros">
-                    <table id="tabla2" class="table table-hover ">
-                        <thead>
-                            <tr>
-                                <th>Fecha Inicial</th>
-                                <th>Fecha final</th>
-                                <th>Porcentaje</th>
-                                <th>
-                                    <a asp-controller="Ivas" asp-action="Crear" asp-route-id="@Model.idProductos">
-                                        <i class="fas fa-plus" title="Agregar registro"></i>
-                                    </a>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var ivas in ViewBag.Ivas)
-                            {
-                                <tr>
-                                    <td>@ivas.F_Inicio</td>
-                                    <td>@ivas.F_Fin</td>
-                                    <td>@ivas.IVA%</td>
-                                    <td>
-                                        @if (ivas.Estado.Equals("Valido"))
-                                        {
-                                            <a asp-controller="Ivas" asp-action="Editar" asp-route-id="@ivas.idIva">
-                                                <i class="fas fa-edit" title="Editar registro"></i>
+                                        </td>
+                                        <td>
+                                            <a asp-controller="Entrada" asp-action="Crear" asp-route-id="@caracteristica.idCaracteristicas">
+                                                <i class="fas fa-cart-plus" title="Agregar Entrada"></i>
                                             </a>
-                                        }
-                                    </td>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
 
+                <!-- Contenido segundo nav -->
+                <div class="tab-pane fade show" id="segundo-nav" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="registros">
+                        <table id="tabla2" class="table table-hover ">
+                            <thead>
+                                <tr>
+                                    <th>Fecha Inicial</th>
+                                    <th>Fecha final</th>
+                                    <th>Precio (Sin Iva)</th>
+                                    <th>
+                                        <a asp-controller="Precios" asp-action="Crear" asp-route-id="@Model.idProductos">
+                                            <i class="fas fa-plus" title="Agregar registro"></i>
+                                        </a>
+                                    </th>
                                 </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var precios in ViewBag.Precios)
+                                {
+                                    <tr>
+                                        <td>@precios.F_Inicio</td>
+                                        <td>@precios.F_Fin</td>
+                                        <td>@precios.Valor</td>
+                                        <td>
+                                            @if (precios.Estado.Equals("Valido"))
+                                            {
+                                                <a asp-controller="Precios" asp-action="Editar" asp-route-id="@precios.idPrecios">
+                                                    <i class="fas fa-edit" title="Editar registro"></i>
+                                                </a>
+                                            }
+                                        </td>
+                                    </tr>
 
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div id="entradas">
-                <h4>Historial Entradas</h4>
-                <div class="formulario entradas">
-                    <h2>Crear Entrada</h2>
-                    <form action="">
-                        <input type="number" class="form-control" placeholder="Cantidad" required>
-                        <input type="number" class="form-control" placeholder="Unidad Medida" readonly required>
-                        <input type="color" class="form-control" readonly required>
-                        <a class="boton cancelar">Cancelar</a>
-                        <button type="submit" class="boton crear">Crear</button>
-                    </form>
-                </div>
-                <div class="registros">
-                    <table id="tabla4" class="table table-hover ">
-                        <thead>
-                            <tr>
-                                <th>Fecha Entrada</th>
-                                <th>Cantidad Inicial</th>
-                                <th>Cantidad Actual</th>
-                                <th>Unidad Medida</th>
-                                <th>Color</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
 
-                            @foreach (var entradas in ViewBag.Entradas)
+                </div>
+                <div class="tab-pane fade show" id="tercer-nav" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="registros">
+                        <table id="tabla3" class="table table-hover ">
+                            <thead>
+                                <tr>
+                                    <th>Fecha Inicial</th>
+                                    <th>Fecha final</th>
+                                    <th>Porcentaje</th>
+                                    <th>
+                                        <a asp-controller="Ivas" asp-action="Crear" asp-route-id="@Model.idProductos">
+                                            <i class="fas fa-plus" title="Agregar registro"></i>
+                                        </a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var ivas in ViewBag.Ivas)
+                                {
+                                    <tr>
+                                        <td>@ivas.F_Inicio</td>
+                                        <td>@ivas.F_Fin</td>
+                                        <td>@ivas.IVA%</td>
+                                        <td>
+                                            @if (ivas.Estado.Equals("Valido"))
+                                            {
+                                                <a asp-controller="Ivas" asp-action="Editar" asp-route-id="@ivas.idIva">
+                                                    <i class="fas fa-edit" title="Editar registro"></i>
+                                                </a>
+                                            }
+                                        </td>
+
+                                    </tr>
+
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade show" id="cuarto-nav" role="tabpanel" aria-labelledby="nav-profile-tab">
+                    <div class="registros">
+                        <table id="tabla4" class="table table-hover ">
+                            <thead>
+                                <tr>
+                                    <th>Fecha Entrada</th>
+                                    <th>Cantidad Inicial</th>
+                                    <th>Cantidad Actual</th>
+                                    <th>Unidad Medida</th>
+                                    <th>Color</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var entradas in ViewBag.Entradas)
                             {
                                 <tr>
                                     <td>@entradas.F_Inicio</td>
@@ -272,9 +250,10 @@
 
                                 </tr>
                             }
+                            </tbody>
+                        </table>
+                    </div>
 
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>

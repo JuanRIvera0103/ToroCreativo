@@ -76,28 +76,4 @@
     border-radius: 50%;
 }
 
-.gestion {
-    margin-top: 5%;
-}
 
-    .gestion h4 {
-        margin-left: 2%;
-        margin-bottom: -20px;
-    }
-
-    .gestion .formulario {
-        top: -1050px;
-    }
-
-    .gestion .formulario {
-        height: 350px;
-    }
-
-    .gestion .precios {
-        height: 300px;
-    }
-
-    .gestion .iva,
-    .gestion .entradas {
-        height: 400px;
-    }
