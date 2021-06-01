@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -25,12 +27,14 @@ namespace ToroCreativo.Controllers
         private readonly IIvasBusiness _ivasBusiness;
         private readonly IEntradaBusiness _entradaBusiness;
         private readonly IImagenProductoBusiness _imagenProductoBusiness;
-        private readonly ITamañoBusiness _tamañoBusiness;
+        private readonly ITamañoBusiness _tamañoBusiness;        
+        private readonly IWebHostEnvironment _hostEnvironment;
 
 
         public ProductosCategoriaController(IProductosBusiness productosBusiness, ICategoriasBusiness categoriasBusiness,
             ICaracteristicaBusiness caracteristicaBusiness, IPrecioBusiness precioBusiness, IIvasBusiness ivasBusiness,
-            IEntradaBusiness entradaBusiness, IImagenProductoBusiness imagenProductoBusiness, ITamañoBusiness tamañoBusiness)
+            IEntradaBusiness entradaBusiness, IImagenProductoBusiness imagenProductoBusiness, ITamañoBusiness tamañoBusiness,
+            IWebHostEnvironment hostEnvironment)
         {
             _productosBusiness = productosBusiness;
             _categoriasBusiness = categoriasBusiness;
@@ -40,6 +44,7 @@ namespace ToroCreativo.Controllers
             _entradaBusiness = entradaBusiness;
             _imagenProductoBusiness = imagenProductoBusiness;
             _tamañoBusiness = tamañoBusiness;
+            _hostEnvironment = hostEnvironment;
         }
 
         public async Task<IActionResult> Index()
@@ -70,7 +75,30 @@ namespace ToroCreativo.Controllers
             }
                 
         }
+        [HttpPost]
+        [ActionName("CrearEditarCategoria")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CrearEditarCategoria([Bind("idCategoria,Nombre,Estado")] Categorias categorias)
+        {
+            if (ModelState.IsValid)
+            {
+                int verificarCategoriaRepetida = await _categoriasBusiness.VerificarCategoriaRepetida(categorias.Nombre);
+                if (verificarCategoriaRepetida != 0)
+                {
+                    TempData["Repetido"] = "si";
+                    return RedirectToAction("CrearEditarCategoria", "ProductosCategoria", new { id = categorias.idCategoria });
+                }
 
+                var guardarEditar = await _categoriasBusiness.GuardarEditarCategorias(categorias);
+                if (guardarEditar == 0)
+                    TempData["guardar"] = "si";
+                else
+                    TempData["editar"] = "si";
+
+                return RedirectToAction("Index", "ProductosCategoria");
+            }
+            return RedirectToAction("CrearEditarCategoria", "ProductosCategoria");
+        }
 
         public async Task<IActionResult> CambiarEstadoCategoria(int? id)
         {
@@ -128,7 +156,59 @@ namespace ToroCreativo.Controllers
                 return View(await _productosBusiness.ObtenerProductoPorIdIndex(id));
             }
                 
-        }        
+        }
+        [HttpPost]
+        [ActionName("CrearEditarProductos")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CrearEditarProductos([Bind("idProductos,Nombre,Descripcion,Categoria,Estado,Color,Medida,IVA,Valor,ImageName,ImageFile")] ProductoRegistroCompleto productos)
+        {
+            int verificarProducto = _productosBusiness.VerificarProductoRepetido(productos.Nombre);
+            var productoBuscado = await _productosBusiness.ObtenerProductoPorId(productos.idProductos);
+            if (verificarProducto != 0)
+            {
+                if (productos.idProductos == 0)
+                {
+                    TempData["Repetido"] = "si";
+                    return RedirectToAction("CrearEditarProducto", "ProductosCategoria", new { id = productos.idProductos });
+                }
+                else
+                {
+
+                    if (productos.Nombre != productoBuscado.Nombre)
+                    {
+                        TempData["Repetido"] = "si";
+                        return RedirectToAction("CrearEditarProducto", "ProductosCategoria", new { id = productos.idProductos });
+                    }
+                }
+
+            }
+
+            if (productos.idProductos == 0)
+            {
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(productos.ImageFile.FileName);
+                string extension = Path.GetExtension(productos.ImageFile.FileName);
+                productos.ImageName = fileName = fileName + DateTime.Now.ToString("yymmsssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/imgProductos", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await productos.ImageFile.CopyToAsync(fileStream);
+                }
+            }
+            var guardarEditar = await _productosBusiness.GuardarEditarProductos(productos);
+            if (guardarEditar == 0)
+                TempData["guardar"] = "si";
+            else if (guardarEditar == 3)
+            {
+
+                TempData["Repetido"] = "si";
+                return RedirectToAction("CrearEditarProducto", "ProductosCategoria", new { id = productos.idProductos });
+            }
+
+            else
+                TempData["editar"] = "si";
+            return RedirectToAction("Index", "ProductosCategoria");
+        }
 
         public async Task<IActionResult> CambiarEstadoProducto(int? id)
         {
@@ -151,7 +231,7 @@ namespace ToroCreativo.Controllers
         }
 
         public async Task<IActionResult> DetalleProducto(int? id)
-        {
+        {                        
             if (TempData["id"] != null)
                 id = (int?)TempData["id"];
             if (id == null)
@@ -161,10 +241,8 @@ namespace ToroCreativo.Controllers
             var producto = await _productosBusiness.ObtenerProductoPorId(id);
             var categoria = await _categoriasBusiness.ObtenerCategoriaPorId(producto.Categoria);
             ViewData["categoria"] = categoria.Nombre;
-            ViewData["precioTotal"] = await _precioBusiness.ObtenerPrecioConIvaProducto(producto.idProductos);
-            var imagen = await _imagenProductoBusiness.ObtenerImagenProductoPorProducto(producto.idProductos);
-            if (imagen != null)
-                ViewBag.Imagen = imagen.ImageName;
+            ViewData["precioTotal"] = await _precioBusiness.ObtenerPrecioConIvaProducto(producto.idProductos);            
+            ViewBag.Imagenes = await _imagenProductoBusiness.ObtenerImagenesProductoPorId(producto.idProductos);
             ViewBag.Precios = await _precioBusiness.ObtenerPreciosProducto(producto.idProductos);
             ViewBag.Ivas = await _ivasBusiness.ObteneIvasProducto(producto.idProductos);
             ViewBag.Entradas = await _entradaBusiness.ObtenerEntradaProducto(producto.idProductos);           
@@ -189,8 +267,7 @@ namespace ToroCreativo.Controllers
         public async Task<IActionResult> ProductosCliente(int? id)
         {
            
-            ViewBag.Precios = await _precioBusiness.ObtenerPrecios();
-            ViewBag.Imagenes = await _imagenProductoBusiness.ObtenerImagenesProductosClientes();
+            ViewBag.Precios = await _precioBusiness.ObtenerPrecios();            
             ViewBag.Categorias = await _categoriasBusiness.ObtenerCategoriasProductosClientes();
             List<CarritoDetalle> detalle = await _productosBusiness.ObtenerCarrito(HttpContext.Session);
             ViewBag.Carrito = detalle;
@@ -205,8 +282,6 @@ namespace ToroCreativo.Controllers
         {
             List<CarritoDetalle> detalle = await _productosBusiness.ObtenerCarrito(HttpContext.Session);
             ViewBag.Carrito = detalle;
-            ViewBag.Precios = await _precioBusiness.ObtenerPrecios();
-            ViewBag.Imagenes = await _imagenProductoBusiness.ObtenerImagenesProductosClientes();
             ViewBag.Categorias = await _categoriasBusiness.ObtenerCategoriasProductosClientes();
 
             if (!string.IsNullOrEmpty(busqueda))
@@ -285,9 +360,31 @@ namespace ToroCreativo.Controllers
             await HttpContext.Session.CommitAsync();
                 TempData["AgregadoCarrito"] = "si";
                 return RedirectToAction("DetalleProductoCliente", new { id = caracteristica.idProducto });
+        }
 
-            
-            
+        [HttpPost]
+        [ActionName("CrearEditarImagen")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CrearEditarImagen([Bind("IdImagenProducto,IdProducto,ImageName,ImageFile,Estado")] ImagenProducto imagenProducto)
+        {
+            imagenProducto.ImageName = "a";
+            if (imagenProducto.IdProducto == 0)
+                imagenProducto.Estado = "Principal";
+            else
+                imagenProducto.Estado = "Secundario";
+
+            string wwwRootPath = _hostEnvironment.WebRootPath;
+            string fileName = Path.GetFileNameWithoutExtension(imagenProducto.ImageFile.FileName);
+            string extension = Path.GetExtension(imagenProducto.ImageFile.FileName);
+            imagenProducto.ImageName = fileName = fileName + DateTime.Now.ToString("yymmsssfff") + extension;
+            string path = Path.Combine(wwwRootPath + "/imgProductos", fileName);
+            using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                await imagenProducto.ImageFile.CopyToAsync(fileStream);
+            }
+            await _imagenProductoBusiness.GuardarEditarImagenProducto(imagenProducto);
+            TempData["Imagen"] = "si";
+            return RedirectToAction("DetalleProducto", "ProductosCategoria", new { id = imagenProducto.IdProducto });
 
         }
     }

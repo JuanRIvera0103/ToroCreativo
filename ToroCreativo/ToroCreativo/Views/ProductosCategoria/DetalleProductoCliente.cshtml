@@ -9,7 +9,7 @@
     var caracteristicas = ViewBag.Caracteristicas;
 }
 @section Styles{ 
-    <link rel="stylesheet" href="~/css/producto-detalle.css" />
+    <link rel="stylesheet" href="~/css/producto-detalle-cliente.css" />
 }
 
 
@@ -65,7 +65,14 @@
             </div>
         </div>
         <div class="precio">
-            <h4>$@ViewData["precioTotal"]<small>COP</small> </h4>
+            <h4>
+                $
+                @{
+                    var preciosFormato = String.Format("{0:#,##0}", ViewData["precioTotal"]);
+                    @preciosFormato
+                }
+                <small>COP</small>
+            </h4>
         </div>
         <div class="pedido">
             <div class="cantidad">
@@ -84,19 +91,27 @@
         $(document).ready(function () {
 
             var caracteristicasJSON = JSON.parse('@Html.Raw(caracteristicas)');
-            var cantidad = 0;
+            var cantidad = 0;            
             $(".color").click(function () {
+                var cantidadMedidas = 0;
                 var color = $(this).attr("id");
                 $(".medidas").empty();
                 for (var i = 0; i < caracteristicasJSON.length; i++) {
-                    if (caracteristicasJSON[i].Color == color) {
+                    if (caracteristicasJSON[i].Color == color && caracteristicasJSON[i].Cantidad > 0) {
+                        cantidadMedidas++;
                         $(".medidas").append('<span id="m-' + caracteristicasJSON[i].idCaracteristicas + '" class="medida">' + caracteristicasJSON[i].Medida + '</span>');
                     }
                 }
                 $("#cantidad").val(1);
                 $("#disponible").text('(... disponibles)');
+                console.log(cantidadMedidas);
+                if (cantidadMedidas > 0) {
+                    $(".seleccionar").css("display", "none");
+                }
+                else {
+                    $(".seleccionar").text('El color seleccionado no cuenta con medidas disponibles en este momento');
+                }
             });
-
 
             $(document).on("click", ".medida", function () {
                 var medida = $(this);

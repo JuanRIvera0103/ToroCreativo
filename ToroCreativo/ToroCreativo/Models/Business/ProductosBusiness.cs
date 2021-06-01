@@ -20,20 +20,105 @@ namespace ToroCreativo.Models.Business
         {
             _context = context;
         }
-        public async Task<IEnumerable<Productos>> ObtenerProductosCliente()
+        public async Task<IEnumerable<ProductoVistaCliente>> ObtenerProductosCliente()
         {
-            return await _context.productos.Where(p => p.Estado == "Habilitado").ToListAsync();
-        }
-        public async Task<IEnumerable<Productos>> ObtenerProductosPorCategoriaCliente(int? id)
-        {
-            return await _context.productos.Where(p => p.Estado == "Habilitado").Where(p => p.Categoria == id).ToListAsync();
-        }
+            await using (_context)
+            {
+                IEnumerable<ProductoVistaCliente> listaProductoDetalle =
+                    (from productos in _context.productos
+                     join categorias in _context.categorias
+                     on productos.Categoria equals categorias.idCategoria
+                     join precios in _context.precios
+                     on productos.idProductos equals precios.idProducto
+                     join ivas in _context.ivas
+                     on productos.idProductos equals ivas.idProducto
+                     join imagen in _context.ImagenProductos
+                     on productos.idProductos equals imagen.IdProducto
+                     where productos.Estado == "Habilitado"
+                     where ivas.F_Fin == null && precios.F_Fin == null                    
+                     where imagen.Estado == "Principal"
 
-        public async Task<IEnumerable<Productos>> ObtenerProductosPorBusquedaCliente(string busqueda)
-        {
-            return await _context.productos.Where(p => p.Estado == "Habilitado").Where(p => p.Nombre.Contains(busqueda)).ToListAsync();
-        }
+                     select new ProductoVistaCliente
+                     {
+                         idProductos = productos.idProductos,
+                         Nombre = productos.Nombre,
+                         Descripcion = productos.Descripcion,
+                         Estado = productos.Estado,
+                         Categoria = categorias.Nombre,
+                         Precio = ((ivas.IVA / 100) * precios.Valor) + precios.Valor,
+                         ImageName = imagen.ImageName
+                         
+                     }).ToList();
 
+                return (listaProductoDetalle);
+            }
+        }
+        public async Task<IEnumerable<ProductoVistaCliente>> ObtenerProductosPorCategoriaCliente(int? id)
+        {
+            await using (_context)
+            {
+                IEnumerable<ProductoVistaCliente> listaProductoDetalle =
+                    (from productos in _context.productos
+                     join categorias in _context.categorias
+                     on productos.Categoria equals categorias.idCategoria
+                     join precios in _context.precios
+                     on productos.idProductos equals precios.idProducto
+                     join ivas in _context.ivas
+                     on productos.idProductos equals ivas.idProducto
+                     join imagen in _context.ImagenProductos
+                     on productos.idProductos equals imagen.IdProducto
+                     where productos.Estado == "Habilitado" && productos.Categoria == id
+                     where ivas.F_Fin == null && precios.F_Fin == null
+                     where imagen.Estado == "Principal"
+
+                     select new ProductoVistaCliente
+                     {
+                         idProductos = productos.idProductos,
+                         Nombre = productos.Nombre,
+                         Descripcion = productos.Descripcion,
+                         Estado = productos.Estado,
+                         Categoria = categorias.Nombre,
+                         Precio = ((ivas.IVA / 100) * precios.Valor) + precios.Valor,
+                         ImageName = imagen.ImageName
+
+                     }).ToList();
+
+                return (listaProductoDetalle);
+            }
+        }
+        public async Task<IEnumerable<ProductoVistaCliente>> ObtenerProductosPorBusquedaCliente(string busqueda)
+        {
+            await using (_context)
+            {
+                IEnumerable<ProductoVistaCliente> listaProductoDetalle =
+                    (from productos in _context.productos
+                     join categorias in _context.categorias
+                     on productos.Categoria equals categorias.idCategoria
+                     join precios in _context.precios
+                     on productos.idProductos equals precios.idProducto
+                     join ivas in _context.ivas
+                     on productos.idProductos equals ivas.idProducto
+                     join imagen in _context.ImagenProductos
+                     on productos.idProductos equals imagen.IdProducto
+                     where productos.Estado == "Habilitado" && productos.Nombre.Contains(busqueda)
+                     where ivas.F_Fin == null && precios.F_Fin == null
+                     where imagen.Estado == "Principal"
+
+                     select new ProductoVistaCliente
+                     {
+                         idProductos = productos.idProductos,
+                         Nombre = productos.Nombre,
+                         Descripcion = productos.Descripcion,
+                         Estado = productos.Estado,
+                         Categoria = categorias.Nombre,
+                         Precio = ((ivas.IVA / 100) * precios.Valor) + precios.Valor,
+                         ImageName = imagen.ImageName
+
+                     }).ToList();
+
+                return (listaProductoDetalle);
+            }
+        }       
         public async Task<IEnumerable<ProductoDetalle>> ObtenerProductos()
         {
             await using (_context)
@@ -71,7 +156,7 @@ namespace ToroCreativo.Models.Business
                 return productos;
             else
             {
-                productos = await _context.productos.FirstOrDefaultAsync(e => e.idProductos == id);
+                productos = await _context.productos.FindAsync(id);
                 return productos;
             }
         }
@@ -126,8 +211,7 @@ namespace ToroCreativo.Models.Business
 
         public async Task<int> GuardarEditarProductos(ProductoRegistroCompleto productoRegistro)
         {
-            try
-            {
+          
                 int guardareditar = 1;
                 if (productoRegistro.idProductos == 0)
                     guardareditar = 0;
@@ -195,19 +279,25 @@ namespace ToroCreativo.Models.Business
                         Categoria = productoRegistro.Categoria,
                         Estado = productoRegistro.Estado
                     };
-
-                    _context.productos.Update(producto);
+                    int verificarProducto = VerificarProductoRepetido(producto.Nombre);
+                    var productoBuscado = await ObtenerProductoPorId(producto.idProductos);
+                    if (verificarProducto != 0)
+                    {
+                        if (producto.Nombre != productoBuscado.Nombre)
+                        {
+                            return 3;
+                        }
+                    }
+                    productoBuscado.Nombre = producto.Nombre;
+                    productoBuscado.Descripcion = producto.Descripcion;
+                    productoBuscado.Categoria = producto.Categoria;
+                    _context.productos.Update(productoBuscado);
                 }
 
                 await _context.SaveChangesAsync();
 
                 return guardareditar;
-            }
-            catch (Exception)
-            {
-
-                throw new Exception();
-            }
+            
         }
         public async Task CambiarEstadoProductos(Productos productos)
         {
@@ -293,6 +383,18 @@ namespace ToroCreativo.Models.Business
             
             return (detalle);
         }
+        public Productos ObtenerProducto(int? id)
+        {
+            Productos productos;
+            productos = null;
 
+            if (id == null)
+                return productos;
+            else
+            {
+                productos = _context.productos.Find(id);
+                return productos;
+            }
         }
+    }
 }

@@ -61,11 +61,11 @@ namespace ToroCreativo.Controllers
             if (id == null)
             {
                 return NotFound();
-            }
-            var producto = await _productosBusiness.ObtenerProductoPorId(id);
-            IEnumerable<Tamaño> listaTamaños = await _tamaños.ObtenerTamañosSelectPorCategoria(producto.Categoria);
-            ViewBag.Tamaños = listaTamaños;
+            }            
+           
             var caracteristica = await _context.ObtenerCaracteristicaPorId(id);
+            IEnumerable<Tamaño> listaTamaños = await _tamaños.ObtenerTamañosCaracteristica(id);
+            ViewBag.Tamaños = listaTamaños;
             if (caracteristica == null)
             {
                 return NotFound();

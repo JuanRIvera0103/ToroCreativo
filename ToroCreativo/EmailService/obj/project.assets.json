@@ -5638,19 +5638,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\higui\\.nuget\\packages\\": {}
+    "C:\\Users\\juan\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj",
+      "projectUniqueName": "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj",
       "projectName": "EmailService",
-      "projectPath": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj",
-      "packagesPath": "C:\\Users\\higui\\.nuget\\packages\\",
-      "outputPath": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\obj\\",
+      "projectPath": "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj",
+      "packagesPath": "C:\\Users\\juan\\.nuget\\packages\\",
+      "outputPath": "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\higui\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\juan\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5700,7 +5700,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
       }
     }
   }

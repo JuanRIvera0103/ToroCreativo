@@ -11372,19 +11372,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\higui\\.nuget\\packages\\": {}
+    "C:\\Users\\juan\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
+      "projectUniqueName": "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
       "projectName": "ToroCreativo",
-      "projectPath": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
-      "packagesPath": "C:\\Users\\higui\\.nuget\\packages\\",
-      "outputPath": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\obj\\",
+      "projectPath": "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
+      "packagesPath": "C:\\Users\\juan\\.nuget\\packages\\",
+      "outputPath": "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\higui\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\juan\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11398,8 +11398,8 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj": {
-              "projectPath": "E:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj"
+            "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj": {
+              "projectPath": "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj"
             }
           }
         }
@@ -11479,7 +11479,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
       }
     }
   }

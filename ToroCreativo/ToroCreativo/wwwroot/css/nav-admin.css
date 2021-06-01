@@ -20,7 +20,7 @@ header {
 
 .logotipo {
     font-size: 1.4rem;
-    width: 90%;
+    width: 88%;
     color: #000;
     display: flex;
 }
@@ -31,15 +31,10 @@ header {
     display: flex;
     width: 10%;
 }
-
-    .sub-menu .notificaciones {
-        width: 50%;
-        display: flex;
-    }
-
-    .sub-menu .cuenta {
-        width: 50%;
-        display: flex;
+    
+    .sub-menu .salir a{
+        color: #000000;
+        text-decoration: none;
     }
 
     .sub-menu i {
@@ -49,13 +44,48 @@ header {
         border-radius: 50%;
         cursor: pointer;
         transition: .5s ease;
+        margin-right: 10px;
     }
+.sub-menu i:hover {
+    background-color: rgba(255, 236, 194, 0.824);
+}
+.cuenta .link{
+    display: none;
+}
 
-        .sub-menu i:hover {
-            background-color: rgba(255, 236, 194, 0.824);
-        }
+.cuenta .ventana {
+    position: absolute;
+    width: 140%;
+    margin-top: -5%;
+    margin-left: -120%;
+    background-color: #eee;
+    display: flex;
+    border-radius: 10px;
+    padding: 5px;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    color: #000000;
+    transition: .5s ease;
+}
+.cuenta .ventana:hover{
+    background-color: rgb(255 233 189);
+}
+.cuenta .ventana a { 
+    text-decoration: none;    
+}
 
-
+.ventana i {
+    font-size: 1.5rem;
+    margin-right: 0;
+}
+.ventana p {
+    margin: auto 0 auto 0;
+    font-size: 1.1rem;       
+}
+.cuenta:hover .link {
+    display: block;
+}
 .box {
     position: absolute;
     width: 400px;

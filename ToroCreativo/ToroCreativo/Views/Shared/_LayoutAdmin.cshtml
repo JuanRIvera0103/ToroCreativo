@@ -13,7 +13,7 @@
 
     <!--estilos propios del proyecto-->
     <link rel="stylesheet" href="~/css/estilosgenerales.css" />
-    <link rel="stylesheet" href="~/css/nav_admin.css" />    
+    <link rel="stylesheet" href="~/css/nav-admin.css" />    
     @RenderSection("Styles", required: false)
 </head>
 <body>
@@ -23,10 +23,19 @@
         </div>
         <div class="sub-menu">
             <div class="notificaciones">
-                <i class="fas fa-bell" id="notificacion" onclick="mostrarnoti()"></i>
+                <i class="fas fa-bell" id="notificacion" onclick="mostrarnoti()" title="Notificaciones"></i>
             </div>
             <div class="cuenta">
-                <a><i class="fas fa-user-circle" id="user" onclick="mostrarcuenta()"></i></a>
+                <i class="fas fa-user-circle"></i>
+                <a asp-action="PerfilAdmin" asp-controller="InicioAdmin" class="link">
+                    <div class="ventana">
+                        <i class="fas fa-user-circle"></i>
+                        <p>Ver perfil</p>
+                    </div>                 
+                </a>                
+            </div>
+            <div class="salir">
+                <a asp-action="CerrarSesion" asp-controller="Usuarios" title="Cerrar Sesión"><i class="fas fa-sign-out-alt"></i></a>
             </div>
         </div>
         <div class="box notifi-box" id="notificaciones-box">
@@ -82,39 +91,11 @@
                     </div>
                 </a>
             </div>
-        </div>
-        <div class="box cuenta-box" id="cuenta-box">
-
-            <div class="box-content cuenta-item">
-                <a href="#" class="link">
-                    <div class="icon">
-                        <i class="fas fa-user-circle"></i>
-                    </div>
-                    <div class="text">
-                        <p><span>Nombre del usuario</span></p>
-                        <p>Ver perfil</p>
-                    </div>
-                </a>
-            </div>
-            <div class="box-content cuenta-item">
-                
-                    <div class="text">
-                        <a asp-action="CerrarSesion" asp-controller="Usuarios">
-                            <i class="nav-icon fas fa-sign-out-alt"></i>
-                            <p>
-                                Cerrar sesión
-                                <span class="right badge badge-danger">Salir</span>
-
-                            </p>
-                        </a>
-                    </div>           
-            </div>
-
-        </div>
+        </div>        
 
     </header>
     <div class="menu">
-        <a asp-area="" asp-controller="Inicio_Admin" asp-action="Index"><i class="fas fa-bars"></i><span>Inicio</span></a>
+        <a asp-area="" asp-controller="InicioAdmin" asp-action="Index"><i class="fas fa-bars"></i><span>Inicio</span></a>
         <a asp-area="" asp-controller="Usuarios" asp-action="Index"><i class="fas fa-user"></i><span>Usuario</span></a>
         <a asp-area="" asp-controller="Clientes" asp-action="Index"><i class="fas fa-users"></i><span>Clientes</span></a>
         <a asp-area="" asp-controller="ProductosCategoria" asp-action="Index"><i class="fas fa-gifts"></i><span>Productos</span></a>        

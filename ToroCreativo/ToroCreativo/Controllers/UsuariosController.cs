@@ -132,7 +132,7 @@ namespace ToroCreativo.Controllers
                     var user = await _userManager.FindByEmailAsync(loginViewModel.Email);
                     // Get the roles for the user
                     var roles = await _userManager.GetRolesAsync(user);
-                    if (roles.Contains("Admin"))   { return RedirectToAction("Index", "Inicio_Admin"); }
+                    if (roles.Contains("Admin"))   { return RedirectToAction("Index", "InicioAdmin"); }
                     if (roles.Contains("Cliente")) 
                     {
                         HttpContext.Session.SetString("usuario", user.Id);
@@ -141,7 +141,14 @@ namespace ToroCreativo.Controllers
                     }
 
                 }
-                TempData["Invalido"] = "si";
+                else
+                {
+                    if (result.IsNotAllowed)
+                        TempData["SinConfirmar"] = "si";
+                    else
+                        TempData["Invalido"] = "si";
+                }
+                
             }
 
 
@@ -162,6 +169,7 @@ namespace ToroCreativo.Controllers
         [HttpPost]
         public async Task<IActionResult> Registrar(RegistrarViewModel registrarViewModel)
         {
+            var email = IsValidEmail(registrarViewModel.Email);
             if (ModelState.IsValid)
             {
                 Usuario usuario = new Usuario
@@ -210,7 +218,8 @@ namespace ToroCreativo.Controllers
             if (user == null)
                 return View("Error");
             var result = await _userManager.ConfirmEmailAsync(user, token);
-            return View(result.Succeeded ? nameof(ConfirmarEmail) : "Error");
+            TempData["EmailConfirmado"] = "si";
+            return View(result.Succeeded ? nameof(Login) : "Error");
         }
 
         public async Task<IActionResult> CambiarEstado(string id)
@@ -283,12 +292,17 @@ namespace ToroCreativo.Controllers
                 return View(forgotPasswordModel);
             var user = await _userManager.FindByEmailAsync(forgotPasswordModel.Email);
             if (user == null)
-                return RedirectToAction(nameof(ForgotPasswordConfirmation));
+            {
+                TempData["Existe"] = "no";
+                return View(forgotPasswordModel);
+            }
+               
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callback = Url.Action(nameof(ResetPassword), "Usuarios", new { token, email = user.Email }, Request.Scheme);
             var message = new Message(new string[] { user.Email }, "Reestablecimiento de la contraseña", callback, null);
             await _emailSender.SendEmailAsync(message);
-            return RedirectToAction(nameof(ForgotPasswordConfirmation));
+            TempData["Existe"] = "si";
+            return View();
         }
         public IActionResult ForgotPasswordConfirmation()
         {
@@ -297,6 +311,8 @@ namespace ToroCreativo.Controllers
         [HttpGet]
         public IActionResult ResetPassword(string token, string email)
         {
+            if (email == null || token == null)
+                return RedirectToAction(nameof(Login));
             var model = new ResetPasswordViewModel { Token = token, Email = email };
             return View(model);
         }
@@ -306,9 +322,9 @@ namespace ToroCreativo.Controllers
         {
             if (!ModelState.IsValid)
                 return View(resetPasswordModel);
-            var user = await _userManager.FindByEmailAsync(resetPasswordModel.Email);
-            if (user == null)
-                RedirectToAction(nameof(ResetPasswordConfirmation));
+            if (resetPasswordModel.Email == null || resetPasswordModel.Token == null)
+                return RedirectToAction(nameof(Login));
+            var user = await _userManager.FindByEmailAsync(resetPasswordModel.Email);            
             var resetPassResult = await _userManager.ResetPasswordAsync(user, resetPasswordModel.Token, resetPasswordModel.Password);
             if (!resetPassResult.Succeeded)
             {
@@ -318,13 +334,25 @@ namespace ToroCreativo.Controllers
                 }
                 return View();
             }
-            return RedirectToAction(nameof(ResetPasswordConfirmation));
+            TempData["CambioContraseña"] = "si";
+            return View();
         }
         [HttpGet]
         public IActionResult ResetPasswordConfirmation()
         {
             return View();
         }
-
+        public bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

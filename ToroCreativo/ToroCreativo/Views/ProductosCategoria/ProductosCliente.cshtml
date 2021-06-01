@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ToroCreativo.Models.Entities.Productos>
+﻿@model IEnumerable<ToroCreativo.Clases.ProductoVistaCliente>
 
 @{
     Layout = "_LayoutCliente";
@@ -32,29 +32,19 @@
             {
                 <div class="producto">
                     <div class="producto-contenido">
-                        <div class="imagen-producto">
-                            @foreach (var imagen in ViewBag.Imagenes)
-                            {
-                                if (imagen.IdProducto == item.idProductos)
-                                {
-                                    <img src="@("~/imgProductos/"+imagen.ImageName)" asp-append-version="true" />
-                                }
-                            }
+                        <div class="imagen-producto">                            
+                            <img src="@("~/imgProductos/" + item.ImageName)" asp-append-version="true" />                             
                         </div>
                         <div class="producto-detalle">
-                            <span class="producto-categoria">Categoría</span>
+                            <span class="producto-categoria">@Html.DisplayFor(modelItem => item.Categoria)</span>
                             <div class="nombre">
                                 <h4>@Html.DisplayFor(modelItem => item.Nombre)</h4>
                             </div>
                             <div class="producto-footer">
                                 <div class="precio">
-                                    @foreach (var precios in ViewBag.Precios)
-                                    {
-                                        if (precios.idProducto == item.idProductos)
-                                        {
-                                            var preciosFormato = String.Format("{0:#,##0}", @precios.Valor);
+                                    @{ 
+                                            var preciosFormato = String.Format("{0:#,##0}", item.Precio);
                                             @preciosFormato
-                                        }
                                     }
                                 </div>
                                 <div class="link-detalle">

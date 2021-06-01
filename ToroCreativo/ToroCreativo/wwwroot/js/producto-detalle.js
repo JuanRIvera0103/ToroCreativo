@@ -15,8 +15,7 @@ $(document).ready(function () {
         if (colorActivo != null) {
             $(colorActivo).removeClass("active");
         }
-        $(color).addClass("active");
-        $(".seleccionar").css("display", "none");        
+        $(color).addClass("active");              
     });
 
 

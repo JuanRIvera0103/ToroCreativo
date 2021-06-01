@@ -21,8 +21,7 @@ namespace ToroCreativo.Clases
         public int IdGenero { get; set; }                
         [DisplayName("Descripción")]
         [Required(ErrorMessage = "La descripción es requerida")]
-        [StringLength(500)]
-        [RegularExpression("^[A-Z][a-zA-ZñÑáéíóúÁÉÍÓÚ_ ]*$", ErrorMessage = "La descripción debe de comenzar con mayúscula y solo debe de contener letras")]
+        [StringLength(500)]       
         public string Descripcion { get; set; }
         public string Estado { get; set; }
 

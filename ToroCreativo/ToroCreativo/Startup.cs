@@ -116,7 +116,7 @@ namespace ToroCreativo
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Inicio_Admin}/{action=Index}/{id?}");
+                    pattern: "{controller=InicioAdmin}/{action=Index}/{id?}");
             });
 
             Rotativa.AspNetCore.RotativaConfiguration.Setup(env.WebRootPath, "../Rotativa");

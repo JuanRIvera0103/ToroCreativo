@@ -8,7 +8,7 @@
 <h2>@ViewData["CrearEditar"] Categorías</h2>
 <hr />
 <div class="col-6">
-    <form asp-controller="Categorias" asp-action="CrearEditarCategoria">
+    <form asp-action="CrearEditarCategoria">
         <input type="hidden" asp-for="idCategoria" readonly/>
         <div class="form-group">
             <label asp-for="Nombre" class="control-label"></label>

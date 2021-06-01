@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -52,6 +53,30 @@ namespace ToroCreativo.Controllers
                 ViewData["CrearEditar"] = "Editar";
                 return View(await _generosBusiness.ObtenerGeneroPorId(id));
             }
+        }
+        [HttpPost]
+        [ActionName("CrearEditarGenero")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CrearEditarGenero([Bind("idGenero,Nombre,Estado")] Generos generos)
+        {
+            if (ModelState.IsValid)
+            {
+                int verificarGeneroRepetida = await _generosBusiness.VerificarGeneroRepetido(generos.Nombre);
+                if (verificarGeneroRepetida != 0)
+                {
+                    TempData["Repetido"] = "si";
+                    return RedirectToAction("CrearEditarGenero", "GenerosIlustracions", new { id = generos.idGenero });
+                }
+
+                int guardarEditar = await _generosBusiness.GuardarEditarGeneros(generos);
+                if (guardarEditar == 0)
+                    TempData["guardar"] = "si";
+                else
+                    TempData["editar"] = "si";
+
+                return RedirectToAction("Index", "GenerosIlustracions");
+            }
+            return RedirectToAction("CrearEditarGenero", "GenerosIlustracions");
         }
         public async Task<IActionResult> CambiarEstadoGenero(int? id)
         {
@@ -118,6 +143,39 @@ namespace ToroCreativo.Controllers
                 return View(await _ilustracionBusiness.ObtenerIlustracionPorIdIndex(id));
             }
                 
+        }
+        [HttpPost]
+        [ActionName("CrearEditarIlustracion")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CrearEditarIlustracion([Bind("IdIlustracion,Nombre,IdGenero,Estado,Descripcion,ImageName,ImageFile")] IlustracionRegistroCompleto ilustracion)
+        {
+            int verificarIlustracion = _ilustracionBusiness.VerificarIlustracionRepetida(ilustracion.Nombre);
+            if (verificarIlustracion != 0)
+            {
+                TempData["Repetido"] = "si";
+                return RedirectToAction("CrearEditarIlustracion", "GenerosIlustracions", new { id = ilustracion.IdIlustracion });
+            }
+
+            if (ilustracion.IdIlustracion == 0)
+            {
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(ilustracion.ImageFile.FileName);
+                string extension = Path.GetExtension(ilustracion.ImageFile.FileName);
+                ilustracion.ImageName = fileName = fileName + DateTime.Now.ToString("yymmsssfff") + extension;
+                string path = Path.Combine(wwwRootPath + "/imgIlustraciones", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await ilustracion.ImageFile.CopyToAsync(fileStream);
+                }
+            }
+            int guardarEditar = await _ilustracionBusiness.CrearEditarIlustracion(ilustracion);
+            if (guardarEditar == 0)
+                TempData["guardar"] = "si";
+            else
+                TempData["editar"] = "si";
+
+            return RedirectToAction("Index", "GenerosIlustracions");
+
         }
 
         // GET: Estados/Delete/5

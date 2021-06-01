@@ -30,7 +30,7 @@
                 <input asp-for="Password" type="password" placeholder="Contraseña" />
                 <span asp-validation-for="Password" class="text-validationr"></span>
 
-                    <a asp-action="ForgotPassword">Forgot Password</a>
+                    <a asp-action="ForgotPassword">¿Olvidó su contraseña?</a>
 
                 <button type="submit">Iniciar Sesión</button>
             </form>
@@ -50,7 +50,19 @@
 
                 Swal.fire({
                     icon: 'error',
-                    title: 'El correo y la contraseña no coinciden'
+                    title: 'El correo y/o la contraseña son incorrectos'
+
+                  });
+
+                 </text>
+        }
+          @if(TempData["SinConfirmar"] != null && TempData["SinConfirmar"].ToString().Equals("si")) {
+            <text>
+
+                Swal.fire({
+                    icon: 'error',
+                    title: 'No se ha confirmado el correo',
+                    html: 'La cuenta no ha sido confirmada, debe de ingresar al correo electronico registrado y por favor confirmar el mensaje enviado'
 
                   });
 
@@ -62,11 +74,33 @@
                 Swal.fire({
                     icon: 'success',
                     title: '¡Se ha registrado exitosamente!',
-                    html: 'Bienvenido a la familia Toro Creativo'
+                    html: 'Te damos la bienvenido a la familia Toro Creativo',
+                    showConfirmButton: true,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        Swal.fire({
+                            icon: 'info',
+                            title: '¡Confirmación Enviada!',
+                            html: 'Hemos enviado una confirmación al correo electrónico registrado, por favor confirmar el mensaje',
+                            showConfirmButton: true,
+
+                        })
+                    }
+                });
+                 </text>
+        }
+           @if(TempData["EmailConfirmado"] != null && TempData["EmailConfirmado"].ToString().Equals("si")) {
+            <text>
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Correo Confirmado',
+                    html: 'Gracias por confirmar el correo electrónico, su cuenta esta lista para ser usada'
                   });
 
                  </text>
         }
+        
     </script>
 </body>
 </html>

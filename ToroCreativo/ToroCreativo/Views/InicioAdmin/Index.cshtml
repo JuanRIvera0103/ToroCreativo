@@ -1,0 +1,144 @@
+﻿@{
+    ViewData["Title"] = "- Admin";
+}
+
+<link rel="stylesheet" href="~/css/inicio_admin.css" />
+<div class="titulo">
+    <h1>Sistema Administrativo <span>Inicio</span> </h1>
+</div>
+
+<div class="datos-registros">
+    <div class="registro">
+        <div class="dato">
+            <h2>@TempData["Usuarios"]</h2>
+            <span>Usuarios</span>
+        </div>
+        <div class="icono">
+            <i class="fas fa-users"></i>
+        </div>
+    </div>
+    <div class="registro">
+        <div class="dato">
+            <h2>@TempData["Productos"]</h2>
+            <span>Productos</span>
+        </div>
+        <div class="icono">
+            <i class="fas fa-gifts"></i>
+        </div>
+    </div>
+    <div class="registro">
+        <div class="dato">
+            <h2>@TempData["Ilustraciones"]</h2>
+            <span>Ilustraciones</span>
+        </div>
+        <div class="icono">
+            <i class="fas fa-palette"></i>
+        </div>
+    </div>
+    <div class="registro">
+        <div class="dato">
+            <h2>@TempData["Pedidos"]</h2>
+            <span>Pedidos</span>
+        </div>
+        <div class="icono">
+            <i class="fas fa-mail-bulk"></i>
+        </div>
+    </div>
+    <div class="registro">
+        <div class="dato">
+            <h2>@TempData["Ventas"]</h2>
+            <span>Ventas</span>
+        </div>
+        <div class="icono">
+            <i class="fas fa-coins"></i>
+        </div>
+    </div>
+
+</div>
+<div class="informes">
+    <div class="informe-barras">
+        <h3>Diagrama de barras</h3>
+        <div class="barras">
+            <canvas id="barras" width="50" height="15"></canvas>
+        </div>
+    </div>
+    <div class="informe-circular">
+        <div class="circulo">
+            <canvas id="circulo" width="10" height="10"></canvas>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"
+            integrity="sha512-hZf9Qhp3rlDJBvAKvmiG+goaaKRZA6LKUO35oK6EsM0/kjPK32Yw7URqrq3Q+Nvbbt8Usss+IekL7CRn83dYmw=="
+            crossorigin="anonymous"></script>
+
+    <script>
+
+        backgrounds = ['rgb(178, 190, 195, 0.5)', 'rgb(108, 92, 231, 0.5)', 'rgb(230, 103, 103, 0.5)', 'rgb(9, 132, 227, 0.5)', 'rgb(0, 184, 148, 0.5)'];
+        borders = ['rgb(178, 190, 195)', 'rgb(108, 92, 231)', 'rgb(230, 103, 103)', 'rgb(9, 132, 227)', 'rgb(0, 184, 148)'];
+        //Grafica de barras
+        var informe_barras = new Chart(barras, {
+            type: 'horizontalBar',
+            data: {
+                labels: ['Usuarios', 'Productos', 'Ilustraciones', 'Pedidos', 'Ventas'],
+                datasets: [{
+                    label: 'Cantidad',
+                    data: [@TempData["Usuarios"], @TempData["Productos"], @TempData["Ilustraciones"], @TempData["Pedidos"], @TempData["Ventas"]],
+                    backgroundColor: ['rgb(178, 190, 195, 0.5)', 'rgb(108, 92, 231, 0.5)', 'rgb(230, 103, 103, 0.5)', 'rgb(9, 132, 227, 0.5)', 'rgb(0, 184, 148, 0.5)'],
+                    borderColor: ['rgb(178, 190, 195)', 'rgb(108, 92, 231)', 'rgb(230, 103, 103)', 'rgb(9, 132, 227)', 'rgb(0, 184, 148)'],
+                    borderWidth: 1,
+
+                }]
+            },
+
+            options: {
+                legend: {
+                    display: false
+                },
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                },
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Diagrama circular'
+                    },
+                }
+            }
+        });
+
+
+        var informe_circulo = new Chart(circulo, {
+            type: 'pie',
+            data: {
+                labels: ['Usuarios', 'Productos', 'Ilustraciones', 'Pedidos', 'Ventas'],
+                datasets: [{
+                    label: 'Cantidad de pedidos',
+                    data: [@TempData["Usuarios"], @TempData["Productos"], @TempData["Ilustraciones"], @TempData["Pedidos"], @TempData["Ventas"]],
+                    backgroundColor: ['rgb(178, 190, 195, 0.5)', 'rgb(108, 92, 231, 0.5)', 'rgb(230, 103, 103, 0.5)', 'rgb(9, 132, 227, 0.5)', 'rgb(0, 184, 148, 0.5)'],
+                    borderColor: ['rgb(178, 190, 195)', 'rgb(108, 92, 231)', 'rgb(230, 103, 103)', 'rgb(9, 132, 227)', 'rgb(0, 184, 148)'],
+                    borderWidth: 1,
+                    barPercentage: .3,
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Diagrama circular'
+                },
+            }
+
+        });
+    </script>
+    
+
+
+}

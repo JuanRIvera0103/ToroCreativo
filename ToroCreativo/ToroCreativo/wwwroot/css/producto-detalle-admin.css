@@ -1,0 +1,126 @@
+﻿.container {
+    margin-left: 3%;
+    margin-top: 30px;
+}
+
+.producto {
+    width: 100%;
+    height: 45%;
+    overflow: hidden;
+    background-color: #f1f1f1bb;
+    display: flex;
+}
+
+.producto .sub-imagen{
+    width: 80px;
+    height: 100%;
+}
+.producto .sub-imagen img{    
+    height: 25%;
+    object-fit:cover;
+
+    display: block;
+}
+.producto .imagen {
+    width: 25%;
+    height: 100%;
+    border-left: 1px solid #000;
+}
+.producto .imagen img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.producto .info {
+    display: flex;
+    width: 80%;
+}
+
+.producto .info .principal {
+    width: 50%;
+    padding: 1.5rem;
+    overflow: auto;
+}
+
+.producto .info .principal h3 {
+    text-align: center;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.producto .info .principal p {
+    font-size: 1.5em;
+    text-align: justify;
+}
+
+
+.producto .info .sub-principal {
+    width: 50%;
+    padding: 1.5rem;
+    overflow: auto;
+}
+
+.producto .info .sub-principal li {
+    list-style: none;
+    font-size: 1.6em;
+    line-height: 30px;
+}
+
+.producto .info .sub-principal li span {
+    font-weight: 600;
+}
+
+.producto .info .sub-principal .colores {
+    display: flex;
+}           
+
+.color {
+    margin: auto 5px;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000;
+    border-radius: 50%;
+}
+
+.color-tabla {
+    margin: auto;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #000;
+    border-radius: 50%;
+}
+.agregar {
+    position: relative;
+    height: 25%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+
+.file-select {
+    width: 100%;
+    height: 100%;
+    color: #000000;
+    display: flex;
+    font-size: 30px;    
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;   
+    transition: .5s;
+}
+
+.file-select i{
+    position: absolute;
+}
+.file-select input[type="file"] {
+    opacity: 0;    
+    width: 100%;
+    height: 100px;    
+    cursor: pointer;
+    margin-top: -10px;
+}

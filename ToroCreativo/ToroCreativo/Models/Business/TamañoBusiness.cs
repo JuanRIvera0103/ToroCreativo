@@ -75,7 +75,29 @@ namespace ToroCreativo.Models.Business
 
                 throw new Exception();
             }
-        }       
+        }
+        public async Task<IEnumerable<Tamaño>> ObtenerTamañosCaracteristica(int? id)
+        {
+            await using (_context)
+            {
+                IEnumerable<Tamaño> listaTamaño =
+                    (from caracteristica in _context.caracteristicas
+                     join producto in _context.productos
+                     on caracteristica.idProducto equals producto.idProductos
+                     join categorias in _context.categorias
+                     on producto.Categoria equals categorias.idCategoria
+                     join tamaño in _context.tamaños
+                     on categorias.idCategoria equals tamaño.Categoria
+                     where caracteristica.idCaracteristicas == id
+                     select new Tamaño
+                     {
+                         idTamaño = tamaño.idTamaño,
+                         Medida = tamaño.Medida,                         
+
+                     }).ToList();
+                return listaTamaño;
+            }
+        }
 
     }
 }

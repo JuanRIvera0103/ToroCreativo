@@ -15,9 +15,9 @@ namespace ToroCreativo.Models.Abstract
         Task<IEnumerable<ProductoDetalle>> ObtenerProductosPorCategoria(int? id);
         Task<int> GuardarEditarProductos(ProductoRegistroCompleto productos);
         Task CambiarEstadoProductos(Productos productos);
-        Task<IEnumerable<Productos>> ObtenerProductosCliente();
-        Task<IEnumerable<Productos>> ObtenerProductosPorCategoriaCliente(int? id);
-        Task<IEnumerable<Productos>> ObtenerProductosPorBusquedaCliente(string busqueda);
+        Task<IEnumerable<ProductoVistaCliente>> ObtenerProductosCliente();        
+        Task<IEnumerable<ProductoVistaCliente>> ObtenerProductosPorCategoriaCliente(int? id);
+        Task<IEnumerable<ProductoVistaCliente>> ObtenerProductosPorBusquedaCliente(string busqueda);
         int VerificarProductosEnPedidos(int? id);
         Task<ProductoRegistroCompleto> ObtenerProductoPorIdIndex(int? id);
         int VerificarProductoRepetido(string nombre);

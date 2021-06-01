@@ -14,6 +14,7 @@ namespace ToroCreativo.Models.Abstract
         Task<IEnumerable<Tamaño>> ObtenerTamañosSelectPorCategoria(int? id);
         Task<Tamaño> ObtenerTamañoPorId(int? id);
         Task GuardarEditarTamaño(Tamaño tamaño);
+        Task<IEnumerable<Tamaño>> ObtenerTamañosCaracteristica(int? id);
 
     }
 }

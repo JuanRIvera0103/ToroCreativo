@@ -3,24 +3,58 @@
 @{
     ViewData["Title"] = "DetalleProducto";
     TempData["idproducto"] = Model.idProductos;
+    var contador = 0;
 }
-<link rel="stylesheet" href="~/css/detalleproducto.css" />
+<link rel="stylesheet" href="~/css/producto-detalle-admin.css" />
 <article>
     <div class="container">
         <div class="producto">
-            <div class="imagen">
-                @if (ViewBag.Imagen != null)
+            
+            <div class="sub-imagen">
+
+                @foreach (var img in ViewBag.Imagenes)
                 {
-                    <img src="@("~/imgProductos/"+ViewBag.Imagen)" asp-append-version="true" />
+                    if (img.Estado == "Secundario")
+                    {
+                        <img src="@("~/imgProductos/"+img.ImageName)" asp-append-version="true" />
+                    }
+                    contador++;
+                }
+                @if (contador <= 4)
+                {
+                    <div class="agregar">
+                        <form asp-action="CrearEditarImagen" enctype="multipart/form-data" id="form">
+
+                            <div class="form-group">
+                                <input name="IdProducto" value="@Model.idProductos" class="form-control" type="hidden" />
+                            </div>
+                            <div class="form-group">
+                                <input name="ImageName" class="form-control" type="hidden" />
+                            </div>
+                            <div class="file-select" id="src-file1">
+                                <i class="fas fa-plus" title="Agregar registro"></i>
+                                <input name="ImageFile" accept="image/*" type="file" id="Imagen">
+                            </div>
+
+                        </form>
+                    </div>
+                }
+
+            </div>
+            <div class="imagen">
+
+                @foreach (var img in ViewBag.Imagenes)
+                {
+                    if (img.Estado == "Principal")
+                    {
+                        <img src="@("~/imgProductos/"+img.ImageName)" asp-append-version="true" />
+                    }
                 }
 
             </div>
             <div class="info">
                 <div class="principal">
-                    <h3>@Html.DisplayFor(model => model.Nombre)</h3>
-                    <a class="text-dark" asp-action="AgregarImagen" asp-route-id="@Model.idProductos">
-                        <i class="fas fa-plus"></i>
-                    </a>
+                    <h3>@Html.DisplayFor(model => model.Nombre)</h3>                    
                     <p>@Html.DisplayFor(model => model.Descripcion)</p>
                 </div>
                 <div class="sub-principal">
@@ -114,7 +148,7 @@
                                             }
                                         </td>
                                         <td>
-                                            <a asp-controller="Caracteristicas" asp-action="Editar" asp-route-id="@caracteristica.idCaracteristicas">
+                                            <a asp-controller="Caracteristicas" asp-action="Editar" asp-route-idProdcuto="@Model.idProductos" asp-route-id="@caracteristica.idCaracteristicas">
                                                 <i class="fas fa-edit" title="Editar registro"></i>
                                             </a>
                                         </td>
@@ -263,7 +297,29 @@
 @section Scripts{
 
     <script>
+        const $imagenSeleccionada = document.querySelector("#Imagen");
 
+        $imagenSeleccionada.addEventListener("change", () => {
+
+            const archivos = $imagenSeleccionada.files;
+            const primerArchivo = archivos[0];
+            const objectURL = URL.createObjectURL(primerArchivo);
+
+            Swal.fire({
+                title: '¿Agregar Imagen?',
+                imageUrl: objectURL,
+                imageAlt: 'Imagen',
+                showCancelButton: true,
+                confirmButtonText: 'Agregar Imagen',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('form').submit();
+                } else {
+                    document.getElementById('Imagen').value = null;
+                }
+            });
+        });
 
           @if(TempData["guardarHistorial"] != null && TempData["guardarHistorial"].ToString().Equals("si")) {
             <text>
@@ -296,6 +352,19 @@
 
                 </text>
          }
+           @if (TempData["Imagen"] != null && TempData["Imagen"].ToString().Equals("si"))
+         {
+                <text>
+
+                Swal.fire({
+                    title: '¡Se agrego la imagen del producto!',
+                    icon: 'success',
+                    showConfirmButton: true
+                });
+
+                </text>
+         }
+        
     </script>
 }
 
