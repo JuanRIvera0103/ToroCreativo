@@ -12,10 +12,12 @@ function GenerarInformes(datos) {
     pieDiagramDataSets = [];
     datosNombre = []
     cantidades = [];
+    labels = [];
 
     datosjson.forEach(function (item, i) {
         datosNombre.push(datosjson[i].Nombre);
         cantidades.push(datosjson[i].Cantidad);
+        labels.push(datosjson[i].Nombre);
     });
     datosjson.forEach(function (item, i) {
         diagramDataSet = {
@@ -44,7 +46,9 @@ function GenerarInformes(datos) {
     // Grafica en linea
     var informe_lineas = new Chart(lineas, {
         type: 'line',
+        
         data: {
+            labels: ['Inicial', 'Final'],
             datasets: lineDiagramDataSets
         },
         options: {
@@ -79,6 +83,7 @@ function GenerarInformes(datos) {
         type: 'bar',
 
         data: {
+            labels: ['Productos'],
             datasets: barDiagramDataSets
         },
 
@@ -142,5 +147,6 @@ function GenerarInformes(datos) {
 
 
     });
+
 
 }

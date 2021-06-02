@@ -11,5 +11,7 @@ namespace ToroCreativo.Clases
         public string DiagramaLineas { get; set; }
         public string DiagramaBarras { get; set; }
         public string DiagramaCircular { get; set; }
+        public string Fecha { get; set; }
+        public string Hora { get; set; }
     }
 }

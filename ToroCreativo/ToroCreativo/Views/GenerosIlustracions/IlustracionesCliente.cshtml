@@ -1,0 +1,57 @@
+﻿@model IEnumerable<ToroCreativo.Clases.IlustracionVistaCliente>
+
+@{
+    Layout = "_LayoutCliente";
+    ViewData["Title"] = "Index";
+}
+@section Styles{
+    <link rel="stylesheet" href="~/css/ilustraciones-cliente.css" />
+}
+<div class="contenedor">
+    <header>
+        <div class="logo">
+            <h1>Ilustraciones</h1>
+        </div>
+        <form action="">
+            <input type="text" class="barra-busqueda" id="barra-busqueda" placeholder="Buscar">
+        </form>
+        <div class="generos" id="generos">
+            @foreach (var categoria in ViewBag.Generos)
+            {
+                <a>@categoria.Nombre</a>
+            }           
+        </div>
+    </header>
+
+    <div class="root">
+        <div class="gallery">
+            @foreach (var item in Model)
+            {
+                <div class="gallery__item icon-expand">
+                    <img src="@("~/imgIlustraciones/" + item.ImageName)" asp-append-version="true" class="gallery__img"/>
+                </div>
+            }
+            <div class="gallery-lightbox">
+
+
+                <div class="gallery-lightbox__modal">
+                    <img src="img/img-1.jpg" class="gallery-lightbox__img">
+                </div>
+                <div class="descripcion">
+                    <span class="gallery-lightbox__control icon-close"></span>
+                    <h1>Titulo</h1>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipiscing elit tellus, vitae id sed phasellus non sociosqu leo, neque per sem libero vestibulum sapien laoreet. Nec netus auctor laoreet dapibus consequat venenatis sollicitudin eros fames fusce, mollis sem integer nunc convallis n
+                        isl fringilla habitasse pharetra dictum, lobortis mus lacus dui euismod ultrices penatibus inceptos imperdiet.
+                    </p>
+                    <span class="gallery-lightbox__control icon-back"></span>
+                    <span class="gallery-lightbox__control icon-next"></span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/js/ilustraciones-cliente.js"></script>
+}

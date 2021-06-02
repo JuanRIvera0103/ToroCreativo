@@ -1,22 +1,134 @@
-﻿@model ToroCreativo.Models.Entities.Pedido
+﻿@model ToroCreativo.Clases.PedidoDetalle
 
 @{
     ViewData["Title"] = "Details";
 }
 
 @section Styles{
-    <link rel="stylesheet" href="~/css/detalle-cliente-admin.css" />
+    <link rel="stylesheet" href="~/css/pedidos-detalle-admin.css"/>
 }
 
+<div class="informacion" >
+    <div class="encabezado">
+        <div class="titulo-detalle">
+            <h1>Factura de @Html.DisplayFor(model => model.Nombre)</h1>
+        </div>
+        <div class="logo">
+            <img src="~/img/logo.png" />
+        </div>
+    </div>
+    <div class="empresa-factura">
+        <div class="info-empresa">
+            <h2>Toro Creativo</h2>
+            <p>CL 40 CR 40-49</p>
+            <p>3838383838</p>
+        </div>
+        <div class="info-factura">
+            <span>Fecha Pedido</span>
+            <p>@Html.DisplayFor(model => model.FechaPedido)</p>
+            <span>N° de Factura</span>
+            <p>@Html.DisplayFor(model => model.IdPedido)</p>
+            <span>Comprobante</span>
+            @if (Model.ImageName == null)
+            {
+                 <p>No</p>
+            }
+            else
+            {
+                <p>Si</p>
+            }
+        </div>
+    </div>    
+    <div class="destinatario">
+        <div class="info-cliente">
+            <h3 class="sub-titulo">Cliente</h3>
+            <p><span>Nombre: </span>@Html.DisplayFor(model => model.Nombre)</p>
+            <p><span>Cédula: </span>@Html.DisplayFor(model => model.Cedula)</p>
+            <p><span>Dirección: </span>@Html.DisplayFor(model => model.Direccion)</p>
+            <p><span>Teléfono: </span>@Html.DisplayFor(model => model.Telefono)</p>
+            <p><span>Correo: </span>@Html.DisplayFor(model => model.Correo)</p>
+        </div>
+        <div class="info-envio">
+            <h3 class="sub-titulo">Enviar a</h3>
+            <p><span>Nombre: </span>@Html.DisplayFor(model => model.Nombre)</p>
+            <p><span>Cédula: </span>@Html.DisplayFor(model => model.Cedula)</p>
+            <p><span>Dirección: </span>@Html.DisplayFor(model => model.Direccion)</p>
+            <p><span>Teléfono: </span>@Html.DisplayFor(model => model.Telefono)</p>            
+        </div>
+    </div>   
+    <div class="comprobante">
+        @if (Model.ImageName == null)
+        {          
+            <form asp-action="AgregarComprobante" enctype="multipart/form-data" id="form" method="post">
 
-<div class="titulo titulo-detalle">
-    <h1>Pedido de @Html.DisplayFor(model => model.Nombre) @Html.DisplayFor(model => model.Apellido)</h1>
+                <div class="form-group">
+                    <input asp-for="IdPedido" class="form-control" type="hidden" />
+                </div>
+                <div class="form-group">
+                    <input asp-for="ImageName" class="form-control" type="hidden" />
+
+                </div>
+                <div class="file-select" id="src-file1">
+                    <p>Subir Comprobante</p>
+                     <input name="ImageFile" accept="image/*" type="file" id="Imagen">
+                </div>                
+
+            </form>            
+        }
+        else
+        {            
+            <button class="btn btn-outline-dark" onclick="VerComprobante('/comprobantes/@Html.DisplayFor(model => model.ImageName)')">Ver comprobante</button>
+        }
+    </div>
 </div>
-<div class="gestion">
+
+<div class="detalle-pedido">
+    <div class="registros">
+        <table id="" class="table table-hover ">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio Unitario</th>
+                    <th>IVA</th>
+                    <th>Subtotal</th>                                       
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.DetallePedidos)
+                {
+                    <tr>
+                        <td>
+                            @item.Producto
+                        </td>
+                        <td class="numeros">
+                            @item.Cantidad
+                        </td>
+                        <td class="numeros">
+                            @item.Subtotal
+                        </td>
+                        <td class="numeros">
+                            @item.TotalIva
+                        </td>
+                        <td class="numeros">
+                            @item.Total
+                        </td>  
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="totales">
+        <p>Total Iva: <span>@Html.DisplayFor(model => model.TotalIva)</span></p>
+        <p class="total-factura">Total Factura: <span>@Html.DisplayFor(model => model.Total)</span></p>
+    </div>
+</div>
+
+
+@*<div class="gestion">
     <div class="registros">
         <div class="row">
             <div class="rounded BackClienteInfo col-sm-5">
-
                 <h6 class="TituloA">Toro Creativo</h6>
                 <div class="row">
 
@@ -73,83 +185,14 @@
                 <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Total)</h5>
                 <h5 class="LetraGrandeB col-sm-2">Comprobante</h5>
 
-                @if (Model.ImageName == null)
-                {
-                    <h5 class="LetraPequeñaB col-sm-4 text-danger">No</h5>
-                    <form asp-action="AgregarComprobante" enctype="multipart/form-data" id="form">
-
-                        <div class="form-group">
-
-                            <input asp-for="IdPedido" class="form-control" type="hidden" />
-
-                        </div>
-                        <div class="form-group">
-
-                            <input asp-for="ImageName" class="form-control" type="hidden" />
-
-                        </div>
-                         <div class="file-select" id="src-file1">
-                            <input asp-for="ImageFile" accept="image/*" type="file" id="Imagen">
-                         </div>
-                        <span asp-validation-for="ImageFile" class="text-danger"></span>     
-                   
-                    </form>
-
-                }
-                else
-                {
-                    <h5 class="LetraPequeñaB col-sm-4 text-success">Si</h5>
-                    <button class="btn btn-outline-dark" onclick="VerComprobante('/comprobantes/@Html.DisplayFor(model => model.ImageName)')">Ver comprobante</button>
-                }
                
                
             </div>
 
         </div>      
-        <div class="registros">
-            <table id="tabla2" class="table table-hover ">
-                <thead>
-                    <tr>
-                        <th>Producto</th>
-                        <th>Cantidad</th>
-                        <th>Subtotal</th>
-                        <th>IVA</th>
-                        <th>Total</th>
-                        <th><a class="text-dark" asp-action="AgregarDetallePedido" asp-route-id="@Model.IdPedido"><i class="fas fa-plus"></i></a></th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in ViewBag.DetallePedidos)
-                    {
-                        <tr>
-                            <td>
-                                @item.IdCaracteristica
-                            </td>
-                            <td>
-                                @item.Cantidad
-                            </td>
-                            <td>
-                                @item.Subtotal
-                            </td>
-                            <td>
-                                @item.TotalIva
-                            </td>
-                            <td>
-                                @item.Total
-                            </td>
-                            <td>
-                                <a asp-action="Delete" asp-route-id="@item.IdDetallePedido" asp-controller="DetallePedidos">
-                                    <i class="fa fa-trash" title="Eliminar registro"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+       
     </div>
-</div>
+</div>*@
 
 @section Scripts{
 

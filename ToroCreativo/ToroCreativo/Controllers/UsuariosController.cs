@@ -168,8 +168,7 @@ namespace ToroCreativo.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> Registrar(RegistrarViewModel registrarViewModel)
-        {
-            var email = IsValidEmail(registrarViewModel.Email);
+        {            
             if (ModelState.IsValid)
             {
                 Usuario usuario = new Usuario
@@ -341,18 +340,6 @@ namespace ToroCreativo.Controllers
         public IActionResult ResetPasswordConfirmation()
         {
             return View();
-        }
-        public bool IsValidEmail(string email)
-        {
-            try
-            {
-                var addr = new System.Net.Mail.MailAddress(email);
-                return addr.Address == email;
-            }
-            catch
-            {
-                return false;
-            }
-        }
+        }       
     }
 }

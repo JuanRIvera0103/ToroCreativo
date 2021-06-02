@@ -4,9 +4,11 @@ h1{
     margin: 20px 0 40px 0;
 }
 .informes{
-    width: 100%;
+    width: 100%;    
     margin-left: 3%;
-    border: 1px solid #000;
+    margin-bottom: 20px;
+    border: 1px solid #808080;
+    padding: 2%;
 }
 .informes a{
     font-size: 2em;
@@ -17,6 +19,7 @@ h1{
 }
 .informes .lineas{
     margin: 20px;
+    margin-bottom: 5%;
 }
 .informes .sub-informes{
     display: flex;
@@ -28,12 +31,32 @@ h1{
 }
 .sub-informes .circulo{
     width: 35%;
-    margin: auto 0;
+    margin-right: 10px;
 }
 .sub-informes .tabla{
     width: 30%;
-    margin: auto 0;
+    margin: auto 0 auto 20px;
 }
 table thead{
     background-color: rgb(108, 92, 231, 0.5);
+}
+#formDescarga{
+    display: none;
+}
+#descargar {
+    margin-left: 47%;
+    margin-bottom: 5%;
+    padding: 10px 20px;
+    background-color: rgb(108, 92, 231);
+    color: #ffffff;
+    font-size: 18px;
+    border: solid 1px rgb(108, 92, 231, 0.5);
+    border-radius: 5px;
+    transition: .5s;
+}
+#descargar i{
+    margin-left: 5px;
+}
+#descargar:hover{
+    background-color: rgb(108, 92, 231, 0.8);
 }

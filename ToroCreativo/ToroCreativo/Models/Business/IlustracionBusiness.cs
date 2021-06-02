@@ -11,7 +11,7 @@ using ToroCreativo.Models.Entities;
 
 namespace ToroCreativo.Models.Business
 {
-    public class IlustracionBusiness:IIlustracionBusiness
+    public class IlustracionBusiness : IIlustracionBusiness
     {
         private readonly DbContextToroCreativo _context;
 
@@ -21,7 +21,7 @@ namespace ToroCreativo.Models.Business
 
         }
         public async Task<IEnumerable<IlustracionDetalle>> ObtenerTodosLasIlustraciones()
-        
+
         {
             await using (_context)
             {
@@ -55,7 +55,7 @@ namespace ToroCreativo.Models.Business
                      select new IlustracionDetalle
                      {
                          IdIlustracion = ilustracion.IdIlustracion,
-                         Nombre = ilustracion.Nombre,               
+                         Nombre = ilustracion.Nombre,
                          Estado = ilustracion.Estado,
                          Genero = genero.Nombre
                      }).ToList();
@@ -108,7 +108,7 @@ namespace ToroCreativo.Models.Business
                         IdImagenIlustracion = 0,
                         ImageName = ilustracionRegistro.ImageName,
                         ImageFile = ilustracionRegistro.ImageFile,
-                        //Estado = "Principal",
+                        Estado = "Principal",
                         IdIlustracion = ilustracion.IdIlustracion
                     };
                     _context.ImagenIlustraciones.Add(imagen);
@@ -134,9 +134,9 @@ namespace ToroCreativo.Models.Business
             }
             catch (Exception)
             {
-                
+
                 throw new Exception();
-                
+
             }
 
         }
@@ -146,7 +146,7 @@ namespace ToroCreativo.Models.Business
             return await _context.generos.ToArrayAsync();
 
         }
-        public async Task<List<ImagenIlustracion>> ObtenerImagenesIlustracion(int ? id)
+        public async Task<List<ImagenIlustracion>> ObtenerImagenesIlustracion(int? id)
         {
             return await _context.ImagenIlustraciones.Where(e => e.IdIlustracion == id).ToListAsync();
         }
@@ -196,6 +196,32 @@ namespace ToroCreativo.Models.Business
                 };
 
                 return ilustracionRegistro;
+            }
+        }
+
+        public async Task<IEnumerable<IlustracionVistaCliente>> ObtenerIlustracionesCliente()
+
+        {
+            await using (_context)
+            {
+
+                IEnumerable<IlustracionVistaCliente> ListaIlustracionDetalles =
+                    (from ilustracion in _context.Ilustracions
+                     join genero in _context.generos
+                     on ilustracion.IdGenero equals genero.idGenero
+                     join imagen in _context.ImagenIlustraciones
+                     on ilustracion.IdIlustracion equals imagen.IdIlustracion
+                     where imagen.Estado == "Principal"
+                     select new IlustracionVistaCliente
+                     {
+                         IdIlustracion = ilustracion.IdIlustracion,
+                         Nombre = ilustracion.Nombre,
+                         Descripcion = ilustracion.Descripcion,
+                         Estado = ilustracion.Estado,
+                         Genero = genero.Nombre,
+                         ImageName = imagen.ImageName
+                     }).ToList();
+                return (ListaIlustracionDetalles);
             }
         }
     }

@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ToroCreativo.Models.DAL;
 
 namespace ToroCreativo.Migrations
 {
     [DbContext(typeof(DbContextToroCreativo))]
-    partial class DbContextToroCreativoModelSnapshot : ModelSnapshot
+    [Migration("20210601021758_se agrego estado en img ilustraciones")]
+    partial class seagregoestadoenimgilustraciones
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -167,12 +167,9 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
-
-            
-            var pedido = await _context.ObtenerPedidoPorID(id);
-            
-            IEnumerable<DetallePedido> listaDetalle = await _context.ObtenerDetallePedidos(id);
-            ViewBag.DetallePedidos = listaDetalle;
+            var pedido = _context.ObtenerPedidoPorIDDetalle(id);
+            IEnumerable<DetallePedidoTabla> listaDetalle = await _context.ObtenerDetallePedidos(id);
+            ViewBag.DetallePedidos = listaDetalle;            
             if (pedido == null)
             {
                 return NotFound();
@@ -222,7 +219,7 @@ namespace ToroCreativo.Controllers
 
             var pedido = await _context.ObtenerPedidoPorID(id);
 
-            IEnumerable<DetallePedido> listaDetalle = await _context.ObtenerDetallePedidos(id);
+            List<DetallePedidoTabla> listaDetalle = await _context.ObtenerDetallePedidos(id);
             ViewBag.DetallePedidos = listaDetalle;
             if (pedido == null)
             {
@@ -242,7 +239,7 @@ namespace ToroCreativo.Controllers
 
             var pedido = await _context.ObtenerPedidoPorID(id);
 
-            IEnumerable<DetallePedido> listaDetalle = await _context.ObtenerDetallePedidos(id);
+            List<DetallePedidoTabla> listaDetalle = await _context.ObtenerDetallePedidos(id);
             ViewBag.DetallePedidos = listaDetalle;
             if (pedido == null)
             {

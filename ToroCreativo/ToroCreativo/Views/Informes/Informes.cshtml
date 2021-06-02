@@ -7,16 +7,16 @@
 
 <h1>@TempData["Tipo"]</h1>
 <div class="informes">
-    <i class="fas fa-download" id="descargar"></i>
     <div class="lineas">
         <canvas id="lineas" width="100" height="30"></canvas>
     </div>
     <div class="sub-informes">
+
         <div class="barras">
             <canvas id="barras" width="100" height="100"></canvas>
         </div>
         <div class="circulo">
-            <canvas id="circulo" width="150" height="100"></canvas>
+            <canvas id="circulo" width="100" height="100"></canvas>
         </div>
         <div class="tabla">
             <table class="table table-hover">
@@ -48,13 +48,17 @@
                 </tbody>
             </table>
         </div>
+
     </div>
     <form asp-action="GenerarPDF" method="post" id="formDescarga">
+        <input name="Titulo" value="@TempData["Tipo"]">
         <input name="DiagramaLineas" value="" id="imgLineas">
         <input name="DiagramaBarras" value="" id="imgBarras" />
         <input name="DiagramaCircular" value="" id="imgCircular" />
     </form>
+
 </div>
+<button id="descargar">Descargar <i class="fas fa-download"></i></button>
 
 
 
@@ -64,10 +68,10 @@
             integrity="sha512-hZf9Qhp3rlDJBvAKvmiG+goaaKRZA6LKUO35oK6EsM0/kjPK32Yw7URqrq3Q+Nvbbt8Usss+IekL7CRn83dYmw=="
             crossorigin="anonymous"></script>
 
-    <script src="~/js/Informes.js" ></script>
+    <script src="~/js/Informes.js"></script>
     <script>
         var datosjson = JSON.parse('@Html.Raw(datos)');
-            GenerarInformes(datosjson);
+        GenerarInformes(datosjson);
     </script>
 
 

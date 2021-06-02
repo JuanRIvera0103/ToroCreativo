@@ -1,62 +1,114 @@
 ﻿@model ToroCreativo.Models.Entities.Ilustracion
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalle Ilustracíón";
+    int idImagen = 1;
+    int idSubImagen = 10;
+}
+@section Styles{ 
+    <link rel="stylesheet" href="~/css/ilustraciones-detalle.css" />
 }
 
-<link rel="stylesheet" href="~/css/detalle-ilustraciones.css" />
-<div class="titulo">
-    <h1>Sistema Administrativo <span>Ilustraciones</span> </h1>
-</div>
-<div class="registros">
-
-    <table id="tabla" class="table table table-hover">
-        <thead>
-            <tr>
-                <th>
-                    Imagen
-                </th>
-
-                <th>
-                    <a class="text-dark" asp-action="AgregarImagen" asp-route-id="@Model.IdIlustracion"><i class="fas fa-plus"></i></a>
-                </th>
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in ViewBag.Imagenes)
-            {
-                <tr>
-                    <td>
-                        <img class="img-thumbnail" src="@("~/imgIlustraciones/"+item.ImageName)" asp-append-version="true" />
-                    </td>
-
-
-                    <td>
-                        <a asp-action="Delete" asp-route-id="@item.IdImagenIlustracion" asp-controller="ImagenIlustraciones">
-                            <i class="fa fa-trash" title="Eliminar registro"></i>
-                        </a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-
-    <article>
-        <div class="container">
-            <div><h1>@Html.DisplayFor(model => model.Nombre)</h1></div>
-            <div>
-                <p>
-                    @Html.DisplayFor(model => model.Descripcion)
-                </p>
-            </div>
-
+<div class="detalle-ilustracion">
+    <div class="informacion">
+        <h1>@Html.DisplayFor(model => model.Nombre)</h1>
+        <div class="descripcion">
+            <p>@Html.DisplayFor(model => model.Descripcion) </p>
         </div>
-    </article>
+        <div class="agregar">
+            <form asp-controller="ImagenIlustraciones" asp-action="CrearEditar" enctype="multipart/form-data" id="form" method="post">
+
+                <div class="form-group">
+                    <input name="IdIlustracion" value="@Model.IdIlustracion" class="form-control" type="hidden" />
+                </div>
+                <div class="form-group">
+                    <input name="ImageName" class="form-control" type="hidden" />
+                </div>
+                <div class="file-select" id="src-file1">
+                    <p>Agregar Imagen <i class="far fa-image" title="Agregar Imagen"></i></p>                    
+                    <input name="ImageFile" accept="image/*" type="file" id="Imagen">
+                </div>
+
+            </form>
+        </div>
+    </div>
+    <div class="imagenes">
+        @foreach (var img in ViewBag.Imagenes)
+        {
+            if (img.Estado == "Principal")
+            {
+                <img id="@idImagen" class="img active" src="@("~/imgIlustraciones/"+img.ImageName)" asp-append-version="true">
+            }
+            else
+            {
+                <img id="@idImagen" class="img" src="@("~/imgIlustraciones/"+img.ImageName)" asp-append-version="true">
+            }
+            idImagen++;
+
+        }
+    </div>
+    <div class="sub-imagenes">
+        @foreach (var img in ViewBag.Imagenes)
+        {
+            <div class="sub-imagen">
+                <img id="@idSubImagen" class="sub-img" src="@("~/imgIlustraciones/"+img.ImageName)" asp-append-version="true">
+            </div>
+            idSubImagen += 10;
+        }
+
+    </div>
 </div>
 
-<div>
 
-    <a asp-action="Index">Back to List</a>
-</div>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            const $imagenSeleccionada = document.querySelector("#Imagen");
+
+            $imagenSeleccionada.addEventListener("change", () => {
+
+                const archivos = $imagenSeleccionada.files;
+                const primerArchivo = archivos[0];
+                const objectURL = URL.createObjectURL(primerArchivo);
+
+                Swal.fire({
+                    title: '¿Agregar Imagen?',
+                    imageUrl: objectURL,
+                    imageAlt: 'Imagen',
+                    showCancelButton: true,
+                    confirmButtonText: 'Agregar Imagen',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('form').submit();
+                    } else {
+                        document.getElementById('Imagen').value = null;
+                    }
+                });
+            });
+
+            $(".sub-img").click(function () {
+                var id = $(this).attr("id");
+                var idImagen = id / 10;
+                var imagen = document.getElementById(idImagen);
+                var imagenPrincipal = document.getElementsByClassName("img active");
+                $(imagenPrincipal).removeClass("active");
+                $(imagen).addClass("active");
+            });
+
+        });
+
+         @if (TempData["Imagen"] != null && TempData["Imagen"].ToString().Equals("si"))
+         {
+                <text>
+
+                Swal.fire({
+                    title: '¡Se agrego la imagen de la ilustración!',                    
+                    icon: 'success',
+                    showConfirmButton: true
+                });
+
+                </text>
+         }
+    </script>
+}

@@ -28,24 +28,21 @@ namespace ToroCreativo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearEditar([Bind("IdImagenIlustracion,IdIlustracion,ImageName,ImageFile")] ImagenIlustracion imagenIlustracion)
         {
-            
-            if (ModelState.IsValid)
+            imagenIlustracion.ImageName = "a";   
+            imagenIlustracion.Estado = "Secundario";
+            string wwwRootPath = _hostEnvironment.WebRootPath;
+            string fileName = Path.GetFileNameWithoutExtension(imagenIlustracion.ImageFile.FileName);
+            string extension = Path.GetExtension(imagenIlustracion.ImageFile.FileName);
+            imagenIlustracion.ImageName = fileName = fileName + DateTime.Now.ToString("yymmsssfff") + extension;
+            string path = Path.Combine(wwwRootPath + "/imgIlustraciones", fileName);
+            using (var fileStream = new FileStream(path, FileMode.Create))
             {
-                string wwwRootPath = _hostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(imagenIlustracion.ImageFile.FileName);
-                string extension = Path.GetExtension(imagenIlustracion.ImageFile.FileName);
-                imagenIlustracion.ImageName = fileName = fileName + DateTime.Now.ToString("yymmsssfff") + extension;
-                string path = Path.Combine(wwwRootPath + "/imgIlustraciones", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
-                {
-                    await imagenIlustracion.ImageFile.CopyToAsync(fileStream);
-                }
-                await _context.GuardarEditarImagenIlustracion(imagenIlustracion);
-
-                return RedirectToAction("Details", "Ilustracions", new { id=imagenIlustracion.IdIlustracion }
-                    );
+                await imagenIlustracion.ImageFile.CopyToAsync(fileStream);
             }
-            return View(imagenIlustracion);
+            await _context.GuardarEditarImagenIlustracion(imagenIlustracion);
+            TempData["Imagen"] = "si";
+            return RedirectToAction("DetalleIlustracion", "GenerosIlustracions", new { id = imagenIlustracion.IdIlustracion });
+
         }
             
 

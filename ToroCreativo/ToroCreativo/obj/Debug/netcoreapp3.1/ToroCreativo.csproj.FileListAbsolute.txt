@@ -1545,3 +1545,4 @@ D:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor
 D:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\InicioAdmin\Index.cshtml.g.cs
 D:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\InicioAdmin\ListarRoles.cshtml.g.cs
 D:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\InicioAdmin\PerfilAdmin.cshtml.g.cs
+D:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\GenerosIlustracions\IlustracionesCliente.cshtml.g.cs

@@ -34,8 +34,8 @@ namespace ToroCreativo.Controllers
             DateTime fechaAnterior = DateTime.Today.AddDays(-1);
             DateTime fechaHoy = DateTime.Today;
 
-            
-            
+
+
 
 
             IEnumerable<InformesDatos> listaPedidos = null;
@@ -80,10 +80,10 @@ namespace ToroCreativo.Controllers
                      join producto in _context.productos
                      on caracteristicas.idProducto equals producto.idProductos
                      where pedidos.FechaPedido.Month == fechaHoy.Month
-                            && pedidos.FechaPedido.Year == fechaHoy.Year                     
+                            && pedidos.FechaPedido.Year == fechaHoy.Year
                      select new Pedido
                      {
-                         
+
                          FechaPedido = pedidos.FechaPedido,
 
 
@@ -255,7 +255,7 @@ namespace ToroCreativo.Controllers
                     && x.FechaVenta.Year == fechaHoy.Year).CountAsync();
                 TempData["Tipo"] = "Informes Ventas (mensuales)";
             }
-           
+
             List<InformesDatos> listaInforme = new List<InformesDatos>();
             InformesDatos informe = null;
             for (int i = 0; i < 2; i++)
@@ -268,7 +268,7 @@ namespace ToroCreativo.Controllers
                         {
                             Nombre = "Ayer",
                             Cantidad = ventasAyer
-                        };                        
+                        };
                     }
                     else
                     {
@@ -276,7 +276,7 @@ namespace ToroCreativo.Controllers
                         {
                             Nombre = "Hoy",
                             Cantidad = ventasHoy
-                        };                                         
+                        };
                     }
                 }
                 else if (tipoInforme == 3)
@@ -287,7 +287,7 @@ namespace ToroCreativo.Controllers
                         {
                             Nombre = "Mes Anterior",
                             Cantidad = ventasAyer
-                        };                        
+                        };
                     }
                     else
                     {
@@ -296,7 +296,7 @@ namespace ToroCreativo.Controllers
                         {
                             Nombre = "Mes Actual",
                             Cantidad = ventasHoy
-                        };                 
+                        };
                     }
                 }
 
@@ -304,7 +304,7 @@ namespace ToroCreativo.Controllers
                 listaInforme.Add(informe);
             }
 
-    
+
 
 
             var datosJson = JsonConvert.SerializeObject(listaInforme);
@@ -321,11 +321,11 @@ namespace ToroCreativo.Controllers
             List<string> listaImagenes = new List<string>();
             for (int i = 0; i < 3; i++)
             {
-                string imgName = "informe"+i+".png";                                                
+                string imgName = "informe" + i + ".png";
                 string path = Path.Combine(wwwRootPath + "/imgInformes", imgName);
                 if (i == 0)
                 {
-                    imgBase64 = informePDF.DiagramaLineas.Substring(informePDF.DiagramaLineas.LastIndexOf(',') + 1);                    
+                    imgBase64 = informePDF.DiagramaLineas.Substring(informePDF.DiagramaLineas.LastIndexOf(',') + 1);
                 }
                 else if (i == 1)
                 {
@@ -337,14 +337,23 @@ namespace ToroCreativo.Controllers
                 }
 
                 byte[] bytes = Convert.FromBase64String(imgBase64);
-                
+
                 System.IO.File.WriteAllBytes(path, bytes);
                 listaImagenes.Add(path);
             }
-            ViewBag.Imagenes = listaImagenes;
-            return new ViewAsPdf("InformeProductosPDF")
-            {              
-                //FileName = "informes.pdf"
+            DateTime fechaActual = DateTime.Now;
+            InformePDF informe = new InformePDF
+            {
+                Titulo = informePDF.Titulo,
+                Fecha = fechaActual.ToString("dd/MM/yyyy"),
+                Hora = fechaActual.ToString("hh:mm tt")
+            };        
+            return new ViewAsPdf("InformeProductosPDF", informe)
+            {
+                FileName = informe.Titulo + " " + DateTime.Now.ToString("dd_MM_yyyy_HH_mm_tt") + ".pdf",
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                PageOrientation = Rotativa.AspNetCore.Options.Orientation.Landscape
+           
             };
         }
 
@@ -353,13 +362,20 @@ namespace ToroCreativo.Controllers
         {
             string wwwRootPath = _hostEnvironment.WebRootPath;
             string path = wwwRootPath + "/imgInformes";
-            List<string> strFiles = Directory.GetFiles(path, "*", SearchOption.AllDirectories).ToList();
-
-            foreach (string fichero in strFiles)
+            List<string> Files = Directory.GetFiles(path, "*", SearchOption.AllDirectories).ToList();
+            try
             {
-                System.IO.File.Delete(fichero);
+                foreach (string fichero in Files)
+                {
+                    System.IO.File.Delete(fichero);
+                }
+                return true;
             }
-            return true;
+            catch (Exception)
+            {
+                return true;
+            }            
+            
         }
 
      

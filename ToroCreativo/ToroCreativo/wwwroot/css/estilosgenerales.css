@@ -23,7 +23,7 @@ input:focus {
 
 table {
     font-size: 1.5em;
-    text-align: center;
+    text-align: center;    
 }
 
     table thead {
@@ -170,7 +170,7 @@ table {
 .registros {
     width: 90%;
     margin-top: 4%;
-    margin-left: 5%;
+    margin-left: 8%;
     padding-bottom: 3rem;
 }
 
@@ -179,7 +179,9 @@ table {
     background-color: #000;
     border-color: #000;
 }
-
+.nav-registros{
+    width: 110%;
+}
 .nav-tabs {
     width: 100%;
     margin-top: 4%;

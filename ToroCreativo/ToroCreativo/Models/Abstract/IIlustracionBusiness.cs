@@ -18,5 +18,6 @@ namespace ToroCreativo.Models.Abstract
         Task<IEnumerable<IlustracionDetalle>> ObtenerIlustracionesPorCategoria(int? id);
         int VerificarIlustracionRepetida(string nombre);
         Task<IlustracionRegistroCompleto> ObtenerIlustracionPorIdIndex(int? id);
+        Task<IEnumerable<IlustracionVistaCliente>> ObtenerIlustracionesCliente();
     }
 }

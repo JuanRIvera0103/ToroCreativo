@@ -1,64 +1,40 @@
-﻿@{
+﻿@model ToroCreativo.Clases.InformePDF
+@{
     Layout = null;
-    ViewData["Title"] = "Informes Produtos más pedidos " + TempData["Tipo"];
+    ViewData["Title"] = TempData["Tipo"];
 }
 <html>
 <head>
-    <link rel="stylesheet" href="~/css/detalle_informe.css">
+    <link rel="stylesheet" href="~/css/informePDF.css">    
 </head>
 <body>
 
-    <h1>Informes Produtos más pedidos @TempData["Tipo"]</h1>
-    <div class="informes">
-        <div class="tabla">
-            @*<table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Nombre)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.Cantidad)
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
+    <img class="logo" src="~/img/logo.png" />
+    <div class="container">
+        <h1>@Model.Titulo</h1>
+        <div class="informes">
+            <div class="diagrama-lineas">
+                <img class="lineas" src="~/imgInformes/informe0.png" />
+            </div>
+            <div class="sub-diagramas">
+                <img class="sub-img barras" src="~/imgInformes/informe1.png" />
+                <img class="sub-img circular" src="~/imgInformes/informe2.png" />
+            </div>
 
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Nombre)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Cantidad)
-                            </td>
-                        </tr>
-                    }
-
-
-                </tbody>
-            </table>*@
         </div>
-        <img src="~/imgInformes/informe0.png" />
-        <img src="~/imgInformes/informe1.png" />
-        <img src="~/imgInformes/informe2.png" />
+
     </div>
-
-
-
+    <footer>@Model.Titulo, generado el @Model.Fecha a las @Model.Hora</footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script>
-         $(document).ready(function () {
+        $(document).ready(function () {
             $.ajax({
-              type: "GET",
-              url: "/Informes/EliminarFotos/",
-             
-            });
-
+                type: "GET",
+                url: "/Informes/EliminarFotos/",
+            });          
         });
     </script>
-    
+
 
 </body>
 </html>

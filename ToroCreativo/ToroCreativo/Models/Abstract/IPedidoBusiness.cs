@@ -19,6 +19,7 @@ namespace ToroCreativo.Models.Abstract
         Task CrearEditarPedido(Pedido pedido);
         Task AceptarPedido(Pedido pedido);
         Task<Pedido> ObtenerPedidoPorID(int? id);
+        PedidoDetalle ObtenerPedidoPorIDDetalle(int? id);
         Task<IEnumerable<Pedido>> ObtenerPedidosPendientes();
         Task<Usuario> ObtenerUsuarioPorId(string id);
         Task AgregarComprobantePedido(Pedido pedido);
@@ -29,7 +30,7 @@ namespace ToroCreativo.Models.Abstract
         Task<IEnumerable<Pedido>> ObtenerPedidosCancelados();
         Task<IEnumerable<Pedido>> ObtenerVentasSinEnviar();
         Task<IEnumerable<Pedido>> ObtenerVentasPorEnviar();
-        Task<List<DetallePedido>> ObtenerDetallePedidos(int? id);
+        Task<List<DetallePedidoTabla>> ObtenerDetallePedidos(int? id);
         Task<Pedido> VerificarComprobante(int? id);
         Task FinalizarPedido(Pedido pedido, List<CarritoDetalle> detalle);
         Task<IEnumerable<Pedido>> ObtenerPedidosCliente(string id);
