@@ -96,7 +96,11 @@ namespace ToroCreativo.Controllers
                         TempData["guardar"] = "si";
 
                         await _userManager.AddToRoleAsync(usuario, usuarioViewModel.RolSeleccionado);
-
+                        var token = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
+                        var user = await _userManager.FindByEmailAsync(usuario.Email);
+                        if (user == null)
+                            return View("Error");
+                         await _userManager.ConfirmEmailAsync(user, token);
                         return RedirectToAction("Index");
                     }
 
@@ -172,41 +176,45 @@ namespace ToroCreativo.Controllers
             var email = IsValidEmail(registrarViewModel.Email);
             if (ModelState.IsValid)
             {
-                Usuario usuario = new Usuario
-                {
-                    UserName = registrarViewModel.Email,
-                    Email = registrarViewModel.Email,
-                    Estado = "Habilitado"
-                };
+               
 
-                try
-                {
-                    var result = await _userManager.CreateAsync(usuario, registrarViewModel.Password);
 
-                    if (result.Succeeded)
+                    Usuario usuario = new Usuario
                     {
-                        TempData["Crear"] = "si";
-                        var token = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
-                        var confirmationLink = Url.Action(nameof(ConfirmarEmail), "Usuarios", new { token, email = usuario.Email }, Request.Scheme);
-                        var message = new Message(new string[] { usuario.Email }, "Confirmation email link", confirmationLink, null);
-                        await _emailSender.SendEmailAsync(message);
-                        await _userManager.AddToRoleAsync(usuario, "Cliente");
-                        return RedirectToAction("Login", "Usuarios");
-                    }
+                        UserName = registrarViewModel.Email,
+                        Email = registrarViewModel.Email,
+                        Estado = "Habilitado"
+                    };
 
-
-                    foreach (var error in result.Errors)
+                    try
                     {
-                        TempData["Igual"] = "si";
-                        ModelState.AddModelError("", error.Description);
+                        var result = await _userManager.CreateAsync(usuario, registrarViewModel.Password);
+
+                        if (result.Succeeded)
+                        {
+                            TempData["Crear"] = "si";
+                            var token = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
+                            var confirmationLink = Url.Action(nameof(ConfirmarEmail), "Usuarios", new { token, email = usuario.Email }, Request.Scheme);
+                            var message = new Message(new string[] { usuario.Email }, "Confirmacion del email", confirmationLink, null);
+                        string caso = "Usa este link para confimar tu cuenta, no compartas este link por seguridad";
+                            await _emailSender.SendEmailAsync(message, caso);
+                            await _userManager.AddToRoleAsync(usuario, "Cliente");
+                            return RedirectToAction("Login", "Usuarios");
+                        }
+
+
+                        foreach (var error in result.Errors)
+                        {
+                            TempData["Igual"] = "si";
+                            ModelState.AddModelError("", error.Description);
+                        }
                     }
-                }
-                catch (Exception)
-                {
+                    catch (Exception)
+                    {
 
-                    return View(registrarViewModel);
-                }
-
+                        return View(registrarViewModel);
+                    }
+                
             }
 
             return View(registrarViewModel);
@@ -300,7 +308,8 @@ namespace ToroCreativo.Controllers
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callback = Url.Action(nameof(ResetPassword), "Usuarios", new { token, email = user.Email }, Request.Scheme);
             var message = new Message(new string[] { user.Email }, "Reestablecimiento de la contraseña", callback, null);
-            await _emailSender.SendEmailAsync(message);
+            string caso = "Usa este link para el reestablecimiento de tu contraseña de tu contraseña, no compartas este link por seguridad";
+            await _emailSender.SendEmailAsync(message, caso);
             TempData["Existe"] = "si";
             return View();
         }

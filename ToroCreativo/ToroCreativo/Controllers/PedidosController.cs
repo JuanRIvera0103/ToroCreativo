@@ -20,11 +20,13 @@ namespace ToroCreativo.Controllers
         private readonly IPedidoBusiness _context;
         private readonly IClientesBusiness _clientes;
         private readonly IProductosBusiness _productos;
-        public PedidosController(IPedidoBusiness context, IClientesBusiness clientes, IProductosBusiness productos)
+        private readonly IEntradaBusiness _entradas;
+        public PedidosController(IPedidoBusiness context, IClientesBusiness clientes, IProductosBusiness productos, IEntradaBusiness entradas)
         {
             _context = context;
             _clientes = clientes;
             _productos = productos;
+            _entradas = entradas;
         }
 
         // GET: Usuarios
@@ -84,6 +86,26 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
+            List<DetallePedido> listaDetalle = await _context.ObtenerDetallePedidos(id);
+            var cantidad_deducida = 0;
+            for (int i = 0; i<listaDetalle.Count; i++)
+            {
+               var entrada = await _entradas.ObtenerEntradaPorIdCaracteristica(listaDetalle[i].IdCaracteristica);
+                foreach (var entra in entrada)
+                {
+                   
+                        cantidad_deducida = cantidad_deducida + entra.CantidadActual;
+                    
+                }
+                 cantidad_deducida = cantidad_deducida- listaDetalle[i].Cantidad;
+                if ( cantidad_deducida<0)
+                {
+                    TempData["CambiarPedido"] = "No";
+                    break;
+
+                }
+               
+            }
             TempData["CambiarPedido"] = "si";        
             await _context.AceptarPedido(await _context.ObtenerPedidoPorID(id));
 
@@ -111,6 +133,47 @@ namespace ToroCreativo.Controllers
             {
                 TempData["Comprobante"] = "no";
                 return RedirectToAction(nameof(Index));
+            }
+            List<DetallePedido> listaDetalle = await _context.ObtenerDetallePedidos(id);
+            var cantidad_total = 0;
+            for (int i = 0; i < listaDetalle.Count; i++)
+            {
+                var entrada = await _entradas.ObtenerEntradaPorIdCaracteristica(listaDetalle[i].IdCaracteristica);
+                foreach (var entra in entrada)
+                {
+
+                    cantidad_total= cantidad_total + entra.CantidadActual;
+
+                }
+               int  cantidad_deducida = cantidad_total - listaDetalle[i].Cantidad;
+                if (cantidad_deducida < 0)
+                {
+                    TempData["CambiarPedido"] = "No";
+                    break;
+
+                }
+                else
+                {
+                    int cantidad_descontada = 0;
+                    for(int x =0; x < entrada.Count; x++)
+                    {
+                        cantidad_descontada = listaDetalle[i].Cantidad - cantidad_descontada;
+                       if(cantidad_descontada > entrada[x].CantidadActual)
+                        {
+                            cantidad_descontada = cantidad_descontada - entrada[x].CantidadActual;
+                            entrada[x].CantidadActual = 0;
+                            await _entradas.GuardarEditarEntrada(entrada[x]);
+                        }
+                        else
+                        {
+                            entrada[x].CantidadActual = entrada[x].CantidadActual - cantidad_descontada;
+                            cantidad_descontada = 0;
+                            await _entradas.GuardarEditarEntrada(entrada[x]);
+                            break;
+                        }
+                    }
+                }
+
             }
             var Venta = await _context.ObtenerPedidoPorID(id);
             Venta.FechaVenta = DateTime.Now;
@@ -329,5 +392,6 @@ namespace ToroCreativo.Controllers
             return View(datosPedido);
         }
     }
+
 }
     
