@@ -13,6 +13,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ToroCreativo.Clases;
 using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.Business;
 using ToroCreativo.Models.DAL;
@@ -61,11 +62,12 @@ namespace ToroCreativo
             
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
-            services.AddIdentity<Usuario, IdentityRole>().AddEntityFrameworkStores<DbContextToroCreativo>().AddDefaultTokenProviders(); 
-
+            services.AddIdentity<Usuario, IdentityRole>().AddEntityFrameworkStores<DbContextToroCreativo>().AddDefaultTokenProviders().AddTokenProvider<EmailConfirmationTokenProvider<Usuario>>("confirmacionemail"); ; 
+            
             services.Configure<DataProtectionTokenProviderOptions>(opt =>
                 opt.TokenLifespan = TimeSpan.FromHours(2));
-
+            services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
+                opt.TokenLifespan = TimeSpan.FromDays(3));
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -75,6 +77,7 @@ namespace ToroCreativo
                 options.Password.RequiredLength = 4;
                 options.User.RequireUniqueEmail = true;
                 options.SignIn.RequireConfirmedEmail = true;
+                options.Tokens.EmailConfirmationTokenProvider = "confirmacionemail";
             });
 
             services.ConfigureApplicationCookie(options =>

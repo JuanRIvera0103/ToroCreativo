@@ -82,5 +82,13 @@ namespace ToroCreativo.Models.Business
                 throw new Exception();
             }
         }
+        public async Task<List<Entrada>> ObtenerEntradaPorIdCaracteristica(int? id)
+        {
+            return await _context.entradas.Where(p => p.Caracteristica == id).ToListAsync();
+           
+            
+        }
+
     }
+
 }

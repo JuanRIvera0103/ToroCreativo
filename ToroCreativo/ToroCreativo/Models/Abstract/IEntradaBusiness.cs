@@ -13,5 +13,6 @@ namespace ToroCreativo.Models.Abstract
         Task<int> GuardarEditarEntrada(Entrada entrada);
         Task<List<EntradaDetalle>> ObtenerEntradaProducto(int? id);
         Task<Entrada> ObtenerEntradaPorId(int? id);
+        Task<List<Entrada>> ObtenerEntradaPorIdCaracteristica(int? id);
     }
 }

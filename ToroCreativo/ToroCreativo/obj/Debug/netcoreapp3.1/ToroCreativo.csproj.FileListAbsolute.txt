@@ -932,7 +932,6 @@ C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\n
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Caracteristicas\Crear.cshtml.g.cs
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Caracteristicas\Editar.cshtml.g.cs
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Clientes\CrearEditar.cshtml.g.cs
-C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Clientes\Details.cshtml.g.cs
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Clientes\Index.cshtml.g.cs
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Clientes\Perfil.cshtml.g.cs
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Entrada\Crear.cshtml.g.cs
@@ -944,10 +943,6 @@ C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\n
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\GenerosIlustracions\DetalleIlustracion.cshtml.g.cs
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\GenerosIlustracions\Index.cshtml.g.cs
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Home\Index.cshtml.g.cs
-C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Inicio_Admin\CrearRol.cshtml.g.cs
-C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Inicio_Admin\EditarRol.cshtml.g.cs
-C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Inicio_Admin\Index.cshtml.g.cs
-C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Inicio_Admin\ListarRoles.cshtml.g.cs
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Ivas\Crear.cshtml.g.cs
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Ivas\Editar.cshtml.g.cs
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Pedidos\AgregarDetallePedido.cshtml.g.cs
@@ -1003,9 +998,7 @@ C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\n
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\EmailService.pdb
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ForgotPassword.cshtml.g.cs
-C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ForgotPasswordConfirmation.cshtml.g.cs
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ResetPassword.cshtml.g.cs
-C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ResetPasswordConfirmation.cshtml.g.cs
 C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Usuarios\ConfirmarEmail.cshtml.g.cs
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\AutoMapper.dll
 E:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
@@ -1545,4 +1538,20 @@ D:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor
 D:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\InicioAdmin\Index.cshtml.g.cs
 D:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\InicioAdmin\ListarRoles.cshtml.g.cs
 D:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\InicioAdmin\PerfilAdmin.cshtml.g.cs
+<<<<<<< HEAD
 D:\Proyecto\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\GenerosIlustracions\IlustracionesCliente.cshtml.g.cs
+=======
+C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.JsonPatch.dll
+C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\Newtonsoft.Json.Bson.dll
+C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\bin\Debug\netcoreapp3.1\Rotativa.AspNetCore.dll
+C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Clientes\DetalleCliente.cshtml.g.cs
+C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Informes\Index.cshtml.g.cs
+C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Informes\InformeProductosPDF.cshtml.g.cs
+C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\Informes\Informes.cshtml.g.cs
+C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\InicioAdmin\CrearRol.cshtml.g.cs
+C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\InicioAdmin\EditarRol.cshtml.g.cs
+C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\InicioAdmin\Index.cshtml.g.cs
+C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\InicioAdmin\ListarRoles.cshtml.g.cs
+C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\InicioAdmin\PerfilAdmin.cshtml.g.cs
+>>>>>>> diseñocorreo
+C:\Users\RYZEN 3\Source\Repos\ToroCreativo\ToroCreativo\ToroCreativo\obj\Debug\netcoreapp3.1\Razor\Views\GenerosIlustracions\IlustracionesCliente.cshtml.g.cs

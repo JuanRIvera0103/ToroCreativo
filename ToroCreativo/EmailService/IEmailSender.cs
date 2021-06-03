@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +8,8 @@ namespace EmailService
 {
     public interface IEmailSender
     {
-        void SendEmail(Message message);
-        Task SendEmailAsync(Message message);
+        void SendEmail(Message message, string caso);
+        Task SendEmailAsync(Message message, string caso);
+        
     }
 }

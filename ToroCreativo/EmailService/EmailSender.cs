@@ -1,4 +1,6 @@
-﻿using MailKit.Net.Smtp;
+﻿
+
+using MailKit.Net.Smtp;
 using MimeKit;
 using System;
 using System.IO;
@@ -16,28 +18,28 @@ namespace EmailService
             _emailConfig = emailConfig;
         }
 
-        public void SendEmail(Message message)
+        public void SendEmail(Message message, string caso)
         {
-            var emailMessage = CreateEmailMessage(message);
+            var emailMessage = CreateEmailMessage(message, caso);
 
             Send(emailMessage);
         }
 
-        public async Task SendEmailAsync(Message message)
+        public async Task SendEmailAsync(Message message, string caso)
         {
-            var mailMessage = CreateEmailMessage(message);
+            var mailMessage = CreateEmailMessage(message, caso);
 
             await SendAsync(mailMessage);
         }
 
-        private MimeMessage CreateEmailMessage(Message message)
+        private MimeMessage CreateEmailMessage(Message message, string caso)
         {
             var emailMessage = new MimeMessage();
             emailMessage.From.Add(new MailboxAddress(_emailConfig.From));
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
 
-            var bodyBuilder = new BodyBuilder { HtmlBody = string.Format("<h2 style='color:red;'>{0}</h2>", message.Content) };
+            var bodyBuilder = new BodyBuilder { HtmlBody = string.Format("<p>{1}</p><br><a href='{0}'>Click aquí</a>", message.Content, caso) };
 
             if (message.Attachments != null && message.Attachments.Any())
             {
@@ -50,20 +52,23 @@ namespace EmailService
                         fileBytes = ms.ToArray();
                     }
 
-                    bodyBuilder.Attachments.Add(attachment.FileName, fileBytes, ContentType.Parse(attachment.ContentType));
+                    bodyBuilder.Attachments.Add(attachment.FileName, fileBytes, MimeKit.ContentType.Parse(attachment.ContentType));
                 }
             }
 
             emailMessage.Body = bodyBuilder.ToMessageBody();
             return emailMessage;
         }
+       
+
 
         private void Send(MimeMessage mailMessage)
         {
-            using (var client = new SmtpClient())
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
                 try
                 {
+                    
                     client.Connect(_emailConfig.SmtpServer, _emailConfig.Port, true);
                     client.AuthenticationMechanisms.Remove("XOAUTH2");
                     client.Authenticate(_emailConfig.UserName, _emailConfig.Password);
@@ -85,7 +90,7 @@ namespace EmailService
 
         private async Task SendAsync(MimeMessage mailMessage)
         {
-            using (var client = new SmtpClient())
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
             {
                 try
                 {

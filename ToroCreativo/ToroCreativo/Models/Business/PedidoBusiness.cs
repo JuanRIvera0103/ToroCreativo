@@ -238,6 +238,7 @@ namespace ToroCreativo.Models.Business
 
                     select new DetallePedidoTabla
                     {
+                        IdCaractersiticas = caracteristicas.idCaracteristicas,
                         Producto = producto.Nombre,
                         Cantidad = detallepedido.Cantidad,
                         Subtotal = detallepedido.Subtotal,
@@ -299,6 +300,8 @@ namespace ToroCreativo.Models.Business
 
             }
 
+
         }
+
     }
 }
