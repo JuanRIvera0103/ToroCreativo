@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using ToroCreativo.Clases;
 using ToroCreativo.Models.Abstract;
 using ToroCreativo.Models.DAL;
@@ -19,12 +20,15 @@ namespace ToroCreativo.Controllers
         private readonly IGenerosBusiness _generosBusiness;
         private readonly IIlustracionBusiness _ilustracionBusiness;
         private readonly IWebHostEnvironment _hostEnvironment;
+        private readonly IImagenIlustracionBusiness _imagenIlustracionBusiness;
 
-        public GenerosIlustracionsController(IGenerosBusiness generosBusiness, IIlustracionBusiness ilustracionBusiness, IWebHostEnvironment hostEnvironmen)
+        public GenerosIlustracionsController(IGenerosBusiness generosBusiness, IIlustracionBusiness ilustracionBusiness, IWebHostEnvironment hostEnvironmen,
+            IImagenIlustracionBusiness imagenIlustracionBusiness)
         {
             _generosBusiness = generosBusiness;
             _ilustracionBusiness = ilustracionBusiness;
             this._hostEnvironment = hostEnvironmen;
+            _imagenIlustracionBusiness = imagenIlustracionBusiness;
         }
 
         // GET: Estados
@@ -201,7 +205,15 @@ namespace ToroCreativo.Controllers
         public async Task<IActionResult> IlustracionesCliente()
         {
             ViewBag.Generos = await _generosBusiness.ObtenerGeneros();
+            ViewBag.Imagenes = JsonConvert.SerializeObject(await _imagenIlustracionBusiness.ImagenesIlustraciones());
             return View(await _ilustracionBusiness.ObtenerIlustracionesCliente());
+        }
+       
+        public object ImagenesIlustracion(int? id)
+        {
+            List<ImagenIlustracion> imagenesIlustracion =  _imagenIlustracionBusiness.ObtenerImagenesIlustracion(id);
+            string imagenesIlustracionJSON = JsonConvert.SerializeObject(imagenesIlustracion);            
+            return View(imagenesIlustracionJSON);
         }
 
     }

@@ -163,7 +163,7 @@ namespace ToroCreativo.Controllers
         {
             await _signInManager.SignOutAsync();
             HttpContext.Session.Clear();
-            return RedirectToAction("Login", "Usuarios");
+            return RedirectToAction("Index", "Home");
         }
         public IActionResult Registrar()
         {
@@ -267,7 +267,7 @@ namespace ToroCreativo.Controllers
                     {
                         TempData["Accion"] = "Cambiar";
                         TempData["Mensaje"] = "Contraseña actualizada";
-                        return RedirectToAction("Index", "Usuarios");
+                        return RedirectToAction("Perfil", "Usuarios", new { id = HttpContext.Session.GetString("usuario")});
                     }
 
                     foreach (var error in result.Errors)

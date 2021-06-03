@@ -106,11 +106,6 @@
     border-radius: 5px;
     transition: .5s;    
 }
-
-.file-select:hover {
-    background-color: rgb(42, 42, 42, 0.75);
-}
-
 .file-select p {
     position: absolute;
     margin: auto;   
@@ -123,13 +118,24 @@
     cursor: pointer;
     margin-top: -10px;
 }
-.detalle-pedido{
-   
+.verComprobante {    
+    background-color: rgb(42 42 42 / 0.9);
+    color: #ffffff;
+    font-size: 1rem;    
+    padding: 7px 35px;
+    border-radius: 5px;
+    transition: .5s;
 }
-.registros{
+
+.file-select:hover,
+.verComprobante:hover{
+    background-color: rgb(42, 42, 42, 0.75);
+}
+
+.registros {
     margin-bottom: 0;
 }
-.registros .table{
+.registros .table{    
     margin-bottom: -3%;
 }
 .numeros{

@@ -266,7 +266,8 @@ namespace ToroCreativo.Controllers
 
         public async Task<IActionResult> ProductosCliente(int? id)
         {
-           
+            var usuario = HttpContext.Session.GetString("usuario");
+            TempData["Usuario"] = usuario;
             ViewBag.Precios = await _precioBusiness.ObtenerPrecios();            
             ViewBag.Categorias = await _categoriasBusiness.ObtenerCategoriasProductosClientes();
             List<CarritoDetalle> detalle = await _productosBusiness.ObtenerCarrito(HttpContext.Session);
@@ -295,6 +296,8 @@ namespace ToroCreativo.Controllers
 
         public async Task<IActionResult> DetalleProductoCliente(int? id)
         {
+            var usuario = HttpContext.Session.GetString("usuario");
+            TempData["Usuario"] = usuario;
             List<CarritoDetalle> detalle = await _productosBusiness.ObtenerCarrito(HttpContext.Session);
             ViewBag.Carrito = detalle;
             if (id == null)
@@ -302,8 +305,7 @@ namespace ToroCreativo.Controllers
                 return NotFound();
             }
             var producto = await _productosBusiness.ObtenerProductoPorId(id);
-            var categoria = await _categoriasBusiness.ObtenerCategoriaPorId(producto.Categoria);
-            ViewData["categoria"] = categoria.Nombre;
+           
             ViewData["precioTotal"] = await _precioBusiness.ObtenerPrecioConIvaProducto(producto.idProductos);
             ViewBag.Imagen = await _imagenProductoBusiness.ObtenerImagenesProductoPorId(producto.idProductos);
             ViewBag.Precios = await _precioBusiness.ObtenerPreciosProducto(producto.idProductos);
@@ -316,6 +318,7 @@ namespace ToroCreativo.Controllers
 
         }
 
+        [ActionName("llamadaCarrito")]
         public async Task<IActionResult> LlamadaCarrito(CaracteristicaDetalle caracteristica)
         {
             

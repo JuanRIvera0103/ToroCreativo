@@ -3,55 +3,96 @@
 @{
     Layout = "_LayoutCliente";
     ViewData["Title"] = "Index";
+
+    var subImagenes = ViewBag.Imagenes;
 }
 @section Styles{
     <link rel="stylesheet" href="~/css/ilustraciones-cliente.css" />
+    <link rel="stylesheet" href="~/css/estilos-generales.css" />
 }
-<div class="contenedor">
-    <header>
-        <div class="logo">
-            <h1>Ilustraciones</h1>
-        </div>
-        <form action="">
-            <input type="text" class="barra-busqueda" id="barra-busqueda" placeholder="Buscar">
-        </form>
-        <div class="generos" id="generos">
+<div class="ilustraciones-cliente">
+    <div class="encabezado">
+        <h1>Ilustraciones</h1>
+        <div class="generos">
             @foreach (var categoria in ViewBag.Generos)
             {
-                <a>@categoria.Nombre</a>
-            }           
-        </div>
-    </header>
-
-    <div class="root">
-        <div class="gallery">
-            @foreach (var item in Model)
-            {
-                <div class="gallery__item icon-expand">
-                    <img src="@("~/imgIlustraciones/" + item.ImageName)" asp-append-version="true" class="gallery__img"/>
-                </div>
+                <a asp-action="">@categoria.Nombre</a>
             }
-            <div class="gallery-lightbox">
 
-
-                <div class="gallery-lightbox__modal">
-                    <img src="img/img-1.jpg" class="gallery-lightbox__img">
-                </div>
-                <div class="descripcion">
-                    <span class="gallery-lightbox__control icon-close"></span>
-                    <h1>Titulo</h1>
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipiscing elit tellus, vitae id sed phasellus non sociosqu leo, neque per sem libero vestibulum sapien laoreet. Nec netus auctor laoreet dapibus consequat venenatis sollicitudin eros fames fusce, mollis sem integer nunc convallis n
-                        isl fringilla habitasse pharetra dictum, lobortis mus lacus dui euismod ultrices penatibus inceptos imperdiet.
-                    </p>
-                    <span class="gallery-lightbox__control icon-back"></span>
-                    <span class="gallery-lightbox__control icon-next"></span>
-                </div>
+        </div>
+    </div>
+    <div class="galeria">
+        @foreach (var item in Model)
+        {
+            <div class="ilustracion ampliar" idIlustracion="@item.IdIlustracion">
+                <img src="@("~/imgIlustraciones/" + item.ImageName)" asp-append-version="true" />
 
             </div>
+        }
+
+    </div>
+</div>
+
+<div class="ilustracion-modal" id="modal">
+    <div class="ilustracion">
+        <div class="imagenes" id="imagen">                   
+        </div>
+        <div class="sub-imagenes">
+        </div>
+    </div>    
+    <div class="informacion">
+        <i onclick="" class="fas fa-times-circle" title="Cerrar" id="cerrar"></i>
+        <div class="nombre">
+            <h2>Nombre</h2>
+        </div>
+        <div class="descripcion">
+            <h3 class="title">Descripción: </h3>
+            <p>Descripcion</p>
         </div>
     </div>
 </div>
+<div class="capa" id="capa"></div>
 @section Scripts{
-    <script src="~/js/ilustraciones-cliente.js"></script>
+    <script>        
+        $(document).ready(function () {
+
+            var imagenesJSON = JSON.parse('@Html.Raw(subImagenes)');
+            $(".ampliar").click(function () {
+                $(".imagenes").empty();
+                $(".sub-imagenes").empty();
+                var idSubImagen = 0;
+                var idImagen = 0;
+                var idIlustracion = $(this).attr('idIlustracion');                
+                    for (var i = 0; i < imagenesJSON.length; i++) {
+                        if (imagenesJSON[i].IdIlustracion == idIlustracion) {
+                            idSubImagen += 10;
+                            idImagen++;
+                            if (imagenesJSON[i].Estado == 'Principal') {
+                                $(".imagenes").append('<img class="img active" src="../imgIlustraciones/' + imagenesJSON[i].ImageName + '" id="' + idImagen + '" />');
+                            }
+                            else {
+                                $(".imagenes").append('<img class="img" src="../imgIlustraciones/' + imagenesJSON[i].ImageName + '" id="' + idImagen + '" />');
+                            }                            
+                            $(".sub-imagenes").append('<div class="sub-imagen"><img class="sub-img" src="../imgIlustraciones/'+imagenesJSON[i].ImageName+'" id="'+idSubImagen+'"/></div >');
+                        }
+                    }
+                    $("#capa").addClass("active");
+                    $("#modal").addClass("active");
+                });
+
+                $("#cerrar").click(function () {
+                    $("#capa").removeClass("active");
+                    $("#modal").removeClass("active");
+                });
+
+            $(document).on("click", ".sub-img", function () {
+                    var id = $(this).attr("id");
+                    var idImagen = id / 10;
+                    var imagen = document.getElementById(idImagen);
+                    var imagenPrincipal = document.getElementsByClassName("img active");
+                    $(imagenPrincipal).removeClass("active");
+                    $(imagen).addClass("active");
+                });
+            })
+    </script>
 }

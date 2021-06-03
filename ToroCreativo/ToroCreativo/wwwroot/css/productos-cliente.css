@@ -157,7 +157,7 @@ a {
 
 .producto-detalle h4 {
     position: relative;
-    font-size: 2em !important;
+    font-size: 1.3rem;
     font-weight: 500 !important;    
     color: #363636;
     text-decoration: none;
@@ -175,7 +175,7 @@ a {
 }
 
 .precio {
-    font-size: 18px;
+    font-size: 1.4rem;
     color: #8945d6;
     font-weight: 600;
 }
@@ -183,7 +183,9 @@ a {
 .link-detalle {
     text-align: right;
 }
-
+.link-detalle a{
+    text-decoration: none;
+}
 .link-detalle .detalle {
     display: inline-block;
     color: #ffffff;
@@ -198,177 +200,3 @@ a {
     background-color: #8945d6a8;
 }
 
-
-/* lo de molina */
-/* 
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
-
-* {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-    box-sizing: border-box;
-}
-
-html {
-    font-size: 10px;
-    font-family: 'Roboto', sans-serif;
-}
-#header .sub-menu{
-    width: 15%;
-  }
-.contenido {
-    background-color: #f5f5f5;
-    width: 100%;
-    display: flex;
-    height: 100vh;
-}
-
-.categorias {
-    position: fixed;
-    width: 250px;
-    height: 100%;
-    background-color: #fff;
-    text-align: center;
-}
-.categorias ul{
-    margin-top: 80px;
-   
-}
-.categorias ul li{
-    width: 100%;
-    transition: .3s ease;
-}
-.categorias ul li a {
-    text-decoration: none;
-    font-size: 1.7em;
-    color: #9205d3;
-    display: block;
-    padding: 15px;
-}
-.categorias  ul li:hover {
-    background-color: #9205d3;
-}
-
-.categorias ul li:hover a {
-    color: #fff;
-}
-
-.productos {
-    position: relative;
-    justify-content: center;
-    width: 80%;
-    height: auto;    
-    display: grid;
-    grid-template-columns: 25% 25% 25% 25%;
-    margin-top: 70px;
-    margin-left: 250px;
-    padding: 10px;
-}
-.card {
-    margin: 15px;
-    position: relative;
-    width: 230px;
-    height: 320px;
-    background: #ffffff;
-    border-radius: 10px;
-    overflow: hidden;
-
-}
-
-.card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    width: 100%;
-    height: 100%;
-    background: #90039c;
-    transform: skewY(345deg);
-    transition: 0.5s;
-
-}
-
-.card:hover::before {
-    top: -70%;
-    transform: skewY(390deg);
-}
-
-.card .imgBx {
-    position: relative;
-   
-    width: 70%;
-    height: 50%;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-    margin: 35px auto;
-}
-
-.card .imgBx img {
-    width: 100%;
-    height: auto;
-    transition: 0.5s;
-}
-
-.card:hover .imgBx img {
-    transform: scale(.8);
-}
-
-.card .contentBx {
-    position: relative;
-    margin-top: -20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    z-index: 1;
-    transition: .5s ease;
-}
-
-.card .contentBx h3 {
-    font-size: 18px;
-    color: #90039c;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-.card .contentBx .price {
-    font-size: 20px;
-    color: #4e4e4e;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-
-}
-.card:hover  .contentBx {
-    margin-top: -30px;
-}
-
-.card .contentBx .buy {
-    position: relative;
-    padding: 10px 30px;
-    top: 200px;
-    opacity: 0;
-    margin-top: 15px;
-    color: #ffffff;
-    text-decoration: none;
-    background: #90039c;
-    border-radius: 30px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: 0.5s;
-
-}
-
-.card:hover .contentBx .buy {
-    top: 0px;
-    opacity: 1;
-}
-
-
-
-
-.box-content:hover{
-	background-color:transparent;
-} */

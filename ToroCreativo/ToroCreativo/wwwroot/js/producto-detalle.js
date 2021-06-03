@@ -33,9 +33,14 @@ $(document).ready(function () {
             };
             $.ajax({
                 method: "POST",
-                url: "https://localhost:44363/ProductosCategoria/llamadaCarrito/",
+                url: "/ProductosCategoria/llamadaCarrito",
                 data: ProductoPedido
-            });
+            }).then(function () {
+                var Caracteristica = {
+                    Idproducto: idproducto,
+                };
+                window.location.href = "/ProductosCategoria/DetalleProductoCliente/" + idproducto;
+            });            
         } else {
             Swal.fire({
                 icon: 'info',

@@ -5,15 +5,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ToroCreativo @ViewData["Title"]</title>
+    <title>Toro Creativo @ViewData["Title"]</title>
     <!--estilos librerias-->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
     <link rel="stylesheet" href="~/lib/datatables.net-bs4/dataTables.bootstrap4.min.css" />
     <link href="~/lib/limonte-sweetalert2/sweetalert2.min.css" rel="stylesheet" />
 
-    <!--estilos propios del proyecto-->
-    <link href="~/css/estilosgenerales.css" rel="stylesheet" />
+    <!--estilos propios del proyecto-->        
     <link rel="stylesheet" href="~/css/nav-cliente.css" />
     @RenderSection("Styles", required: false)
 </head>
@@ -22,34 +21,56 @@
         <div class="header">
             <div class="nav-bar">
                 <div class="nav-list">
-                    <div class="hamburger">
-                        <div class="bar"></div>
-                    </div>
+                    <div class="menu">
+                        <div class="logo">
+                            @if (TempData["Principal"] != null)
+                            {
+                                <img src="~/img/logoAmarillo.svg" />
+                            }
+                            else
+                            {
+                                <img src="~/img/logoMorado.svg" />
+                            }
+
+                        </div>
+                    </div>                    
                     <ul>
                         <li><a asp-controller="Home" asp-action="Index" data-after="Inicio">Inicio</a></li>
                         <li>
                             <a asp-controller="ProductosCategoria" asp-action="ProductosCliente" data-after="Productos">Productos</a>
                         </li>
                         <li>
-                            <a asp-controller="Ilustracions" asp-action="IlustracionesCliente"
-                               data-after="Ilustraciones">Ilustraciones</a>
-                        </li>
-                        <li>
-                            <a class="acceso" data-after="Registrarse" asp-controller="" asp-action="">Registrarse</a>
-                        </li>
-                        <li><a class="acceso" data-after="Iniciar" asp-controller="" asp-action="">Iniciar</a></li>
+                            <a asp-controller="GenerosIlustracions" asp-action="IlustracionesCliente" data-after="Ilustraciones">Ilustraciones</a>
+                        </li>                        
                     </ul>
                 </div>
                 <div class="sub-menu">
-                    <div class="carrito">
-                        <a><i class="fas fa-shopping-cart" id="shop" onclick="mostrarcarrito()"></i></a>
-                    </div>
-                    <div class="notificaciones">
-                        <i class="fas fa-bell" id="notificacion" onclick="mostrarnoti()"></i>
-                    </div>
-                    <div class="cuenta">
-                        <a><i class="fas fa-user-circle" id="user" onclick="mostrarcuenta()"></i></a>
-                    </div>
+                    @if (TempData["Usuario"] != null)
+                    {
+                        <div class="iconos">
+                            <div class="carrito">
+                                <i class="fas fa-shopping-cart" id="shop" onclick="mostrarcarrito()" title="Ver Carrito"></i>
+                            </div>
+                            <div class="notificaciones">
+                                <i class="fas fa-bell" id="notificacion" onclick="mostrarnoti()" title="Notificaciones"></i>
+                            </div>
+                            <div class="cuenta">
+                                <i class="fas fa-user-circle" id="user" onclick="mostrarcuenta()" title="Ver Perfil"></i>
+                            </div>
+                            <div class="salir">
+                                <a asp-action="CerrarSesion" asp-controller="Usuarios" title="Cerrar Sesión"><i class="fas fa-sign-out-alt"></i></a>
+                            </div>
+                        </div>                           
+                    }
+                    else
+                    {
+                        <div class="sign-in">
+                            <a asp-action="Login" asp-controller="Usuarios">Iniciar Sesión</a>
+                        </div>
+                        <div class="sign-up">
+                            <a asp-action="Registrar" asp-controller="Usuarios">Registrarse</a>
+                        </div>
+                    }
                 </div>
                 <div class="box notifi-box" id="notificaciones-box">
                     <h2>Notificaciones</h2>
@@ -86,7 +107,7 @@
                 </div>
                 <div class="box cuenta-box" id="cuenta-box">
                     <div class="box-content cuenta-item">
-                        <a href="../perfil-cliente/perfil.html" class="link">
+                        <a asp-controller="Clientes" asp-action="Perfil" class="link">
                             <div class="icon">
                                 <i class="fas fa-user-circle"></i>
                             </div>
@@ -97,7 +118,7 @@
                         </a>
                     </div>
                     <div class="box-content cuenta-item">
-                        <a href="../perfil-cliente/mispedidos-cliente.html" class="link">
+                        <a asp-controller="Pedidos" asp-action="PedidoVistaCliente" class="link">
                             <div class="icon">
                                 <i class="fas fa-mail-bulk"></i>
                             </div>
@@ -107,7 +128,7 @@
                         </a>
                     </div>
                     <div class="box-content cuenta-item">
-                        <a href="../perfil-cliente/miscompras-cliente.html" class="link">
+                        <a asp-controller="Pedidos" asp-action="VentasVistaCliente" class="link">
                             <div class="icon">
                                 <i class="fas fa-mail-bulk"></i>
                             </div>
@@ -115,38 +136,35 @@
                                 <p><span>mis compras </span></p>
                             </div>
                         </a>
-                    </div>
-                    <div class="box-content cuenta-item">
-                        <a href="../../index.html" class="link">
-                            <div class="icon">
-                                <i class="fas fa-sign-out-alt"></i>
-                            </div>
-                            <div class="text">
-                                <p class="cerrar"><span>Cerrar Sesión</span></p>
-                            </div>
-                        </a>
-                    </div>
+                    </div>                    
                 </div>
                 <div class="box carrito-box" id="carrito-box">
                     <div class="productos-carrito">
-                        <div class="box-content cuenta-item">
-                            <a href="#" class="link">
-                                @foreach (var carrito in ViewBag.Carrito)
-                                {
-                                <div class="text">
-                                    <p><span>@carrito.Nombre</span></p>
-                                    <p><span>Medida</span>@carrito.Medida</p>
-                                    <p><span>Color</span> @carrito.Color</p>
-                                    <p><span>Cantidad</span> @carrito.Cantidad</p>
-                                    <p><span>Precio</span> @carrito.Precio</p>
+
+                        @if (ViewBag.Carrito != null)
+                        {
+                            @foreach (var carrito in ViewBag.Carrito)
+                            {
+                                <div class="box-content cuenta-item">
+                                    <a href="#" class="link">
+                                        <div class="imagen-producto">
+                                            <img src="~/img/logo.png"/>
+                                        </div>
+                                        <div class="text">
+                                            <p><span>@carrito.Nombre @carrito.Nombre</span> @carrito.Medida</p>                                            
+                                            <p><span>Color</span> @carrito.Color</p>
+                                            <p><span>Cantidad</span> @carrito.Cantidad</p>
+                                            <p><span>Precio</span> @carrito.Precio</p>
+                                        </div>
+                                        @*<div class="acciones">
+                                            <i class="fas fa-trash-alt"></i>
+                                            <i class="fas fa-edit"></i>
+                                        </div>*@
+                                    </a>
                                 </div>
-                                    <div class="acciones">
-                                        <i class="fas fa-trash-alt"></i>
-                                        <i class="fas fa-edit"></i>
-                                    </div>
-                                }
-                            </a>
-                        </div>
+                            }
+                        }
+
                     </div>
                     <div class="pedir">
                         <a asp-controller="Pedidos" asp-action="FinalizarPedido">Iniciar Pedido</a>
@@ -170,10 +188,10 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/lib/datatables.net/jquery.dataTables.min.js"></script>
-    <script src="~/lib/datatables.net-bs4/dataTables.bootstrap4.min.js"></script>
+    @*<script src="~/lib/datatables.net/jquery.dataTables.min.js"></script>*@
+    @*<script src="~/lib/datatables.net-bs4/dataTables.bootstrap4.min.js"></script>*@
     <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
-    <script src="~/js/datatable.js"></script>
+    @*<script src="~/js/datatable.js"></script>*@
 
 
 

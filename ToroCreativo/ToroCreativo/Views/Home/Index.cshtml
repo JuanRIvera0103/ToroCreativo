@@ -1,44 +1,13 @@
-﻿@{
+﻿
+@{
+    Layout = "_LayoutCliente";
     ViewData["Title"] = "Toro Creativo";
-    Layout = null;
+    int cantidad = 0;
+}
+@section Styles{
+    <link rel="stylesheet" href="~/css/main.css"/>
 }
 
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-   
-    <link rel="stylesheet" href="~/css/main.css">
-    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css">
-    <title>Toro Creativo</title>
-</head>
-
-<body>
-    <section id="header">
-        <div class="header container">
-            <div class="nav-bar">
-                <div class="nav-list">
-                    <div class="hamburger">
-                        <div class="bar"></div>
-                    </div>
-                    <ul>
-                        <li><a asp-controller="" asp-action="" data-after="Inicio">Inicio</a></li>
-                        <li>
-                            <a asp-controller="ProductosCategoria" asp-action="ProductosCliente" data-after="Productos">Productos</a>
-                        </li>
-                        <li>
-                            <a asp-controller="Ilustracions" asp-action="IlustracionesCliente"
-                               data-after="Ilustraciones">Ilustraciones</a>
-                        </li>
-                        <li>
-                            <a asp-controller="Usuarios" asp-action="CerrarSesion" 
-                               data-after="Cerrar Sesion">CerrarSesion</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <section id="inicio">
         <div class="inicio container">
@@ -56,88 +25,34 @@
         <div class="productos container">
             <div class="producto-top">
                 <h1 class="section-title">Nuevos Productos <a class="vermas" asp-controller="ProductosCategoria" asp-action="ProductosCliente">Ver más</a> </h1>
-                <p>
-                    ¡Toro creativo ha traido nuevos productos!
-                </p>
             </div>
             <div class="producto-bottom">
-                <div class="producto-item">
-                    <div class="image">
-                        <img src="./utils/img/torito.png" alt="" srcset="">
-                    </div>
-                    <div class="content">
-                        <div class="title">Nombre del Producto</div>
-                        <div class="bottom">
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo praesentium consequatur
-                                sapiente quia
-                                voluptatem, labore ipsam exercitationem atque deserunt enim cumque ipsum laudantium
-                                nihil, beatae
-                                inventore facere doloremque qui perferendis.
-                            </p>
-                            <button>Ver más</button>
+                @foreach (var item in ViewBag.Productos)
+	            {
+                    <div class="producto-item">
+                        <div class="image">
+                            <img src="~/imgProductos/@item.ImageName" alt="" srcset="">
+                        </div>
+                        <div class="content">
+                            <div class="title">@item.Nombre</div>
+                            <div class="bottom">
+                                <p>@item.Descripcion</p>
+                                <a asp-action="DetalleProductoCliente" asp-route-id="@item.idProductos" class="detalle">Ver más</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="producto-item">
-                    <div class="image">
-                        <img src="./utils/img/torito.png" alt="" srcset="">
-                    </div>
-                    <div class="content">
-                        <div class="title">Nombre del Producto</div>
-                        <div class="bottom">
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo praesentium consequatur
-                                sapiente quia
-                                voluptatem, labore ipsam exercitationem atque deserunt enim cumque ipsum laudantium
-                                nihil, beatae
-                                inventore facere doloremque qui perferendis.
-                            </p>
-                            <button>Ver más</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="producto-item">
-                    <div class="image">
-                        <img src="./utils/img/torito.png" alt="" srcset="">
-                    </div>
-                    <div class="content">
-                        <div class="title">Nombre del Producto</div>
-                        <div class="bottom">
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo praesentium consequatur
-                                sapiente quia
-                                voluptatem, labore ipsam exercitationem atque deserunt enim cumque ipsum laudantium
-                                nihil, beatae
-                                inventore facere doloremque qui perferendis.
-                            </p>
-                            <button>Ver más</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="producto-item">
-                    <div class="image">
-                        <img src="./utils/img/torito.png" alt="" srcset="">
-                    </div>
-                    <div class="content">
-                        <div class="title">Nombre del Producto</div>
-                        <div class="bottom">
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nemo praesentium consequatur
-                                sapiente quia
-                                voluptatem, labore ipsam exercitationem atque deserunt enim cumque ipsum laudantium
-                                nihil, beatae
-                                inventore facere doloremque qui perferendis.
-                            </p>
-                            <button>Ver más</button>
-                        </div>
-                    </div>
-                </div>
+                    cantidad++;
+                    if (cantidad == 4)
+                    {
+                        break;
+                    }
+                }
+             
             </div>
         </div>
     </section>
 
-    <section id="ilustraciones">
+    @*<section id="ilustraciones">
         <div class="ilustraciones container">
             <div class="ilustraciones-header">
                 <h1 class="section-title"><span>Nuevas Ilustraciones</span> <a class="vermas" href="">Ver más</a> </h1>
@@ -150,7 +65,7 @@
 
 
                 <div class="ilustracion" id="slide1">
-                    <img src="./utils/img/torito.png" alt="">
+                    <img src="~/img/logo.png" alt="">
                     <div class="contenido">
                         <h3>Titulo</h3>
                         <p>
@@ -275,9 +190,9 @@
             </div>
             <p>Copyright © 2020 Toro Creativo, todos los derechos reservados</p>
         </div>
-    </section>
-
+    </section>*@
+@section Scripts{ 
     <script src="~/js/main.js"></script>
-</body>
+}
 
-</html>
+    

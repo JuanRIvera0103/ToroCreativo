@@ -1,4 +1,4 @@
-const hamburger = document.querySelector('.header .nav-bar .nav-list .hamburger');
+const hamburger = document.querySelector('.header .nav-bar .nav-list .logo');
 const mobile_menu = document.querySelector('.header .nav-bar .nav-list ul');
 const menu_list = document.querySelectorAll('.header .nav-bar .nav-list ul li a');
 const header = document.querySelector('.header.container');

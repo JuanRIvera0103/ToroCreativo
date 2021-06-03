@@ -1,7 +1,7 @@
 ﻿@model ToroCreativo.Clases.PedidoDetalle
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalle Pedido";
 }
 
 @section Styles{
@@ -24,18 +24,29 @@
             <p>3838383838</p>
         </div>
         <div class="info-factura">
-            <span>Fecha Pedido</span>
-            <p>@Html.DisplayFor(model => model.FechaPedido)</p>
-            <span>N° de Factura</span>
-            <p>@Html.DisplayFor(model => model.IdPedido)</p>
-            <span>Comprobante</span>
-            @if (Model.ImageName == null)
+            @if (Model.Estado == "Sin Enviar" || Model.Estado == "Enviado")
             {
-                 <p>No</p>
+                <span>Fecha venta</span>
+                <p>@Html.DisplayFor(model => model.FechaVenta)</p>
             }
             else
             {
-                <p>Si</p>
+                <span>Fecha Pedido</span>
+                <p>@Html.DisplayFor(model => model.FechaPedido)</p>
+            }
+            <span>N° de Factura</span>
+            <p>@Html.DisplayFor(model => model.IdPedido)</p>
+            @if (Model.Estado == "Aceptado")
+            {
+                <span>Comprobante</span>
+                @if (Model.ImageName == null)
+                {
+                    <p>No</p>
+                }
+                else
+                {
+                    <p>Si</p>
+                }
             }
         </div>
     </div>    
@@ -56,30 +67,34 @@
             <p><span>Teléfono: </span>@Html.DisplayFor(model => model.Telefono)</p>            
         </div>
     </div>   
-    <div class="comprobante">
-        @if (Model.ImageName == null)
-        {          
-            <form asp-action="AgregarComprobante" enctype="multipart/form-data" id="form" method="post">
+    
+        @if (Model.Estado != "Pendiente" && Model.Estado != "Cancelado")
+        {
+            <div class="comprobante">    
+                @if (Model.ImageName == null)
+                {
+                    <form asp-action="AgregarComprobante" enctype="multipart/form-data" id="form" method="post">
 
-                <div class="form-group">
-                    <input asp-for="IdPedido" class="form-control" type="hidden" />
-                </div>
-                <div class="form-group">
-                    <input asp-for="ImageName" class="form-control" type="hidden" />
+                        <div class="form-group">
+                            <input asp-for="IdPedido" class="form-control" type="hidden" />
+                        </div>
+                        <div class="form-group">
+                            <input asp-for="ImageName" class="form-control" type="hidden" />
 
-                </div>
-                <div class="file-select" id="src-file1">
-                    <p>Subir Comprobante</p>
-                     <input name="ImageFile" accept="image/*" type="file" id="Imagen">
-                </div>                
+                        </div>
+                        <div class="file-select" id="src-file1">
+                            <p>Subir Comprobante</p>
+                            <input name="ImageFile" accept="image/*" type="file" id="Imagen">
+                        </div>
 
-            </form>            
+                    </form>
+                }
+                else
+                {
+                    <button class="verComprobante" onclick="VerComprobante('/comprobantes/@Html.DisplayFor(model => model.ImageName)')">Ver comprobante</button>
+                }
+            </div>
         }
-        else
-        {            
-            <button class="btn btn-outline-dark" onclick="VerComprobante('/comprobantes/@Html.DisplayFor(model => model.ImageName)')">Ver comprobante</button>
-        }
-    </div>
 </div>
 
 <div class="detalle-pedido">
@@ -96,12 +111,12 @@
             </thead>
             <tbody>
                 @foreach (var item in ViewBag.DetallePedidos)
-                {
+                {                   
                     <tr>
                         <td>
                             @item.Producto
                         </td>
-                        <td class="numeros">
+                        <td>
                             @item.Cantidad
                         </td>
                         <td class="numeros">
@@ -124,75 +139,6 @@
     </div>
 </div>
 
-
-@*<div class="gestion">
-    <div class="registros">
-        <div class="row">
-            <div class="rounded BackClienteInfo col-sm-5">
-                <h6 class="TituloA">Toro Creativo</h6>
-                <div class="row">
-
-                    <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.IdUsuario)</h5>
-                    <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.IdUsuario)</h5>
-                    <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.Telefono)</h5>
-                    <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Telefono)</h5>
-                    <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.Direccion):</h5>
-                    <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Direccion)</h5>
-                </div>
-            </div>
-            <div class="rounded BackClienteInfo col-sm-6">
-                <h6 class="TituloA">Factura a</h6>
-                <div class="row">
-                    <h5 class="LetraGrandeB col-sm-4">Nombre Completo</h5>
-                    <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Nombre) @Html.DisplayFor(model => model.Apellido)</h5>
-                    <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.Cedula):</h5>
-                    <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Cedula)</h5>
-                    <h5 class="LetraGrandeB col-sm-4">Correo:</h5>
-                    <h5 class="LetraPequeñaB col-sm-8"></h5>
-
-
-                </div>
-            </div>
-        </div>
-        <div class="rounded BackClienteInfo col-sm-11">
-
-
-            <h6 class="TituloA">Detalles del pedido</h6>
-            <div class="row">
-                <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.IdPedido)</h5>
-                <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.IdPedido)</h5>
-                @if (Model.FechaVenta.Equals("0001-01-01 00:00:00.000000"))
-                {
-
-                    <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.FechaPedido)</h5>
-                    <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.FechaPedido)</h5>
-
-                }
-                else
-                {
-                    <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.FechaVenta)</h5>
-                    <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.FechaVenta)</h5>
-                }
-                <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.FechaPedido)</h5>
-                <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.FechaPedido)</h5>
-                <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Estado)</h5>
-                <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Estado)</h5>
-                <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.TotalIva)</h5>
-                <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.TotalIva)</h5>
-                <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Subtotal)</h5>
-                <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Subtotal)</h5>
-                <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Total)</h5>
-                <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Total)</h5>
-                <h5 class="LetraGrandeB col-sm-2">Comprobante</h5>
-
-               
-               
-            </div>
-
-        </div>      
-       
-    </div>
-</div>*@
 
 @section Scripts{
 

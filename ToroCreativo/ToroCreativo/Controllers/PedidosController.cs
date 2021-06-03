@@ -52,7 +52,8 @@ namespace ToroCreativo.Controllers
         }
         [ActionName("PedidosClientesDetalle")]
         public async Task<string> PedidosClientesDetalle(string id)
-        {            
+        {
+            
             return JsonConvert.SerializeObject(await _context.ObtenerPedidosCliente(id));
         }
 
@@ -61,8 +62,9 @@ namespace ToroCreativo.Controllers
         {            
             return JsonConvert.SerializeObject(await _context.ObtenerVentasCliente(id));
         }
-        public async Task<IActionResult> PedidosClientes(string id)
+        public async Task<IActionResult> PedidoVistaCliente2()
         {
+            var id = HttpContext.Session.GetString("usuario");
             IEnumerable<Pedido> aceptados = await _context.ObtenerPedidosAceptadosCliente(id);
             IEnumerable<Pedido> cancelados = await _context.ObtenerPedidosCanceladosCliente(id);
             ViewBag.Aceptados = aceptados;
@@ -70,12 +72,11 @@ namespace ToroCreativo.Controllers
             return View(await _context.ObtenerPedidosPendientesCliente(id));
         }
         [ActionName("VentasClientes")]
-        public async Task<IActionResult> VentasClientes(string id)
+        public async Task<IActionResult> VentasVistaCliente2()
         {
+            var id = HttpContext.Session.GetString("usuario");
             IEnumerable<Pedido> SinEnviados = await _context.ObtenerVentasSinEnviarCliente(id);
-
             ViewBag.SinEnviados = SinEnviados;
-
             return View(await _context.ObtenerVentasPorEnviarCliente(id));
 
 
@@ -86,7 +87,7 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
-            List<DetallePedidoTabla> listaDetalle = await _context.ObtenerDetallePedidos(id);
+            List<DetallePedidoTabla> listaDetalle = _context.ObtenerDetallePedidos(id);
             var cantidad_deducida = 0;
             for (int i = 0; i<listaDetalle.Count; i++)
             {
@@ -134,7 +135,7 @@ namespace ToroCreativo.Controllers
                 TempData["Comprobante"] = "no";
                 return RedirectToAction(nameof(Index));
             }
-            List<DetallePedidoTabla> listaDetalle = await _context.ObtenerDetallePedidos(id);
+            List<DetallePedidoTabla> listaDetalle =  _context.ObtenerDetallePedidos(id);
             var cantidad_total = 0;
             for (int i = 0; i < listaDetalle.Count; i++)
             {
@@ -231,7 +232,7 @@ namespace ToroCreativo.Controllers
                 return NotFound();
             }
             var pedido = _context.ObtenerPedidoPorIDDetalle(id);
-            IEnumerable<DetallePedidoTabla> listaDetalle = await _context.ObtenerDetallePedidos(id);
+            IEnumerable<DetallePedidoTabla> listaDetalle = _context.ObtenerDetallePedidos(id);
             ViewBag.DetallePedidos = listaDetalle;            
             if (pedido == null)
             {
@@ -282,7 +283,7 @@ namespace ToroCreativo.Controllers
 
             var pedido = await _context.ObtenerPedidoPorID(id);
 
-            List<DetallePedidoTabla> listaDetalle = await _context.ObtenerDetallePedidos(id);
+            List<DetallePedidoTabla> listaDetalle =  _context.ObtenerDetallePedidos(id);
             ViewBag.DetallePedidos = listaDetalle;
             if (pedido == null)
             {
@@ -302,7 +303,7 @@ namespace ToroCreativo.Controllers
 
             var pedido = await _context.ObtenerPedidoPorID(id);
 
-            List<DetallePedidoTabla> listaDetalle = await _context.ObtenerDetallePedidos(id);
+            List<DetallePedidoTabla> listaDetalle =  _context.ObtenerDetallePedidos(id);
             ViewBag.DetallePedidos = listaDetalle;
             if (pedido == null)
             {
@@ -384,7 +385,7 @@ namespace ToroCreativo.Controllers
                 };
 
                 await _context.FinalizarPedido(pedido, detalle);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Home");
             }
             return View(datosPedido);
         }

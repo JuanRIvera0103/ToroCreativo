@@ -6,55 +6,56 @@
 }
 @section Styles{
     <link rel="stylesheet" href="~/css/productos-cliente.css" />
+    <link rel="stylesheet" href="~/css/estilos-generales.css" />
 }
 
-    <div class="categorias">
+<div class="categorias">
 
-        <ul>
-            <h2>Categorías</h2>
-            <li><a asp-action="ProductosCliente" asp-route-id="">Todos</a></li>
-            @foreach (var categorias in ViewBag.Categorias)
-            {
-                <li><a asp-action="ProductosCliente" asp-route-id="@categorias.idCategoria"> @categorias.Nombre</a></li>
-            }
-        </ul>
-    </div>
-    <div class="catalogo">
-        <form asp-action="ProductosCliente" method="post"  class="form-buscar float-end">
-            <div class="input-group">
-                <input name="busqueda" type="search" class="form-control" placeholder="Buscar producto" />
-                <button type="submit" class="btn"><i class="fas fa-search"></i></button>
-            </div>
-        </form>
+    <ul>
+        <h2>Categorías</h2>
+        <li><a asp-action="ProductosCliente" asp-route-id="">Todos</a></li>
+        @foreach (var categorias in ViewBag.Categorias)
+        {
+            <li><a asp-action="ProductosCliente" asp-route-id="@categorias.idCategoria"> @categorias.Nombre</a></li>
+        }
+    </ul>
+</div>
+<div class="catalogo">
+    <form asp-action="ProductosCliente" method="post" class="form-buscar float-end">
+        <div class="input-group">
+            <input name="busqueda" type="search" class="form-control" placeholder="Buscar producto" />
+            <button type="submit" class="btn"><i class="fas fa-search"></i></button>
+        </div>
+    </form>
 
-        <div class="productos">
-            @foreach (var item in Model)
-            {
-                <div class="producto">
-                    <div class="producto-contenido">
-                        <div class="imagen-producto">                            
-                            <img src="@("~/imgProductos/" + item.ImageName)" asp-append-version="true" />                             
+    <div class="productos">
+        @foreach (var item in Model)
+        {
+            <div class="producto">
+                <div class="producto-contenido">
+                    <div class="imagen-producto">
+                        <img src="@("~/imgProductos/" + item.ImageName)" asp-append-version="true" />
+                    </div>
+                    <div class="producto-detalle">
+                        <span class="producto-categoria">@Html.DisplayFor(modelItem => item.Categoria)</span>
+                        <div class="nombre">
+                            <h4>@Html.DisplayFor(modelItem => item.Nombre)</h4>
                         </div>
-                        <div class="producto-detalle">
-                            <span class="producto-categoria">@Html.DisplayFor(modelItem => item.Categoria)</span>
-                            <div class="nombre">
-                                <h4>@Html.DisplayFor(modelItem => item.Nombre)</h4>
+                        <div class="producto-footer">
+                            <div class="precio">
+                                @{
+                                    var preciosFormato = String.Format("{0:#,##0}", item.Precio);
+                                    @preciosFormato
+                                }
                             </div>
-                            <div class="producto-footer">
-                                <div class="precio">
-                                    @{ 
-                                            var preciosFormato = String.Format("{0:#,##0}", item.Precio);
-                                            @preciosFormato
-                                    }
-                                </div>
-                                <div class="link-detalle">
-                                    <a asp-action="DetalleProductoCliente" asp-route-id="@item.idProductos" class="detalle">Ver más</a>
-                                </div>
+                            <div class="link-detalle">
+                                <a asp-action="DetalleProductoCliente" asp-route-id="@item.idProductos" class="detalle">Ver más</a>
                             </div>
                         </div>
                     </div>
                 </div>
-            }
-        </div>
-
+            </div>
+        }
     </div>
+
+</div>

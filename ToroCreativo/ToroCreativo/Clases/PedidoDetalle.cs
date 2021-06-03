@@ -13,11 +13,11 @@ namespace ToroCreativo.Clases
         public string Cedula { get; set; }        
         public string Telefono { get; set; }
         public string Estado { get; set; }
-        public DateTime FechaPedido { get; set; }
-        public DateTime FechaVenta { get; set; }
-        public double Subtotal { get; set; }
-        public double TotalIva { get; set; }
-        public double Total { get; set; }
+        public string FechaPedido { get; set; }
+        public string FechaVenta { get; set; }
+        public string Subtotal { get; set; }
+        public string TotalIva { get; set; }
+        public string Total { get; set; }
         public string Correo { get; set; }
         public string ImageName { get; set; }
     }

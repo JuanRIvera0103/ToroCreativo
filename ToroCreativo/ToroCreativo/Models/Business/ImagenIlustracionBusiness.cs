@@ -71,7 +71,19 @@ namespace ToroCreativo.Models.Business
                 await _context.SaveChangesAsync();
             
             }
-        
-    }
+            public async Task<List<ImagenIlustracion>> ImagenesIlustraciones()
+            {            
+                List<ImagenIlustracion> imagenIlustracion = await _context.ImagenIlustraciones.ToListAsync();
+                return imagenIlustracion;
+                
+            }
+
+            public List<ImagenIlustracion> ObtenerImagenesIlustracion(int? id)
+            {            
+                List<ImagenIlustracion> imagenIlustracion =  _context.ImagenIlustraciones.Where(i => i.IdIlustracion == id).ToList();
+                return imagenIlustracion;
+                
+            }
+        }
     }
 

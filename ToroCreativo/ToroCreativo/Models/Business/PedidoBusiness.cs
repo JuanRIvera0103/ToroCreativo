@@ -81,11 +81,11 @@ namespace ToroCreativo.Models.Business
                             Cedula = pedidos.Cedula,
                             Telefono = pedidos.Telefono,
                             Estado = pedidos.Estado,
-                            FechaPedido = pedidos.FechaPedido,
-                            FechaVenta = pedidos.FechaVenta,
-                            Subtotal = pedidos.Subtotal,
-                            TotalIva = pedidos.TotalIva,
-                            Total = pedidos.Total,
+                            FechaPedido = pedidos.FechaPedido.ToString("dd/MM/yyyy"),
+                            FechaVenta = pedidos.FechaVenta.ToString("dd/MM/yyyy"),
+                            Subtotal = string.Format("{0:#,##0}", pedidos.Subtotal),
+                            TotalIva = string.Format("{0:#,##0}", pedidos.TotalIva),
+                            Total = string.Format("{0:#,##0}", pedidos.Total),
                             Correo = usuarios.Email,
                             ImageName = pedidos.ImageName
                         }).FirstOrDefault();
@@ -224,10 +224,9 @@ namespace ToroCreativo.Models.Business
             }
 
         }
-        public async Task<List<DetallePedidoTabla>> ObtenerDetallePedidos(int? id)
+        public List<DetallePedidoTabla> ObtenerDetallePedidos(int? id)
         {
-            await using (_context)
-            {
+           
                 List<DetallePedidoTabla> detallePedido =
                    (from detallepedido in _context.DetallePedidos
                     join caracteristicas in _context.caracteristicas
@@ -241,14 +240,14 @@ namespace ToroCreativo.Models.Business
                         IdCaractersiticas = caracteristicas.idCaracteristicas,
                         Producto = producto.Nombre,
                         Cantidad = detallepedido.Cantidad,
-                        Subtotal = detallepedido.Subtotal,
-                        TotalIva = detallepedido.TotalIva,
-                        Total = detallepedido.Total
+                        Subtotal = string.Format("{0:#,##0}", detallepedido.Subtotal),
+                        TotalIva = string.Format("{0:#,##0}", detallepedido.TotalIva),
+                        Total = string.Format("{0:#,##0}", detallepedido.Total)
                     
                     }).ToList();
 
                 return (detallePedido);
-            }
+           
         }
 
         public async Task<IEnumerable<Usuario>> ObtenerUsuario()

@@ -13,6 +13,8 @@ namespace ToroCreativo.Models.Abstract
         Task GuardarEditarImagenIlustracion(ImagenIlustracion imagenIlustracion);
         Task EliminarImagenIlustracion(int id);
         Task<ImagenIlustracion> ObtenerImagenIlustracionPorId(int? id);
+        List<ImagenIlustracion> ObtenerImagenesIlustracion(int? id);
+        Task<List<ImagenIlustracion>> ImagenesIlustraciones();
 
     }
 }

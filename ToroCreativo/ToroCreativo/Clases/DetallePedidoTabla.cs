@@ -10,8 +10,8 @@ namespace ToroCreativo.Clases
         public string Producto { get; set; }
         public int IdCaractersiticas { get; set; }
         public int Cantidad { get; set; }        
-        public double Subtotal { get; set; }        
-        public double TotalIva { get; set; }        
-        public double Total { get; set; }
+        public string Subtotal { get; set; }        
+        public string TotalIva { get; set; }        
+        public string Total { get; set; }
     }
 }
