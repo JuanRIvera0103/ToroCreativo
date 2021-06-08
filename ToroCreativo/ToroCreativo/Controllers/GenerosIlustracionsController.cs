@@ -21,14 +21,16 @@ namespace ToroCreativo.Controllers
         private readonly IIlustracionBusiness _ilustracionBusiness;
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly IImagenIlustracionBusiness _imagenIlustracionBusiness;
+        private readonly IComentarioBusiness _comentarioBusiness;
 
         public GenerosIlustracionsController(IGenerosBusiness generosBusiness, IIlustracionBusiness ilustracionBusiness, IWebHostEnvironment hostEnvironmen,
-            IImagenIlustracionBusiness imagenIlustracionBusiness)
+            IImagenIlustracionBusiness imagenIlustracionBusiness, IComentarioBusiness comentariosBusiness)
         {
             _generosBusiness = generosBusiness;
             _ilustracionBusiness = ilustracionBusiness;
             this._hostEnvironment = hostEnvironmen;
             _imagenIlustracionBusiness = imagenIlustracionBusiness;
+            _comentarioBusiness = comentariosBusiness;
         }
 
         // GET: Estados
@@ -120,6 +122,8 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
+             
+            
             IEnumerable<ImagenIlustracion> listaImagen = await _ilustracionBusiness.ObtenerImagenesIlustracion(id);
             ViewBag.Imagenes = listaImagen;
             var ilustracion = await _ilustracionBusiness.ObtenerIlustracionPorId(id);

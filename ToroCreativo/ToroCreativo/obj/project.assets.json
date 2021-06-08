@@ -11372,19 +11372,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\juan\\.nuget\\packages\\": {}
+    "C:\\Users\\RYZEN 3\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
+      "projectUniqueName": "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
       "projectName": "ToroCreativo",
-      "projectPath": "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
-      "packagesPath": "C:\\Users\\juan\\.nuget\\packages\\",
-      "outputPath": "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\ToroCreativo\\obj\\",
+      "projectPath": "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\ToroCreativo\\ToroCreativo.csproj",
+      "packagesPath": "C:\\Users\\RYZEN 3\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\ToroCreativo\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\juan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\RYZEN 3\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -11396,10 +11396,9 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "projectReferences": {
-            "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj": {
-              "projectPath": "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj"
+            "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj": {
+              "projectPath": "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj"
             }
           }
         }
@@ -11412,7 +11411,6 @@
     },
     "frameworks": {
       "netcoreapp3.1": {
-        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "AutoMapper.Extensions.Microsoft.DependencyInjection": {
             "target": "Package",
@@ -11479,7 +11477,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
       }
     }
   }

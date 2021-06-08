@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
     <link rel="stylesheet" href="~/lib/datatables.net-bs4/dataTables.bootstrap4.min.css" />
     <link href="~/lib/limonte-sweetalert2/sweetalert2.min.css" rel="stylesheet" />
-
+ 
     <!--estilos propios del proyecto-->        
     <link rel="stylesheet" href="~/css/nav-cliente.css" />
     @RenderSection("Styles", required: false)
@@ -74,36 +74,7 @@
                 </div>
                 <div class="box notifi-box" id="notificaciones-box">
                     <h2>Notificaciones</h2>
-                    <div class="box-content notifi-item">
-                        <a href="#" class="link">
-                            <div class="icon">
-                                <i class="fas fa-mail-bulk"></i>
-                            </div>
-                            <div class="text">
-                                <p><span>Toro Creativo</span> Ha aceptado tu pedido</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="box-content notifi-item">
-                        <a href="#" class="link">
-                            <div class="icon">
-                                <i class="fas fa-mail-bulk"></i>
-                            </div>
-                            <div class="text">
-                                <p><span>Toro Creativo</span> Te quedan 7 días para pagar tu pedido</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="box-content notifi-item">
-                        <a href="#" class="link">
-                            <div class="icon">
-                                <i class="fas fa-mail-bulk"></i>
-                            </div>
-                            <div class="text">
-                                <p><span>Toro Creativo</span> Ha cancelado tu pedido</p>
-                            </div>
-                        </a>
-                    </div>
+   
                 </div>
                 <div class="box cuenta-box" id="cuenta-box">
                     <div class="box-content cuenta-item">
@@ -201,8 +172,53 @@
     <script src="~/js/nav_cliente.js"></script>
     <script src="~/js/main.js"></script>
     <script src="~/js/alertas.js"></script>
-
-
+   
+    
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "../../Notificaciones/ObtenerNotificaciones",
+            traditional: true,
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+                
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].tipo == "Vendido") {
+                        notificacionGenerada(data[i].fecha, 'fas fa-shopping-bag', 'Tu compra esta en proceso, pronto te será enviada', '../../Pedidos/DetalleVentasCliente/', data[i].direccion);
+                    }
+                    else if (data[i].tipo == "Aceptado") {
+                        notificacionGenerada(data[i].fecha, 'fas fa-check-circle', 'Tu pedido ha sido aceptado', '../../Pedidos/DetallePedidosCliente/', data[i].direccion);
+                    }
+                    
+                    else if (data[i].tipo == "Cancelado") {
+                        notificacionGenerada(data[i].fecha, 'fas fa-ban', 'Tu pedido ha sido cancelado', '../../Pedidos/DetallePedidosCliente/', data[i].direccion);
+                    }
+                    else if (data[i].tipo == "Enviado") {
+                        notificacionGenerada(data[i].fecha, 'fas fa-truck', 'Tu compra ha sido enviada','../../Pedidos/DetalleVentasCliente/', data[i].direccion);
+                    }
+;                }
+            },
+            error: function (xhr, status, error) {
+
+            }
+        });
+    });
+    function notificacionGenerada(fecha, icono, texto, caso, id) {
+        $('#notificaciones-box').append('<div class="box-content notifi-item">\n\
+                        <a href="'+ caso + id +'" class="link">\n\
+                            <div class="icon">\n\
+                                <i class="'+ icono +'"></i>\n\
+                            </div>\n\
+                            <div class="text">\n\
+                                <p><span>'+ fecha +'</span> '+texto+'</p>\n\
+                            </div>\n\
+                        </a>\n\
+                    </div>' );
+    };
+
+</script>

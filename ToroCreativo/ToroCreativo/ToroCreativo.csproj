@@ -21,6 +21,12 @@
     <Compile Remove="Migrations\20210413001515_se agrego iva y entradas.Designer.cs" />
     <Compile Remove="Migrations\20210413002710_se agrego ambas tablas de imagenes.cs" />
     <Compile Remove="Migrations\20210413002710_se agrego ambas tablas de imagenes.Designer.cs" />
+    <Compile Remove="Migrations\20210605000452_notificacion.cs" />
+    <Compile Remove="Migrations\20210605000452_notificacion.Designer.cs" />
+    <Compile Remove="Migrations\20210605195220_notificaciones.cs" />
+    <Compile Remove="Migrations\20210605195220_notificaciones.Designer.cs" />
+    <Compile Remove="Migrations\20210605213759_notificaciones.cs" />
+    <Compile Remove="Migrations\20210605213759_notificaciones.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -45,7 +51,6 @@
     <Folder Include="wwwroot\imgIlustraciones\" />
     <Folder Include="wwwroot\imgProductos\" />
     <Folder Include="wwwroot\comprobantes\" />
-    <Folder Include="wwwroot\imgInformes\" />
   </ItemGroup>
 
   <ItemGroup>

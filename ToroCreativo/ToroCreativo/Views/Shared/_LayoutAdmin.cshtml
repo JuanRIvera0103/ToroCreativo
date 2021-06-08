@@ -40,57 +40,7 @@
         </div>
         <div class="box notifi-box" id="notificaciones-box">
             <h2>Notificaciones</h2>
-            <div class="box-content notifi-item">
-                <a href="#" class="link">
-                    <div class="icon">
-                        <i class="fas fa-mail-bulk"></i>
-                    </div>
-                    <div class="text">
-                        <p><span>Nombre del cliente</span> ha hecho un nuevo pedido</p>
-                    </div>
-                </a>
-            </div>
-            <div class="box-content notifi-item visto">
-                <a href="#" class="link">
-                    <div class="icon">
-                        <i class="fas fa-comment"></i>
-                    </div>
-                    <div class="text">
-                        <p><span>Nombre del cliente</span> ha comentado una ilustración</p>
-                    </div>
-                </a>
-            </div>
-
-            <div class="box-content notifi-item">
-                <a href="#" class="link">
-                    <div class="icon">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <div class="text">
-                        <p><span>Nombre del cliente</span> Ha Calificado un producto</p>
-                    </div>
-                </a>
-            </div>
-            <div class="box-content notifi-item visto">
-                <a href="#" class="link">
-                    <div class="icon">
-                        <i class="fas fa-ban"></i>
-                    </div>
-                    <div class="text">
-                        <p><span>Nombre del cliente</span> Ha cancelado un pedido</p>
-                    </div>
-                </a>
-            </div>
-            <div class="box-content notifi-item visto">
-                <a href="#" class="link">
-                    <div class="icon">
-                        <i class="fas fa-dollar-sign"></i>
-                    </div>
-                    <div class="text">
-                        <p><span>Nombre del cliente</span> Ha montado el comprobante de pago de su pedido</p>
-                    </div>
-                </a>
-            </div>
+           
         </div>        
 
     </header>
@@ -167,3 +117,49 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: "../../Notificaciones/ObtenerNotificacionesAdmin",
+            traditional: true,
+            contentType: "application/json;charset=utf-8",
+            success: function (data) {
+
+                for (var i = 0; i < data.length; i++) {
+                    if (data[i].tipo == "Pendiente") {
+                        notificacionGenerada(data[i].fecha, 'fas fa-spinner', 'Se ha hecho un pedido', '../../Pedidos/Detalle/', data[i].direccion);
+                    }
+                    else if (data[i].tipo == "Comentario") {
+                        notificacionGenerada(data[i].fecha, 'far fa-comment-dots', 'Se ha realizado un comentario','../../GenerosIlustracions/DetalleIlustracion/', data[i].direccion);
+                    }
+
+                    else if (data[i].tipo == "CanceladoAdmin") {
+                        notificacionGenerada(data[i].fecha, 'fas fa-ban', 'Se ha cancelado un pedido', '../../Pedidos/Detalle/', data[i].direccion);
+                    }
+                    else if (data[i].tipo == "Comprobante") {
+                        notificacionGenerada(data[i].fecha, 'far fa-images', 'Se ha subido el comprobante del pedido','../../Pedidos/Detalle/',data[i].direccion);
+                    }
+                    
+                };
+            },
+            error: function (xhr, status, error) {
+
+            }
+        });
+    });
+    function notificacionGenerada(fecha, icono, texto, caso, id) {
+        $('#notificaciones-box').append('<div class="box-content notifi-item">\n\
+                        <a href="'+ caso + id +'" class="link">\n\
+                            <div class="icon">\n\
+                                <i class="'+ icono + '"></i>\n\
+                            </div>\n\
+                            <div class="text">\n\
+                                <p><span>'+ fecha + '</span> ' + texto + '</p>\n\
+                            </div>\n\
+                        </a>\n\
+                    </div>' );
+    };
+
+</script>

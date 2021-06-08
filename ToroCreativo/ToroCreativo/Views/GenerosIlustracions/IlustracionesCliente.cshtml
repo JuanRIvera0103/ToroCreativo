@@ -6,6 +6,7 @@
 
     var subImagenes = ViewBag.Imagenes;
 }
+@addTagHelper*, Microsoft.AspNetCore.Mvc.TagHelpers
 @section Styles{
     <link rel="stylesheet" href="~/css/ilustraciones-cliente.css" />
     <link rel="stylesheet" href="~/css/estilos-generales.css" />
@@ -24,8 +25,8 @@
     <div class="galeria">
         @foreach (var item in Model)
         {
-            <div class="ilustracion ampliar" idIlustracion="@item.IdIlustracion">
-                <img src="@("~/imgIlustraciones/" + item.ImageName)" asp-append-version="true" />
+            <div class="ilustracion ampliar" idIlustracion="@item.IdIlustracion" id="" >
+                <img src="@("~/imgIlustraciones/" + item.ImageName)" asp-append-version="true"  />
 
             </div>
         }
@@ -33,13 +34,13 @@
     </div>
 </div>
 
-<div class="ilustracion-modal" id="modal">
+<div class="ilustracion-modal" id="modal" >
     <div class="ilustracion">
-        <div class="imagenes" id="imagen">                   
+        <div class="imagenes" id="imagen">
         </div>
         <div class="sub-imagenes">
         </div>
-    </div>    
+    </div>
     <div class="informacion">
         <i onclick="" class="fas fa-times-circle" title="Cerrar" id="cerrar"></i>
         <div class="nombre">
@@ -48,13 +49,21 @@
         <div class="descripcion">
             <h3 class="title">Descripción: </h3>
             <p>Descripcion</p>
+
         </div>
+        @if (TempData["Usuario"] != null)
+        {
+            <div class="crearComentario">
+            </div>
+        }
     </div>
 </div>
 <div class="capa" id="capa"></div>
 @section Scripts{
-    <script>        
+    <script>
+
         $(document).ready(function () {
+
 
             var imagenesJSON = JSON.parse('@Html.Raw(subImagenes)');
             $(".ampliar").click(function () {
@@ -62,37 +71,106 @@
                 $(".sub-imagenes").empty();
                 var idSubImagen = 0;
                 var idImagen = 0;
-                var idIlustracion = $(this).attr('idIlustracion');                
-                    for (var i = 0; i < imagenesJSON.length; i++) {
-                        if (imagenesJSON[i].IdIlustracion == idIlustracion) {
-                            idSubImagen += 10;
-                            idImagen++;
-                            if (imagenesJSON[i].Estado == 'Principal') {
-                                $(".imagenes").append('<img class="img active" src="../imgIlustraciones/' + imagenesJSON[i].ImageName + '" id="' + idImagen + '" />');
-                            }
-                            else {
-                                $(".imagenes").append('<img class="img" src="../imgIlustraciones/' + imagenesJSON[i].ImageName + '" id="' + idImagen + '" />');
-                            }                            
-                            $(".sub-imagenes").append('<div class="sub-imagen"><img class="sub-img" src="../imgIlustraciones/'+imagenesJSON[i].ImageName+'" id="'+idSubImagen+'"/></div >');
-                        }
-                    }
-                    $("#capa").addClass("active");
-                    $("#modal").addClass("active");
-                });
+                var idIlustracion = $(this).attr('idIlustracion');
+                
 
-                $("#cerrar").click(function () {
-                    $("#capa").removeClass("active");
-                    $("#modal").removeClass("active");
-                });
+               
+                for (var i = 0; i < imagenesJSON.length; i++) {
+                    if (imagenesJSON[i].IdIlustracion == idIlustracion) {
+                        idSubImagen += 10;
+                        idImagen++;
+                        if (imagenesJSON[i].Estado == 'Principal') {
+                            $(".imagenes").append('<img class="img active" src="../imgIlustraciones/' + imagenesJSON[i].ImageName + '" id="' + idImagen + '" />');
+                        }
+                        else {
+                            $(".imagenes").append('<img class="img" src="../imgIlustraciones/' + imagenesJSON[i].ImageName + '" id="' + idImagen + '" />');
+                        }
+                        $(".sub-imagenes").append('<div class="sub-imagen"><img class="sub-img" src="../imgIlustraciones/' + imagenesJSON[i].ImageName + '" id="' + idSubImagen + '"/></div >');
+                    }
+                }
+                $("#capa").addClass("active");
+                $("#modal").addClass("active");
+            });
+
+            $("#cerrar").click(function () {
+                $("#capa").removeClass("active");
+                $("#modal").removeClass("active");
+            });
 
             $(document).on("click", ".sub-img", function () {
-                    var id = $(this).attr("id");
-                    var idImagen = id / 10;
-                    var imagen = document.getElementById(idImagen);
-                    var imagenPrincipal = document.getElementsByClassName("img active");
-                    $(imagenPrincipal).removeClass("active");
-                    $(imagen).addClass("active");
+                var id = $(this).attr("id");
+                var idImagen = id / 10;
+                var imagen = document.getElementById(idImagen);
+                var imagenPrincipal = document.getElementsByClassName("img active");
+                $(imagenPrincipal).removeClass("active");
+                $(imagen).addClass("active");
+            });
+        });
+
+    </script>
+    <script type="text/javascript">
+        function AjaxFormSubmit() {
+            
+
+            //Add the Field values to FormData object.
+            var formData = new FormData();
+            formData.append("texto", $("#txtFirstName").val());
+            
+            formData.append("idilustracion", $("#Idilus").val());
+            formData.append("idcomentario", 0);
+
+            $.ajax({
+                type: 'POST',
+                url: '../../Comentarios/CrearEditar',
+                data: formData,
+                processData: false,
+                contentType: false
+            }).done(function (response) {
+                if (response.Status === "success") {
+                    $("#lblName").html(response.Name);
+                }
+            });
+        }
+        
+        
+         
+            
+            $(".ampliar").click(function () {
+                $(".imagenes").empty();
+                $(".sub-imagenes").empty();
+                var idSubImagen = 0;
+                var idImagen = 0;
+                var idIlustracion = $(this).attr('idIlustracion');
+                console.log(idIlustracion);
+                var idilus = Number.parseInt(idIlustracion);
+                
+                $.ajax({
+                    type: "GET",
+                    dataType: "json",
+                    url: "../../Comentarios/ObtenerComentarios",
+                    traditional: true,
+                    contentType: "application/json;charset=utf-8",
+                    data: 'id=' + idilus,
+                    success: function (data) {
+                        $('.descripcion').empty();
+                        $('.crearComentario').empty()
+                        for (var i = 0; i < data.length; i++) {
+                            $('.descripcion').append('<p >' + data[i].texto + ' </p><p>' + data[i].fecha + ' </p><p>' + data[i].correo + ' </p>');
+                        }
+
+                        $('.crearComentario').append('<form id="myForm" method="post" enctype="multipart/form-data">\n\
+                            <input class="comments" type = "text" id = "txtFirstName"/>\n\
+                            <input class="comments" type = "hidden" id = "Idilus" value="'+ idilus + '"/>\n\
+                            <input type="button" value="Submit" onclick="AjaxFormSubmit()" />\n\
+                        </form >');
+
+                    },
+                    error: function (xhr, status, error) {
+
+                    }
                 });
-            })
+            });
+            
+            
     </script>
 }

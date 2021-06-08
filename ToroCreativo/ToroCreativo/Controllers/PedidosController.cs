@@ -21,12 +21,14 @@ namespace ToroCreativo.Controllers
         private readonly IClientesBusiness _clientes;
         private readonly IProductosBusiness _productos;
         private readonly IEntradaBusiness _entradas;
-        public PedidosController(IPedidoBusiness context, IClientesBusiness clientes, IProductosBusiness productos, IEntradaBusiness entradas)
+        private readonly INotificacionesBusiness _noti;
+        public PedidosController(IPedidoBusiness context, IClientesBusiness clientes, IProductosBusiness productos, IEntradaBusiness entradas, INotificacionesBusiness noti)
         {
             _context = context;
             _clientes = clientes;
             _productos = productos;
             _entradas = entradas;
+            _noti = noti;
         }
 
         // GET: Usuarios
@@ -88,6 +90,7 @@ namespace ToroCreativo.Controllers
                 return NotFound();
             }
             List<DetallePedidoTabla> listaDetalle = _context.ObtenerDetallePedidos(id);
+            
             var cantidad_deducida = 0;
             for (int i = 0; i<listaDetalle.Count; i++)
             {
@@ -99,16 +102,29 @@ namespace ToroCreativo.Controllers
                     
                 }
                  cantidad_deducida = cantidad_deducida- listaDetalle[i].Cantidad;
-                if ( cantidad_deducida<0)
-                {
-                    TempData["CambiarPedido"] = "No";
-                    break;
-
-                }
-               
+ 
             }
-            TempData["CambiarPedido"] = "si";        
-            await _context.AceptarPedido(await _context.ObtenerPedidoPorID(id));
+            if (cantidad_deducida < 0)
+            {
+                TempData["CambiarPedido"] = "No";  
+            }
+            else
+            {
+                var pedido = await _context.ObtenerPedidoPorID(id);
+                await _context.AceptarPedido(pedido);
+                Notificacion notificacion = new Notificacion()
+                {
+                    IdUsuario = pedido.IdUsuario,
+                    Direccion = pedido.IdPedido,
+                    Fecha = DateTime.Now.ToShortDateString(),
+                    Tipo="Aceptado",
+                    Leido=false,
+                };
+                await _noti.CrearNotificacion(notificacion);
+                TempData["CambiarPedido"] = "si";
+            }
+
+
 
             return RedirectToAction(nameof(Index));
         }
@@ -118,8 +134,27 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
+
+            var pedido = await _context.ObtenerPedidoPorID(id);
+            await _context.CancelarPedido(pedido);
+            Notificacion notificacion = new Notificacion()
+            {
+                IdUsuario = pedido.IdUsuario,
+                Direccion = pedido.IdPedido,
+                Fecha = DateTime.Now.ToShortDateString(),
+                
+                Leido = false,
+            };
+            if (HttpContext.Session.GetString("usuario")==null) {
+                notificacion.Tipo = "Cancelado";
+            }
+            else
+            {
+                
+                notificacion.Tipo = "CanceladoAdmin";
+            }
             
-            await _context.CancelarPedido(await _context.ObtenerPedidoPorID(id));
+            await _noti.CrearNotificacion(notificacion);
             TempData["CambiarPedido"] = "si";
             return RedirectToAction(nameof(Index));
         }
@@ -136,6 +171,7 @@ namespace ToroCreativo.Controllers
                 return RedirectToAction(nameof(Index));
             }
             List<DetallePedidoTabla> listaDetalle =  _context.ObtenerDetallePedidos(id);
+            List<Entrada> entradasPorModificar = new List<Entrada>();
             var cantidad_total = 0;
             for (int i = 0; i < listaDetalle.Count; i++)
             {
@@ -150,34 +186,59 @@ namespace ToroCreativo.Controllers
                 if (cantidad_deducida < 0)
                 {
                     TempData["CambiarPedido"] = "No";
-                    break;
-
+                    return RedirectToAction(nameof(Index));
+                    
+                    
                 }
                 else
                 {
+                    
                     int cantidad_descontada = 0;
                     for(int x =0; x < entrada.Count; x++)
                     {
-                        cantidad_descontada = listaDetalle[i].Cantidad - cantidad_descontada;
-                       if(cantidad_descontada > entrada[x].CantidadActual)
+                        if (x == 0)
+                        {
+                            cantidad_descontada = listaDetalle[i].Cantidad;
+                        }
+                        
+                        
+                       if(cantidad_descontada < entrada[x].CantidadActual)
+                        {
+                            
+                            entrada[x].CantidadActual = entrada[x].CantidadActual - cantidad_descontada;
+                            entradasPorModificar.Add(entrada[x]);
+                            break;
+                        }
+                        
+                        else if (cantidad_descontada >= entrada[x].CantidadActual && entrada[x].CantidadActual >0)
                         {
                             cantidad_descontada = cantidad_descontada - entrada[x].CantidadActual;
                             entrada[x].CantidadActual = 0;
-                            await _entradas.GuardarEditarEntrada(entrada[x]);
+                            entradasPorModificar.Add(entrada[x]);
+
                         }
-                        else
-                        {
-                            entrada[x].CantidadActual = entrada[x].CantidadActual - cantidad_descontada;
-                            cantidad_descontada = 0;
-                            await _entradas.GuardarEditarEntrada(entrada[x]);
-                            break;
-                        }
+
                     }
                 }
 
             }
+            for(int y =0; y<entradasPorModificar.Count; y++)
+            {
+                await _entradas.GuardarEditarEntrada(entradasPorModificar[y]);
+            }
+
             var Venta = await _context.ObtenerPedidoPorID(id);
             Venta.FechaVenta = DateTime.Now;
+            
+            Notificacion notificacion = new Notificacion()
+            {
+                IdUsuario = Venta.IdUsuario,
+                Direccion = Venta.IdPedido,
+                Fecha = DateTime.Now.ToShortDateString(),
+                Tipo = "Vendido",
+                Leido = false,
+            };
+            await _noti.CrearNotificacion(notificacion);
             await _context.PedidoAVentaNoEnviada(Venta);
             TempData["CambiarPedido"] = "si";
             return RedirectToAction(nameof(Index));
@@ -189,7 +250,17 @@ namespace ToroCreativo.Controllers
                 return NotFound();
             }
             TempData["Enviada"] = "si";
-            await _context.VentaNoEnviadaAVentaEnviada(await _context.ObtenerPedidoPorID(id));
+            var pedido = await _context.ObtenerPedidoPorID(id);
+            await _context.VentaNoEnviadaAVentaEnviada(pedido);
+            Notificacion notificacion = new Notificacion()
+            {
+                IdUsuario = pedido.IdUsuario,
+                Direccion = pedido.IdPedido,
+                Fecha = DateTime.Now.ToShortDateString(),
+                Tipo = "Enviado",
+                Leido = false,
+            };
+            await _noti.CrearNotificacion(notificacion);
 
             return RedirectToAction(nameof(VentaIndex));
         }
@@ -197,6 +268,24 @@ namespace ToroCreativo.Controllers
         {
 
             await _context.AgregarComprobantePedido(pedido);
+
+
+            if (HttpContext.Session.GetString("usuario") != "")
+            {
+                Notificacion notificacion = new Notificacion()
+                {
+                    IdUsuario = HttpContext.Session.GetString("usuario"),
+                    Direccion = pedido.IdPedido,
+                    Fecha = DateTime.Now.ToShortDateString(),
+                    Tipo= "Comprobante",
+                    Leido = false,
+
+                };
+                await _noti.CrearNotificacion(notificacion);
+            }
+            
+
+                
             TempData["Comprobante"] = "si";
             return RedirectToAction("Detalle", new { id = pedido.IdPedido });
         }
@@ -385,6 +474,15 @@ namespace ToroCreativo.Controllers
                 };
 
                 await _context.FinalizarPedido(pedido, detalle);
+                Notificacion notificacion = new Notificacion()
+                {
+                    IdUsuario = pedido.IdUsuario,
+                    Direccion = pedido.IdPedido,
+                    Fecha = DateTime.Now.ToShortDateString(),
+                    Tipo = "Pendiente",
+                    Leido = false,
+                };
+                await _noti.CrearNotificacion(notificacion);
                 return RedirectToAction("Index", "Home");
             }
             return View(datosPedido);

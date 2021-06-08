@@ -303,6 +303,33 @@ namespace ToroCreativo.Migrations
                     b.ToTable("Clientes");
                 });
 
+            modelBuilder.Entity("ToroCreativo.Models.Entities.Comentario", b =>
+                {
+                    b.Property<int>("IdComentario")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("Fecha")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<int>("IdIlustracion")
+                        .HasColumnType("int");
+
+                    b.Property<string>("IdUsuario")
+                        .IsRequired()
+                        .HasColumnName("IdUsuario")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("Texto")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("IdComentario");
+
+                    b.ToTable("Comentarios");
+                });
+
             modelBuilder.Entity("ToroCreativo.Models.Entities.DetallePedido", b =>
                 {
                     b.Property<int>("IdDetallePedido")
@@ -474,6 +501,36 @@ namespace ToroCreativo.Migrations
                     b.HasKey("idIva");
 
                     b.ToTable("ivas");
+                });
+
+            modelBuilder.Entity("ToroCreativo.Models.Entities.Notificacion", b =>
+                {
+                    b.Property<int>("IdNotificacion")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("Direccion")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Fecha")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.Property<string>("IdUsuario")
+                        .IsRequired()
+                        .HasColumnName("IdUsuario")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<bool>("Leido")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Tipo")
+                        .IsRequired()
+                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+
+                    b.HasKey("IdNotificacion");
+
+                    b.ToTable("Notificaciones");
                 });
 
             modelBuilder.Entity("ToroCreativo.Models.Entities.Pedido", b =>

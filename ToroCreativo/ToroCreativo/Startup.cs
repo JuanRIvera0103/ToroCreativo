@@ -59,7 +59,8 @@ namespace ToroCreativo
             services.AddScoped<IDetallePedidoBusiness, DetallePedidoBusiness>();
             services.AddScoped<IImagenIlustracionBusiness, ImagenIlustracionBusiness>();
             services.AddScoped<IImagenProductoBusiness, ImagenProductoBusiness>();
-            
+            services.AddScoped<INotificacionesBusiness, NotificacionesBusiness>();
+            services.AddScoped<IComentarioBusiness, ComentarioBusiness>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
             services.AddIdentity<Usuario, IdentityRole>().AddEntityFrameworkStores<DbContextToroCreativo>().AddDefaultTokenProviders().AddTokenProvider<EmailConfirmationTokenProvider<Usuario>>("confirmacionemail"); ; 
@@ -92,6 +93,7 @@ namespace ToroCreativo
 
 
             });
+            
 
         }
 
@@ -114,7 +116,7 @@ namespace ToroCreativo
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

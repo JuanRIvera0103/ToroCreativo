@@ -267,7 +267,7 @@ namespace ToroCreativo.Controllers
                     {
                         TempData["Accion"] = "Cambiar";
                         TempData["Mensaje"] = "Contraseña actualizada";
-                        return RedirectToAction("Perfil", "Usuarios", new { id = HttpContext.Session.GetString("usuario")});
+                        return RedirectToAction("Perfil", "Clientes");
                     }
 
                     foreach (var error in result.Errors)

@@ -14,7 +14,11 @@
         <h1>@Html.DisplayFor(model => model.Nombre)</h1>
         <div class="descripcion">
             <p>@Html.DisplayFor(model => model.Descripcion) </p>
+            <div class="comentarios">
+
+            </div>
         </div>
+        
         <div class="agregar">
             <form asp-controller="ImagenIlustraciones" asp-action="CrearEditar" enctype="multipart/form-data" id="form" method="post">
 
@@ -63,6 +67,23 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "../../Comentarios/ObtenerComentarios",
+                traditional: true,
+                contentType: "application/json;charset=utf-8",
+                data: 'id=' + @Model.IdIlustracion,
+                success: function (data) {
+                    
+                    for (var i = 0; i < data.length; i++) {
+                        $('.comentarios').append('<div class=" box-content notifi-item"><p>' + data[i].texto  + data[i].fecha  + data[i].correo + ' </p> </div>');
+                    }
+                },
+                error: function (xhr, status, error) {
+
+                }
+            });
             const $imagenSeleccionada = document.querySelector("#Imagen");
 
             $imagenSeleccionada.addEventListener("change", () => {
@@ -103,7 +124,7 @@
                 <text>
 
                 Swal.fire({
-                    title: '¡Se agrego la imagen de la ilustración!',                    
+                    title: '¡Se agrego la imagen de la ilustración!',
                     icon: 'success',
                     showConfirmButton: true
                 });

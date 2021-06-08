@@ -283,10 +283,10 @@ namespace ToroCreativo.Models.Business
                         IdPedido = Pedido.IdPedido,
                         IdCaracteristica = detalle[i].IdCaracteristica,
                         Cantidad = detalle[i].Cantidad,
-                        Subtotal = detalle[i].Subtotal,
-                        TotalIva = detalle[i].IVA,
-                        Total = detalle[i].Precio
-                        
+                        Subtotal = detalle[i].Subtotal* detalle[i].Cantidad,
+                        TotalIva = detalle[i].IVA* detalle[i].Cantidad,
+                        Total = detalle[i].Precio* detalle[i].Cantidad
+
                     };
                     _context.Add(detallePedido);
                 }
