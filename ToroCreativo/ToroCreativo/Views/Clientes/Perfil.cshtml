@@ -1,63 +1,449 @@
 ﻿@model ToroCreativo.ViewModels.Usuario.PerfilViewModel
 
 @{
-    ViewData["Title"] = "Perfil";
+    ViewData["Title"] = "- Perfil";
     Layout = "_LayoutCliente";
+    string telefono = "";
+    if (Model != null)
+    {
+        if (Model.Telefono != null)
+        {
+            telefono = String.Format("{0} {1}", Model.Telefono.Substring(0, 3), Model.Telefono.Substring(3));
+        }
+    }
 }
 @section Styles{
-
-
-    <link href="~/css/perfil.css" rel="stylesheet" />
-    <link href="~/css/Pedido-cliente.css" rel="stylesheet" />
-
+    <link href="~/css/perfil-cliente.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/estilos-generales.css" />
 }
-<div class="container">
-    <h1 class="Titulo">TU PERFIL </h1>
+<div class="contenido">
+    <div class="perfil" id="perfil">
+        <h1 class="titulo">Tu Perfil</h1>
+        <div class="informacion">
+            <p><span>@Html.DisplayNameFor(model => model.Nombre): </span>@Html.DisplayFor(model => model.Nombre) @Html.DisplayFor(model => model.Apellido)</p>
+            <p><span>@Html.DisplayNameFor(model => model.Cedula): </span>@Html.DisplayFor(model => model.Cedula)</p>
+            <p><span>@Html.DisplayNameFor(model => model.Telefono): </span>@telefono</p>
+            <p><span>@Html.DisplayNameFor(model => model.Direccion): </span>@Html.DisplayFor(model => model.Direccion)</p>
+        </div>
+        <div class="acciones">
+            <button type="button" class="btn btn-block editar" data-toggle="modal" data-target="#formulario">Editar Información</button>
+            <button type="button" class="btn btn-block" onclick="mostrarModal('@Url.Action("CambiarContraseña","Usuarios",null,Context.Request.Scheme)', 'Cambiar Contraseña')">Cambiar Contraseña</button>
+        </div>
+    </div>
+    <div class="movimientos" id="movimientos">
+        <div class="menu-movimientos">
+            <button class="link-movimiento active" id="pedidos">Mis pedidos</button>
+            <button class="link-movimiento" id="compras">Mis compras</button>
+        </div>
+        <div class="menu-contenido">
+            <div class="pedidos active">
+                <nav class="nav-registros">
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link" id="PedidosAceptados-tab" data-toggle="tab" href="#PedidosAceptados" role="tab"
+                           aria-controls="PedidosAceptados" aria-selected="false">Aceptados <i class="fas fa-circle text-success"></i></a>
+                        <a class="nav-item nav-link active" id="PedidosPendientes-tab" data-toggle="tab" href="#PedidosPendientes" role="tab"
+                           aria-controls="PedidosAceptados" aria-selected="true">Pendientes <i class="fas fa-circle text-warning"></i></a>
+                        <a class="nav-item nav-link" id="PedidosPendientes-tab" data-toggle="tab" href="#PedidosCancelados" role="tab"
+                           aria-controls="PedidosAceptadosv" aria-selected="false">Cancelados <i class="fas fa-circle text-danger"></i></a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show" id="PedidosAceptados" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="registros">
+                            <table id="tabla" class="table table-hover ">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Cédula</th>
+                                        <th>Nombre</th>
+                                        <th>Dirección</th>
+                                        <th>Estado</th>
+                                        <th>Comprobante</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.PedidosAceptados)
+                                    {
+                                        <tr>
+                                            <td>@item.FechaPedido.ToString("dd/MM/yyyy")</td>
+                                            <td>@item.Cedula</td>
+                                            <td>@item.Nombre @item.Apellido</td>
+                                            <td>@item.Direccion</td>
+                                            <td>@item.Estado</td>
+                                            <td>
+                                                @if (item.ImageName == null)
+                                                {
+                                                    <div class="agregar">
+                                                        <form asp-controller="Pedidos" asp-action="AgregarComprobanteCliente" enctype="multipart/form-data" id="form" method="post">
+                                                            <div class="form-group">
+                                                                <input name="IdPedido" value="@item.IdPedido" class="form-control" type="hidden" />
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <input name="ImageName" class="form-control" type="hidden" />
+                                                            </div>
+                                                            <div class="file-select" id="src-file1">
+                                                                <p>Subir</p>
+                                                                <input name="ImageFile" accept="image/*" type="file" id="Imagen">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                }
+                                                else
+                                                {
+                                                    <button class="verComprobante" onclick="VerComprobante('/comprobantes/@item.ImageName')">Ver</button>
+                                                }
+                                            </td>
+                                            <td>
+                                                @if (item.ImageName == null)
+                                                {
+                                                    <i class="fas fa-times-circle text-danger" title="Cancelar Pedido" onclick="CancelarPedido(@item.IdPedido)"></i>
+                                                }
+                                            </td>
+                                            <td>
+                                                <a asp-action="Detalle" asp-route-id="@item.IdPedido">
+                                                    <i class="fas fa-search-plus" title="detalle registro"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Contenido segundo nav -->
+                    <div class="tab-pane fade show active" id="PedidosPendientes" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <div class="registros">
+                            <table id="tabla2" class="table table-hover ">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Cédula</th>
+                                        <th>Nombre</th>
+                                        <th>Dirección</th>
+                                        <th>Comprobante</th>
+                                        <th>Estado</th>
+                                        <th></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.PedidosPendientes)
+                                    {
+                                        <tr>
+                                            <td>@item.FechaPedido.ToString("dd/MM/yyyy")</td>
+                                            <td>@item.Cedula</td>
+                                            <td>@item.Nombre @item.Apellido</td>
+                                            <td>@item.Direccion</td>
+                                            <td>@item.Estado</td>
+                                            <td>
+                                                <i class="fas fa-times-circle text-danger" title="Cancelar Pedido" onclick="CancelarPedido(@item.IdPedido)"></i>
+                                            </td>
+                                            <td>
+                                                <a asp-action="Detalle" asp-route-id="@item.IdPedido">
+                                                    <i class="fas fa-search-plus" title="detalle registro"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade show" id="PedidosCancelados" role="tabpanel" aria-labelledby="nav-home-tab">
 
-    <div class="formularioPedido">
-        <div class="row">
-            <div class="col-md-12">
-                <form asp-action="Perfil">
+                        <div class="registros">
+                            <table id="tabla3" class="table table-hover ">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Cédula</th>
+                                        <th>Nombre</th>
+                                        <th>Dirección</th>
+                                        <th>Estado</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.PedidosCancelados)
+                                    {
+                                        <tr>
+                                            <td>@item.FechaPedido.ToString("dd/MM/yyyy")</td>
+                                            <td>@item.Cedula</td>
+                                            <td>@item.Nombre @item.Apellido</td>
+                                            <td>@item.Direccion</td>
+                                            <td>@item.Estado</td>
+                                            <td>
+                                                <a asp-action="Detalle" asp-route-id="@item.IdPedido">
+                                                    <i class="fas fa-search-plus" title="detalle registro"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="compras">
+                <nav class="nav-registros">
+                    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <a class="nav-item nav-link active" id="EnProcesoEnvio-tab" data-toggle="tab" href="#EnProcesoEnvio" role="tab"
+                           aria-controls="EnProcesoEnvio" aria-selected="true">En proceso de envio</a>
+                        <a class="nav-item nav-link" id="ComprasEnviadas-tab" data-toggle="tab" href="#ComprasEnviadas" role="tab"
+                           aria-controls="ComprasEnviadas" aria-selected="false">Enviadas</a>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="EnProcesoEnvio" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="registros">
+                            <table id="tabla4" class="table table-hover ">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Cédula</th>
+                                        <th>Nombre</th>
+                                        <th>Total</th>
+                                        <th>Estado</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.VentasSinEnviar)
+                                    {
+                                        <tr>
+                                            <td>@item.FechaVenta.ToString("dd/MM/yyyy")</td>
+                                            <td>@item.Cedula</td>
+                                            <td>@item.Nombre @item.Apellido</td>
+                                            <td>@item.Total</td>
+                                            <td>@item.Estado</td>
+                                            <td>
+                                                <a asp-action="Detalle" asp-route-id="@item.IdPedido"><i class="fas fa-search-plus" title="detalle registro"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Contenido segundo nav -->
+                    <div class="tab-pane fade show" id="ComprasEnviadas" role="tabpanel" aria-labelledby="nav-profile-tab">
+                        <div class="registros">
+                            <table id="tabla5" class="table table-hover ">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Cédula</th>
+                                        <th>Nombre</th>
+                                        <th>Total</th>
+                                        <th>Estado</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in ViewBag.VentasEnviadas)
+                                    {
+                                        <tr>
+                                            <td>@item.FechaVenta.ToString("dd/MM/yyyy")</td>
+                                            <td>@item.Cedula</td>
+                                            <td>@item.Nombre @item.Apellido</td>
+                                            <td>@item.Total</td>
+                                            <td>@item.Estado</td>
+                                            <td>
+                                                <a asp-action="Detalle" asp-route-id="@item.IdPedido"><i class="fas fa-search-plus" title="detalle registro"></i></a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="formulario" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Editar Información</h4>
+                <i class="fas fa-times" title="Cerrar Pestaña" data-dismiss="modal"></i>
+            </div>
+            <div class="modal-body">
+                <form asp-action="Perfil" id="editarInformacion">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" asp-for="IdCliente" />
-                    <div class="form-group col-md-6">
-                        <label asp-for="Nombre" class="control-label"></label>
-                        <input asp-for="Nombre" class="form-control" />
-                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    <input type="hidden" asp-for="IdCliente" id="IdCliente" />
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label asp-for="Nombre" class="control-label"></label><span class="requerido">*</span>
+                                <input asp-for="Nombre" class="form-control input-requerido" id="Nombre" />
+                                <span asp-validation-for="Nombre" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-6">
+                                <label asp-for="Apellido" class="control-label"></label><span class="requerido">*</span>
+                                <input asp-for="Apellido" class="form-control input-requerido" id="Apellido" />
+                                <span asp-validation-for="Apellido" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="Apellido" class="control-label"></label>
-                        <input asp-for="Apellido" class="form-control" />
-                        <span asp-validation-for="Apellido" class="text-danger"></span>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="form-group col-6">
+                                <label asp-for="Cedula" class="control-label"></label><span class="requerido">*</span>
+                                <input asp-for="Cedula" class="form-control input-requerido" readonly id="Cedula" />
+                                <span asp-validation-for="Cedula" class="text-danger"></span>
+                            </div>
+                            <div class="form-group col-6">
+                                <label asp-for="Telefono" class="control-label"></label>
+                                <input asp-for="Telefono" class="form-control" id="Telefono" />
+                                <span asp-validation-for="Telefono" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
-
-
-                    <div class="form-group col-md-6">
+                    <div class="form-group">
                         <label asp-for="Direccion" class="control-label"></label>
-                        <input asp-for="Direccion" class="form-control" />
+                        <input asp-for="Direccion" class="form-control" id="Direccion" />
                         <span asp-validation-for="Direccion" class="text-danger"></span>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="Cedula" class="control-label"></label>
-                        <input asp-for="Cedula" class="form-control" />
-                        <span asp-validation-for="Cedula" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="Telefono" class="control-label"></label>
-                        <input asp-for="Telefono" class="form-control" />
-                        <span asp-validation-for="Telefono" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <input type="submit" value="Crear" class="btn btn-primary" />
+                    <div class="row botones">
+                        <button type="submit" id="Enviar" class="btn col-7 confirmar">Editar Información</button>
+                        <button class="btn col-4 cancelar" data-dismiss="modal">Cancelar</button>
                     </div>
                 </form>
             </div>
-            <a>
-            </a>
+
         </div>
     </div>
 </div>
-<a asp-controller="Usuarios" asp-action="CambiarContraseña">Cambiar Contraseña</a>
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        //Codigo en Jquery
+        $(document).ready(function () {
+            $("#compras").click(function () {
+                var pedidos = $("#pedidos").attr('class');
+                if (pedidos.includes('active')) {
+                    $("#pedidos").removeClass('active');
+                    $(".pedidos").removeClass('active');
+                }
+                $("#compras").addClass('active');
+                $(".compras").addClass('active');
+            });
+            $("#pedidos").click(function () {
+                var compras = $("#compras").attr('class');
+                if (compras.includes('active')) {
+                    $("#compras").removeClass('active');
+                    $(".compras").removeClass('active');
+                }
+                $("#pedidos").addClass('active');
+                $(".pedidos").addClass('active');
+            });
+        });
+    </script>
+    <script>
+        //Codigo en JS
+        const imagenSeleccionada = document.querySelector("#Imagen");
+        if (imagenSeleccionada != null) {
+            imagenSeleccionada.addEventListener("change", () => {
+
+                const archivos = imagenSeleccionada.files;
+                const primerArchivo = archivos[0];
+                const objectURL = URL.createObjectURL(primerArchivo);
+
+                Swal.fire({
+                    title: '¿Subir comprobante?',
+                    imageUrl: objectURL,
+                    imageAlt: 'Comprobante',
+                    showCancelButton: true,
+                    confirmButtonText: 'Subir Comprobante',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById('form').submit();
+                    } else {
+                        document.getElementById('Imagen').value = null;
+                    }
+                });
+            });
+        }
+
+        function VerComprobante(ruta) {
+            Swal.fire({
+                imageUrl: ruta,
+
+            });
+        };
+        function CancelarPedido(id) {
+            Swal.fire({
+                icon: 'warning',
+                title: '¿Estás seguro de cancelar el pedido seleccionado?',
+                text: 'Una vez cancelado el pedido se notificará sobre el cambio realizado y no se podrá volver a cambiar el estado del pedido',
+                showCancelButton: true,
+                confirmButtonColor: '#ff8c29db',
+                confirmButtonText: 'Cancelar Estado',
+                cancelButtonText: 'Cancelar',
+                width: '34em'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "/Pedidos/CancelarPedidoCliente/" + id;
+                }
+            });
+        };
+     @{
+         if (TempData["CambioContraseña"] != null && TempData["CambioContraseña"].ToString().Equals("si"))
+         {
+            <text>
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Cambio Contraseña',
+                html: 'La contraseña se cambió correctamente'
+            });
+
+            </text>
+        }
+        else if (TempData["CambioContraseña"] != null && TempData["CambioContraseña"].ToString().Equals("no"))
+        {
+            <text>
+
+            Swal.fire({
+                icon: 'error',
+                title: 'Cambio Contraseña',
+                html: 'No se pudo cambiar la contraseña, por favor verifique que la contraseña antigua ingresada sea la correcta'
+            });
+
+            </text>
+        }
+        else if (TempData["Editar"] != null && TempData["Editar"].ToString().Equals("si"))
+        {
+            <text>
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Editar Información',
+                html: 'La información se editó correctamente'
+            });
+
+            </text>
+        }
+        else if (TempData["CancelarPedido"] != null && TempData["CancelarPedido"].ToString().Equals("si"))
+        {
+            <text>
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Cancelar Pedido',
+                html: 'El pedido fue cancelado con éxito'
+            });
+
+            </text>
+        }
+    }
+    </script>
+
 }

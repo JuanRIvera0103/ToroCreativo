@@ -18,3 +18,11 @@
 .sub-menu i:hover {
     background-color: rgb(72 72 72 / 0.13);
 }
+form .requerido {
+    color: #d40b0b;
+    margin: 1%;
+    font-size: 1rem;
+}
+.form-group .text-danger{
+    font-size: 0.8rem;
+}

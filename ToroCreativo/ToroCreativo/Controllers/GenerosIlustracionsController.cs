@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -21,14 +22,16 @@ namespace ToroCreativo.Controllers
         private readonly IIlustracionBusiness _ilustracionBusiness;
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly IImagenIlustracionBusiness _imagenIlustracionBusiness;
+        private readonly IProductosBusiness _productosBusiness;
 
         public GenerosIlustracionsController(IGenerosBusiness generosBusiness, IIlustracionBusiness ilustracionBusiness, IWebHostEnvironment hostEnvironmen,
-            IImagenIlustracionBusiness imagenIlustracionBusiness)
+            IImagenIlustracionBusiness imagenIlustracionBusiness, IProductosBusiness productosBusiness)
         {
             _generosBusiness = generosBusiness;
             _ilustracionBusiness = ilustracionBusiness;
             this._hostEnvironment = hostEnvironmen;
             _imagenIlustracionBusiness = imagenIlustracionBusiness;
+            _productosBusiness = productosBusiness;
         }
 
         // GET: Estados
@@ -202,19 +205,18 @@ namespace ToroCreativo.Controllers
 
 
         }
-        public async Task<IActionResult> IlustracionesCliente()
+        public async Task<IActionResult> IlustracionesCliente(int? id)
         {
-            ViewBag.Generos = await _generosBusiness.ObtenerGeneros();
+            var usuario = HttpContext.Session.GetString("usuario");
+            TempData["Usuario"] = usuario;
+            ViewBag.Generos = await _generosBusiness.ObtenerGeneros();            
             ViewBag.Imagenes = JsonConvert.SerializeObject(await _imagenIlustracionBusiness.ImagenesIlustraciones());
-            return View(await _ilustracionBusiness.ObtenerIlustracionesCliente());
-        }
-       
-        public object ImagenesIlustracion(int? id)
-        {
-            List<ImagenIlustracion> imagenesIlustracion =  _imagenIlustracionBusiness.ObtenerImagenesIlustracion(id);
-            string imagenesIlustracionJSON = JsonConvert.SerializeObject(imagenesIlustracion);            
-            return View(imagenesIlustracionJSON);
-        }
-
+            List<CarritoDetalle> detalle = _productosBusiness.ObtenerCarrito(HttpContext.Session);
+            ViewBag.Carrito = detalle;
+            if (id == null)            
+                return View(await _ilustracionBusiness.ObtenerIlustracionesCliente());
+            else
+                return View(await _ilustracionBusiness.ObtenerIlustracionesClientePorGenero(id));
+        }                
     }
 }

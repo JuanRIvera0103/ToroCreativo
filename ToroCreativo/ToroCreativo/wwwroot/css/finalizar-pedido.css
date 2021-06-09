@@ -1,0 +1,138 @@
+
+.contenido {
+    width: 100%;
+    height: 85vh;
+    margin-top: 15vh;
+    padding: 0% 5% 1% 5%;
+    overflow-y: auto;    
+}
+.titulo{
+    text-align: center;
+    font-size: 2rem;
+    border-bottom: 1px solid #7e1edd;
+    padding-bottom: 1%;
+    margin-bottom: 1.5%;
+}
+.finalizar-pedido{
+    display: flex;    
+    width: 100%;
+}
+
+.info-cliente{
+    width: 50%;
+    height: 40%;    
+    padding: 3%;        
+}
+h2{
+    text-align: center;
+    font-size: 1.7rem;
+    margin-bottom: 5%;
+}
+.form-group {
+    margin-bottom: 2%;
+}
+.form-control {
+    display: block;
+    font-size: 1.1rem;
+    margin: 0;
+}
+.form-control:focus {
+    outline: none;
+    border: 1px solid #5022e9;
+    box-shadow: none;
+}
+.finalizar{
+    background-color: #7e1edd;
+    margin: 6% 0%;
+    color: #ffffff;
+    font-size: 1.1rem;
+    padding: 1.5%;
+    transition: .5s;
+}
+.finalizar:hover{
+    color: #ffffff;
+    background-color: rgb(126 30 221 / 0.75);
+}
+.pedido {
+    position: relative;
+    width: 50%;
+    height: 100%;
+    padding: 3%;
+    border-left: 1px solid #979797;
+    overflow-y: auto;
+}
+.pedido span {
+    font-weight: 600;
+    font-size: 1.05rem;
+}
+.detalle-pedido{    
+    overflow-y: auto;
+}
+
+.producto {
+    width: 100%;
+    height: 100%;
+    height: 100%;
+    display: flex;
+    border-bottom: 1px solid #7d7d7d;
+    padding: 3%;
+}
+
+.imagen-producto{
+    width: 25%;
+    height:100%;    
+    margin: auto;
+}
+.imagen-producto img{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+.producto .informacion{    
+    width: 75%;    
+    padding: 0 4%;
+    justify-content: center;
+    align-content: center;
+}
+.informacion .datos {
+    width: 100%;
+    height: 80%;
+    margin-top: 4%;
+}
+.informacion p {
+    font-size: 1rem;
+    margin-bottom: 2%;
+}
+.informacion .valores{
+    display: flex;
+}
+.informacion .cantidad{
+    width: 50%;
+}
+.informacion .precio {
+    width: 50%;
+    text-align: right;
+}
+.informacion .precio span{
+  margin-right: 2%;  
+    
+}
+.totales-pedido{
+    width: 95%;    
+    text-align:right;
+    text-transform: uppercase;
+    margin-top: 2%;    
+}
+.totales-pedido .total p,
+.totales-pedido .total p span{
+    font-size: 1.2rem;
+}
+
+.carrito,
+#carrito-box {
+    display: none;
+}
+.sub-menu{
+    margin: 0% !important;  
+}

@@ -3,57 +3,99 @@
 @{
     ViewData["Title"] = "Finalizar pedido";
     Layout = "_LayoutCliente";
+
+    string totalIva = String.Format("{0:#,##0}", ViewBag.IVA);
+    string total = String.Format("{0:#,##0}", ViewBag.Total);
 }
-@section Styles{
-
-
-    <link href="~/css/perfil.css" rel="stylesheet" />
-    <link href="~/css/Pedido-cliente.css" rel="stylesheet" />
-
+@section Styles{    
+    <link href="~/css/finalizar-pedido.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/estilos-generales.css" />
 }
-<div class="container">
-    <div class="row">
-        <div class="col-sm-5 Box">
-            <h5 class="LetraGrande TituloPedido">Información del cliente</h5>
-            <div class="formularioPedido">
-                <div class="row">
-                    <form asp-action="FinalizarPedido">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                       
-                        <div class="form-group col-md-6">
-                            <label asp-for="Nombre" class="control-label"></label>
-                            <input asp-for="Nombre" class="form-control" />
+<div class="contenido">
+    <h1 class="titulo">Pedido</h1>
+    <div class="finalizar-pedido">
+        <div class="info-cliente">
+            <h2>Información Cliente</h2>
+            <form asp-action="FinalizarPedido">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <div class="form-group">
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label asp-for="Nombre" class="control-label"></label><span class="requerido">*</span>
+                            <input asp-for="Nombre" class="form-control"/>
                             <span asp-validation-for="Nombre" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label asp-for="Apellido" class="control-label"></label>
-                            <input asp-for="Apellido" class="form-control" />
+                        <div class="form-group col-6">
+                            <label asp-for="Apellido" class="control-label"></label><span class="requerido">*</span>
+                            <input asp-for="Apellido" class="form-control"/>
                             <span asp-validation-for="Apellido" class="text-danger"></span>
                         </div>
-
-
-                        <div class="form-group col-md-6">
-                            <label asp-for="Direccion" class="control-label"></label>
-                            <input asp-for="Direccion" class="form-control" />
-                            <span asp-validation-for="Direccion" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-md-6">
-                            <label asp-for="Cedula" class="control-label"></label>
-                            <input asp-for="Cedula" class="form-control" />
+                    </div>                    
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label asp-for="Cedula" class="control-label"></label><span class="requerido">*</span>
+                            <input asp-for="Cedula" class="form-control"/>
                             <span asp-validation-for="Cedula" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-md-6">
-                            <label asp-for="Telefono" class="control-label"></label>
+                        <div class="form-group col-6">
+                            <label asp-for="Telefono" class="control-label"></label><span class="requerido">*</span>
                             <input asp-for="Telefono" class="form-control" />
                             <span asp-validation-for="Telefono" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-md-6">
-                            <input type="submit" value="Finalizar Pedido" class="btn btn-primary" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Direccion" class="control-label"></label><span class="requerido">*</span>
+                    <input asp-for="Direccion" class="form-control"/>
+                    <span asp-validation-for="Direccion" class="text-danger"></span>
+                </div>   
+                <button type="submit" class="btn btn-block finalizar">Finalizar Pedido</button>                
+            </form>
+        </div>
+        <div class="pedido">
+            <h2>Detalle Pedido</h2>
+            <div class="detalle-pedido">
+                @foreach (var carrito in ViewBag.Carrito)
+                {
+                    string precio = String.Format("{0:#,##0}", carrito.Precio);
+                    <div class="producto">
+                        <div class="imagen-producto">
+                            <img src="@("~/imgProductos/" + carrito.ImagenName)" asp-append-version="true" />
                         </div>
-                    </form>
+                        <div class="informacion">
+                            <div class="datos">
+                                <p><span>@carrito.Nombre</span> @carrito.Medida</p>
+                                <p class="colorProducto"><span>Color: </span><i class="fas fa-circle" style="color: @carrito.Color;"></i></p>
+                                <div class="valores">
+                                    <div class="cantidad">
+                                        <p><span>Cantidad: </span> @carrito.Cantidad</p>
+                                    </div>
+                                    <div class="precio">
+                                        <p><span>Precio: </span> @precio</p>
+                                    </div>
+                                </div>
+                            </div>                            
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="totales-pedido">
+                <div class="iva">
+                    <p><span>Total IVA: </span>$ @totalIva<small>COP</small></p>
+                </div>
+                <div class="total">
+                    <p><span>Total Pedido: </span>$ @total<small>COP</small></p>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+@*<div class="container">
+    <div class="row">
+  
         <div class="col-sm-5 Box">
             <h5 class="LetraGrande TituloPedido">Resumen</h5>
             <div class="row">
@@ -62,6 +104,7 @@
                         @foreach (var carrito in ViewBag.Carrito)
                         {
                             <div class="text">
+                                <img src="@("~/imgProductos/" + carrito.ImagenName)" asp-append-version="true" />                   
                                 <p><span>@carrito.Nombre</span></p>
                                 <p><span>Medida</span>@carrito.Medida</p>
                                 <p><span>Color</span> @carrito.Color</p>
@@ -86,7 +129,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

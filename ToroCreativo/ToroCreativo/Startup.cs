@@ -86,7 +86,7 @@ namespace ToroCreativo
                 options.LoginPath = new PathString("/Usuarios/Login");
                 options.Cookie.Name = "Cookie";
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
                 options.ReturnUrlParameter = CookieAuthenticationDefaults.ReturnUrlParameter;
                 options.SlidingExpiration = true;
 

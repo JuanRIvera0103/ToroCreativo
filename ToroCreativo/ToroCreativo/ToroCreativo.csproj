@@ -45,7 +45,6 @@
     <Folder Include="wwwroot\imgIlustraciones\" />
     <Folder Include="wwwroot\imgProductos\" />
     <Folder Include="wwwroot\comprobantes\" />
-    <Folder Include="wwwroot\imgInformes\" />
   </ItemGroup>
 
   <ItemGroup>

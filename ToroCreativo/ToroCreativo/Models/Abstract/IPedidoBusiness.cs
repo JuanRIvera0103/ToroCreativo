@@ -13,7 +13,7 @@ namespace ToroCreativo.Models.Abstract
         Task<IEnumerable<Pedido>> ObtenerVentasSinEnviarCliente(string id);
         Task<IEnumerable<Pedido>> ObtenerPedidosCanceladosCliente(string id);
         Task<IEnumerable<Pedido>> ObtenerPedidosAceptadosCliente(string id);
-        Task<IEnumerable<Pedido>> ObtenerVentasPorEnviarCliente(string id);
+        Task<IEnumerable<Pedido>> ObtenerVentasEnviadasCliente(string id);
         Task<IEnumerable<Pedido>> ObtenerPedidosPendientesCliente(string id);
         Task<IEnumerable<Usuario>> ObtenerUsuario();
         Task CrearEditarPedido(Pedido pedido);

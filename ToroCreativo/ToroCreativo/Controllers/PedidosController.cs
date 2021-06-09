@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -77,7 +78,7 @@ namespace ToroCreativo.Controllers
             var id = HttpContext.Session.GetString("usuario");
             IEnumerable<Pedido> SinEnviados = await _context.ObtenerVentasSinEnviarCliente(id);
             ViewBag.SinEnviados = SinEnviados;
-            return View(await _context.ObtenerVentasPorEnviarCliente(id));
+            return View(await _context.ObtenerVentasEnviadasCliente(id));
 
 
         }
@@ -122,6 +123,15 @@ namespace ToroCreativo.Controllers
             await _context.CancelarPedido(await _context.ObtenerPedidoPorID(id));
             TempData["CambiarPedido"] = "si";
             return RedirectToAction(nameof(Index));
+        }
+        public async Task<IActionResult> CancelarPedidoCliente(int? id)
+        {
+            if (id == null)            
+                return NotFound();            
+
+            await _context.CancelarPedido(await _context.ObtenerPedidoPorID(id));
+            TempData["CancelarPedido"] = "si";
+            return RedirectToAction("Perfil", "Clientes");
         }
         public async Task<IActionResult> PedidoAVenta(int? id)
         {
@@ -200,6 +210,12 @@ namespace ToroCreativo.Controllers
             TempData["Comprobante"] = "si";
             return RedirectToAction("Detalle", new { id = pedido.IdPedido });
         }
+        public async Task<IActionResult> AgregarComprobanteCliente(Pedido pedido)
+        {
+            await _context.AgregarComprobantePedido(pedido);
+            TempData["Comprobante"] = "si";
+            return RedirectToAction("Perfil","Clientes");
+        }
         public async Task<IActionResult> CrearEditar(int id = 0)
         {
             ViewData["Usuarios"] = new SelectList(await _context.ObtenerUsuario(), "Id", "Email");
@@ -224,7 +240,7 @@ namespace ToroCreativo.Controllers
             }
             return View(pedido);
         }
-        public async Task<IActionResult> Detalle(int? id)
+        public IActionResult Detalle(int? id)
         {
 
             if (id == null)
@@ -252,7 +268,8 @@ namespace ToroCreativo.Controllers
         }
         public async Task<IActionResult> PedidoVistaCliente()
         {
-            string id = HttpContext.Session.GetString("usuario");
+            string id = HttpContext.Session.GetString("usuario");          
+            TempData["Usuario"] = id;
             IEnumerable<Pedido> aceptados = await _context.ObtenerPedidosAceptadosCliente(id);
             IEnumerable<Pedido> cancelados = await _context.ObtenerPedidosCanceladosCliente(id);
             ViewBag.Aceptados = aceptados;
@@ -264,11 +281,12 @@ namespace ToroCreativo.Controllers
         public async Task<IActionResult> VentasVistaCliente()
         {
             string id = HttpContext.Session.GetString("usuario");
+            TempData["Usuario"] = id;
             IEnumerable<Pedido> SinEnviados = await _context.ObtenerVentasSinEnviarCliente(id);
 
             ViewBag.SinEnviados = SinEnviados;
 
-            return View(await _context.ObtenerVentasPorEnviarCliente(id));
+            return View(await _context.ObtenerVentasEnviadasCliente(id));
 
 
         }
@@ -312,14 +330,19 @@ namespace ToroCreativo.Controllers
 
             return View(pedido);
         }
+        
         public async Task<IActionResult> FinalizarPedido()
         {
             var id = await _clientes.ObtenerClienteDetallePorUsuario(HttpContext.Session.GetString("usuario"));
+            var usuario = HttpContext.Session.GetString("usuario");
+            TempData["Usuario"] = usuario;
             double subtotal = 0;
             double iva = 0;
             double total = 0;
-            List<CarritoDetalle> detalle = await _productos.ObtenerCarrito(HttpContext.Session);
-            ViewBag.Carrito = detalle;
+            List<CarritoDetalle> detalle = _productos.ObtenerCarrito(HttpContext.Session);
+            if (detalle.Count == 0)            
+                return RedirectToAction("Index", "Home");            
+            ViewBag.Carrito = detalle;           
             for (int i = 0; i < detalle.Count; i++)
             {
                 subtotal = detalle[i].Subtotal + subtotal;
@@ -361,7 +384,7 @@ namespace ToroCreativo.Controllers
                 double subtotal = 0;
                 double iva = 0;
                 double total = 0;
-                List<CarritoDetalle> detalle = await _productos.ObtenerCarrito(HttpContext.Session);
+                List<CarritoDetalle> detalle = _productos.ObtenerCarrito(HttpContext.Session);
                 for (int i=0; i<detalle.Count; i++)
                 {
                     subtotal = detalle[i].Subtotal + subtotal;
@@ -383,8 +406,10 @@ namespace ToroCreativo.Controllers
                     IdUsuario = HttpContext.Session.GetString("usuario"),
                     Estado = "Pendiente",
                 };
-
+                
                 await _context.FinalizarPedido(pedido, detalle);
+                List<Carrito> carrito = new List<Carrito>();                
+                HttpContext.Session.SetString("Carrito", JsonConvert.SerializeObject(carrito));
                 return RedirectToAction("Index", "Home");
             }
             return View(datosPedido);

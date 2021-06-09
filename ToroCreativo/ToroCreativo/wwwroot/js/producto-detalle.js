@@ -35,10 +35,7 @@ $(document).ready(function () {
                 method: "POST",
                 url: "/ProductosCategoria/llamadaCarrito",
                 data: ProductoPedido
-            }).then(function () {
-                var Caracteristica = {
-                    Idproducto: idproducto,
-                };
+            }).then(function () {                
                 window.location.href = "/ProductosCategoria/DetalleProductoCliente/" + idproducto;
             });            
         } else {

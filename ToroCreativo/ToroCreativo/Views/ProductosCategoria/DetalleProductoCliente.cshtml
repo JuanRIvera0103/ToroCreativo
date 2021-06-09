@@ -1,8 +1,10 @@
 ﻿@model ToroCreativo.Models.Entities.Productos
 
-@{
+@{    
     Layout = "_LayoutCliente";
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "- " + Model.Nombre;
+    var preciosFormato = String.Format("{0:#,##0}", ViewData["precioTotal"]);
+
 
     int idImagen = 1;
     int idSubImagen = 10;
@@ -68,12 +70,7 @@
         </div>
         <div class="precio">
             <h4>
-                $
-                @{
-                    var preciosFormato = String.Format("{0:#,##0}", ViewData["precioTotal"]);
-                    @preciosFormato
-                }
-                <small>COP</small>
+                $ @preciosFormato<small>COP</small>
             </h4>
         </div>
         <div class="pedido">
@@ -106,7 +103,6 @@
                 }
                 $("#cantidad").val(1);
                 $("#disponible").text('(... disponibles)');
-                console.log(cantidadMedidas);
                 if (cantidadMedidas > 0) {
                     $(".seleccionar").css("display", "none");
                 }
@@ -142,19 +138,20 @@
                     $("#cantidad").val(cantidad);
                 }
             });
-        });
 
-        @if (TempData["AgregadoCarrito"] != null && TempData["AgregadoCarrito"].ToString().Equals("si"))
+             @if (TempData["AgregadoCarrito"] != null && TempData["AgregadoCarrito"].ToString().Equals("si"))
         {
             <text>
 
-            Swal.fire({
-                icon: 'success',
-                title: 'Se agrego al carrito',
-                html: ''
-            });
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Se agrego al carrito',
+                    html: ''
+                });
 
             </text>
         }
+        });
+
     </script>
 }

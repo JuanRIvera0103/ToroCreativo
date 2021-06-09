@@ -1,5 +1,4 @@
-﻿
- <!DOCTYPE html>
+﻿<!DOCTYPE html>
 
 <html lang="es">
 <head>
@@ -33,7 +32,7 @@
                             }
 
                         </div>
-                    </div>                    
+                    </div>
                     <ul>
                         <li><a asp-controller="Home" asp-action="Index" data-after="Inicio">Inicio</a></li>
                         <li>
@@ -41,7 +40,7 @@
                         </li>
                         <li>
                             <a asp-controller="GenerosIlustracions" asp-action="IlustracionesCliente" data-after="Ilustraciones">Ilustraciones</a>
-                        </li>                        
+                        </li>
                     </ul>
                 </div>
                 <div class="sub-menu">
@@ -60,7 +59,7 @@
                             <div class="salir">
                                 <a asp-action="CerrarSesion" asp-controller="Usuarios" title="Cerrar Sesión"><i class="fas fa-sign-out-alt"></i></a>
                             </div>
-                        </div>                           
+                        </div>
                     }
                     else
                     {
@@ -72,110 +71,101 @@
                         </div>
                     }
                 </div>
-                <div class="box notifi-box" id="notificaciones-box">
-                    <h2>Notificaciones</h2>
-                    <div class="box-content notifi-item">
-                        <a href="#" class="link">
-                            <div class="icon">
-                                <i class="fas fa-mail-bulk"></i>
-                            </div>
-                            <div class="text">
-                                <p><span>Toro Creativo</span> Ha aceptado tu pedido</p>
-                            </div>
-                        </a>
+                @if (TempData["Usuario"] != null)
+                {
+                    <div class="box notifi-box" id="notificaciones-box">
+                        <h2>Notificaciones</h2>
+                        <div class="box-content notifi-item">
+                            <a href="#" class="link">
+                                <div class="icon">
+                                    <i class="fas fa-mail-bulk"></i>
+                                </div>
+                                <div class="text">
+                                    <p><span>Toro Creativo</span> Ha aceptado tu pedido</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="box-content notifi-item">
+                            <a href="#" class="link">
+                                <div class="icon">
+                                    <i class="fas fa-mail-bulk"></i>
+                                </div>
+                                <div class="text">
+                                    <p><span>Toro Creativo</span> Te quedan 7 días para pagar tu pedido</p>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="box-content notifi-item">
+                            <a href="#" class="link">
+                                <div class="icon">
+                                    <i class="fas fa-mail-bulk"></i>
+                                </div>
+                                <div class="text">
+                                    <p><span>Toro Creativo</span> Ha cancelado tu pedido</p>
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                    <div class="box-content notifi-item">
-                        <a href="#" class="link">
-                            <div class="icon">
-                                <i class="fas fa-mail-bulk"></i>
-                            </div>
-                            <div class="text">
-                                <p><span>Toro Creativo</span> Te quedan 7 días para pagar tu pedido</p>
-                            </div>
-                        </a>
+                    <div class="box cuenta-box" id="cuenta-box">
+                        <div class="box-content cuenta-item">
+                            <a asp-controller="Clientes" asp-action="Perfil" class="link">
+                                <div class="icon">
+                                    <i class="fas fa-user-circle"></i>
+                                </div>
+                                <div class="text">
+                                    <p>Ver perfil</p>                                    
+                                </div>
+                            </a>
+                        </div>
                     </div>
-                    <div class="box-content notifi-item">
-                        <a href="#" class="link">
-                            <div class="icon">
-                                <i class="fas fa-mail-bulk"></i>
-                            </div>
-                            <div class="text">
-                                <p><span>Toro Creativo</span> Ha cancelado tu pedido</p>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                <div class="box cuenta-box" id="cuenta-box">
-                    <div class="box-content cuenta-item">
-                        <a asp-controller="Clientes" asp-action="Perfil" class="link">
-                            <div class="icon">
-                                <i class="fas fa-user-circle"></i>
-                            </div>
-                            <div class="text">
-                                <p><span>Nombre del usuario</span></p>
-                                <p>Ver perfil</p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="box-content cuenta-item">
-                        <a asp-controller="Pedidos" asp-action="PedidoVistaCliente" class="link">
-                            <div class="icon">
-                                <i class="fas fa-mail-bulk"></i>
-                            </div>
-                            <div class="text">
-                                <p><span>mis pedidos</span></p>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="box-content cuenta-item">
-                        <a asp-controller="Pedidos" asp-action="VentasVistaCliente" class="link">
-                            <div class="icon">
-                                <i class="fas fa-mail-bulk"></i>
-                            </div>
-                            <div class="text">
-                                <p><span>mis compras </span></p>
-                            </div>
-                        </a>
-                    </div>                    
-                </div>
-                <div class="box carrito-box" id="carrito-box">
-                    <div class="productos-carrito">
-
-                        @if (ViewBag.Carrito != null)
-                        {
-                            @foreach (var carrito in ViewBag.Carrito)
+                    <div class="box carrito-box" id="carrito-box">
+                        <div class="productos-carrito" id="productos-carrito">
+                            @if (ViewBag.Carrito != null)
                             {
-                                <div class="box-content cuenta-item">
-                                    <a href="#" class="link">
+                                @foreach (var carrito in ViewBag.Carrito)
+                                {
+                                    <div class="box-content cuenta-item producto-en-carrito">
                                         <div class="imagen-producto">
-                                            <img src="~/img/logo.png"/>
+                                            <img src="@("~/imgProductos/" + carrito.ImagenName)" asp-append-version="true" />
                                         </div>
                                         <div class="text">
-                                            <p><span>@carrito.Nombre @carrito.Nombre</span> @carrito.Medida</p>                                            
-                                            <p><span>Color</span> @carrito.Color</p>
-                                            <p><span>Cantidad</span> @carrito.Cantidad</p>
-                                            <p><span>Precio</span> @carrito.Precio</p>
+                                            <p><span>@carrito.Nombre</span> @carrito.Medida</p>
+                                            <p class="colorProducto"><span>Color: </span><i class="fas fa-circle" style="color: @carrito.Color;"></i></p>
+                                            <p><span>Cantidad: </span> @carrito.Cantidad</p>
+                                            <p><span>Precio: </span> @carrito.Precio</p>
                                         </div>
                                         @*<div class="acciones">
-                                            <i class="fas fa-trash-alt"></i>
-                                            <i class="fas fa-edit"></i>
-                                        </div>*@
-                                    </a>
-                                </div>
+                                                <i class="fas fa-trash-alt"></i>
+                                                <i class="fas fa-edit"></i>
+                                            </div>*@
+                                    </div>
+                                }
                             }
-                        }
-
+                        </div>
+                        <div class="pedir">
+                            <a asp-controller="Pedidos" asp-action="FinalizarPedido" id="finalizar">Iniciar Pedido</a>
+                        </div>
                     </div>
-                    <div class="pedir">
-                        <a asp-controller="Pedidos" asp-action="FinalizarPedido">Iniciar Pedido</a>
-                    </div>
-                </div>
+                }
             </div>
         </div>
     </header>
     <article>
         @RenderBody()
     </article>
+    <div class="modal fade" tabindex="-1" role="dialog" id="form-modal">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <i class="fas fa-times" title="Cerrar Pestaña" data-dismiss="modal"></i>
+                </div>
+                <div class="modal-body">
+                    
+                </div>               
+            </div>
+        </div>
+    </div>
     <!--<footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2021 - ToroCreativo - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
@@ -188,10 +178,10 @@
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    @*<script src="~/lib/datatables.net/jquery.dataTables.min.js"></script>*@
-    @*<script src="~/lib/datatables.net-bs4/dataTables.bootstrap4.min.js"></script>*@
+    <script src="~/lib/datatables.net/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables.net-bs4/dataTables.bootstrap4.min.js"></script>
     <script src="~/lib/limonte-sweetalert2/sweetalert2.min.js"></script>
-    @*<script src="~/js/datatable.js"></script>*@
+    <script src="~/js/datatable.js"></script>
 
 
 
@@ -201,7 +191,13 @@
     <script src="~/js/nav_cliente.js"></script>
     <script src="~/js/main.js"></script>
     <script src="~/js/alertas.js"></script>
-
+    <script>
+        let productosCarrito = $(".producto-en-carrito").length;
+        if (productosCarrito == 0) {
+            $("#productos-carrito").append('<p class="vacio">No hay productos dentro del carrito</p>');
+            $("#finalizar").addClass("none");
+        }
+    </script>
 
     @RenderSection("Scripts", required: false)
 </body>

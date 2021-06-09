@@ -2,7 +2,7 @@
 
 @{
     Layout = "_LayoutCliente";
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Productos";
 }
 @section Styles{
     <link rel="stylesheet" href="~/css/productos-cliente.css" />
@@ -10,9 +10,8 @@
 }
 
 <div class="categorias">
-
+    <h2>Categorías</h2>
     <ul>
-        <h2>Categorías</h2>
         <li><a asp-action="ProductosCliente" asp-route-id="">Todos</a></li>
         @foreach (var categorias in ViewBag.Categorias)
         {

@@ -220,9 +220,39 @@ namespace ToroCreativo.Models.Business
                          Estado = ilustracion.Estado,
                          Genero = genero.Nombre,
                          ImageName = imagen.ImageName
-                     }).ToList();
+                     }).OrderByDescending(i => i.IdIlustracion).ToList();
                 return (ListaIlustracionDetalles);
             }
+        }
+        public async Task<IEnumerable<IlustracionVistaCliente>> ObtenerIlustracionesClientePorGenero(int? id)
+
+        {
+            await using (_context)
+            {
+
+                IEnumerable<IlustracionVistaCliente> ListaIlustracionDetalles =
+                    (from ilustracion in _context.Ilustracions
+                     join genero in _context.generos
+                     on ilustracion.IdGenero equals genero.idGenero
+                     join imagen in _context.ImagenIlustraciones
+                     on ilustracion.IdIlustracion equals imagen.IdIlustracion
+                     where imagen.Estado == "Principal"
+                     where ilustracion.IdGenero == id
+                     select new IlustracionVistaCliente
+                     {
+                         IdIlustracion = ilustracion.IdIlustracion,
+                         Nombre = ilustracion.Nombre,
+                         Descripcion = ilustracion.Descripcion,
+                         Estado = ilustracion.Estado,
+                         Genero = genero.Nombre,
+                         ImageName = imagen.ImageName
+                     }).OrderByDescending(i => i.IdIlustracion).ToList();
+                return (ListaIlustracionDetalles);
+            }
+        }
+        public async Task<List<Ilustracion>> ObtenerIlustraciones()
+        {
+            return await _context.Ilustracions.ToListAsync();
         }
     }
 }
