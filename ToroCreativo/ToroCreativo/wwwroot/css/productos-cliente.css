@@ -24,15 +24,15 @@ a {
 
 .categorias {  
     margin-top: 10px;   
+    padding-top: 2.5%;
     width: 20%;
     border-right: 1px solid #acacac;   
 }
 .categorias h2{
-    font-size: 23px ;
+    font-size: 1.5rem ;
     color: #424242;
 }
-.categorias ul{
-    margin-top: 20%;
+.categorias ul{    
     width: 90%;
 }
 .categorias ul li{

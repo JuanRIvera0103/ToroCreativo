@@ -2,7 +2,7 @@
 
 @{
     Layout = "_LayoutCliente";
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "- Ilustraciones";
 
     var subImagenes = ViewBag.Imagenes;
 }
@@ -15,9 +15,10 @@
     <div class="encabezado">
         <h1>Ilustraciones</h1>
         <div class="generos">
+            <a asp-action="IlustracionesCliente" asp-route-id="">Todas</a>
             @foreach (var categoria in ViewBag.Generos)
             {
-                <a asp-action="">@categoria.Nombre</a>
+                <a asp-action="IlustracionesCliente" asp-route-id="@categoria.idGenero">@categoria.Nombre</a>
             }
 
         </div>
@@ -25,8 +26,8 @@
     <div class="galeria">
         @foreach (var item in Model)
         {
-            <div class="ilustracion ampliar" idIlustracion="@item.IdIlustracion" id="" >
-                <img src="@("~/imgIlustraciones/" + item.ImageName)" asp-append-version="true"  />
+            <div class="ilustracion ampliar" idIlustracion="@item.IdIlustracion" Nombre="@item.Nombre" Descripcion="@item.Descripcion">
+                <img src="@("~/imgIlustraciones/" + item.ImageName)" asp-append-version="true" />
 
             </div>
         }
@@ -44,12 +45,11 @@
     <div class="informacion">
         <i onclick="" class="fas fa-times-circle" title="Cerrar" id="cerrar"></i>
         <div class="nombre">
-            <h2>Nombre</h2>
+            <h2 id="nombre">Nombre</h2>
         </div>
         <div class="descripcion">
             <h3 class="title">Descripción: </h3>
-            <p>Descripcion</p>
-
+            <p id="descripción">Descripcion</p>
         </div>
         @if (TempData["Usuario"] != null)
         {
@@ -62,35 +62,34 @@
 @section Scripts{
     <script>
 
-        $(document).ready(function () {
-
-
-            var imagenesJSON = JSON.parse('@Html.Raw(subImagenes)');
+        $(document).ready(function () {                    
+            var imagenesJSON = JSON.parse('@Html.Raw(subImagenes)');            
             $(".ampliar").click(function () {
+                var Nombre = $(this).attr('Nombre');
+                var Descripción = $(this).attr('Descripcion');
+                $('#nombre').text(Nombre);
+                $('#descripción').text(Descripción);
                 $(".imagenes").empty();
                 $(".sub-imagenes").empty();
                 var idSubImagen = 0;
                 var idImagen = 0;
                 var idIlustracion = $(this).attr('idIlustracion');
-                
-
-               
-                for (var i = 0; i < imagenesJSON.length; i++) {
-                    if (imagenesJSON[i].IdIlustracion == idIlustracion) {
-                        idSubImagen += 10;
-                        idImagen++;
-                        if (imagenesJSON[i].Estado == 'Principal') {
-                            $(".imagenes").append('<img class="img active" src="../imgIlustraciones/' + imagenesJSON[i].ImageName + '" id="' + idImagen + '" />');
+                    for (var i = 0; i < imagenesJSON.length; i++) {
+                        if (imagenesJSON[i].IdIlustracion == idIlustracion) {
+                            idSubImagen += 10;
+                            idImagen++;
+                            if (imagenesJSON[i].Estado == 'Principal') {
+                                $(".imagenes").append('<img class="img active" src="../imgIlustraciones/' + imagenesJSON[i].ImageName + '" id="' + idImagen + '" />');
+                            }
+                            else {
+                                $(".imagenes").append('<img class="img" src="../imgIlustraciones/' + imagenesJSON[i].ImageName + '" id="' + idImagen + '" />');
+                            }
+                            $(".sub-imagenes").append('<div class="sub-imagen"><img class="sub-img" src="../imgIlustraciones/'+imagenesJSON[i].ImageName+'" id="'+idSubImagen+'"/></div >');
                         }
-                        else {
-                            $(".imagenes").append('<img class="img" src="../imgIlustraciones/' + imagenesJSON[i].ImageName + '" id="' + idImagen + '" />');
-                        }
-                        $(".sub-imagenes").append('<div class="sub-imagen"><img class="sub-img" src="../imgIlustraciones/' + imagenesJSON[i].ImageName + '" id="' + idSubImagen + '"/></div >');
                     }
-                }
-                $("#capa").addClass("active");
-                $("#modal").addClass("active");
-            });
+                    $("#capa").addClass("active");
+                    $("#modal").addClass("active");
+                });
 
             $("#cerrar").click(function () {
                 $("#capa").removeClass("active");

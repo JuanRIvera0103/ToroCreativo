@@ -56,7 +56,7 @@ function mostrarcuenta() {
             shop.style.backgroundColor = 'transparent';
             carrito_active = false;
         }
-        cuenta.style.height = '240px';
+        cuenta.style.height = '80px';
         cuenta.style.opacity = 1;
         user.style.backgroundColor = 'rgba(255, 236, 194, 0.824)';
         cuenta_active = true;

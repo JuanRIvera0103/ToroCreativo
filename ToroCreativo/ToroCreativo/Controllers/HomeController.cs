@@ -40,10 +40,11 @@ namespace ToroCreativo.Controllers
             var usuario = HttpContext.Session.GetString("usuario");
             TempData["Usuario"] = usuario;
             TempData["Principal"] = "si";
-            List<CarritoDetalle> detalle = await _productosBusiness.ObtenerCarrito(HttpContext.Session);
+            List<CarritoDetalle> detalle = _productosBusiness.ObtenerCarrito(HttpContext.Session);
             ViewBag.Carrito = detalle;
             var productos = await _productosBusiness.ObtenerProductosCliente();            
             ViewBag.Productos = productos;
+            
             return View();
         }
 

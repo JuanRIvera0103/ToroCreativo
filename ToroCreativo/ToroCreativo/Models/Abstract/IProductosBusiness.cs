@@ -21,6 +21,6 @@ namespace ToroCreativo.Models.Abstract
         int VerificarProductosEnPedidos(int? id);
         Task<ProductoRegistroCompleto> ObtenerProductoPorIdIndex(int? id);
         int VerificarProductoRepetido(string nombre);
-        Task<List<CarritoDetalle>> ObtenerCarrito(ISession session);
+        List<CarritoDetalle> ObtenerCarrito(ISession session);
     }
 }

@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -22,15 +23,17 @@ namespace ToroCreativo.Controllers
         private readonly IWebHostEnvironment _hostEnvironment;
         private readonly IImagenIlustracionBusiness _imagenIlustracionBusiness;
         private readonly IComentarioBusiness _comentarioBusiness;
+        private readonly IProductosBusiness _productosBusiness;
 
         public GenerosIlustracionsController(IGenerosBusiness generosBusiness, IIlustracionBusiness ilustracionBusiness, IWebHostEnvironment hostEnvironmen,
-            IImagenIlustracionBusiness imagenIlustracionBusiness, IComentarioBusiness comentariosBusiness)
+            IImagenIlustracionBusiness imagenIlustracionBusiness, IComentarioBusiness comentariosBusiness, IProductosBusiness productosBusiness))            
         {
             _generosBusiness = generosBusiness;
             _ilustracionBusiness = ilustracionBusiness;
             this._hostEnvironment = hostEnvironmen;
             _imagenIlustracionBusiness = imagenIlustracionBusiness;
             _comentarioBusiness = comentariosBusiness;
+            _productosBusiness = productosBusiness;
         }
 
         // GET: Estados
@@ -122,8 +125,6 @@ namespace ToroCreativo.Controllers
             {
                 return NotFound();
             }
-             
-            
             IEnumerable<ImagenIlustracion> listaImagen = await _ilustracionBusiness.ObtenerImagenesIlustracion(id);
             ViewBag.Imagenes = listaImagen;
             var ilustracion = await _ilustracionBusiness.ObtenerIlustracionPorId(id);
@@ -206,9 +207,11 @@ namespace ToroCreativo.Controllers
 
 
         }
-        public async Task<IActionResult> IlustracionesCliente()
+        public async Task<IActionResult> IlustracionesCliente(int? id)
         {
-            ViewBag.Generos = await _generosBusiness.ObtenerGeneros();
+            var usuario = HttpContext.Session.GetString("usuario");
+            TempData["Usuario"] = usuario;
+            ViewBag.Generos = await _generosBusiness.ObtenerGeneros();            
             ViewBag.Imagenes = JsonConvert.SerializeObject(await _imagenIlustracionBusiness.ImagenesIlustraciones());
             return View(await _ilustracionBusiness.ObtenerIlustracionesCliente());
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,10 +18,14 @@ namespace ToroCreativo.Controllers
     public class ClientesController : Controller
     {
         private readonly IClientesBusiness _context;
+        private readonly IPedidoBusiness _pedidoBusiness;
+        private readonly IProductosBusiness _productosBusiness;
 
-        public ClientesController(IClientesBusiness context)
+        public ClientesController(IClientesBusiness context, IPedidoBusiness pedidoBusiness, IProductosBusiness productosBusiness)
         {
             _context = context;
+            _pedidoBusiness = pedidoBusiness;
+            _productosBusiness = productosBusiness;
         }
 
         // GET: Usuarios
@@ -79,11 +84,19 @@ namespace ToroCreativo.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(cliente);
-        }
+        }        
         public async Task<IActionResult> Perfil()
         {
-           var id= await _context.ObtenerClienteDetallePorUsuario(HttpContext.Session.GetString("usuario"));
-            
+            var id= await _context.ObtenerClienteDetallePorUsuario(HttpContext.Session.GetString("usuario"));
+            var usuario = HttpContext.Session.GetString("usuario");
+            ViewBag.PedidosPendientes = await _pedidoBusiness.ObtenerPedidosPendientesCliente(usuario);
+            ViewBag.PedidosAceptados = await _pedidoBusiness.ObtenerPedidosAceptadosCliente(usuario);
+            ViewBag.PedidosCancelados = await _pedidoBusiness.ObtenerPedidosCanceladosCliente(usuario);
+            ViewBag.VentasSinEnviar = await _pedidoBusiness.ObtenerVentasSinEnviarCliente(usuario);
+            ViewBag.VentasEnviadas = await _pedidoBusiness.ObtenerVentasEnviadasCliente(usuario);
+            TempData["Usuario"] = usuario;
+            List<CarritoDetalle> detalle = _productosBusiness.ObtenerCarrito(HttpContext.Session);
+            ViewBag.Carrito = detalle;
             if (id == null)
                 return View(new PerfilViewModel());
             else
@@ -102,11 +115,8 @@ namespace ToroCreativo.Controllers
                 
         }
 
-        // POST: Usuarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+     
+        [HttpPost]      
         public async Task<IActionResult> Perfil([Bind("IdCliente,Nombre,Apellido,Direccion,Cedula,Telefono")] PerfilViewModel perfil)
         {
             
@@ -125,9 +135,9 @@ namespace ToroCreativo.Controllers
                 };
                 
                 await _context.CrearEditarCliente(cliente);
-                return RedirectToAction(nameof(Index));
+                TempData["Editar"] = "si";
             }
-            return View(perfil);
+            return RedirectToAction("Perfil", "Clientes");
         }
     }
 }

@@ -48,7 +48,7 @@ namespace ToroCreativo.Models.Business
                          Precio = ((ivas.IVA / 100) * precios.Valor) + precios.Valor,
                          ImageName = imagen.ImageName
                          
-                     }).ToList();
+                     }).OrderByDescending(p => p.idProductos).ToList();
 
                 return (listaProductoDetalle);
             }
@@ -81,7 +81,7 @@ namespace ToroCreativo.Models.Business
                          Precio = ((ivas.IVA / 100) * precios.Valor) + precios.Valor,
                          ImageName = imagen.ImageName
 
-                     }).ToList();
+                     }).OrderByDescending(p => p.idProductos).ToList();
 
                 return (listaProductoDetalle);
             }
@@ -114,7 +114,7 @@ namespace ToroCreativo.Models.Business
                          Precio = ((ivas.IVA / 100) * precios.Valor) + precios.Valor,
                          ImageName = imagen.ImageName
 
-                     }).ToList();
+                     }).OrderByDescending(p => p.idProductos).ToList();
 
                 return (listaProductoDetalle);
             }
@@ -343,7 +343,7 @@ namespace ToroCreativo.Models.Business
             return _context.productos.Where(p => p.Nombre == nombre).Count();
         }
 
-        public async Task<List<CarritoDetalle>> ObtenerCarrito(ISession session)
+        public List<CarritoDetalle> ObtenerCarrito(ISession session)
         {
             List<CarritoDetalle> detalle = new List<CarritoDetalle>();
             List<Carrito> carrito = new List<Carrito>();
@@ -351,7 +351,6 @@ namespace ToroCreativo.Models.Business
             {
                 carrito = JsonConvert.DeserializeObject<List<Carrito>>(session.GetString("Carrito"));
             }
-           
             
                 for (int i = 0; i < carrito.Count; i++)
                 {
@@ -365,7 +364,10 @@ namespace ToroCreativo.Models.Business
                      on productos.idProductos equals precios.idProducto
                      join ivas in _context.ivas
                      on productos.idProductos equals ivas.idProducto
+                     join imagenes in _context.ImagenProductos
+                     on productos.idProductos equals imagenes.IdProducto
                      where ivas.F_Fin == null && precios.F_Fin == null && caracteristica.idCaracteristicas == carrito[i].IdCaracteristica
+                     where imagenes.Estado == "Principal"
                      select new CarritoDetalle
                      {
                          IdCaracteristica = caracteristica.idCaracteristicas,
@@ -376,7 +378,8 @@ namespace ToroCreativo.Models.Business
                          Cantidad = carrito[i].Cantidad,
                          IVA = (ivas.IVA / 100) * precios.Valor,
                          Subtotal= precios.Valor,
-                         Precio = (((ivas.IVA / 100) * precios.Valor) + precios.Valor) * carrito[i].Cantidad
+                         Precio = (((ivas.IVA / 100) * precios.Valor) + precios.Valor) * carrito[i].Cantidad,
+                         ImagenName = imagenes.ImageName
                      }).SingleOrDefault();
                     detalle.Add(ProductoDetalle);
                 }

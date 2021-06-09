@@ -270,7 +270,7 @@ namespace ToroCreativo.Controllers
             TempData["Usuario"] = usuario;
             ViewBag.Precios = await _precioBusiness.ObtenerPrecios();            
             ViewBag.Categorias = await _categoriasBusiness.ObtenerCategoriasProductosClientes();
-            List<CarritoDetalle> detalle = await _productosBusiness.ObtenerCarrito(HttpContext.Session);
+            List<CarritoDetalle> detalle = _productosBusiness.ObtenerCarrito(HttpContext.Session);
             ViewBag.Carrito = detalle;
             if (id == null)
                 return View(await _productosBusiness.ObtenerProductosCliente());
@@ -281,7 +281,7 @@ namespace ToroCreativo.Controllers
         [HttpPost]
         public async Task<IActionResult> ProductosCliente(string busqueda)
         {
-            List<CarritoDetalle> detalle = await _productosBusiness.ObtenerCarrito(HttpContext.Session);
+            List<CarritoDetalle> detalle = _productosBusiness.ObtenerCarrito(HttpContext.Session);
             ViewBag.Carrito = detalle;
             ViewBag.Categorias = await _categoriasBusiness.ObtenerCategoriasProductosClientes();
 
@@ -298,7 +298,7 @@ namespace ToroCreativo.Controllers
         {
             var usuario = HttpContext.Session.GetString("usuario");
             TempData["Usuario"] = usuario;
-            List<CarritoDetalle> detalle = await _productosBusiness.ObtenerCarrito(HttpContext.Session);
+            List<CarritoDetalle> detalle = _productosBusiness.ObtenerCarrito(HttpContext.Session);
             ViewBag.Carrito = detalle;
             if (id == null)
             {

@@ -248,42 +248,29 @@ namespace ToroCreativo.Controllers
 
         public IActionResult CambiarContraseña()
         {
-
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> CambiarContraseña(CambioContraseñaViewModel cambioContraseña)
         {
             if (ModelState.IsValid)
-            {
-               
-
+            {               
                 try
                 {
                     var usuario = await _userManager.FindByIdAsync(HttpContext.Session.GetString("usuario"));
                      IdentityResult result = await _userManager.ChangePasswordAsync(usuario, cambioContraseña.PasswordAntigua, cambioContraseña.PasswordNueva);
 
-                    if (result.Succeeded)
-                    {
-                        TempData["Accion"] = "Cambiar";
-                        TempData["Mensaje"] = "Contraseña actualizada";
-                        return RedirectToAction("Perfil", "Clientes");
-                    }
-
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
+                    if (result.Succeeded)                    
+                        TempData["CambioContraseña"] = "si";                                            
+                    else
+                        TempData["CambioContraseña"] = "no";
                 }
                 catch (Exception)
                 {
-
-                    return View(cambioContraseña);
+                    return RedirectToAction("Perfil", "Clientes");
                 }
-
             }
-
-            return View(cambioContraseña);
+            return RedirectToAction("Perfil", "Clientes");
         }
 
         [HttpGet]

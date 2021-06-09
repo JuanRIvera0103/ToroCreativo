@@ -2,54 +2,46 @@
 @model ToroCreativo.ViewModels.Usuario.CambioContraseñaViewModel
 
 @{
-    ViewData["Title"] = "Perfil";
-    Layout = "_LayoutCliente";
+    Layout = null;
 }
-@section Styles{
 
-
-    <link href="~/css/perfil.css" rel="stylesheet" />
-    <link href="~/css/Pedido-cliente.css" rel="stylesheet" />
-
-}
 <div class="container">
-    <h1 class="Titulo">Cambiar Contraseña </h1>
-
     <div class="formularioPedido">
         <div class="row">
             <div class="col-md-12">
                 <form asp-action="CambiarContraseña" asp-controller="Usuarios">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    
-                    <div class="form-group col-md-6">
-                        <label asp-for="PasswordAntigua" class="control-label"></label>
-                        <input asp-for="PasswordAntigua" class="form-control" />
-                        <span asp-validation-for="PasswordAntigua" class="text-danger"></span>
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="PasswordAntigua" class="control-label"></label><span class="requerido">*</span>
+                                <input asp-for="PasswordAntigua" class="form-control" id="PasswordAntigua"/>
+                                <span asp-validation-for="PasswordAntigua" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label asp-for="PasswordNueva" class="control-label"></label><span class="requerido">*</span>
+                                <input asp-for="PasswordNueva" class="form-control" id="PasswordNueva"/>
+                                <span asp-validation-for="PasswordNueva" class="text-danger"></span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="ConfirmarPasswordAntigua" class="control-label"></label>
-                        <input asp-for="ConfirmarPasswordAntigua" class="form-control" />
-                        <span asp-validation-for="ConfirmarPasswordAntigua" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="PasswordNueva" class="control-label"></label>
-                        <input asp-for="PasswordNueva" class="form-control" />
-                        <span asp-validation-for="PasswordNueva" class="text-danger"></span>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label asp-for="ConfirmarPasswordNueva" class="control-label"></label>
-                        <input asp-for="ConfirmarPasswordNueva" class="form-control" />
+
+
+                    <div class="form-group">
+                        <label asp-for="ConfirmarPasswordNueva" class="control-label"></label><span class="requerido">*</span>
+                        <input asp-for="ConfirmarPasswordNueva" class="form-control" id="ConfirmarPasswordNueva"/>
                         <span asp-validation-for="ConfirmarPasswordNueva" class="text-danger"></span>
                     </div>
-                    
-                    <div class="form-group col-md-6">
-                        <input type="submit" value="Crear" class="btn btn-primary" />
-                    </div>
+                    <div class="row botones">
+                        <button id="cambiarContraseña" class="btn col-7 confirmar">Cambiar Contraseña</button>
+                        <button class="btn col-4 cancelar" data-dismiss="modal">Cancelar</button>
+                    </div>                    
                 </form>
             </div>
         </div>
     </div>
 </div>
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>

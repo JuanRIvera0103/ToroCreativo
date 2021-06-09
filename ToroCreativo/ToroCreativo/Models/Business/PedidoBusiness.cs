@@ -34,7 +34,7 @@ namespace ToroCreativo.Models.Business
         public async Task<IEnumerable<Pedido>> ObtenerPedidosAceptadosCliente(string id) => await _context.Pedidos.Where(e => e.Estado == "Aceptado" && e.IdUsuario == id).ToListAsync();
         public async Task<IEnumerable<Pedido>> ObtenerPedidosCanceladosCliente(string id) => await _context.Pedidos.Where(e => e.Estado == "Cancelado" && e.IdUsuario == id).ToListAsync();
         public async Task<IEnumerable<Pedido>> ObtenerVentasSinEnviarCliente(string id) => await _context.Pedidos.Where(e => e.Estado == "Sin Enviar" && e.IdUsuario == id).ToListAsync();
-        public async Task<IEnumerable<Pedido>> ObtenerVentasPorEnviarCliente(string id) => await _context.Pedidos.Where(e => e.Estado == "Enviado" && e.IdUsuario == id).ToListAsync();
+        public async Task<IEnumerable<Pedido>> ObtenerVentasEnviadasCliente(string id) => await _context.Pedidos.Where(e => e.Estado == "Enviado" && e.IdUsuario == id).ToListAsync();
         public async Task<IEnumerable<Pedido>> ObtenerVentas(string id) => await _context.Pedidos.Where(e => (e.Estado == "Enviado" || e.Estado == "Sin Enviar") && e.IdUsuario == id).ToListAsync();
 
         public async Task<IEnumerable<Pedido>> ObtenerPedidosCliente(string id) => await _context.Pedidos.Where(e => e.IdUsuario == id && e.Estado != "Sin Enviar" && e.Estado != "Enviado").ToListAsync();
@@ -119,10 +119,7 @@ namespace ToroCreativo.Models.Business
         {
             try
             {
-                if (pedido.Estado.Equals("Pendiente"))
-                    pedido.Estado = "Cancelado";
-                else
-                    pedido.Estado = "Pendiente";
+                pedido.Estado = "Cancelado";
 
                 _context.Pedidos.Update(pedido);
                 await _context.SaveChangesAsync();
@@ -134,6 +131,7 @@ namespace ToroCreativo.Models.Business
                 throw new Exception();
             }
         }
+
         public async Task PedidoAVentaNoEnviada(Pedido pedido)
         {
             try
