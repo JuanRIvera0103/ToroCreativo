@@ -185,7 +185,7 @@
                 
                 for (var i = 0; i < data.length; i++) {
                     if (data[i].tipo == "Vendido") {
-                        notificacionGenerada(data[i].fecha, 'fas fa-shopping-bag', 'Tu compra esta en proceso, pronto te será enviada', '../../Pedidos/DetalleVentasCliente/', data[i].direccion);
+                        notificacionGenerada(data[i].fecha, 'fas fa-shopping-bag', 'Tu compra esta en proceso, pronto te será enviada', '../../Pedidos/DetallePedidosCliente/', data[i].direccion);
                     }
                     else if (data[i].tipo == "Aceptado") {
                         notificacionGenerada(data[i].fecha, 'fas fa-check-circle', 'Tu pedido ha sido aceptado', '../../Pedidos/DetallePedidosCliente/', data[i].direccion);
@@ -195,7 +195,7 @@
                         notificacionGenerada(data[i].fecha, 'fas fa-ban', 'Tu pedido ha sido cancelado', '../../Pedidos/DetallePedidosCliente/', data[i].direccion);
                     }
                     else if (data[i].tipo == "Enviado") {
-                        notificacionGenerada(data[i].fecha, 'fas fa-truck', 'Tu compra ha sido enviada','../../Pedidos/DetalleVentasCliente/', data[i].direccion);
+                        notificacionGenerada(data[i].fecha, 'fas fa-truck', 'Tu compra ha sido enviada','../../Pedidos/DetallePedidosCliente/', data[i].direccion);
                     }
 ;                }
             },

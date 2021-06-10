@@ -31,5 +31,6 @@ namespace ToroCreativo.Models.DAL
         public DbSet<ImagenProducto> ImagenProductos { get; set; }
         public DbSet<Notificacion> Notificaciones { get; set; }
         public DbSet<Comentario> Comentarios { get; set; }
+        public DbSet<CalificacionProducto> CalificacionProductos { get; set; }
     }
 }

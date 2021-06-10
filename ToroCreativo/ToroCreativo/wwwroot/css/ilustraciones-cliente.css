@@ -207,7 +207,7 @@ body {
     border-bottom: 1px solid #000000;
 }
 .informacion .descripcion {    
-    max-height: 90%;
+    max-height: 85%;
     overflow-y: hidden;
 }
 .informacion h3 {
@@ -303,7 +303,7 @@ body {
 .comentario-contenido .cuerpo{
     padding: 0 4%;
 }
-.enviarComentario #myForm {
+/*.enviarComentario #myForm {
     width: 80%;
     height: 70%;
     background-color: antiquewhite;
@@ -335,4 +335,4 @@ body {
 }
 #myForm button i{
     font-size: 1.2rem;
-}
+}*/

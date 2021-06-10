@@ -1,6 +1,6 @@
 ﻿@model ToroCreativo.Models.Entities.Productos
 
-@{    
+@{
     Layout = "_LayoutCliente";
     ViewData["Title"] = "- " + Model.Nombre;
     var preciosFormato = String.Format("{0:#,##0}", ViewData["precioTotal"]);
@@ -48,6 +48,14 @@
     <div class="informacion">
         <div class="nombre">
             <h1>@Html.DisplayFor(model => model.Nombre)</h1>
+            <div class="calificacion">
+                <i class="fas fa-star calificador" id="1estrellas" title="Calificar"></i>
+                <i class="fas fa-star calificador" id="2estrellas" title="Calificar"></i>
+                <i class="fas fa-star calificador" id="3estrellas" title="Calificar"></i>
+                <i class="fas fa-star calificador" id="4estrellas" title="Calificar"></i>
+                <i class="fas fa-star calificador" id="5estrellas" title="Calificar"></i>
+                <small id="cantidadCalificados"></small>
+            </div>
         </div>
         <div class="descripcion">
             <h2 class="title">Descripción</h2>
@@ -87,7 +95,33 @@
 @section Scripts{
     <script src="~/js/producto-detalle.js"></script>
     <script>
+        @if (TempData["AgregadoCarrito"] != null && TempData["AgregadoCarrito"].ToString().Equals("si"))
+        {
+            <text>
+
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Se agrego al carrito',
+                    html: ''
+                });
+
+            </text>
+        }        
+
+    </script>
+    <script>
         $(document).ready(function () {
+            $.ajax({
+                type: "GET",
+                dataType: "json",
+                url: "/Calificacion/ObtenerCalificaciones",
+                contentType: "application/json;charset=utf-8",
+                data: 'id=' + @Model.idProductos,
+                success: function (data) {
+                    marcarCalificacion(data.calificacion);                    
+                    $("#cantidadCalificados").text('(Calificación: '+ data.calificacion + ' de ' + data.cantidad +' calificaciones)');
+                },
+            });
 
             var caracteristicasJSON = JSON.parse('@Html.Raw(caracteristicas)');
             var cantidad = 0;
@@ -139,19 +173,102 @@
                 }
             });
 
-             @if (TempData["AgregadoCarrito"] != null && TempData["AgregadoCarrito"].ToString().Equals("si"))
-        {
-            <text>
+            $(".calificador").click(function () {
+                var calificacion = $(this).attr("id").substring(0,1);
+                marcarCalificacion(calificacion);
+                Calificar(calificacion);
+            })
 
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Se agrego al carrito',
-                    html: ''
+            function Calificar(valor) {
+                $.ajax({
+                    type: "GET",
+                    url: "/Calificacion/ValidarCalificacion",
+                    data: {
+                        idProducto: @Model.idProductos,
+                    },
+                    success: function (data) {
+                        if (data == 1) {
+                            Swal.fire({
+                                icon: 'info',
+                                title: '¿Deseas calificar el producto con una nota de ' + valor + '?',
+                                html: '',
+                                showCancelButton: true,
+                                confirmButtonColor: '#804292',
+                                confirmButtonText: 'Calificar Producto',
+                                cancelButtonText: 'Cancelar'
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    var Calificacion = {
+                                        IdProducto: @Model.idProductos,
+                                        Calificacion: valor
+                                    }
+                                    $.ajax({
+                                        method: "POST",
+                                        url: '/Calificacion/CrearEditar',
+                                        data: Calificacion,
+                                        success: function (resp) {
+                                            Swal.fire({
+                                                icon: 'success',
+                                                title: 'Calificación realizada con éxito',
+                                                html: 'Te agradecemos por calificar nuestros productos, tú opinión es muy importante para nosotros'
+                                            }).then((result) => {
+                                                if (result.isConfirmed) {
+                                                    location.reload();
+                                                }
+                                            });
+                                        }
+                                    });;
+                                }
+                            });
+                        } else if (data == 2) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'No se pudo realizar la calificación',
+                                html: 'No cuentas con una cuenta registrada, si quieres calificar un producto y disfrutar de muchas más funcionalidades inicia sesión'
+                            });
+                        } else if (data == 3) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'No se pudo realizar la calificación',
+                                html: 'No puedes calificar dos veces el mismo producto'
+                            });
+                        } else if (data == 4) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'No se pudo realizar la calificación',
+                                html: 'Lo sentimos, no puedes calificar un producto que no has comprado, esto lo hacemos para una opinión más asertiva y clara'
+                            });
+                        }
+                    },
                 });
 
-            </text>
-        }
+            }
+            function marcarCalificacion(calificacion) {
+                for (let i = 0; i < 5; i++) {
+                    if (i < calificacion) {
+                        document.getElementById((i + 1) + 'estrellas').style.color = "orange";
+                    }
+                    else {
+                        document.getElementById((i + 1) + 'estrellas').style.color = "black";
+                    }
+                }
+            }
         });
+        var contador;
+        var calificacion;
+        function Calificar(item) {
+            contador = item.id[0];
+            calificacion = item.id.substring(1);
+            console.log(contador);
+            for (let i = 0; i < 5; i++) {
+                if (i < contador) {
+                    document.getElementById((i + 1) + calificacion).style.color = "orange";
+                }
+                else {
+                    document.getElementById((i + 1) + calificacion).style.color = "black";
+                }
+            }
+        }
 
     </script>
 }

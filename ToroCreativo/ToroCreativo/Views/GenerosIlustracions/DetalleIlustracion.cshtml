@@ -14,11 +14,7 @@
         <h1>@Html.DisplayFor(model => model.Nombre)</h1>
         <div class="descripcion">
             <p>@Html.DisplayFor(model => model.Descripcion) </p>
-            <div class="comentarios">
-
-            </div>
         </div>
-        
         <div class="agregar">
             <form asp-controller="ImagenIlustraciones" asp-action="CrearEditar" enctype="multipart/form-data" id="form" method="post">
 
@@ -29,11 +25,26 @@
                     <input name="ImageName" class="form-control" type="hidden" />
                 </div>
                 <div class="file-select" id="src-file1">
-                    <p>Agregar Imagen <i class="far fa-image" title="Agregar Imagen"></i></p>                    
+                    <p>Agregar Imagen <i class="far fa-image" title="Agregar Imagen"></i></p>
                     <input name="ImageFile" accept="image/*" type="file" id="Imagen">
                 </div>
 
             </form>
+        </div>
+        <div class="seccion-comentarios">
+            <div id="verComentarios">
+                <p>Comentarios <i class="fas fa-chevron-up"></i></p>
+            </div>
+            <div id="comentarios">
+
+            </div>
+            @*<div class="enviarComentario">
+                <form asp-action="CrearEditar" asp-controller="Comentarios" id="myForm" method="post" enctype="multipart/form-data">
+                    <input name="IdIlustracion" id="idIlustracion" type="hidden" value="0" />
+                    <input name="Texto" type="text" placeholder="Hacer un comentario." class="comments" />
+                    <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>*@
         </div>
     </div>
     <div class="imagenes">
@@ -119,6 +130,34 @@
                 $(imagenPrincipal).removeClass("active");
                 $(imagen).addClass("active");
             });
+            $("#verComentarios").click(function () {
+                var clase = $(".seccion-comentarios").attr("class");
+                if (clase.includes("active")) {
+                    $(".seccion-comentarios").removeClass("active");
+                    $('#comentarios').empty();
+                }
+                else {
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: "../../Comentarios/ObtenerComentarios",
+                        traditional: true,
+                        contentType: "application/json;charset=utf-8",
+                        data: 'id=' + @Model.IdIlustracion,
+                        success: function (data) {
+                            console.log(data);
+                            $(".seccion-comentarios").addClass("active");
+                            for (var i = 0; i < data.length; i++) {
+                                $('#comentarios').append('<div class="comentario-contenido">\n\
+                                        <div class="encabezado"><p><span>'+ data[i].correo + '</span>' + data[i].fecha + ' </p></div>\n\
+                                        <div class="cuerpo"><p>' + data[i].texto + '</p></div>\n\
+                                    </div >');
+                            }
+                        },
+                    });
+                }
+
+            });     
 
         });
 

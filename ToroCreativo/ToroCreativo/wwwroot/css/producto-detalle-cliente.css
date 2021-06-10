@@ -7,6 +7,9 @@
 body {
     background-color: #efefef;
 }
+#header {
+    background-color: #efefef !important;
+}
 .producto{
     display: flex;   
     width: 95%;
@@ -85,10 +88,19 @@ body {
     color: #333;
     line-height: 1;
 }
-
-.descripcion{
+.calificacion{
+    width: 100%;
+}
+.calificacion i {
+    color: #696969;   
+    cursor: pointer;
+}
+.calificacion small{
+    color: #696969;
+}
+.descripcion {
     padding: 15px 0;
-    width: 100%;    
+    width: 100%;
     word-wrap: break-word;
 }
 

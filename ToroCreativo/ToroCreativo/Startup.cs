@@ -61,6 +61,7 @@ namespace ToroCreativo
             services.AddScoped<IImagenProductoBusiness, ImagenProductoBusiness>();
             services.AddScoped<INotificacionesBusiness, NotificacionesBusiness>();
             services.AddScoped<IComentarioBusiness, ComentarioBusiness>();
+            services.AddScoped<ICalificacionBusiness, CalificacionBusiness>();
             services.AddRazorPages().AddRazorRuntimeCompilation();
 
             services.AddIdentity<Usuario, IdentityRole>().AddEntityFrameworkStores<DbContextToroCreativo>().AddDefaultTokenProviders().AddTokenProvider<EmailConfirmationTokenProvider<Usuario>>("confirmacionemail"); ; 

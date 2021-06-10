@@ -126,11 +126,11 @@
 
             $("#verComentarios").click(function () {
                 var clase = $(".seccion-comentarios").attr("class");
-                if (clase.includes("active")) {                    
+                if (clase.includes("active")) {
                     $(".seccion-comentarios").removeClass("active");
                     $('#comentarios').empty();
                 }
-                else{
+                else {
                     $.ajax({
                         type: "GET",
                         dataType: "json",
@@ -144,14 +144,14 @@
                             for (var i = 0; i < data.length; i++) {
                                 $('#comentarios').append('<div class="comentario-contenido">\n\
                                         <div class="encabezado"><p><span>'+ data[i].correo + '</span>' + data[i].fecha + ' </p></div>\n\
-                                        <div class="cuerpo"><p>' + data[i].texto +'</p></div>\n\
+                                        <div class="cuerpo"><p>' + data[i].texto + '</p></div>\n\
                                     </div >');
                             }
                         },
                     });
                 }
-                
-            })
+
+            });
         });
         function AjaxFormSubmit() {
 

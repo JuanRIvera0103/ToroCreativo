@@ -58,9 +58,9 @@ namespace ToroCreativo.Controllers
         public async Task<IActionResult> CrearEditarCategoria(int id = 0)
         {
             if (id == 0)
-            {                
-                return View(new Categorias());
+            {
                 ViewData["CrearEditar"] = "Crear";
+                return View(new Categorias());                
             }                
             else
             {
