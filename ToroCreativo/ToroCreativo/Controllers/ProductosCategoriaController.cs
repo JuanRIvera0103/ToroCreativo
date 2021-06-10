@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -47,14 +48,16 @@ namespace ToroCreativo.Controllers
             _hostEnvironment = hostEnvironment;
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             ViewBag.Categorias = await _categoriasBusiness.ObtenerCategorias();
             return View(await _productosBusiness.ObtenerProductos());
         }
-        
+
 
         //CRUD Categorias
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CrearEditarCategoria(int id = 0)
         {
             if (id == 0)
@@ -75,6 +78,7 @@ namespace ToroCreativo.Controllers
             }
                 
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("CrearEditarCategoria")]
         [ValidateAntiForgeryToken]
@@ -101,6 +105,7 @@ namespace ToroCreativo.Controllers
             return RedirectToAction("Index", "ProductosCategoria");
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CambiarEstadoCategoria(int? id)
         {
             if (id == null)
@@ -120,7 +125,7 @@ namespace ToroCreativo.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DetalleCategoria(int? id)
         {
             if (id == null)
@@ -136,7 +141,7 @@ namespace ToroCreativo.Controllers
 
 
         //CRUD Productos
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CrearEditarProducto(int id = 0)
         {
             IEnumerable<Categorias> listaCategorias = await _categoriasBusiness.ObtenerCategoriasSelect();
@@ -158,6 +163,7 @@ namespace ToroCreativo.Controllers
             }
                 
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("CrearEditarProductos")]
         [ValidateAntiForgeryToken]
@@ -210,7 +216,7 @@ namespace ToroCreativo.Controllers
                 TempData["editar"] = "si";
             return RedirectToAction("Index", "ProductosCategoria");
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CambiarEstadoProducto(int? id)
         {
             if (id == null)
@@ -230,7 +236,7 @@ namespace ToroCreativo.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DetalleProducto(int? id)
         {                        
             if (TempData["id"] != null)
@@ -254,7 +260,7 @@ namespace ToroCreativo.Controllers
             return View(producto);
 
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult AgregarImagen(int id = 0)
         {
 
@@ -365,7 +371,7 @@ namespace ToroCreativo.Controllers
                 TempData["AgregadoCarrito"] = "si";
                 return RedirectToAction("DetalleProductoCliente", new { id = caracteristica.idProducto });
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("CrearEditarImagen")]
         [ValidateAntiForgeryToken]

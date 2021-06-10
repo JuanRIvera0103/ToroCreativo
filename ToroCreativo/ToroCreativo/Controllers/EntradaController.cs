@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace ToroCreativo.Controllers
             _productosBusiness = productosBusiness;
         }
 
-        // GET: Precios/Create
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Crear(int? id)
         {
 
@@ -34,9 +35,7 @@ namespace ToroCreativo.Controllers
             return View();
         }
 
-        // POST: Precios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearEditar([Bind("idEntrada,CantidadInicial, CantidadActual,F_Inicio,Caracteristica,idProducto")] Entrada entrada)
@@ -53,6 +52,7 @@ namespace ToroCreativo.Controllers
             }
             return View(entrada);
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Editar(int? id)
         {
             if (id == null)

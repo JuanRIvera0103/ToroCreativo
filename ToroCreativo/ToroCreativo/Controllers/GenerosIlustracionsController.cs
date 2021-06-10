@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,14 +37,14 @@ namespace ToroCreativo.Controllers
             _productosBusiness = productosBusiness;
         }
 
-        // GET: Estados
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             ViewBag.Generos = await _generosBusiness.ObtenerGeneros();
             return View(await _ilustracionBusiness.ObtenerTodosLasIlustraciones());
         }
 
-        //CRUD Genero
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CrearEditarGenero(int id = 0)
         {
             if (id == 0)
@@ -63,6 +64,8 @@ namespace ToroCreativo.Controllers
                 return View(await _generosBusiness.ObtenerGeneroPorId(id));
             }
         }
+
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("CrearEditarGenero")]
         [ValidateAntiForgeryToken]
@@ -87,6 +90,7 @@ namespace ToroCreativo.Controllers
             }
             return RedirectToAction("CrearEditarGenero", "GenerosIlustracions");
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CambiarEstadoGenero(int? id)
         {
             if (id == null)
@@ -104,7 +108,7 @@ namespace ToroCreativo.Controllers
            
             return RedirectToAction(nameof(Index));
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DetalleGenero(int? id)
         {
             if (id == null)
@@ -118,7 +122,7 @@ namespace ToroCreativo.Controllers
         }
 
         //CRUD Ilustracione
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DetalleIlustracion(int? id)
         {
             if (id == null)
@@ -135,7 +139,7 @@ namespace ToroCreativo.Controllers
 
             return View(ilustracion);
         }
-
+        [Authorize(Roles = "Admin")]
         // GET: Estados/Create
         public async Task<IActionResult> CrearEditarIlustracion(int id = 0)
         {
@@ -153,6 +157,7 @@ namespace ToroCreativo.Controllers
             }
                 
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("CrearEditarIlustracion")]
         [ValidateAntiForgeryToken]
@@ -187,7 +192,7 @@ namespace ToroCreativo.Controllers
 
         }
 
-        // GET: Estados/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CambiarEstadoIlustracion(int? id)
         {
             if (id == null)
@@ -200,6 +205,7 @@ namespace ToroCreativo.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult AgregarImagen(int id = 0)
         {
             ViewBag.id = id;

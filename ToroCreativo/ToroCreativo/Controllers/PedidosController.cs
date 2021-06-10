@@ -32,7 +32,7 @@ namespace ToroCreativo.Controllers
             _noti = noti;
         }
 
-        // GET: Usuarios
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             IEnumerable<Pedido> aceptados= await _context.ObtenerPedidosAceptados();
@@ -43,6 +43,7 @@ namespace ToroCreativo.Controllers
 
 
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> VentaIndex()
         {
             IEnumerable<Pedido> SinEnviados = await _context.ObtenerVentasSinEnviar();
@@ -53,6 +54,7 @@ namespace ToroCreativo.Controllers
 
 
         }
+        [Authorize(Roles = "Admin")]
         [ActionName("PedidosClientesDetalle")]
         public async Task<string> PedidosClientesDetalle(string id)
         {
@@ -65,7 +67,7 @@ namespace ToroCreativo.Controllers
         {            
             return JsonConvert.SerializeObject(await _context.ObtenerVentasCliente(id));
         }
-        
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AceptarPedido(int? id)
         {
             if (id == null)
@@ -111,6 +113,7 @@ namespace ToroCreativo.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CancelarPedido(int? id)
         {
             if (id == null)
@@ -133,6 +136,7 @@ namespace ToroCreativo.Controllers
             TempData["CambiarPedido"] = "si";
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = "Cliente")]
         public async Task<IActionResult> CancelarPedidoCliente(int? id)
         {
             if (id == null)            
@@ -153,6 +157,7 @@ namespace ToroCreativo.Controllers
             await _noti.CrearNotificacion(notificacion);
             return RedirectToAction("Perfil", "Clientes");
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PedidoAVenta(int? id)
         {
             if (id == null)
@@ -238,6 +243,7 @@ namespace ToroCreativo.Controllers
             TempData["CambiarPedido"] = "si";
             return RedirectToAction(nameof(Index));
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> VentaSinEnviarAVentaEnviada(int? id)
         {
             if (id == null)
@@ -259,6 +265,7 @@ namespace ToroCreativo.Controllers
 
             return RedirectToAction(nameof(VentaIndex));
         }
+        [Authorize(Roles = "Admin,Cliente")]
         public async Task<IActionResult> AgregarComprobante(Pedido pedido)
         {
 
@@ -266,6 +273,7 @@ namespace ToroCreativo.Controllers
             TempData["Comprobante"] = "si";
             return RedirectToAction("Detalle", new { id = pedido.IdPedido });
         }
+        [Authorize(Roles = "Cliente")]
         public async Task<IActionResult> AgregarComprobanteCliente(Pedido pedido)
         {           
             await _context.AgregarComprobantePedido(pedido);
@@ -285,6 +293,7 @@ namespace ToroCreativo.Controllers
             else
                 return RedirectToAction("Perfil","Clientes");
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CrearEditar(int id = 0)
         {
             ViewData["Usuarios"] = new SelectList(await _context.ObtenerUsuario(), "Id", "Email");
@@ -297,6 +306,7 @@ namespace ToroCreativo.Controllers
         // POST: Usuarios/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearEditar([Bind("IdPedido,Nombre,Apellido,IdUsuario,Estado,Direccion,Cedula,Telefono,FechaPedido,FechaVenta,Subtotal,TotalIva,Total,ImageName")] Pedido pedido)
@@ -309,6 +319,7 @@ namespace ToroCreativo.Controllers
             }
             return View(pedido);
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Detalle(int? id)
         {
 
@@ -326,6 +337,7 @@ namespace ToroCreativo.Controllers
 
             return View(pedido);
         }
+        [Authorize(Roles = "Cliente")]
         public IActionResult DetallePedidosCliente(int? id)
         {
 
@@ -345,6 +357,7 @@ namespace ToroCreativo.Controllers
 
             return View(pedido);
         }
+        [Authorize(Roles = "Cliente")]
         public async Task<IActionResult> DetalleVentasCliente(int? id)
         {
 
@@ -365,7 +378,7 @@ namespace ToroCreativo.Controllers
 
             return View(pedido);
         }
-        
+        [Authorize(Roles = "Cliente")]
         public async Task<IActionResult> FinalizarPedido()
         {
             var id = await _clientes.ObtenerClienteDetallePorUsuario(HttpContext.Session.GetString("usuario"));
@@ -406,9 +419,7 @@ namespace ToroCreativo.Controllers
 
         }
 
-        // POST: Usuarios/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Cliente")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> FinalizarPedido([Bind("IdCliente,Nombre,Apellido,Direccion,Cedula,Telefono")] PerfilViewModel datosPedido)

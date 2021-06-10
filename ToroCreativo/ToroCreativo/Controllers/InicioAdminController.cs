@@ -27,7 +27,7 @@ namespace ToroCreativo.Controllers
             _userManager = userManager;
 
         }
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Index()
         {
             TempData["Usuarios"] = await _context.Usuarios.CountAsync();
@@ -39,11 +39,12 @@ namespace ToroCreativo.Controllers
             TempData["Ventas"] = ventasSinEnviar + ventasEnviadas;
             return View();
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult CrearRol()
         {
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CrearRol(RolViewModel rolViewModel)
         {
@@ -67,12 +68,12 @@ namespace ToroCreativo.Controllers
             }
             return View(rolViewModel);
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult ListarRoles()
         {
             return View(_roleManager.Roles);
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> EditarRol(string id)
         {
             var rol = await _roleManager.FindByIdAsync(id);
@@ -97,7 +98,7 @@ namespace ToroCreativo.Controllers
             }
             return View(editarRolViewModel);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> EditarRol(EditarRolViewModel editarRolViewModel)
         {
@@ -125,7 +126,7 @@ namespace ToroCreativo.Controllers
 
             return View(editarRolViewModel);
         }
-
+        [Authorize(Roles = "Admin")]
         public IActionResult PerfilAdmin()
         {
             return View();

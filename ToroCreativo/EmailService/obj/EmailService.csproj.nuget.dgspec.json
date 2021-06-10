@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj": {}
+    "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj": {}
   },
   "projects": {
-    "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj": {
+    "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj",
+        "projectUniqueName": "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj",
         "projectName": "EmailService",
-        "projectPath": "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj",
-        "packagesPath": "C:\\Users\\juan\\.nuget\\packages\\",
-        "outputPath": "D:\\Proyecto\\ToroCreativo\\ToroCreativo\\EmailService\\obj\\",
+        "projectPath": "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\EmailService\\EmailService.csproj",
+        "packagesPath": "C:\\Users\\RYZEN 3\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\RYZEN 3\\Source\\Repos\\ToroCreativo\\ToroCreativo\\EmailService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\juan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\RYZEN 3\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -26,7 +26,6 @@
         },
         "frameworks": {
           "netcoreapp3.1": {
-            "targetAlias": "netcoreapp3.1",
             "projectReferences": {}
           }
         },
@@ -38,7 +37,6 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "targetAlias": "netcoreapp3.1",
           "dependencies": {
             "Microsoft.AspNetCore.Http.Features": {
               "target": "Package",
@@ -64,7 +62,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.300\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
         }
       }
     }

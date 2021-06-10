@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -23,7 +24,7 @@ namespace ToroCreativo.Controllers
             this._hostEnvironment = hostEnvironmen;
         }
 
-       
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearEditar([Bind("IdImagenIlustracion,IdIlustracion,ImageName,ImageFile")] ImagenIlustracion imagenIlustracion)
@@ -44,9 +45,9 @@ namespace ToroCreativo.Controllers
             return RedirectToAction("DetalleIlustracion", "GenerosIlustracions", new { id = imagenIlustracion.IdIlustracion });
 
         }
-            
 
-        // POST: ImagenIlustraciones/Delete/5
+
+        [Authorize(Roles = "Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)

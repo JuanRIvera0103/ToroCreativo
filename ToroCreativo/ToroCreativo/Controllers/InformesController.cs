@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -25,10 +26,12 @@ namespace ToroCreativo.Controllers
             _context = context;
             _hostEnvironment = hostEnvironmen;
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View();
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> InformesProductos(int? tipoInforme)
         {
             DateTime fechaAnterior = DateTime.Today.AddDays(-1);
@@ -138,7 +141,7 @@ namespace ToroCreativo.Controllers
             ViewBag.Datos = datosJson;
             return View("Informes", listaInforme);
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> InformesCategorias(int? tipoInforme)
         {
             DateTime fechaAyer = DateTime.Today.AddDays(-1);
@@ -221,7 +224,7 @@ namespace ToroCreativo.Controllers
             return View("Informes", listaInforme);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> InformesVentas(int? tipoInforme)
         {
             DateTime fechaHoy = DateTime.Today;
@@ -311,7 +314,7 @@ namespace ToroCreativo.Controllers
             ViewBag.Datos = datosJson;
             return View("Informes", listaInforme);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ActionName("GenerarPDF")]
         public IActionResult GenerarPDF(InformePDF informePDF)
@@ -356,7 +359,7 @@ namespace ToroCreativo.Controllers
            
             };
         }
-
+        [Authorize(Roles = "Admin")]
         [ActionName("EliminarFotos")]
         public bool EliminarFotos()
         {

@@ -28,12 +28,12 @@ namespace ToroCreativo.Controllers
             _productosBusiness = productosBusiness;
         }
 
-        // GET: Usuarios
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             return View(await _context.ObtenerCliente());
         }
-        
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DetalleCliente(int? id)
         {
             if (id == null)            
@@ -45,7 +45,7 @@ namespace ToroCreativo.Controllers
 
             return View(cliente);
         }
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CambiarEstado(int? id)
         {
             if (id == null)
@@ -63,7 +63,7 @@ namespace ToroCreativo.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-        // GET: Usuarios/Create
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CrearEditar(int id = 0)
         {
             ViewData["Usuarios"] = new SelectList(await _context.ObtenerUsuario(),"Id", "Email");
@@ -73,7 +73,7 @@ namespace ToroCreativo.Controllers
             else
                 return View(await _context.ObtenerClientePorID(id));
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearEditar([Bind("IdCliente,Nombre,Apellido,IdUsuario,Estado,Direccion,Cedula,Telefono")] Cliente cliente)
@@ -84,7 +84,8 @@ namespace ToroCreativo.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(cliente);
-        }        
+        }
+        [Authorize(Roles = "Cliente")]
         public async Task<IActionResult> Perfil()
         {
             var id= await _context.ObtenerClienteDetallePorUsuario(HttpContext.Session.GetString("usuario"));
@@ -115,7 +116,7 @@ namespace ToroCreativo.Controllers
                 
         }
 
-     
+        [Authorize(Roles = "Cliente")]
         [HttpPost]      
         public async Task<IActionResult> Perfil([Bind("IdCliente,Nombre,Apellido,Direccion,Cedula,Telefono")] PerfilViewModel perfil)
         {

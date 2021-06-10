@@ -35,6 +35,7 @@ namespace ToroCreativo.Controllers
             _usuarioBusiness = usuarioBusiness;
             _emailSender = emailSender;
         }
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Index()
         {
             /*
@@ -62,19 +63,19 @@ namespace ToroCreativo.Controllers
 
 
         }
-
+        [Authorize(Roles = "Admin")]
         private async Task<List<string>> ObtenerRolUsuario(Usuario usuario)
         {
             return new List<string>(await _userManager.GetRolesAsync(usuario));
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CrearUsuario()
         {
             ViewData["Roles"] = new SelectList(await _roleManager.Roles.ToListAsync(), "Name", "Name");
             return View();
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> CrearUsuario(UsuarioViewModel usuarioViewModel)
         {
@@ -158,7 +159,7 @@ namespace ToroCreativo.Controllers
 
             return View();
         }
-
+        [Authorize(Roles = "Admin,Cliente")]
         public async Task<IActionResult> CerrarSesion()
         {
             await _signInManager.SignOutAsync();
@@ -245,7 +246,7 @@ namespace ToroCreativo.Controllers
             }           
             return RedirectToAction(nameof(Index));
         }
-
+        [Authorize(Roles = "Cliente")]
         public IActionResult CambiarContraseña()
         {
             return View();

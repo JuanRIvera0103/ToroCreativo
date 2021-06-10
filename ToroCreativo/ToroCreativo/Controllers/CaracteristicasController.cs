@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace ToroCreativo.Controllers
             _tamaños = tamañoBusiness;
         }
 
-        // GET: Caracteristicas/Create
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Crear (int? id)
         {
             var producto = await _productosBusiness.ObtenerProductoPorId(id);
@@ -38,6 +39,7 @@ namespace ToroCreativo.Controllers
         // POST: Caracteristicas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CrearEditar([Bind("idCaracteristicas,Color,Estado,idProducto,Medida")] Caracteristica caracteristica)
@@ -55,7 +57,7 @@ namespace ToroCreativo.Controllers
             return View(caracteristica);
         }
 
-        // GET: Caracteristicas/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Editar(int? id)
         {
             if (id == null)
@@ -73,7 +75,7 @@ namespace ToroCreativo.Controllers
             return View(caracteristica);
         }
 
-
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CambiarEstadoCaracteristica(int? id)
         {
             if (id == null)
