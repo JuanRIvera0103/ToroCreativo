@@ -1,148 +1,211 @@
-﻿
-@model ToroCreativo.Models.Entities.Pedido
+﻿@model ToroCreativo.Clases.PedidoDetalle
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "- Detalle Pedido";
     Layout = "_LayoutCliente";
 }
-@section Styles{ 
 
-<link href="~/css/detalle-cliente-admin.css" rel="stylesheet" />
-<link href="~/css/Pedido-cliente.css" rel="stylesheet" />
-
+@section Styles{
+    <link rel="stylesheet" href="~/css/pedidos-detalle-cliente.css" />
+    <link rel="stylesheet" href="~/css/estilos-generales.css" />
 }
 
-        <div class="titulo titulo-detalle">
-            <a asp-action="PedidoVistaCliente"><i class="fa fa-arrow-left" aria-hidden="true" title="Regresar"></i> </a>
-            <h1>Pedido de @Html.DisplayFor(model => model.Nombre) @Html.DisplayFor(model => model.Apellido)</h1>
+<div class="informacion">
+    <div class="encabezado">
+        <div class="titulo-detalle">
+            <h1>Factura de @Html.DisplayFor(model => model.Nombre)</h1>
         </div>
-        <div class="gestion">
+        <div class="logo">
+            <img src="~/img/logo.png" />
+        </div>
+    </div>
+    <div class="empresa-factura">
+        <div class="info-empresa">
+            <h2>Toro Creativo</h2>
+            <p>CL 40 CR 40-49</p>
+            <p>3838383838</p>
+        </div>
+        <div class="info-factura">
+            @if (Model.Estado == "Sin Enviar" || Model.Estado == "Enviado")
+            {
+                <span>Fecha venta</span>
+                <p>@Html.DisplayFor(model => model.FechaVenta)</p>
+            }
+            else
+            {
+                <span>Fecha Pedido</span>
+                <p>@Html.DisplayFor(model => model.FechaPedido)</p>
+            }
+            <span>N° de Factura</span>
+            <p>@Html.DisplayFor(model => model.IdPedido)</p>
+            @if (Model.Estado == "Aceptado")
+            {
+                <span>Comprobante</span>
+                @if (Model.ImageName == null)
+                {
+                    <p>No</p>
+                }
+                else
+                {
+                    <p>Si</p>
+                }
+            }
+        </div>
+    </div>
+    <div class="destinatario">
+        <div class="info-cliente">
+            <h3 class="sub-titulo">Cliente</h3>
+            <p><span>Nombre: </span>@Html.DisplayFor(model => model.Nombre)</p>
+            <p><span>Cédula: </span>@Html.DisplayFor(model => model.Cedula)</p>
+            <p><span>Dirección: </span>@Html.DisplayFor(model => model.Direccion)</p>
+            <p><span>Teléfono: </span>@Html.DisplayFor(model => model.Telefono)</p>
+            <p><span>Correo: </span>@Html.DisplayFor(model => model.Correo)</p>
+            <p><span>Estado: </span>@Html.DisplayFor(model => model.Estado)</p>
+        </div>
+        <div class="info-envio">
+            <h3 class="sub-titulo">Enviar a</h3>
+            <p><span>Nombre: </span>@Html.DisplayFor(model => model.Nombre)</p>
+            <p><span>Cédula: </span>@Html.DisplayFor(model => model.Cedula)</p>
+            <p><span>Dirección: </span>@Html.DisplayFor(model => model.Direccion)</p>
+            <p><span>Teléfono: </span>@Html.DisplayFor(model => model.Telefono)</p>
+        </div>
+    </div>
+
+    @if (Model.Estado != "Pendiente")
+    {
+<div class="comprobante">
+    @{if (Model.Estado != "Cancelado")
+        {
+
+            if (Model.ImageName == null)
+            {
+                <form asp-action="AgregarComprobanteCliente" enctype="multipart/form-data" id="form" method="post">
+
+                    <div class="form-group">
+                        <input asp-for="IdPedido" class="form-control" type="hidden" />
+                    </div>
+                    <div class="form-group">
+                        <input asp-for="ImageName" class="form-control" type="hidden" value="Detalle" />
+
+                    </div>
+                    <div class="file-select" id="src-file1">
+                        <p>Subir Comprobante</p>
+                        <input name="ImageFile" accept="image/*" type="file" id="Imagen">
+                    </div>
+
+                </form>
+            }
+            else
+            {
+                <button class="verComprobante" onclick="VerComprobante('/comprobantes/@Html.DisplayFor(model => model.ImageName)')">Ver comprobante</button>
+            }
+
+        }
+        else if (Model.Estado == "Cancelado" && Model.ImageName != null)
+        {
+            <button class="verComprobante" onclick="VerComprobante('/comprobantes/@Html.DisplayFor(model => model.ImageName)')">Ver comprobante</button>
+        }
+
+    }
+</div>
+            
+     }
+</div>
+
+        <div class="detalle-pedido">
             <div class="registros">
-                <div class="row">
-                    <div class="rounded BackClienteInfo col-sm-5">
-
-                        <h6 class="TituloA">Toro Creativo</h6>
-                        <div class="row">
-
-                            <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.IdUsuario)</h5>
-                            <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.IdUsuario)</h5>
-                            <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.Telefono)</h5>
-                            <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Telefono)</h5>
-                            <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.Direccion):</h5>
-                            <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Direccion)</h5>
-                        </div>
-                    </div>
-                    <div class="rounded BackClienteInfo col-sm-6">
-                        <h6 class="TituloA">Factura a</h6>
-                        <div class="row">
-                            <h5 class="LetraGrandeB col-sm-4">Nombre Completo</h5>
-                            <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Nombre) @Html.DisplayFor(model => model.Apellido)</h5>
-                            <h5 class="LetraGrandeB col-sm-4">@Html.DisplayNameFor(model => model.Cedula):</h5>
-                            <h5 class="LetraPequeñaB col-sm-8">@Html.DisplayFor(model => model.Cedula)</h5>
-                            <h5 class="LetraGrandeB col-sm-4">Correo:</h5>
-                            <h5 class="LetraPequeñaB col-sm-8"></h5>
-
-
-                        </div>
-                    </div>
-                </div>
-                <div class="rounded BackClienteInfo col-sm-11">
-
-
-                    <h6 class="TituloA">Detalles del pedido</h6>
-                    <div class="row">
-                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.IdPedido)</h5>
-                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.IdPedido)</h5>
-
-
-                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.FechaPedido)</h5>
-                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.FechaPedido)</h5>
-
-
-
-                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.FechaPedido)</h5>
-                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.FechaPedido)</h5>
-                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Estado)</h5>
-                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Estado)</h5>
-                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.TotalIva)</h5>
-                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.TotalIva)</h5>
-                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Subtotal)</h5>
-                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Subtotal)</h5>
-                        <h5 class="LetraGrandeB col-sm-2">@Html.DisplayNameFor(model => model.Total)</h5>
-                        <h5 class="LetraPequeñaB col-sm-4">@Html.DisplayFor(model => model.Total)</h5>
-                        <h5 class="LetraGrandeB col-sm-2">Comprobante</h5>
-
-                        @if (Model.ImageName == null)
+                <table id="" class="table table-hover ">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>IVA</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in ViewBag.DetallePedidos)
                         {
-                            <h5 class="LetraPequeñaB col-sm-6 text-danger">No</h5>
-
-
-                        }
-                        else
-                        {
-                            <h5 class="LetraPequeñaB col-sm-6 text-success">Si</h5>
-                            <img class="img-thumbnail" src="~/comprobantes/@Html.DisplayFor(model => model.ImageName)" />
-                        }
-
-                        <form asp-action="AgregarComprobante" enctype="multipart/form-data">
-
-                            <div class="form-group">
-
-                                <input asp-for="IdPedido" class="form-control" type="hidden" />
-
-                            </div>
-                            <div class="form-group">
-
-                                <input asp-for="ImageName" class="form-control" type="hidden" />
-
-                            </div>
-                            <div class="form-group">
-                                <label asp-for="ImageFile" class="control-label"></label>
-                                <input asp-for="ImageFile" accept="image/*" />
-                                <span asp-validation-for="ImageFile" class="text-danger"></span>
-                            </div>
-                            <div class="form-group">
-                                <input type="submit" value="Agregar Comprobante" class="btn btn-primary" />
-                            </div>
-                        </form>
-                    </div>
-
-                </div>
-
-                <div class="registros">
-                    <table id="tabla2" class="table table-hover ">
-                        <thead>
                             <tr>
-                                <th>Producto</th>
-                                <th>Cantidad</th>
-                                <th>Subtotal</th>
-                                <th>IVA</th>
-                                <th>Total</th>                               
+                                <td>
+                                    @item.Producto
+                                </td>
+                                <td>
+                                    @item.Cantidad
+                                </td>
+                                <td class="numeros">
+                                    @item.Subtotal
+                                </td>
+                                <td class="numeros">
+                                    @item.TotalIva
+                                </td>
+                                <td class="numeros">
+                                    @item.Total
+                                </td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in ViewBag.DetallePedidos)
-                            {
-                                <tr>
-                                    <td>
-                                        @item.Producto
-                                    </td>
-                                    <td>
-                                        @item.Cantidad
-                                    </td>
-                                    <td class="numeros">
-                                        @item.Subtotal
-                                    </td>
-                                    <td class="numeros">
-                                        @item.TotalIva
-                                    </td>
-                                    <td class="numeros">
-                                        @item.Total
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <div class="totales">
+                <p>Total Iva: <span>@Html.DisplayFor(model => model.TotalIva)</span></p>
+                <p class="total-factura">Total Factura: <span>@Html.DisplayFor(model => model.Total)</span></p>
             </div>
         </div>
+
+
+        @section Scripts{
+
+            <script>
+        @if (Model.ImageName == null) {
+            <text>
+        const $imagenSeleccionada = document.querySelector("#Imagen");
+
+        $imagenSeleccionada.addEventListener("change", () => {
+
+            const archivos = $imagenSeleccionada.files;
+            const primerArchivo = archivos[0];
+            const objectURL = URL.createObjectURL(primerArchivo);
+
+            Swal.fire({
+                title: '¿Subir comprobante?',
+                imageUrl: objectURL,
+                imageAlt: 'Comprobante',
+                showCancelButton: true,
+                confirmButtonText: 'Subir Comprobante'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('form').submit();
+                } else {
+                    document.getElementById('Imagen').value = null;
+                }
+            });
+        });
+        </text>
+        }
+
+
+        function VerComprobante(ruta) {
+            Swal.fire({
+                imageUrl: ruta,
+
+            });
+        };
+
+
+        @if (TempData["Comprobante"] != null && TempData["Comprobante"].ToString().Equals("si"))
+         {
+            <text>
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Comprobante',
+                html: 'El comprobante de pago fue registrado con exito'
+            });
+
+            </text>
+         }
+
+            </script>
+        }

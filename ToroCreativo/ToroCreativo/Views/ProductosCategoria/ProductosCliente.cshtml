@@ -58,3 +58,18 @@
     </div>
 
 </div>
+@section Scripts{ 
+    <script>
+        @if (TempData["FinalizarPedido"] != null && TempData["FinalizarPedido"].ToString().Equals("si")) {
+            <text>
+
+                Swal.fire({
+                icon: 'success',
+                title: 'Finalizar Pedido',
+                html: 'El pedido fue realizado con éxito y entrará en un proceso de gestión, cualquier movimiento realizado al pedido será notificado para un mejor seguimiento'
+            });
+
+            </text>
+        }
+    </script>
+}

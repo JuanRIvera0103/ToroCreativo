@@ -26,7 +26,7 @@ namespace ToroCreativo.Controllers
         private readonly IProductosBusiness _productosBusiness;
 
         public GenerosIlustracionsController(IGenerosBusiness generosBusiness, IIlustracionBusiness ilustracionBusiness, IWebHostEnvironment hostEnvironmen,
-            IImagenIlustracionBusiness imagenIlustracionBusiness, IComentarioBusiness comentariosBusiness, IProductosBusiness productosBusiness))            
+            IImagenIlustracionBusiness imagenIlustracionBusiness, IComentarioBusiness comentariosBusiness, IProductosBusiness productosBusiness)            
         {
             _generosBusiness = generosBusiness;
             _ilustracionBusiness = ilustracionBusiness;
@@ -216,12 +216,6 @@ namespace ToroCreativo.Controllers
             return View(await _ilustracionBusiness.ObtenerIlustracionesCliente());
         }
        
-        public object ImagenesIlustracion(int? id)
-        {
-            List<ImagenIlustracion> imagenesIlustracion =  _imagenIlustracionBusiness.ObtenerImagenesIlustracion(id);
-            string imagenesIlustracionJSON = JsonConvert.SerializeObject(imagenesIlustracion);            
-            return View(imagenesIlustracionJSON);
-        }
 
     }
 }

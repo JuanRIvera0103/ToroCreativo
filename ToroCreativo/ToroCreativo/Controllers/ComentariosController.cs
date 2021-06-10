@@ -31,20 +31,14 @@ namespace ToroCreativo.Controllers
 
         [HttpPost]
         
-        public async Task<JsonResult> CrearEditar(int idilustracion, int idcomentario, string texto)
+        public async Task<IActionResult> CrearEditar([Bind("IdComentario,IdIlustracion,Texto")] Comentario comentario)
         {
-
-            Comentario comentario = new Comentario
-            {
-            Fecha = DateTime.Now.ToShortDateString(),
-            IdUsuario = HttpContext.Session.GetString("usuario"),
-            IdComentario = idcomentario,
-            IdIlustracion= idilustracion,
-            Texto = texto,
-            };
+            comentario.Fecha = DateTime.Now.ToShortDateString();
+            comentario.IdUsuario = HttpContext.Session.GetString("usuario");
 
             await _context.CrearEditarComentario(comentario);
-            return Json(new { Status = "success" });
+
+            return RedirectToAction("IlustracionesCliente", "GenerosIlustracions");
 
         }
     }

@@ -102,8 +102,8 @@
                                                 }
                                             </td>
                                             <td>
-                                                <a asp-action="Detalle" asp-route-id="@item.IdPedido">
-                                                    <i class="fas fa-search-plus" title="detalle registro"></i>
+                                                <a asp-controller="Pedidos" asp-action="DetallePedidosCliente" asp-route-id="@item.IdPedido">
+                                                    <i class="fas fa-search-plus" title="Detalle Pedido"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -121,8 +121,7 @@
                                         <th>Fecha</th>
                                         <th>Cédula</th>
                                         <th>Nombre</th>
-                                        <th>Dirección</th>
-                                        <th>Comprobante</th>
+                                        <th>Dirección</th>                                        
                                         <th>Estado</th>
                                         <th></th>
                                         <th></th>
@@ -141,8 +140,8 @@
                                                 <i class="fas fa-times-circle text-danger" title="Cancelar Pedido" onclick="CancelarPedido(@item.IdPedido)"></i>
                                             </td>
                                             <td>
-                                                <a asp-action="Detalle" asp-route-id="@item.IdPedido">
-                                                    <i class="fas fa-search-plus" title="detalle registro"></i>
+                                                <a asp-controller="Pedidos" asp-action="DetallePedidosCliente" asp-route-id="@item.IdPedido">
+                                                    <i class="fas fa-search-plus" title="Detalle Pedido"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -175,8 +174,8 @@
                                             <td>@item.Direccion</td>
                                             <td>@item.Estado</td>
                                             <td>
-                                                <a asp-action="Detalle" asp-route-id="@item.IdPedido">
-                                                    <i class="fas fa-search-plus" title="detalle registro"></i>
+                                                <a asp-controller="Pedidos" asp-action="DetallePedidosCliente" asp-route-id="@item.IdPedido">
+                                                    <i class="fas fa-search-plus" title="Detalle Pedido"></i>
                                                 </a>
                                             </td>
                                         </tr>
@@ -220,7 +219,7 @@
                                             <td>@item.Total</td>
                                             <td>@item.Estado</td>
                                             <td>
-                                                <a asp-action="Detalle" asp-route-id="@item.IdPedido"><i class="fas fa-search-plus" title="detalle registro"></i></a>
+                                                <a asp-controller="Pedidos" asp-action="DetallePedidosCliente" asp-route-id="@item.IdPedido"><i class="fas fa-search-plus" title="Detalle Pedido"></i></a>
                                             </td>
                                         </tr>
                                     }
@@ -252,7 +251,7 @@
                                             <td>@item.Total</td>
                                             <td>@item.Estado</td>
                                             <td>
-                                                <a asp-action="Detalle" asp-route-id="@item.IdPedido"><i class="fas fa-search-plus" title="detalle registro"></i></a>
+                                                <a asp-controller="Pedidos" asp-action="DetallePedidosCliente" asp-route-id="@item.IdPedido"><i class="fas fa-search-plus" title="Detalle Pedido"></i></a>
                                             </td>
                                         </tr>
                                     }
@@ -439,6 +438,18 @@
                 icon: 'success',
                 title: 'Cancelar Pedido',
                 html: 'El pedido fue cancelado con éxito'
+            });
+
+            </text>
+        }
+         else if (TempData["Comprobante"] != null && TempData["Comprobante"].ToString().Equals("si"))
+        {
+            <text>
+
+            Swal.fire({
+                icon: 'success',
+                title: 'Comprobante',
+                html: 'El comprobante de pago fue registrado con exito'
             });
 
             </text>

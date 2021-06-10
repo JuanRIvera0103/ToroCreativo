@@ -20,6 +20,7 @@ namespace ToroCreativo.Clases
         [DisplayName("Descripción")]
         [Required(ErrorMessage = "La descripción es requerida")]
         public string Descripcion { get; set; }
+        [DisplayName("Categoría")]
         [Required(ErrorMessage = "La categoría es requerida")]
         public int Categoria { get; set; }    
         public string Estado { get; set; }
@@ -31,7 +32,7 @@ namespace ToroCreativo.Clases
         public int Medida { get; set; }
 
         //Precio   
-        [DisplayName("Precio sin Iva")]
+        [DisplayName("Precio sin iva")]
         [Required(ErrorMessage = "El precio es requerida")]  
         [RegularExpression("^[0-9]*$", ErrorMessage = "El precio solo debe de contener números enteros positivos")]        
         public double Valor { get; set; }
@@ -46,7 +47,7 @@ namespace ToroCreativo.Clases
         //Imagen
         public string ImageName { get; set; }
         [NotMapped]
-        [DisplayName("Imagen Principal del producto")]
+        [DisplayName("Imagen principal del producto")]
         [Required(ErrorMessage = "La imagen principal del producto es requerida")]
         [RegularExpression("^.*.(jpg|png|jpeg)$", ErrorMessage = "La imagen solo permite formatos .jpg .png o .jpeg")]
         public IFormFile ImageFile { get; set; }

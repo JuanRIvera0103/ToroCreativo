@@ -58,9 +58,9 @@ namespace ToroCreativo.Controllers
         public async Task<IActionResult> CrearEditarCategoria(int id = 0)
         {
             if (id == 0)
-            {
-                ViewData["CrearEditar"] = "Crear";
+            {                
                 return View(new Categorias());
+                ViewData["CrearEditar"] = "Crear";
             }                
             else
             {
@@ -86,7 +86,8 @@ namespace ToroCreativo.Controllers
                 if (verificarCategoriaRepetida != 0)
                 {
                     TempData["Repetido"] = "si";
-                    return RedirectToAction("CrearEditarCategoria", "ProductosCategoria", new { id = categorias.idCategoria });
+                    //return RedirectToAction("CrearEditarCategoria", "ProductosCategoria", new { id = categorias.idCategoria });
+                    return RedirectToAction("Index", "ProductosCategoria");
                 }
 
                 var guardarEditar = await _categoriasBusiness.GuardarEditarCategorias(categorias);
@@ -97,7 +98,7 @@ namespace ToroCreativo.Controllers
 
                 return RedirectToAction("Index", "ProductosCategoria");
             }
-            return RedirectToAction("CrearEditarCategoria", "ProductosCategoria");
+            return RedirectToAction("Index", "ProductosCategoria");
         }
 
         public async Task<IActionResult> CambiarEstadoCategoria(int? id)

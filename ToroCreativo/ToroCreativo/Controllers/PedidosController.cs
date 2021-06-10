@@ -65,25 +65,7 @@ namespace ToroCreativo.Controllers
         {            
             return JsonConvert.SerializeObject(await _context.ObtenerVentasCliente(id));
         }
-        public async Task<IActionResult> PedidoVistaCliente2()
-        {
-            var id = HttpContext.Session.GetString("usuario");
-            IEnumerable<Pedido> aceptados = await _context.ObtenerPedidosAceptadosCliente(id);
-            IEnumerable<Pedido> cancelados = await _context.ObtenerPedidosCanceladosCliente(id);
-            ViewBag.Aceptados = aceptados;
-            ViewBag.Cancelados = cancelados;
-            return View(await _context.ObtenerPedidosPendientesCliente(id));
-        }
-        [ActionName("VentasClientes")]
-        public async Task<IActionResult> VentasVistaCliente2()
-        {
-            var id = HttpContext.Session.GetString("usuario");
-            IEnumerable<Pedido> SinEnviados = await _context.ObtenerVentasSinEnviarCliente(id);
-            ViewBag.SinEnviados = SinEnviados;
-            return View(await _context.ObtenerVentasEnviadasCliente(id));
-
-
-        }
+        
         public async Task<IActionResult> AceptarPedido(int? id)
         {
             if (id == null)
@@ -143,17 +125,9 @@ namespace ToroCreativo.Controllers
                 IdUsuario = pedido.IdUsuario,
                 Direccion = pedido.IdPedido,
                 Fecha = DateTime.Now.ToShortDateString(),
-                
+                Tipo = "Cancelado",
                 Leido = false,
-            };
-            if (HttpContext.Session.GetString("usuario")==null) {
-                notificacion.Tipo = "Cancelado";
-            }
-            else
-            {
-                
-                notificacion.Tipo = "CanceladoAdmin";
-            }
+            };                         
             
             await _noti.CrearNotificacion(notificacion);
             TempData["CambiarPedido"] = "si";
@@ -162,10 +136,21 @@ namespace ToroCreativo.Controllers
         public async Task<IActionResult> CancelarPedidoCliente(int? id)
         {
             if (id == null)            
-                return NotFound();            
+                return NotFound();
 
-            await _context.CancelarPedido(await _context.ObtenerPedidoPorID(id));
+            var pedido = await _context.ObtenerPedidoPorID(id);
+            await _context.CancelarPedido(pedido);
             TempData["CancelarPedido"] = "si";
+            Notificacion notificacion = new Notificacion()
+            {
+                IdUsuario = pedido.IdUsuario,
+                Direccion = pedido.IdPedido,
+                Fecha = DateTime.Now.ToShortDateString(),
+                Tipo = "CanceladoAdmin",
+                Leido = false,
+            };      
+
+            await _noti.CrearNotificacion(notificacion);
             return RedirectToAction("Perfil", "Clientes");
         }
         public async Task<IActionResult> PedidoAVenta(int? id)
@@ -277,33 +262,28 @@ namespace ToroCreativo.Controllers
         public async Task<IActionResult> AgregarComprobante(Pedido pedido)
         {
 
-            await _context.AgregarComprobantePedido(pedido);
-
-
-            if (HttpContext.Session.GetString("usuario") != "")
-            {
-                Notificacion notificacion = new Notificacion()
-                {
-                    IdUsuario = HttpContext.Session.GetString("usuario"),
-                    Direccion = pedido.IdPedido,
-                    Fecha = DateTime.Now.ToShortDateString(),
-                    Tipo= "Comprobante",
-                    Leido = false,
-
-                };
-                await _noti.CrearNotificacion(notificacion);
-            }
-            
-
-                
+            await _context.AgregarComprobantePedido(pedido);                          
             TempData["Comprobante"] = "si";
             return RedirectToAction("Detalle", new { id = pedido.IdPedido });
         }
         public async Task<IActionResult> AgregarComprobanteCliente(Pedido pedido)
-        {
+        {           
             await _context.AgregarComprobantePedido(pedido);
+            Notificacion notificacion = new Notificacion()
+            {
+                IdUsuario = HttpContext.Session.GetString("usuario"),
+                Direccion = pedido.IdPedido,
+                Fecha = DateTime.Now.ToShortDateString(),
+                Tipo = "Comprobante",
+                Leido = false,
+
+            };
+            await _noti.CrearNotificacion(notificacion);
             TempData["Comprobante"] = "si";
-            return RedirectToAction("Perfil","Clientes");
+            if (pedido.ImageName == "Detalle")
+                return RedirectToAction("DetallePedidosCliente", new { id = pedido.IdPedido });
+            else
+                return RedirectToAction("Perfil","Clientes");
         }
         public async Task<IActionResult> CrearEditar(int id = 0)
         {
@@ -346,49 +326,15 @@ namespace ToroCreativo.Controllers
 
             return View(pedido);
         }
-        public IActionResult AgregarDetallePedido(int id = 0)
-        {
-
-            ViewBag.id = id;
-
-            return View(new DetallePedido());
-
-
-        }
-        public async Task<IActionResult> PedidoVistaCliente()
-        {
-            string id = HttpContext.Session.GetString("usuario");          
-            TempData["Usuario"] = id;
-            IEnumerable<Pedido> aceptados = await _context.ObtenerPedidosAceptadosCliente(id);
-            IEnumerable<Pedido> cancelados = await _context.ObtenerPedidosCanceladosCliente(id);
-            ViewBag.Aceptados = aceptados;
-            ViewBag.Cancelados = cancelados;
-            return View(await _context.ObtenerPedidosPendientesCliente(id));
-
-
-        }
-        public async Task<IActionResult> VentasVistaCliente()
-        {
-            string id = HttpContext.Session.GetString("usuario");
-            TempData["Usuario"] = id;
-            IEnumerable<Pedido> SinEnviados = await _context.ObtenerVentasSinEnviarCliente(id);
-
-            ViewBag.SinEnviados = SinEnviados;
-
-            return View(await _context.ObtenerVentasEnviadasCliente(id));
-
-
-        }
-        public async Task<IActionResult> DetallePedidosCliente(int? id)
+        public IActionResult DetallePedidosCliente(int? id)
         {
 
             if (id == null)
-            {
                 return NotFound();
-            }
-
-
-            var pedido = await _context.ObtenerPedidoPorID(id);
+     
+            var usuario = HttpContext.Session.GetString("usuario");
+            TempData["Usuario"] = usuario;
+            var pedido = _context.ObtenerPedidoPorIDDetalle(id);
 
             List<DetallePedidoTabla> listaDetalle =  _context.ObtenerDetallePedidos(id);
             ViewBag.DetallePedidos = listaDetalle;
@@ -508,7 +454,8 @@ namespace ToroCreativo.Controllers
                     Leido = false,
                 };
                 await _noti.CrearNotificacion(notificacion);
-                return RedirectToAction("Index", "Home");
+                TempData["FinalizarPedido"] = "si";
+                return RedirectToAction("ProductosCliente", "ProductosCategoria");
             }
             return View(datosPedido);
         }

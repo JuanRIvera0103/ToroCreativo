@@ -77,7 +77,10 @@
                 success: function (data) {
                     
                     for (var i = 0; i < data.length; i++) {
-                        $('.comentarios').append('<div class=" box-content notifi-item"><p>' + data[i].texto  + data[i].fecha  + data[i].correo + ' </p> </div>');
+                        $('.comentarios').append('<div class="comentario-contenido">\n\
+                                        <div class="encabezado"><p><span>'+ data[i].correo + '</span>' + data[i].fecha + ' </p></div>\n\
+                                        <div class="cuerpo"><p>' + data[i].texto + '</p></div>\n\
+                                    </div >');
                     }
                 },
                 error: function (xhr, status, error) {

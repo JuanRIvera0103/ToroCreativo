@@ -1,0 +1,189 @@
+﻿.informacion {
+    width: 90%;
+    margin: 5% auto 2%; 
+    padding: 2%;
+    padding-top: 0;
+    font-size: 1rem;
+}
+
+.encabezado {
+    position: relative;
+    width: 100%;
+    display: flex;
+}
+
+    .encabezado .titulo-detalle {
+        position: relative;
+        width: 85%;
+        height: 100%;
+        margin: auto;
+    }
+
+        .encabezado .titulo-detalle h1 {
+            font-size: 2.5rem;
+        }
+
+    .encabezado .logo {
+        position: relative;
+        width: 20%;
+        height: 100%;
+    }
+
+        .encabezado .logo img {
+            position: relative;
+            float: right;
+            width: 100%;
+            height: 30%;
+        }
+
+.empresa-factura {
+    width: 100%;
+    display: flex;
+}
+
+    .empresa-factura .info-empresa {
+        width: 80%;
+    }
+
+        .empresa-factura .info-empresa h2 {
+            font-size: 1.8rem;
+        }
+
+        .empresa-factura .info-empresa p {
+            margin: 5px 0 0 0.5%;
+        }
+
+    .empresa-factura .info-factura {
+        width: 20%;
+        text-align: center;
+    }
+
+        .empresa-factura .info-factura span {
+            padding: 0 20% 1px 20%;
+            color: #680d80;
+            font-weight: 600 !important;
+            border-bottom: 1px solid #000000;
+        }
+
+.destinatario {
+    display: flex;
+    width: 100%;
+}
+
+    .destinatario p {
+        margin: 5px 0 0 0.5%;
+    }
+
+    .destinatario .info-cliente {
+        width: 50%;
+    }
+
+    .destinatario h3 {
+        width: 85%;
+        font-size: 1.4rem;
+        color: #680d80;
+        font-weight: 600 !important;
+        border-bottom: 1px solid #000000;
+    }
+
+    .destinatario .info-envio {
+        width: 50%;
+    }
+
+.comprobante {
+    position: relative;
+    width: 18%;
+    height: 45px;
+    margin-top: 4%;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+
+.file-select {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(42 42 42 / 0.9);
+    color: #ffffff;
+    display: flex;
+    font-size: 1rem;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    transition: .5s;
+}
+
+    .file-select p {
+        position: absolute;
+        margin: auto;
+    }
+
+    .file-select input[type="file"] {
+        opacity: 0;
+        width: 100%;
+        height: 100px;
+        cursor: pointer;
+        margin-top: -10px;
+    }
+
+.verComprobante {
+    background-color: rgb(42 42 42 / 0.9);
+    color: #ffffff;
+    font-size: 1rem;
+    padding: 7px 35px;
+    border-radius: 5px;
+    transition: .5s;
+}
+
+    .file-select:hover,
+    .verComprobante:hover {
+        background-color: rgb(42, 42, 42, 0.75);
+    }
+.detalle-pedido{
+    width:75%;
+    margin: 0 auto;
+}
+.registros {
+    margin-bottom: 0;
+}
+
+    .registros .table {
+        margin-bottom: -3%;
+    }
+
+.numeros {
+    text-align: right;
+}
+
+.totales {
+    width: 25%;
+    float: right;
+    font-size: 1rem;
+    text-align: right;
+    margin-right: 2.5%;
+    font-size: 1.1rem;
+    margin-bottom: 5%;
+    margin-top: 5%;
+}
+
+    .totales span {
+        float: right;
+        margin-left: 10%;
+    }
+
+    .totales .total-factura {
+        border-top: 1px solid #000000;
+        font-weight: 600 !important;
+        font-size: 1.3rem;
+    }
+
+
+.gestion {
+    margin-top: 200px;
+}

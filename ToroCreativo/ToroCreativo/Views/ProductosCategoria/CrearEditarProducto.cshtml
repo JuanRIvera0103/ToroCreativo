@@ -15,7 +15,7 @@
         @if (Model.idProductos == 0)
         {
         <div class="form-group">
-            <label asp-for="Nombre" class="control-label"></label>
+            <label asp-for="Nombre" class="control-label"></label><span class="requerido">*</span>
             <input asp-for="Nombre" class="form-control"  placeholder="Nombre del producto" />
             <span asp-validation-for="Nombre" class="text-danger"></span>
         </div>
@@ -26,7 +26,7 @@
                 @if (Model.idProductos != 0)
                 {
                     <div class="col-6">
-                        <label asp-for="Nombre" class="control-label"></label>
+                        <label asp-for="Nombre" class="control-label"></label> <span class="requerido">*</span>
                         <input asp-for="Nombre" class="form-control" placeholder="Nombre del producto"/>
                         <span asp-validation-for="Nombre" class="text-danger"></span>
                     </div>
@@ -35,7 +35,7 @@
                 <div class="col-6">
                     <div class="form-group">
 
-                        <label asp-for="Categoria" class="control-label"></label>
+                        <label asp-for="Categoria" class="control-label"></label><span class="requerido">*</span>
                         <select id="categoria" asp-for="Categoria" asp-items="@(new SelectList(ViewBag.Categorias, "idCategoria", "Nombre"))" class="form-control">
                             <option value="">Seleccione una categoría</option>
                         </select>
@@ -46,7 +46,7 @@
                 {
                     <div class="col-md-6">
                         <div class="form-group">                        
-                            <label asp-for="Medida" class="control-label"></label>
+                            <label asp-for="Medida" class="control-label"></label><span class="requerido">*</span>
                             <select id="tamaños" asp-for="Medida" class="form-control">
                                 <option value="">Seleccione una Medida</option>
                             </select>
@@ -60,7 +60,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="form-group">
-                        <label asp-for="Descripcion" class="control-label"></label>
+                        <label asp-for="Descripcion" class="control-label"></label><span class="requerido">*</span>
                         <textarea asp-for="Descripcion" class="form-control" placeholder="Descripción del producto"></textarea>
                         <span asp-validation-for="Descripcion" class="text-danger"></span>
                     </div>
@@ -73,14 +73,14 @@
                 <div class="row">
                     <div class="col-2">
                         <div class="form-group">
-                            <label asp-for="Color" class="control-label"></label>
+                            <label asp-for="Color" class="control-label"></label><span class="requerido">*</span>
                             <input type="color" asp-for="Color" class="form-control form-control-color" />
                             <span asp-validation-for="Color" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
-                            <label asp-for="IVA" class="control-label"></label>
+                            <label asp-for="IVA" class="control-label"></label><span class="requerido">*</span>
                             <div class="input-group">
                                 <input asp-for="IVA" class="form-control monto" id="iva" onchange="sumar();"/>
                                 <span class="input-group-text">%</span>
@@ -90,14 +90,14 @@
                     </div>
                     <div class="col-4">
                         <div class="form-group">
-                            <label asp-for="Valor" class="control-label"></label>
+                            <label asp-for="Valor" class="control-label"></label><span class="requerido">*</span>
                             <input asp-for="Valor" class="form-control monto" id="precio" onchange="sumar();"/>
                             <span asp-validation-for="Valor" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="col-3">
                         <div class="form-group">
-                            <label class="control-label">Precio Total</label>
+                            <label class="control-label">Precio total</label>
                             <input class="form-control" readonly id="total" value="0" />
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                 <input asp-for="ImageName" class="form-control" type="hidden" value="a" />
             </div>
             <div class="mb-3">
-                <label asp-for="ImageFile" class="form-label"></label>
+                <label asp-for="ImageFile" class="form-label"></label><span class="requerido">*</span>
                 <input type="file" asp-for="ImageFile" class="form-control border-0" accept="image/*">
                 <span asp-validation-for="ImageFile" class="text-danger"></span>
             </div>

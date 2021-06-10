@@ -1,5 +1,5 @@
 #header {
-    background-color: transparent;
+    background-color: #ffffff;
 }
 #header .sub-menu .sign-in a,
 #header .sub-menu .sign-up a {
@@ -25,4 +25,11 @@ form .requerido {
 }
 .form-group .text-danger{
     font-size: 0.8rem;
+}
+table thead {
+    background-color: rgb(108 18 187 / 0.75);
+    color: #ffffff;
+}
+.page-item.active .page-link {
+    z-index: 0;
 }

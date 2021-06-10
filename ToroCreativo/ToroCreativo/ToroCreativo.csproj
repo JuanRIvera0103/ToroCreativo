@@ -54,7 +54,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Pedidos\AgregarDetallePedido.cshtml" />
     <None Include="Views\Pedidos\CrearEditar.cshtml" />
     <None Include="Views\Pedidos\Detalle.cshtml" />
     <None Include="Views\Pedidos\Index.cshtml" />

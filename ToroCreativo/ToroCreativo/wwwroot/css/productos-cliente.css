@@ -11,6 +11,9 @@ body {
     background-color: #fafafa;
     overflow: hidden;
 }
+#header {
+    background-color: #fafafa !important;
+}
 article {
     display: flex;        
     margin: 70px 0 0 auto;   

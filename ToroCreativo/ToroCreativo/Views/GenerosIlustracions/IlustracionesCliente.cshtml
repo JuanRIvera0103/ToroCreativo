@@ -45,7 +45,7 @@
     <div class="informacion">
         <i onclick="" class="fas fa-times-circle" title="Cerrar" id="cerrar"></i>
         <div class="nombre">
-            <h2 id="nombre">Nombre</h2>
+            <h2 id="nombre"></h2>
         </div>
         <div class="descripcion">
             <h3 class="title">Descripción: </h3>
@@ -53,7 +53,20 @@
         </div>
         @if (TempData["Usuario"] != null)
         {
-            <div class="crearComentario">
+            <div class="seccion-comentarios">
+                <div id="verComentarios">
+                    <p>Comentarios <i class="fas fa-chevron-up"></i></p>
+                </div>
+                <div id="comentarios">
+
+                </div>
+                <div class="enviarComentario">
+                    <form asp-action="CrearEditar" asp-controller="Comentarios" id="myForm" method="post" enctype="multipart/form-data">
+                        <input name="IdIlustracion" id="idIlustracion" type="hidden" value="0" />
+                        <input name="Texto" type="text" placeholder="Hacer un comentario." class="comments"/>                        
+                        <button type="submit" ><i class="fas fa-paper-plane"></i></button>                        
+                    </form>
+                </div>
             </div>
         }
     </div>
@@ -61,19 +74,22 @@
 <div class="capa" id="capa"></div>
 @section Scripts{
     <script>
-
-        $(document).ready(function () {                    
+        var idIlustracion = $(this).attr('idIlustracion') ;
+        $(document).ready(function () {
+            $(".seccion-comentarios").css("display", "none");
             var imagenesJSON = JSON.parse('@Html.Raw(subImagenes)');            
-            $(".ampliar").click(function () {
-                var Nombre = $(this).attr('Nombre');
-                var Descripción = $(this).attr('Descripcion');
-                $('#nombre').text(Nombre);
-                $('#descripción').text(Descripción);
+            $(".ampliar").click(function () {                
+                $(".seccion-comentarios").css("display", "block");
+                idIlustracion = $(this).attr('idIlustracion')
+                $("#idIlustracion").val(idIlustracion);
+                console.log($("#idIlustracion").val());
+             
+                $('#nombre').text($(this).attr('Nombre'));
+                $('#descripción').text($(this).attr('Descripcion'));
                 $(".imagenes").empty();
-                $(".sub-imagenes").empty();
+                $(".sub-imagenes").empty();               
                 var idSubImagen = 0;
-                var idImagen = 0;
-                var idIlustracion = $(this).attr('idIlustracion');
+                var idImagen = 0;                
                     for (var i = 0; i < imagenesJSON.length; i++) {
                         if (imagenesJSON[i].IdIlustracion == idIlustracion) {
                             idSubImagen += 10;
@@ -92,6 +108,9 @@
                 });
 
             $("#cerrar").click(function () {
+                $(".seccion-comentarios").css("display", "none");
+                $(".seccion-comentarios").removeClass("active");
+                $('#comentarios').empty();                
                 $("#capa").removeClass("active");
                 $("#modal").removeClass("active");
             });
@@ -104,18 +123,42 @@
                 $(imagenPrincipal).removeClass("active");
                 $(imagen).addClass("active");
             });
+
+            $("#verComentarios").click(function () {
+                var clase = $(".seccion-comentarios").attr("class");
+                if (clase.includes("active")) {                    
+                    $(".seccion-comentarios").removeClass("active");
+                    $('#comentarios').empty();
+                }
+                else{
+                    $.ajax({
+                        type: "GET",
+                        dataType: "json",
+                        url: "../../Comentarios/ObtenerComentarios",
+                        traditional: true,
+                        contentType: "application/json;charset=utf-8",
+                        data: 'id=' + idIlustracion,
+                        success: function (data) {
+                            console.log(data);
+                            $(".seccion-comentarios").addClass("active");
+                            for (var i = 0; i < data.length; i++) {
+                                $('#comentarios').append('<div class="comentario-contenido">\n\
+                                        <div class="encabezado"><p><span>'+ data[i].correo + '</span>' + data[i].fecha + ' </p></div>\n\
+                                        <div class="cuerpo"><p>' + data[i].texto +'</p></div>\n\
+                                    </div >');
+                            }
+                        },
+                    });
+                }
+                
+            })
         });
-
-    </script>
-    <script type="text/javascript">
         function AjaxFormSubmit() {
-            
 
-            //Add the Field values to FormData object.
             var formData = new FormData();
-            formData.append("texto", $("#txtFirstName").val());
-            
-            formData.append("idilustracion", $("#Idilus").val());
+            formData.append("texto", $(".comments").val());
+
+            formData.append("idilustracion", idIlustracion);
             formData.append("idcomentario", 0);
 
             $.ajax({
@@ -130,45 +173,12 @@
                 }
             });
         }
+    </script>
+    <script type="text/javascript">
+       
         
         
          
-            
-            $(".ampliar").click(function () {
-                $(".imagenes").empty();
-                $(".sub-imagenes").empty();
-                var idSubImagen = 0;
-                var idImagen = 0;
-                var idIlustracion = $(this).attr('idIlustracion');
-                console.log(idIlustracion);
-                var idilus = Number.parseInt(idIlustracion);
-                
-                $.ajax({
-                    type: "GET",
-                    dataType: "json",
-                    url: "../../Comentarios/ObtenerComentarios",
-                    traditional: true,
-                    contentType: "application/json;charset=utf-8",
-                    data: 'id=' + idilus,
-                    success: function (data) {
-                        $('.descripcion').empty();
-                        $('.crearComentario').empty()
-                        for (var i = 0; i < data.length; i++) {
-                            $('.descripcion').append('<p >' + data[i].texto + ' </p><p>' + data[i].fecha + ' </p><p>' + data[i].correo + ' </p>');
-                        }
-
-                        $('.crearComentario').append('<form id="myForm" method="post" enctype="multipart/form-data">\n\
-                            <input class="comments" type = "text" id = "txtFirstName"/>\n\
-                            <input class="comments" type = "hidden" id = "Idilus" value="'+ idilus + '"/>\n\
-                            <input type="button" value="Submit" onclick="AjaxFormSubmit()" />\n\
-                        </form >');
-
-                    },
-                    error: function (xhr, status, error) {
-
-                    }
-                });
-            });
             
             
     </script>

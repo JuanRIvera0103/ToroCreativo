@@ -130,3 +130,31 @@ h1{
     cursor: pointer;
 }
 
+.comentario-contenido {
+    width: 95%;
+    background-color: #ffffff;
+    margin: 0 auto 3.5%;
+    border-radius: 10px;
+    border: 1px solid #cfcfcf;
+}
+
+    .comentario-contenido .encabezado {
+        text-align: left;
+        width: 100%;
+        font-size: 0.7rem;
+        padding: 1.5% 2% 0%;
+    }
+
+    .comentario-contenido p {
+        margin-bottom: 0;
+    }
+
+    .comentario-contenido .encabezado span {
+        font-size: 0.8rem;
+        font-weight: 700;
+        margin-right: 10px;
+    }
+
+    .comentario-contenido .cuerpo {
+        padding: 0 4%;
+    }
