@@ -32,9 +32,16 @@ namespace ToroCreativo.Controllers
             IEnumerable<Categorias> listaCategorias = await categoriasBusiness.ObtenerCategoriasSelect();
             ViewBag.Categorias = listaCategorias;
             if(id == 0)
+            {
+                ViewData["Accion"] = "Crear";
                 return View(new Tamaño());
+            }
             else
-                return View(await tamañoBusiness.ObtenerTamañoPorId(id));           
+            {
+                ViewData["Accion"] = "Editar";
+                return View(await tamañoBusiness.ObtenerTamañoPorId(id));
+            }
+                
         }
 
         // POST: Tamaño/Create
@@ -46,6 +53,10 @@ namespace ToroCreativo.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (tamaño.idTamaño == 0)                
+                    TempData["guardar"] = "si";
+                else
+                    TempData["editar"] = "si";
                 await tamañoBusiness.GuardarEditarTamaño(tamaño);
                 return RedirectToAction(nameof(Index));
             }
